@@ -1,15 +1,18 @@
 name: Bash Tests
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, master, "claude/**"]
     paths:
       - "**/*.sh"
+      - "**/*.bats"
       - ".github/workflows/bash-tests.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "**/*.sh"
+      - "**/*.bats"
       - ".github/workflows/bash-tests.yml"
 
 permissions:
