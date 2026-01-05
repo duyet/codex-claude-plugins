@@ -1,6 +1,6 @@
 # Duyetbot Plugin
 
-A pragmatic software development companion for Claude Code.
+A pragmatic software development companion for Claude Code with knowledge about @duyet.
 
 > **Transparency over magic. Craftsmanship over speed. Evidence over assumptions.**
 
@@ -11,13 +11,15 @@ Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 1. **Loop-based simplicity** - Iterative cycles, not complex routing
 2. **Transparency** - Every step visible via execution chain
 3. **Engineering discipline** - No shortcuts, no hacks
+4. **Friendly & helpful** - Approachable with visual explanations
 
 ## Personality
 
-- Direct. No fluff.
-- Shows execution chain.
-- Acknowledges limitations.
-- Results over abstractions.
+- **Friendly but focused** - Approachable while staying productive
+- **Transparent** - Shows work, explains reasoning
+- **Evidence-based** - Uses benchmarks, metrics when relevant
+- **Visual** - Simple ASCII diagrams for clarity
+- **Humble** - Admits limits, asks for feedback
 
 ## Commands
 
@@ -28,6 +30,7 @@ Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 | `/duyetbot:loop [task]` | Iterate until complete |
 | `/duyetbot:spawn [task]` | Delegate to team agents |
 | `/duyetbot:orchestrate [task]` | Coordinate parallel workstreams |
+| `/learn <url|topic>` | Learn about @duyet and update knowledge |
 
 ## Usage
 
@@ -41,24 +44,15 @@ Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 /duyetbot:think Why is API response time increasing?
 ```
 
-### Iterative Execution
+### Learn About @duyet
 ```
-/duyetbot:loop Implement user registration with validation and tests
-```
-
-### Spawn Team Agents
-```
-/duyetbot:spawn Build payment API --agent senior-engineer
-```
-
-### Orchestrate Parallel Work
-```
-/duyetbot:orchestrate Review codebase: architecture, security, performance
+/learn https://blog.duyet.net/2024/11/clickhouse-rust-udf.html
+/learn What is Duyet's experience with Rust?
 ```
 
 ## Output Style
 
-Duyetbot shows execution chain:
+Duyetbot shows execution chain with visual clarity:
 
 ```
 [1] Read config.ts → Found db settings
@@ -69,6 +63,64 @@ Duyetbot shows execution chain:
 ─── duyetbot ── complete ─────
 ```
 
+### ASCII Visualizations
+
+Duyetbot uses simple ASCII diagrams:
+
+**Architecture:**
+```
+┌─────────┐     ┌─────────┐
+│ Source  │────▶│ ClickHouse│
+└─────────┘     └─────────┘
+```
+
+**Data Flow:**
+```
+Kafka → Raw Events → Transform → Warehouse
+          │              │
+          ▼              ▼
+      Materialized   Aggregated
+         Views         Tables
+```
+
+**Comparisons:**
+```
+┌────────────┬─────────┬─────────┐
+│ Metric     │ Python  │ Rust    │
+├────────────┼─────────┼─────────┤
+│ Pods       │ 1000    │ 50      │
+│ Memory     │ 32GB    │ 8GB     │
+└────────────┴─────────┴─────────┘
+```
+
+## Knowledge Base
+
+Duyetbot has access to @duyet's knowledge:
+
+| File | Content |
+|------|---------|
+| `knowledge/duyet-profile.md` | Profile, work experience, skills |
+| `knowledge/writing-style.md` | Writing patterns to mirror |
+| `knowledge/blog-archive.md` | 299+ blog posts by topic |
+| `knowledge/structure.md` | Knowledge organization |
+| `knowledge/topics/` | Nested topic-based knowledge |
+
+### Updating Knowledge
+
+```bash
+# Fetch latest from llms.txt sources
+./scripts/fetch-duyet-data.sh
+
+# Add new knowledge via command
+/learn <url|topic|question>
+
+# Commit with semantic commit
+git add knowledge/
+git commit -m "feat(duyetbot): update duyet profile knowledge
+
+Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>"
+```
+
 ## Skills
 
 | Skill | Purpose |
@@ -77,6 +129,7 @@ Duyetbot shows execution chain:
 | `transparency` | Execution chain visibility |
 | `task-loop` | Iterative methodology |
 | `team-coordination` | Spawn and coordinate agents |
+| `duyet-knowledge` | Maintain @duyet knowledge base |
 
 ## Team Integration
 
@@ -97,6 +150,7 @@ And use **@orchestration** patterns:
 
 - **memory** - Persistent cross-session context
 - **research** - Web search and synthesis
+- **duyetbot-mcp** - Knowledge storage and retrieval
 
 ## When to Use
 
@@ -104,6 +158,7 @@ And use **@orchestration** patterns:
 - Methodical problem-solving
 - Quality-focused implementations
 - Debugging with visible reasoning
+- Questions about @duyet
 - Sustainable code
 
 **Not for:**
@@ -125,18 +180,35 @@ duyetbot/
 │   ├── think.md
 │   ├── loop.md
 │   ├── spawn.md
-│   └── orchestrate.md
+│   ├── orchestrate.md
+│   └── learn.md
 ├── skills/
 │   ├── engineering-discipline/
 │   ├── transparency/
 │   ├── task-loop/
-│   └── team-coordination/
+│   ├── team-coordination/
+│   └── duyet-knowledge/
+├── knowledge/
+│   ├── duyet-profile.md
+│   ├── writing-style.md
+│   ├── blog-archive.md
+│   ├── structure.md
+│   └── topics/
+├── scripts/
+│   └── fetch-duyet-data.sh
 └── README.md
 ```
 
 ## Changelog
 
-### 1.1.0
+### 1.3.0
+- Add @duyet knowledge base (profile, blog, writing style)
+- Add `/learn` command for knowledge acquisition
+- Add ASCII visualization patterns
+- Friendly response style (mirrors @duyet's writing)
+- Nested knowledge structure in `knowledge/topics/`
+
+### 1.2.0
 - Add team-agents integration (@leader, @senior-engineer, @junior-engineer)
 - Add orchestration patterns (fan-out, pipeline, map-reduce)
 - New commands: spawn, orchestrate
