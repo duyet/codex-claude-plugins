@@ -2,3 +2,4 @@
 *.log
 .claude/*.local.md
 .claude/*.local.json
+node_modules/
