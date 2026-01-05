@@ -1,9 +1,10 @@
 ---
 description: "Cancel active Ralph Wiggum loop"
-allowed-tools: ["Bash"]
-hide-from-slash-command-tool: "true"
+allowed-tools: ["Bash(${CLAUDE_PLUGIN_ROOT}/scripts/cancel-ralph.sh)"]
 ---
 
-# Cancel Ralph
+Cancel the active Ralph loop:
 
-Check if a Ralph loop is active and cancel it: !`bash "${CLAUDE_PLUGIN_ROOT}/scripts/cancel-ralph.sh"`
+```!
+"${CLAUDE_PLUGIN_ROOT}/scripts/cancel-ralph.sh"
+```

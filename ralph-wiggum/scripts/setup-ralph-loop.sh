@@ -1,24 +1,19 @@
 #!/bin/bash
 
 # Ralph Loop Setup Script
-# Creates state file for in-session Ralph loop with safety controls
+# Creates state file for in-session Ralph loop
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLUGIN_ROOT="$(dirname "$SCRIPT_DIR")"
-LIB_DIR="$PLUGIN_ROOT/lib"
-
-# Load utilities for session isolation
-[[ -f "$LIB_DIR/utils.sh" ]] && source "$LIB_DIR/utils.sh"
+# State file location (matches official implementation)
+RALPH_STATE_FILE=".claude/ralph-loop.local.md"
+CIRCUIT_FILE=".claude/ralph-circuit.local.json"
 
 # Parse arguments
 PROMPT_PARTS=()
 MAX_ITERATIONS=0
 COMPLETION_PROMISE="null"
 ENABLE_CIRCUIT_BREAKER="true"
-ENABLE_SMART_EXIT="true"
-ENABLE_RATE_LIMIT="true"
 RESET_CIRCUIT=false
 
 while [[ $# -gt 0 ]]; do
@@ -34,9 +29,7 @@ OPTIONS:
   --max-iterations <n>          Stop after N iterations (default: unlimited)
   --completion-promise <text>   Promise phrase to signal completion
   --no-circuit-breaker          Disable stagnation detection
-  --no-smart-exit               Disable completion analysis
-  --no-rate-limit               Disable rate limit handling
-  --reset-circuit               Reset circuit breaker state
+  --reset-circuit               Reset circuit breaker and start fresh
   -h, --help                    Show this help
 
 EXAMPLES:
@@ -46,14 +39,11 @@ EXAMPLES:
 STOP CONDITIONS:
   - --max-iterations reached
   - <promise>TEXT</promise> matches --completion-promise
-  - Circuit breaker opens (stagnation/errors)
-  - Smart exit triggers (completion detected)
-  - API rate limit reached
+  - Circuit breaker opens (3 iterations without file changes)
 
 MONITORING:
-  cat .claude/ralph-session.local/ralph-loop.\${SESSION_ID}.local.md    # Loop state
-  cat .claude/ralph-session.local/ralph-circuit.\${SESSION_ID}.json     # Circuit breaker
-  cat .claude/ralph-session.local/ralph-analysis.\${SESSION_ID}.json    # Response analysis
+  cat .claude/ralph-loop.local.md      # Loop state
+  cat .claude/ralph-circuit.local.json # Circuit breaker
 EOF
       exit 0
       ;;
@@ -77,14 +67,6 @@ EOF
       ENABLE_CIRCUIT_BREAKER="false"
       shift
       ;;
-    --no-smart-exit)
-      ENABLE_SMART_EXIT="false"
-      shift
-      ;;
-    --no-rate-limit)
-      ENABLE_RATE_LIMIT="false"
-      shift
-      ;;
     --reset-circuit)
       RESET_CIRCUIT=true
       shift
@@ -96,19 +78,17 @@ EOF
   esac
 done
 
-# Reset circuit breaker if requested
-ensure_state_dir
-RALPH_STATE_DIR=$(get_ralph_state_dir)
-SESSION_ID=$(get_session_id)
+# Ensure .claude directory exists
+mkdir -p .claude
 
+# Reset circuit breaker if requested
 if [[ "$RESET_CIRCUIT" == "true" ]]; then
-  rm -f "$(get_state_file_path "ralph-circuit" "json")"
-  rm -f "$(get_state_file_path "ralph-analysis" "json")"
+  rm -f "$CIRCUIT_FILE"
   echo "Circuit breaker reset"
 fi
 
-# Join prompt parts
-PROMPT="${PROMPT_PARTS[*]}"
+# Join prompt parts (handle empty array)
+PROMPT="${PROMPT_PARTS[*]:-}"
 
 if [[ -z "$PROMPT" ]]; then
   echo "Error: No prompt provided" >&2
@@ -123,56 +103,42 @@ if [[ -z "$PROMPT" ]]; then
   exit 1
 fi
 
-# Create state file
+# Format completion promise for YAML
 if [[ -n "$COMPLETION_PROMISE" ]] && [[ "$COMPLETION_PROMISE" != "null" ]]; then
   COMPLETION_PROMISE_YAML="\"$COMPLETION_PROMISE\""
 else
   COMPLETION_PROMISE_YAML="null"
 fi
 
-RALPH_LOOP_FILE=$(get_state_file_path "ralph-loop" "md")
-
-cat > "$RALPH_LOOP_FILE" <<EOF
+# Create state file (markdown with YAML frontmatter)
+cat > "$RALPH_STATE_FILE" <<EOF
 ---
 active: true
 iteration: 1
 max_iterations: $MAX_ITERATIONS
 completion_promise: $COMPLETION_PROMISE_YAML
 circuit_breaker: $ENABLE_CIRCUIT_BREAKER
-smart_exit: $ENABLE_SMART_EXIT
-rate_limit_handler: $ENABLE_RATE_LIMIT
-session_id: ${SESSION_ID:-unknown}
 started_at: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 ---
 
 $PROMPT
 EOF
 
-# Output
+# Output confirmation
 echo "Ralph loop activated"
 echo ""
 echo "Iteration: 1"
 echo "Max iterations: $(if [[ $MAX_ITERATIONS -gt 0 ]]; then echo $MAX_ITERATIONS; else echo 'unlimited'; fi)"
 echo "Completion promise: $(if [[ "$COMPLETION_PROMISE" != "null" ]]; then echo "$COMPLETION_PROMISE"; else echo 'none'; fi)"
+echo "Circuit breaker: $(if [[ "$ENABLE_CIRCUIT_BREAKER" == "true" ]]; then echo 'ON'; else echo 'OFF'; fi)"
 echo ""
-
-if [[ "$ENABLE_CIRCUIT_BREAKER" == "true" ]]; then
-  echo "Circuit breaker: ON (stops on stagnation)"
-fi
-if [[ "$ENABLE_SMART_EXIT" == "true" ]]; then
-  echo "Smart exit: ON (detects completion)"
-fi
-if [[ "$ENABLE_RATE_LIMIT" == "true" ]]; then
-  echo "Rate limit: ON (pauses on limits)"
-fi
-
-echo ""
-echo "To monitor: /status"
 
 if [[ "$COMPLETION_PROMISE" != "null" ]]; then
-  echo ""
   echo "To complete: output <promise>$COMPLETION_PROMISE</promise>"
+  echo ""
 fi
 
+echo "To monitor: cat .claude/ralph-loop.local.md"
+echo "To cancel: /cancel-ralph"
 echo ""
 echo "$PROMPT"

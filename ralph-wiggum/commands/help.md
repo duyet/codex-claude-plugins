@@ -1,7 +1,6 @@
 ---
 description: "Explain Ralph Wiggum technique and available commands"
 allowed-tools: []
-hide-from-slash-command-tool: "true"
 ---
 
 # Ralph Wiggum Plugin Help
@@ -38,7 +37,6 @@ Start a loop in the current session.
 | `--max-iterations <n>` | Stop after N iterations |
 | `--completion-promise <text>` | Promise phrase to signal completion |
 | `--no-circuit-breaker` | Disable stagnation detection |
-| `--no-smart-exit` | Disable completion analysis |
 | `--reset-circuit` | Reset circuit breaker state |
 
 ### /status
@@ -64,33 +62,12 @@ The loop stops when any condition is met:
 1. `--max-iterations` reached
 2. `<promise>TEXT</promise>` matches `--completion-promise`
 3. Circuit breaker opens (stagnation/errors)
-4. Smart exit triggers (high completion confidence)
-5. API rate limit reached
 
-## Safety Features
-
-### Circuit Breaker
+## Safety: Circuit Breaker
 
 Prevents runaway loops:
 - No file changes for 3+ iterations → stops
-- 5+ consecutive errors → stops
-- Identical outputs repeated 3+ times → stops
-
-States: `CLOSED` (running) → `HALF_OPEN` (monitoring) → `OPEN` (halted)
-
-### Intelligent Exit
-
-Analyzes responses for completion:
-- Keyword detection ("done", "complete", "tests passing")
-- Test-only loop detection
-- Confidence scoring (exits at 40+ points)
-
-### API Limit Handler
-
-Handles Claude's usage limits:
-- 5-hour limit detection
-- Rate limit (429) detection
-- Pause and wait recommendations
+- 5+ consecutive errors in output → stops
 
 ## Completion Promises
 
@@ -105,10 +82,9 @@ The text must exactly match `--completion-promise`.
 ## Monitoring
 
 ```bash
-/status                              # Show status
-cat .claude/ralph-loop.local.md      # Loop state
-cat .claude/ralph-circuit.json       # Circuit breaker
-cat .claude/ralph-analysis.json      # Response analysis
+/status                                  # Show status
+cat .claude/ralph-loop.local.md          # Loop state
+cat .claude/ralph-circuit.local.json     # Circuit breaker
 ```
 
 ## Example
@@ -127,4 +103,4 @@ Claude will:
 ## References
 
 - [ghuntley.com/ralph](https://ghuntley.com/ralph/)
-- [frankbria/ralph-claude-code](https://github.com/frankbria/ralph-claude-code)
+- [Official plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)

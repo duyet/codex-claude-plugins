@@ -63,7 +63,7 @@ bash statusline/scripts/test-statusline.sh
 # With full context data
 DEBUG_STATUSLINE=1 echo '{"workspace":{"current_dir":"/test"},"model":{"id":"claude-opus-4-5-20251101"},"version":"2.0.76","context_window":{"total_input_tokens":43000,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
 
-# Test null current_usage (should fallback to total_input_tokens)
+# Test null current_usage (should show 0%, not fallback to total_input_tokens)
 echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000,"current_usage":null}}' | ~/.claude/statusline-command.sh
 
 # Test no context data (should hide context line)
@@ -88,7 +88,7 @@ echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000
 
 ## Key Behaviors
 
-1. **Context fallback**: If `current_usage` is null or all zeros, uses `total_input_tokens`
+1. **Context source**: Uses `current_usage` only (real-time). Does NOT fall back to `total_input_tokens` because it's cumulative and doesn't reset on `/clear`
 2. **Hide empty values**: Doesn't show "Context: 0%", "Tools: None", "Agents: None", "Tasks: No tasks"
 3. **Line format**: Configurable 1/2/3 line display via config file
 4. **API caching**: Usage data cached for 60s to avoid repeated API calls

@@ -1,30 +1,18 @@
-#!/usr/bin/env bash
-# Cancel active Ralph Wiggum loop
+#!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLUGIN_ROOT="$(dirname "$SCRIPT_DIR")"
-LIB_DIR="$PLUGIN_ROOT/lib"
+# Cancel Ralph Loop Script
 
-# Load utilities for session isolation
-[[ -f "$LIB_DIR/utils.sh" ]] && source "$LIB_DIR/utils.sh"
+set -euo pipefail
 
-SESSION_ID=$(get_session_id)
-CLAUDE_ENV_FILE="${CLAUDE_ENV_FILE:-${CLAUDE_PLUGIN_ROOT}/.env}"
+RALPH_STATE_FILE=".claude/ralph-loop.local.md"
+CIRCUIT_FILE=".claude/ralph-circuit.local.json"
 
-RALPH_LOOP_FILE=$(get_state_file_path "ralph-loop" "md")
+if [[ -f "$RALPH_STATE_FILE" ]]; then
+  # Extract iteration info
+  ITERATION=$(grep '^iteration:' "$RALPH_STATE_FILE" | sed 's/iteration: *//' || echo "unknown")
 
-if [[ -f "$RALPH_LOOP_FILE" ]]; then
-    ITERATION=$(grep '^iteration:' "$RALPH_LOOP_FILE" 2>/dev/null | sed 's/iteration: *//')
-    rm -f "$RALPH_LOOP_FILE"
-
-    # Clean up all session state
-    cleanup_session_state
-
-    if [[ -n "$ITERATION" ]]; then
-        echo "Ralph loop cancelled at iteration $ITERATION"
-    else
-        echo "Ralph loop cancelled"
-    fi
+  rm -f "$RALPH_STATE_FILE" "$CIRCUIT_FILE"
+  echo "Ralph loop cancelled at iteration $ITERATION"
 else
-    echo "No active Ralph loop found in this session"
+  echo "No active Ralph loop"
 fi

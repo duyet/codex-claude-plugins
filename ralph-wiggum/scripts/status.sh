@@ -1,48 +1,44 @@
 #!/bin/bash
-# Ralph Wiggum Status Script
-# Shows current loop status, circuit breaker state, and response analysis
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLUGIN_ROOT="$(dirname "$SCRIPT_DIR")"
-LIB_DIR="$PLUGIN_ROOT/lib"
+# Ralph Loop Status Script
 
-# Load utilities for session isolation
-[[ -f "$LIB_DIR/utils.sh" ]] && source "$LIB_DIR/utils.sh"
+set -euo pipefail
 
-RALPH_STATE_DIR=$(get_ralph_state_dir)
-SESSION_ID=$(get_session_id)
+RALPH_STATE_FILE=".claude/ralph-loop.local.md"
+CIRCUIT_FILE=".claude/ralph-circuit.local.json"
+
+if [[ ! -f "$RALPH_STATE_FILE" ]]; then
+  echo "No active Ralph loop"
+  exit 0
+fi
+
+# Parse state file
+FRONTMATTER=$(sed -n '/^---$/,/^---$/{ /^---$/d; p; }' "$RALPH_STATE_FILE")
+ITERATION=$(echo "$FRONTMATTER" | grep '^iteration:' | sed 's/iteration: *//')
+MAX_ITERATIONS=$(echo "$FRONTMATTER" | grep '^max_iterations:' | sed 's/max_iterations: *//')
+COMPLETION_PROMISE=$(echo "$FRONTMATTER" | grep '^completion_promise:' | sed 's/completion_promise: *//' | sed 's/^"\(.*\)"$/\1/')
+CIRCUIT_BREAKER=$(echo "$FRONTMATTER" | grep '^circuit_breaker:' | sed 's/circuit_breaker: *//' || echo "true")
+STARTED_AT=$(echo "$FRONTMATTER" | grep '^started_at:' | sed 's/started_at: *//' | sed 's/^"\(.*\)"$/\1/')
+
+echo "Ralph Loop Status"
+echo "================="
+echo ""
+echo "Iteration: $ITERATION"
+echo "Max iterations: $(if [[ "$MAX_ITERATIONS" == "0" ]]; then echo 'unlimited'; else echo "$MAX_ITERATIONS"; fi)"
+echo "Completion promise: $(if [[ "$COMPLETION_PROMISE" == "null" ]] || [[ -z "$COMPLETION_PROMISE" ]]; then echo 'none'; else echo "$COMPLETION_PROMISE"; fi)"
+echo "Circuit breaker: $(if [[ "$CIRCUIT_BREAKER" == "true" ]]; then echo 'ON'; else echo 'OFF'; fi)"
+echo "Started: $STARTED_AT"
+
+# Show circuit breaker state if enabled
+if [[ "$CIRCUIT_BREAKER" == "true" ]] && [[ -f "$CIRCUIT_FILE" ]]; then
+  echo ""
+  echo "Circuit Breaker"
+  echo "---------------"
+  NO_PROGRESS=$(jq -r '.no_progress // 0' "$CIRCUIT_FILE")
+  ERRORS=$(jq -r '.errors // 0' "$CIRCUIT_FILE")
+  echo "No progress count: $NO_PROGRESS/3"
+  echo "Error count: $ERRORS/5"
+fi
 
 echo ""
-echo "Ralph Loop Status"
-echo "Session: ${SESSION_ID:-unknown}"
-echo "============================================="
-
-RALPH_LOOP_FILE=$(get_state_file_path "ralph-loop" "md")
-RALPH_CIRCUIT_FILE=$(get_state_file_path "ralph-circuit" "json")
-RALPH_ANALYSIS_FILE=$(get_state_file_path "ralph-analysis" "json")
-
-if [[ -f "$RALPH_LOOP_FILE" ]]; then
-  ITERATION=$(grep '^iteration:' "$RALPH_LOOP_FILE" | sed 's/iteration: *//')
-  MAX_ITER=$(grep '^max_iterations:' "$RALPH_LOOP_FILE" | sed 's/max_iterations: *//')
-  PROMISE=$(grep '^completion_promise:' "$RALPH_LOOP_FILE" | sed 's/completion_promise: *//' | sed 's/^"\(.*\)"$/\1/')
-  echo "Active: YES"
-  echo "Iteration: $ITERATION"
-  echo "Max: $(if [[ $MAX_ITER -gt 0 ]]; then echo $MAX_ITER; else echo 'unlimited'; fi)"
-  [[ -n "$PROMISE" ]] && [[ "$PROMISE" != "null" ]] && echo "Promise: $PROMISE"
-else
-  echo "Active: NO"
-fi
-
-if [[ -f "$RALPH_CIRCUIT_FILE" ]]; then
-  echo ""
-  echo "Circuit Breaker:"
-  jq -r '"  State: \(.state)\n  No Progress: \(.no_progress_count)\n  Errors: \(.error_count)"' "$RALPH_CIRCUIT_FILE"
-fi
-
-if [[ -f "$RALPH_ANALYSIS_FILE" ]]; then
-  echo ""
-  echo "Response Analysis:"
-  jq -r '"  Confidence: \(.last_confidence)\n  Trend: \(.output_trend)\n  Exit: \(.exit_recommended)"' "$RALPH_ANALYSIS_FILE"
-fi
-
-echo "============================================="
+echo "To cancel: /cancel-ralph"

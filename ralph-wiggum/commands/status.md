@@ -1,9 +1,10 @@
 ---
 description: "Show Ralph Wiggum loop status"
-allowed-tools: ["Bash"]
-hide-from-slash-command-tool: "true"
+allowed-tools: ["Bash(${CLAUDE_PLUGIN_ROOT}/scripts/status.sh)"]
 ---
 
-# Ralph Status
+Show the current Ralph loop status:
 
-Check loop status and report to the user: !`bash "${CLAUDE_PLUGIN_ROOT}/scripts/status.sh"`
+```!
+"${CLAUDE_PLUGIN_ROOT}/scripts/status.sh"
+```
