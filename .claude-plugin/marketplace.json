@@ -43,6 +43,11 @@
       "name": "orchestration",
       "source": "./orchestration",
       "description": "Orchestrate complex work through parallel agent coordination. Decompose requests into task graphs, spawn background workers, and synthesize results elegantly."
+    },
+    {
+      "name": "duyetbot",
+      "source": "./duyetbot",
+      "description": "Pragmatic software development companion with engineering discipline and transparent execution. Shows reasoning via execution chain, works in iterative loops."
     }
   ]
 }

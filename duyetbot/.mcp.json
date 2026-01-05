@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-memory"],
+      "description": "Persistent cross-session memory for duyetbot context"
+    },
+    "research": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-research"],
+      "description": "Web research and information synthesis"
+    }
+  }
+}
