@@ -1,40 +1,68 @@
-# Duyetbot MCP Server with GitHub OAuth
+# Duyetbot MCP Gateway with GitHub OAuth
 
-> Build an authenticated MCP server that gives duyetbot access to GitHub operations and persistent memory via OAuth login.
+> Build an authenticated MCP gateway that aggregates multiple backend services - GitHub, Memory, Knowledge, System Prompts - all via single OAuth login.
 
 ## Overview
 
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  Claude Code    │────▶│  duyetbot-mcp    │────▶│   GitHub    │
-│  (duyetbot)     │     │  (OAuth Server)  │     │   API       │
-└─────────────────┘     └──────────────────┘     └─────────────┘
-        │                       │
-        │                       ▼
-        │               ┌──────────────────┐
-        └──────────────▶│  Cloudflare D1   │
-                        │  (Memory Store)  │
-                        └──────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              Claude Code                                     │
+│                              (duyetbot)                                      │
+└─────────────────────────────────┬───────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          duyetbot-mcp (Gateway)                              │
+│                         GitHub OAuth 2.1 + PKCE                              │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
+│  │   Router    │ │   Auth      │ │   Tools     │ │  Resources  │            │
+│  │   Layer     │ │   Layer     │ │   Registry  │ │   Registry  │            │
+│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘            │
+└───────┬─────────────────┬─────────────────┬─────────────────┬───────────────┘
+        │                 │                 │                 │
+        ▼                 ▼                 ▼                 ▼
+┌───────────────┐ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+│  GitHub MCP   │ │  Memory MCP   │ │ Knowledge MCP │ │  Prompt MCP   │
+│               │ │               │ │               │ │               │
+│ • repos       │ │ • store       │ │ • search      │ │ • system      │
+│ • issues      │ │ • recall      │ │ • retrieve    │ │ • templates   │
+│ • PRs         │ │ • list        │ │ • embed       │ │ • personas    │
+│ • commits     │ │ • forget      │ │ • context     │ │ • workflows   │
+│ • actions     │ │ • sessions    │ │ • RAG         │ │ • skills      │
+└───────┬───────┘ └───────┬───────┘ └───────┬───────┘ └───────┬───────┘
+        │                 │                 │                 │
+        ▼                 ▼                 ▼                 ▼
+┌───────────────┐ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+│  GitHub API   │ │ Cloudflare D1 │ │ Vectorize +   │ │ R2 Bucket +   │
+│               │ │ + KV          │ │ Workers AI    │ │ D1            │
+└───────────────┘ └───────────────┘ └───────────────┘ └───────────────┘
 ```
 
 ## Architecture
 
-### Components
+### Gateway Pattern
 
-1. **duyetbot-mcp** - MCP server providing:
-   - GitHub operations (repos, issues, PRs, commits)
-   - Persistent memory (cross-session context)
-   - User identity and preferences
+**duyetbot-mcp** acts as a unified gateway:
+- Single OAuth login → access all services
+- Route requests to appropriate backend MCP
+- Aggregate responses from multiple MCPs
+- Unified error handling and logging
 
-2. **GitHub OAuth 2.1 + PKCE** - Authentication flow:
-   - User logs in via GitHub
-   - Short-lived access tokens
-   - Secure token refresh
+### Backend MCPs
 
-3. **Cloudflare Workers** - Deployment:
-   - Edge compute for low latency
-   - D1 database for memory
-   - KV for token storage
+| MCP | Purpose | Storage | Tools |
+|-----|---------|---------|-------|
+| **GitHub** | Code operations | GitHub API | repos, issues, PRs, actions |
+| **Memory** | Persistent context | D1 + KV | store, recall, list, forget |
+| **Knowledge** | RAG & embeddings | Vectorize | search, retrieve, embed |
+| **Prompt** | System prompts | R2 + D1 | templates, personas, skills |
+
+### Authentication Flow
+
+1. **GitHub OAuth 2.1 + PKCE** - Single sign-on
+2. **User Identity** - GitHub user ID as primary key
+3. **Token Propagation** - Gateway forwards auth to backends
+4. **Scope Isolation** - Each backend has minimal required permissions
 
 ---
 
@@ -58,30 +86,101 @@ GITHUB_CLIENT_SECRET=xxx
 MCP_SERVER_URL=https://duyetbot-mcp.duyet.workers.dev
 ```
 
-### Phase 2: MCP Server Structure
+### Phase 2: MCP Gateway Structure
 
 ```
 duyetbot-mcp/
 ├── src/
-│   ├── index.ts              # Entry point
-│   ├── server.ts             # MCP server setup
+│   ├── index.ts                    # Entry point
+│   ├── gateway.ts                  # MCP gateway router
 │   ├── auth/
-│   │   ├── oauth.ts          # OAuth 2.1 + PKCE flow
-│   │   ├── github.ts         # GitHub provider
-│   │   └── tokens.ts         # Token management
-│   ├── tools/
-│   │   ├── github.ts         # GitHub API tools
-│   │   ├── memory.ts         # Memory tools
-│   │   └── identity.ts       # User identity tools
-│   ├── resources/
-│   │   ├── repos.ts          # Repository resources
-│   │   └── context.ts        # Session context
-│   └── storage/
-│       ├── d1.ts             # D1 database adapter
-│       └── kv.ts             # KV token store
-├── wrangler.toml             # Cloudflare config
+│   │   ├── oauth.ts                # OAuth 2.1 + PKCE flow
+│   │   ├── github-provider.ts      # GitHub OAuth provider
+│   │   └── tokens.ts               # Token management
+│   ├── mcps/
+│   │   ├── github/                 # GitHub MCP backend
+│   │   │   ├── tools.ts            # repos, issues, PRs, actions
+│   │   │   └── resources.ts        # repository resources
+│   │   ├── memory/                 # Memory MCP backend
+│   │   │   ├── tools.ts            # store, recall, list, forget
+│   │   │   └── sessions.ts         # session context
+│   │   ├── knowledge/              # Knowledge MCP backend
+│   │   │   ├── tools.ts            # search, retrieve, embed
+│   │   │   ├── vectorize.ts        # vector embeddings
+│   │   │   └── rag.ts              # RAG pipeline
+│   │   └── prompts/                # Prompt MCP backend
+│   │       ├── tools.ts            # system, templates, personas
+│   │       ├── skills.ts           # skill definitions
+│   │       └── workflows.ts        # workflow templates
+│   ├── storage/
+│   │   ├── d1.ts                   # D1 database adapter
+│   │   ├── kv.ts                   # KV token/cache store
+│   │   ├── r2.ts                   # R2 object storage
+│   │   └── vectorize.ts            # Vectorize adapter
+│   └── utils/
+│       ├── router.ts               # Tool routing logic
+│       └── aggregator.ts           # Response aggregation
+├── schema/
+│   ├── memories.sql                # Memory tables
+│   ├── knowledge.sql               # Knowledge base tables
+│   └── prompts.sql                 # Prompt storage tables
+├── wrangler.toml                   # Cloudflare config
 ├── package.json
 └── tsconfig.json
+```
+
+### Backend MCP Details
+
+#### 1. GitHub MCP
+```typescript
+// Tools provided:
+github_whoami()           // Get authenticated user
+github_list_repos()       // List repositories
+github_create_issue()     // Create issue
+github_create_pr()        // Create pull request
+github_get_pr()           // Get PR details
+github_merge_pr()         // Merge PR
+github_list_actions()     // List workflow runs
+github_trigger_action()   // Trigger workflow
+github_search_code()      // Search code in repos
+```
+
+#### 2. Memory MCP
+```typescript
+// Tools provided:
+memory_store()            // Store key-value with optional TTL
+memory_recall()           // Retrieve by key
+memory_list()             // List with prefix filter
+memory_forget()           // Delete memory
+memory_search()           // Semantic search memories
+session_create()          // Create session context
+session_update()          // Update session
+session_get()             // Get current session
+```
+
+#### 3. Knowledge MCP
+```typescript
+// Tools provided:
+knowledge_search()        // Semantic search knowledge base
+knowledge_retrieve()      // Get document by ID
+knowledge_embed()         // Create embedding for text
+knowledge_ingest()        // Add document to knowledge base
+knowledge_context()       // Get relevant context for query
+rag_query()               // Full RAG pipeline query
+```
+
+#### 4. Prompt MCP
+```typescript
+// Tools provided:
+prompt_get_system()       // Get system prompt for context
+prompt_list_templates()   // List available templates
+prompt_render()           // Render template with variables
+persona_get()             // Get persona definition
+persona_list()            // List available personas
+skill_get()               // Get skill definition
+skill_list()              // List available skills
+workflow_get()            // Get workflow template
+workflow_list()           // List workflows
 ```
 
 ### Phase 3: OAuth Flow Implementation
@@ -576,6 +675,7 @@ Update duyetbot plugin to use the new MCP:
 
 ## Available Tools After Implementation
 
+### GitHub MCP Tools
 | Tool | Description |
 |------|-------------|
 | `github_whoami` | Get authenticated user info |
@@ -584,10 +684,44 @@ Update duyetbot plugin to use the new MCP:
 | `github_create_pr` | Create pull request |
 | `github_get_pr` | Get PR details |
 | `github_merge_pr` | Merge pull request |
-| `memory_store` | Store persistent memory |
+| `github_list_actions` | List workflow runs |
+| `github_trigger_action` | Trigger GitHub Action |
+| `github_search_code` | Search code in repositories |
+
+### Memory MCP Tools
+| Tool | Description |
+|------|-------------|
+| `memory_store` | Store key-value with optional TTL |
 | `memory_recall` | Retrieve stored memory |
-| `memory_list` | List all memories |
+| `memory_list` | List memories with prefix filter |
 | `memory_forget` | Delete memory |
+| `memory_search` | Semantic search memories |
+| `session_create` | Create session context |
+| `session_update` | Update session context |
+| `session_get` | Get current session |
+
+### Knowledge MCP Tools
+| Tool | Description |
+|------|-------------|
+| `knowledge_search` | Semantic search knowledge base |
+| `knowledge_retrieve` | Get document by ID |
+| `knowledge_embed` | Create embedding for text |
+| `knowledge_ingest` | Add document to knowledge base |
+| `knowledge_context` | Get relevant context for query |
+| `rag_query` | Full RAG pipeline query |
+
+### Prompt MCP Tools
+| Tool | Description |
+|------|-------------|
+| `prompt_get_system` | Get system prompt for context |
+| `prompt_list_templates` | List available templates |
+| `prompt_render` | Render template with variables |
+| `persona_get` | Get persona definition |
+| `persona_list` | List available personas |
+| `skill_get` | Get skill definition |
+| `skill_list` | List available skills |
+| `workflow_get` | Get workflow template |
+| `workflow_list` | List workflows |
 
 ---
 
@@ -633,34 +767,180 @@ wrangler secret put GITHUB_CLIENT_SECRET
 
 ## Next Steps
 
+### Phase 1: Foundation
 1. **Create GitHub OAuth App** → Get Client ID and Secret
 2. **Initialize project** → `npm init`, install dependencies
 3. **Implement OAuth flow** → auth routes, PKCE, token exchange
-4. **Build MCP server** → tools, resources, transport
-5. **Setup Cloudflare** → D1, KV, deploy
-6. **Update plugin** → Connect duyetbot to new MCP
-7. **Test end-to-end** → Login flow, tool execution
+4. **Setup Cloudflare** → D1, KV, R2, Vectorize
+
+### Phase 2: Backend MCPs
+5. **GitHub MCP** → repos, issues, PRs, actions
+6. **Memory MCP** → store, recall, sessions
+7. **Knowledge MCP** → embeddings, RAG, search
+8. **Prompt MCP** → templates, personas, skills
+
+### Phase 3: Gateway
+9. **Router layer** → Route tools to correct backend
+10. **Aggregator** → Combine multi-MCP responses
+11. **Error handling** → Unified error responses
+
+### Phase 4: Integration
+12. **Update plugin** → Connect duyetbot to gateway
+13. **Test end-to-end** → Login, all tool categories
+14. **Deploy production** → Cloudflare Workers
 
 ---
 
 ## Prompt for Implementation
 
 ```
-Build duyetbot-mcp: an MCP server with GitHub OAuth 2.1 + PKCE authentication.
+Build duyetbot-mcp: an MCP gateway with GitHub OAuth 2.1 + PKCE that aggregates
+multiple backend MCPs (GitHub, Memory, Knowledge, Prompts).
 
 Stack:
 - Cloudflare Workers (Hono framework)
 - MCP TypeScript SDK
-- D1 database (memories, sessions)
-- KV storage (tokens, PKCE)
+- D1 database (memories, sessions, prompts)
+- KV storage (tokens, PKCE, cache)
+- R2 (prompt templates, knowledge docs)
+- Vectorize (embeddings for RAG)
+- Workers AI (embedding generation)
+
+Gateway Architecture:
+┌──────────────────────────────────────────────────────────┐
+│                    duyetbot-mcp Gateway                   │
+│  ┌────────┐ ┌────────┐ ┌────────────┐ ┌────────────┐    │
+│  │ Router │ │  Auth  │ │ Tool       │ │ Resource   │    │
+│  │ Layer  │ │ Layer  │ │ Registry   │ │ Registry   │    │
+│  └────────┘ └────────┘ └────────────┘ └────────────┘    │
+└────────┬──────────┬──────────┬──────────┬───────────────┘
+         │          │          │          │
+         ▼          ▼          ▼          ▼
+    ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐
+    │ GitHub  │ │ Memory  │ │Knowledge│ │ Prompt  │
+    │   MCP   │ │   MCP   │ │   MCP   │ │   MCP   │
+    └─────────┘ └─────────┘ └─────────┘ └─────────┘
 
 Requirements:
 1. OAuth 2.1 + PKCE flow with GitHub as identity provider
-2. Tools: github_whoami, github_list_repos, github_create_issue, github_create_pr
-3. Memory tools: store, recall, list, forget
-4. Streamable HTTP transport for MCP
-5. Token validation on every request
-6. Secure token storage and refresh
+2. Single login → access all backend MCPs
+3. Tool routing based on prefix (github_, memory_, knowledge_, prompt_)
+4. GitHub MCP: repos, issues, PRs, actions, code search
+5. Memory MCP: store, recall, list, forget, session management
+6. Knowledge MCP: search, retrieve, embed, ingest, RAG query
+7. Prompt MCP: system prompts, templates, personas, skills, workflows
+8. Streamable HTTP transport
+9. Token validation on every request
+10. Unified error handling and logging
 
-Start with OAuth flow, then add MCP tools, then deploy to Cloudflare.
+Implementation Order:
+1. OAuth flow + GitHub MCP (MVP)
+2. Memory MCP
+3. Knowledge MCP with Vectorize
+4. Prompt MCP
+5. Gateway routing and aggregation
+6. Production deployment
+
+Start with OAuth flow, then build each backend MCP, then wire up gateway.
+```
+
+---
+
+## Database Schemas
+
+### Memory MCP Schema
+```sql
+-- Persistent memories
+CREATE TABLE memories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id TEXT NOT NULL,
+  key TEXT NOT NULL,
+  value TEXT NOT NULL,
+  metadata JSON,
+  embedding BLOB,           -- For semantic search
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL,
+  expires_at INTEGER,
+  UNIQUE(user_id, key)
+);
+
+-- Session context
+CREATE TABLE sessions (
+  session_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  context JSON,
+  created_at INTEGER NOT NULL,
+  last_active INTEGER NOT NULL
+);
+```
+
+### Knowledge MCP Schema
+```sql
+-- Knowledge documents
+CREATE TABLE documents (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  title TEXT,
+  content TEXT NOT NULL,
+  source TEXT,              -- URL or file path
+  metadata JSON,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+-- Document chunks for RAG
+CREATE TABLE chunks (
+  id TEXT PRIMARY KEY,
+  document_id TEXT NOT NULL,
+  content TEXT NOT NULL,
+  chunk_index INTEGER NOT NULL,
+  metadata JSON,
+  FOREIGN KEY (document_id) REFERENCES documents(id)
+);
+```
+
+### Prompt MCP Schema
+```sql
+-- System prompts
+CREATE TABLE prompts (
+  id TEXT PRIMARY KEY,
+  user_id TEXT,             -- NULL for global prompts
+  name TEXT NOT NULL,
+  content TEXT NOT NULL,
+  variables JSON,           -- Template variables
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+-- Personas
+CREATE TABLE personas (
+  id TEXT PRIMARY KEY,
+  user_id TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
+  system_prompt TEXT NOT NULL,
+  traits JSON,
+  created_at INTEGER NOT NULL
+);
+
+-- Skills
+CREATE TABLE skills (
+  id TEXT PRIMARY KEY,
+  user_id TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
+  content TEXT NOT NULL,    -- Skill definition
+  triggers JSON,            -- When to activate
+  created_at INTEGER NOT NULL
+);
+
+-- Workflows
+CREATE TABLE workflows (
+  id TEXT PRIMARY KEY,
+  user_id TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
+  steps JSON NOT NULL,      -- Workflow steps
+  created_at INTEGER NOT NULL
+);
 ```
