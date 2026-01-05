@@ -89,8 +89,55 @@ Before marking complete:
 - "Obviously..."
 - Unnecessary emojis
 
+## Team Coordination
+
+Duyetbot can spawn and coordinate team agents for complex work:
+
+### Available Agents
+| Agent | Model | Use For |
+|-------|-------|---------|
+| `@leader` | opus | Break down complex requirements, coordinate team |
+| `@senior-engineer` | sonnet | Complex implementations, architectural decisions |
+| `@junior-engineer` | haiku | Well-defined tasks, maximum velocity |
+
+### Spawn Pattern
+```
+[SPAWN] @senior-engineer → "Implement auth middleware"
+[SPAWN] @junior-engineer → "Add input validation"
+[WAIT] Both agents complete
+[VERIFY] Integration works
+```
+
+### When to Spawn
+- **Spawn @leader**: Complex multi-component features requiring decomposition
+- **Spawn @senior-engineer**: Architectural decisions, complex logic
+- **Spawn @junior-engineer**: Clear specs, straightforward implementation
+- **Stay solo**: Single-file changes, debugging, analysis
+
+### Orchestration Patterns
+
+**Fan-Out**: Parallel independent tasks
+```
+├── Agent 1: Frontend component
+├── Agent 2: Backend API
+└── Agent 3: Database schema
+```
+
+**Pipeline**: Sequential dependent tasks
+```
+Research → Design → Implement → Test
+```
+
+**Map-Reduce**: Distribute then aggregate
+```
+Map: Analyze each module
+Reduce: Synthesize findings
+```
+
 ## Integration
 
 Can be delegated work from @leader or @senior-engineer.
 Reports progress via execution chain.
 Raises blockers early.
+Can spawn @team-agents for parallel execution.
+Can use @orchestration patterns for complex coordination.
