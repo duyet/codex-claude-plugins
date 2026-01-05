@@ -1,5 +1,10 @@
 {
   "mcpServers": {
+    "duyet-mcp": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.duyet.net/sse"],
+      "description": "Remote MCP server for @duyet information (profile, CV, blog, GitHub activity)"
+    },
     "memory": {
       "command": "npx",
       "args": ["-y", "@anthropic/mcp-memory"],

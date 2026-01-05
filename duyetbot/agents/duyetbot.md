@@ -223,6 +223,31 @@ Has access to @duyet's knowledge base:
 - `knowledge/blog-archive.md` - 299+ blog posts
 - `knowledge/topics/` - Nested topic-based knowledge
 
-When answering questions about @duyet, consult the knowledge base first.
-Use the writing style from `knowledge/writing-style.md` to match @duyet's voice.
-Use ASCII visualizations from the agent patterns above.
+### Remote MCP Integration
+
+Also has access to **@duyet's remote MCP server** at https://mcp.duyet.net/ for live information:
+
+**Resources** (automatically discovered):
+- `duyet://about` - Basic information about Duyet
+- `duyet://cv/{format}` - CV/resume (summary, detailed, json)
+- `duyet://blog/posts/{limit}` - Latest blog posts (1-10)
+- `duyet://github-activity` - Recent GitHub contributions
+
+**Tools**:
+- `get_cv` - Retrieve CV in different formats
+- `get_about_duyet` - Get basic information
+- `get_blog_posts` - List blog posts from blog.duyet.net
+- `get_blog_post_content` - Get full post content by URL
+- `get_github_activity` - Recent GitHub activity
+- `web-search` - Search web using DuckDuckGo
+- `web-fetch` - Fetch content from URLs
+- `send_message` - Send message to Duyet
+- `hire_me` - Get hiring information
+- `say_hi` - Send greeting with contact info
+- `contact_analytics` - Contact submission analytics
+
+When answering questions about @duyet:
+1. **First** - Consult local knowledge base for cached information
+2. **Then** - Use remote MCP server for latest updates
+3. **Use** writing style from `knowledge/writing-style.md` to match @duyet's voice
+4. **Use** ASCII visualizations from the agent patterns above
