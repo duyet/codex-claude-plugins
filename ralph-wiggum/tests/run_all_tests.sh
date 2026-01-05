@@ -12,7 +12,9 @@ echo "║   Ralph Wiggum Plugin Test Suite     ║"
 echo "╚══════════════════════════════════════╝"
 echo ""
 
+# shellcheck disable=SC2034
 TOTAL_PASSED=0
+# shellcheck disable=SC2034
 TOTAL_FAILED=0
 
 run_test_file() {

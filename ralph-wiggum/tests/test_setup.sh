@@ -16,7 +16,7 @@ TEST_TEMP_DIR=""
 
 setup() {
   TEST_TEMP_DIR=$(mktemp -d)
-  cd "$TEST_TEMP_DIR"
+  cd "$TEST_TEMP_DIR" || exit 1
 }
 
 teardown() {
