@@ -16,6 +16,7 @@
 /plugin install commit@duyet-claude-plugins
 /plugin install statusline@duyet-claude-plugins
 /plugin install terminal-ui-design@duyet-claude-plugins
+/plugin install orchestration@duyet-claude-plugins
 ```
 
 ---
@@ -25,6 +26,7 @@
 | Plugin | Type | What it does |
 |--------|------|--------------|
 | [team-agents](#-team-agents) | Agent | Leader → parallel senior engineers |
+| [orchestration](#-orchestration) | Skill | Parallel agent coordination |
 | [frontend-design](#-frontend-design) | Skill | Beautiful UIs, not AI slop |
 | [ralph-wiggum](#-ralph-wiggum) | Hook | "Run until done" loop |
 | [interview](#-interview) | Skill | Socratic requirements discovery |
@@ -49,6 +51,26 @@ Leader:  Analyzes → Splits into 3 parallel tasks
 ```
 
 **When:** Multi-file features, complex refactoring, anything parallelizable
+
+---
+
+### 🎼 Orchestration
+**Conductor for parallel agent workstreams**
+
+```
+You:     "Review this PR and fix the tests"
+Claude:  Decomposes → Spawns parallel workers
+         ├── Agent 1: Code quality review
+         ├── Agent 2: Security analysis
+         ├── Agent 3: Fix failing tests
+         └── Synthesizes results elegantly
+```
+
+**Patterns:** Fan-Out · Pipeline · Map-Reduce · Speculative · Background
+
+**Domains:** 14 guides for Python, Rust, TypeScript, React, DevOps, and more
+
+**When:** Complex multi-step tasks, parallel investigations, comprehensive reviews
 
 ---
 
