@@ -10,13 +10,15 @@
 
 # Install plugins
 /plugin install team-agents@duyet-claude-plugins
-/plugin install frontend-design@duyet-claude-plugins
-/plugin install ralph-wiggum@duyet-claude-plugins
-/plugin install interview@duyet-claude-plugins
 /plugin install commit@duyet-claude-plugins
-/plugin install statusline@duyet-claude-plugins
 /plugin install terminal-ui-design@duyet-claude-plugins
+/plugin install ralph-wiggum@duyet-claude-plugins
+/plugin install frontend-design@duyet-claude-plugins
+/plugin install interview@duyet-claude-plugins
+/plugin install statusline@duyet-claude-plugins
 /plugin install orchestration@duyet-claude-plugins
+/plugin install duyetbot@duyet-claude-plugins
+/plugin install docs-generator@duyet-claude-plugins
 ```
 
 ---
@@ -25,139 +27,158 @@
 
 | Plugin | Type | What it does |
 |--------|------|--------------|
-| [team-agents](#-team-agents) | Agent | Leader → parallel senior engineers |
-| [orchestration](#-orchestration) | Skill | Parallel agent coordination |
-| [frontend-design](#-frontend-design) | Skill | Beautiful UIs, not AI slop |
-| [ralph-wiggum](#-ralph-wiggum) | Hook | "Run until done" loop |
-| [interview](#-interview) | Skill | Socratic requirements discovery |
-| [commit](#-commit) | Command | Semantic git commits |
-| [statusline](#-statusline) | Config | Live metrics in your terminal |
-| [terminal-ui-design](#-terminal-ui-design) | Skill | Stunning CLI/TUI aesthetics |
+| [👥 team-agents](#👥-team-agents) | Skill | Leader, Senior Engineer, and Junior Engi... |
+| [📝 commit](#📝-commit) | Command | Create a Git commit with semantic commit... |
+| [🎨 terminal-ui-design](#🎨-terminal-ui-design) | Skill | Create distinctive, production-grade ter... |
+| [🔄 ralph-wiggum](#🔄-ralph-wiggum) | Hook | Self-referential development loop for Cl... |
+| [🎨 frontend-design](#🎨-frontend-design) | Skill | Create distinctive, production-grade fro... |
+| [💬 interview](#💬-interview) | Command | Conduct in-depth requirements interviews... |
+| [📊 statusline](#📊-statusline) | Hook | Configurable status bar showing context ... |
+| [🎼 orchestration](#🎼-orchestration) | Skill | Orchestrator skill for managing parallel... |
+| [🤖 duyetbot](#🤖-duyetbot) | Skill | Pragmatic software development companion... |
+| [🎯 docs-generator](#🎯-docs-generator) | Hook | Automatically generate and maintain plug... |
+
 
 ---
 
 ## Plugin Details
 
-### 🎯 Team Agents
-**Parallel execution with coordination**
+### 👥 team-agents
 
-```
-You:     "Implement auth with OAuth2, JWT, and RBAC"
-Leader:  Analyzes → Splits into 3 parallel tasks
-         ├── Senior 1: OAuth flow
-         ├── Senior 2: JWT middleware
-         └── Senior 3: Role permissions
-         Reviews → Ensures quality
-```
-
-**When:** Multi-file features, complex refactoring, anything parallelizable
-
----
-
-### 🎼 Orchestration
-**Conductor for parallel agent workstreams**
-
-```
-You:     "Review this PR and fix the tests"
-Claude:  Decomposes → Spawns parallel workers
-         ├── Agent 1: Code quality review
-         ├── Agent 2: Security analysis
-         ├── Agent 3: Fix failing tests
-         └── Synthesizes results elegantly
-```
-
-**Patterns:** Fan-Out · Pipeline · Map-Reduce · Speculative · Background
-
-**Domains:** 14 guides for Python, Rust, TypeScript, React, DevOps, and more
-
-**When:** Complex multi-step tasks, parallel investigations, comprehensive reviews
-
----
-
-### 🎨 Frontend Design
-**UI that doesn't look like AI made it**
-
-```
-/frontend-design
-
-You:     "Create a dashboard"
-Claude:  Bold aesthetic → shadcn/ui → Recharts → Framer Motion
-         Result: Distinctive, not generic
-```
-
-**Stack:** shadcn/ui · Recharts · Tailwind · Framer Motion
-
----
-
-### 🔄 Ralph Wiggum
-**Self-healing development loop**
+**Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution**
 
 ```bash
-/ralph-loop "Build a REST API for todos. <promise>COMPLETE</promise> when done."
-
-# Claude works → exits → hook restarts → sees previous work → continues
-# Repeats until COMPLETE or max iterations
+  - `/leader`
 ```
 
-**Philosophy:** Iteration > perfection · Failures = data · Persistence wins
+**Components:**
 
-**When:** TDD, greenfield projects, tasks with clear success criteria
+Agents:
+  - **junior-engineer**
+  - **leader**
+  - **senior-engineer**
+
+Skills:
+  - **backend-api-patterns**
+  - **quality-gates**
+  - **react-nextjs-patterns**
+  - **task-decomposition**
+  - **typescript-patterns**
 
 ---
 
-### 💬 Interview
-**Ask before you build**
+### 📝 commit
+
+**Create a Git commit with semantic commit message format**
 
 ```bash
-/interview "user authentication with OAuth"
-/interview ./docs/feature-spec.md
+  - `/commit-and-push`: Create a git commit with semantic commit message format and push to remote
+  - `/commit`: Create a git commit with semantic commit message format
 ```
-
-Uncovers: edge cases · tradeoffs · hidden complexity · constraints
-
-**When:** Requirements unclear, before writing any code
 
 ---
 
-### 📝 Commit
-**Semantic commits, auto-generated**
+### 🎨 terminal-ui-design
+
+**Create distinctive, production-grade terminal user interfaces with high design quality**
+
+**Components:**
+
+Skills:
+  - **terminal-ui-design**
+
+---
+
+### 🔄 ralph-wiggum
+
+**Self-referential development loop for Claude Code. Run iterative tasks with automatic progress detection and circuit breaker safety.**
 
 ```bash
-/commit           # Analyze changes → generate message → commit
-/commit-and-push  # + push to remote
+  - `/cancel-ralph`: "Cancel active Ralph Wiggum loop"
+  - `/help`: "Explain Ralph Wiggum technique and available commands"
+  - `/ralph-loop`: "Start Ralph Wiggum loop in current session"
 ```
 
 ---
 
-### 📊 Statusline
-**Live metrics in your terminal**
+### 🎨 frontend-design
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ opus-4.5 │ Context: 43% │ 5h: 67% │ 7d: 23% │ main     │
-└─────────────────────────────────────────────────────────┘
-```
+**Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.**
+
+**Components:**
+
+Skills:
+  - **frontend-design**
+
+---
+
+### 💬 interview
+
+**Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding**
 
 ```bash
-/statusline:setup   # Interactive configuration
+  - `/interview`: Conduct in-depth requirements interview using Socratic questioning to clarify implementation details
 ```
-
-Formats: 1-line compact · 2-line detailed · 3-line full
 
 ---
 
-### 🖥️ Terminal UI Design
-**Beautiful CLIs and TUIs**
+### 📊 statusline
 
-```
-You:     "Create a CLI dashboard"
-Claude:  Aesthetic direction (cyberpunk? minimalist? retro?)
-         → Custom borders → Color palette → Animation patterns
-```
+**Configurable status bar showing context usage, API rate limits (5h/7d), git branch, and active tools. Supports 1/2/3 line layouts with smart hiding of empty values.**
 
-**Libraries:** Rich/Textual (Python) · Bubbletea (Go) · Ratatui (Rust) · Ink (Node)
+```bash
+  - `/config`
+  - `/disable`
+  - `/setup`
+```
 
 ---
+
+### 🎼 orchestration
+
+**Orchestrator skill for managing parallel agent workstreams. Transform complex requests into coordinated multi-agent execution with elegant result synthesis.**
+
+**Components:**
+
+Skills:
+  - **orchestration**
+
+---
+
+### 🤖 duyetbot
+
+**Pragmatic software development companion with engineering discipline and transparent execution. Spawns team-agents and uses orchestration patterns for parallel work.**
+
+```bash
+  - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
+  - `/learn`: Learn about @duyet and update knowledge base
+  - `/loop`: Duyetbot loop - iterative execution until task completion
+```
+
+**Components:**
+
+Agents:
+  - **duyetbot**
+
+Skills:
+  - **duyet-knowledge**
+  - **engineering-discipline**
+  - **task-loop**
+  - **team-coordination**
+  - **transparency**
+
+---
+
+### 🎯 docs-generator
+
+**Automatically generate and maintain plugin documentation (README.md, CLAUDE.md)**
+
+```bash
+  - `/generate-docs`: Manually trigger documentation generation for all plugins
+```
+
+---
+
 
 ## Manual Installation
 

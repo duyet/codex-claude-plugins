@@ -1,6 +1,6 @@
-# Duyetbot Plugin
+# Frontend-design Plugin
 
-Pragmatic software development companion with engineering discipline and transparent execution. Spawns team-agents and uses orchestration patterns for parallel work.
+Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.
 
 ## Versioning
 
@@ -23,9 +23,9 @@ Always update `plugin.json` version when making changes.
 ## Plugin Structure
 
 ```
-duyetbot/
+frontend-design/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.3.0)
+│   └── plugin.json          # Manifest (version 1.2.0)
 ├── agents/                      # Sub-agent definitions
 ├── commands/                    # Slash commands
 ├── skills/                      # Reusable knowledge
@@ -34,26 +34,9 @@ duyetbot/
 
 ## Components
 
-### Commands
-
-  - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
-  - `/learn`: Learn about @duyet and update knowledge base
-  - `/loop`: Duyetbot loop - iterative execution until task completion
-  - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
-  - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
-  - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
-
-### Agents
-
-  - **duyetbot**
-
 ### Skills
 
-  - **duyet-knowledge**
-  - **engineering-discipline**
-  - **task-loop**
-  - **team-coordination**
-  - **transparency**
+  - **frontend-design**
 
 
 ## Commit Convention
@@ -61,9 +44,9 @@ duyetbot/
 Use semantic commits with plugin scope:
 
 ```
-feat(duyetbot): add new feature
-fix(duyetbot): fix bug
-docs(duyetbot): update documentation
+feat(frontend-design): add new feature
+fix(frontend-design): fix bug
+docs(frontend-design): update documentation
 ```
 
 Co-author: `Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>`

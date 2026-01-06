@@ -1,0 +1,8 @@
+{
+  "name": "docs-generator",
+  "version": "1.0.0",
+  "description": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md)",
+  "author": {
+    "name": "duyet"
+  }
+}

@@ -1,6 +1,6 @@
-# Duyetbot Plugin
+# Team-agents Plugin
 
-Pragmatic software development companion with engineering discipline and transparent execution. Spawns team-agents and uses orchestration patterns for parallel work.
+Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution
 
 ## Versioning
 
@@ -23,9 +23,9 @@ Always update `plugin.json` version when making changes.
 ## Plugin Structure
 
 ```
-duyetbot/
+team-agents/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.3.0)
+│   └── plugin.json          # Manifest (version 1.6.0)
 ├── agents/                      # Sub-agent definitions
 ├── commands/                    # Slash commands
 ├── skills/                      # Reusable knowledge
@@ -36,24 +36,21 @@ duyetbot/
 
 ### Commands
 
-  - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
-  - `/learn`: Learn about @duyet and update knowledge base
-  - `/loop`: Duyetbot loop - iterative execution until task completion
-  - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
-  - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
-  - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
+  - `/leader`
 
 ### Agents
 
-  - **duyetbot**
+  - **junior-engineer**
+  - **leader**
+  - **senior-engineer**
 
 ### Skills
 
-  - **duyet-knowledge**
-  - **engineering-discipline**
-  - **task-loop**
-  - **team-coordination**
-  - **transparency**
+  - **backend-api-patterns**
+  - **quality-gates**
+  - **react-nextjs-patterns**
+  - **task-decomposition**
+  - **typescript-patterns**
 
 
 ## Commit Convention
@@ -61,9 +58,9 @@ duyetbot/
 Use semantic commits with plugin scope:
 
 ```
-feat(duyetbot): add new feature
-fix(duyetbot): fix bug
-docs(duyetbot): update documentation
+feat(team-agents): add new feature
+fix(team-agents): fix bug
+docs(team-agents): update documentation
 ```
 
 Co-author: `Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>`

@@ -48,6 +48,11 @@
       "name": "duyetbot",
       "source": "./duyetbot",
       "description": "Pragmatic software development companion with engineering discipline and transparent execution. Shows reasoning via execution chain, works in iterative loops."
+    },
+    {
+      "name": "docs-generator",
+      "source": "./docs-generator",
+      "description": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md) from plugin metadata"
     }
   ]
 }

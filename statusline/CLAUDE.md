@@ -1,113 +1,59 @@
-# Statusline Plugin Development Notes
+# Statusline Plugin
 
-> **IMPORTANT**: Keep this file updated when modifying the statusline script or commands!
+Configurable status bar showing context usage, API rate limits (5h/7d), git branch, and active tools. Supports 1/2/3 line layouts with smart hiding of empty values.
 
-## Architecture
+## Versioning
 
-The statusline has two components:
-1. **Plugin commands** (`commands/*.md`) - Claude Code plugin commands
-2. **Shell script** (`~/.claude/statusline-command.sh`) - The actual renderer called by Claude Code
+Follow semantic versioning (semver) for this plugin:
 
-The shell script is configured in `~/.claude/settings.json`:
-```json
-{
-  "statusLine": {
-    "type": "command",
-    "command": "/Users/duet/.claude/statusline-command.sh"
-  }
-}
+| Change Type | Version Bump | Example |
+|-------------|--------------|---------|
+| Bug fix, docs | Patch | 1.0.0 → 1.0.1 |
+| New feature, minor change | Minor | 1.0.0 → 1.1.0 |
+| Breaking change | Major | 1.0.0 → 2.0.0 |
+
+**When to bump:**
+- Adding new commands, skills, or agents → **Minor**
+- Modifying existing behavior → **Minor** (or Major if breaking)
+- Updating documentation only → **Patch**
+- Bug fixes → **Patch**
+
+Always update `plugin.json` version when making changes.
+
+## Plugin Structure
+
+```
+statusline/
+├── .claude-plugin/
+│   └── plugin.json          # Manifest (version 1.4.0)
+├── agents/                      # Sub-agent definitions
+├── commands/                    # Slash commands
+├── skills/                      # Reusable knowledge
+└── hooks/hooks.json             # Lifecycle hooks (optional)
 ```
 
-## Data Sources
+## Components
 
-The script gets data from two sources:
+### Commands
 
-1. **Stdin (real-time)** - Claude Code pipes JSON on every render:
-   - `context_window.total_input_tokens` - cumulative tokens
-   - `context_window.current_usage.*` - current context usage
-   - `model.id` - model name (e.g., "claude-opus-4-5-20251101")
-   - `workspace.current_dir` - working directory
-   - `version` - Claude Code version
+  - `/config`
+  - `/disable`
+  - `/setup`
+  - `/status`
 
-2. **API fetch (cached)** - Fetches from Anthropic OAuth API:
-   - 5-hour usage percentage
-   - 7-day usage percentage
-   - Reset timer
-   - **Cached for 60 seconds** (configurable via `USAGE_CACHE_TTL`)
 
-## Configuration
+## Commit Convention
 
-Config file: `~/.claude/statusline.config.json`
+Use semantic commits with plugin scope:
 
-```json
-{
-  "line_format": "1" | "2" | "3",
-  "show_context": true,
-  "show_rate_limits": true,
-  "show_git_branch": true,
-  "show_tools": true,
-  "color_style": "colorful" | "minimal" | "plain"
-}
+```
+feat(statusline): add new feature
+fix(statusline): fix bug
+docs(statusline): update documentation
 ```
 
-## Testing
+Co-author: `Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>`
 
-Run the test suite:
-```bash
-bash statusline/scripts/test-statusline.sh
-```
+---
 
-### Manual Testing
-
-```bash
-# With full context data
-DEBUG_STATUSLINE=1 echo '{"workspace":{"current_dir":"/test"},"model":{"id":"claude-opus-4-5-20251101"},"version":"2.0.76","context_window":{"total_input_tokens":43000,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
-
-# Test null current_usage (should show 0%, not fallback to total_input_tokens)
-echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000,"current_usage":null}}' | ~/.claude/statusline-command.sh
-
-# Test no context data (should hide context line)
-echo '{"context_window":{"total_input_tokens":0,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
-
-# Test line formats
-echo '{"line_format":"1"}' > ~/.claude/statusline.config.json
-echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
-
-echo '{"line_format":"2"}' > ~/.claude/statusline.config.json
-echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
-
-echo '{"line_format":"3"}' > ~/.claude/statusline.config.json
-echo '{"context_window":{"total_input_tokens":43000,"context_window_size":200000}}' | ~/.claude/statusline-command.sh
-```
-
-## Environment Variables
-
-- `DEBUG_STATUSLINE=1` - Show diagnostic output to stderr
-- `SKIP_RATE_LIMITS=1` - Skip API fetch (for testing)
-- `USAGE_CACHE_TTL=60` - Cache TTL in seconds (default: 60)
-
-## Key Behaviors
-
-1. **Context source**: Uses `current_usage` only (real-time). Does NOT fall back to `total_input_tokens` because it's cumulative and doesn't reset on `/clear`
-2. **Hide empty values**: Doesn't show "Context: 0%", "Tools: None", "Agents: None", "Tasks: No tasks"
-3. **Line format**: Configurable 1/2/3 line display via config file
-4. **API caching**: Usage data cached for 60s to avoid repeated API calls
-5. **Model formatting**: "claude-opus-4-5-20251101" → "opus-4.5"
-
-## Cache Files
-
-- `~/.claude/statusline.config.json` - User configuration
-- `~/.claude/statusline-usage-cache.json` - Cached API usage data (auto-generated)
-
-## Commands
-
-- `/statusline:setup` - Interactive setup wizard
-- `/statusline:status` - Show current metrics
-- `/statusline:config` - Quick format change
-- `/statusline:disable` - Disable statusline
-
-## Known Issues
-
-- Rate limit API requires proper OAuth scope; may show "re-login needed" if token lacks permission
-- `current_usage` may be null on first message of session (falls back to total_input_tokens)
-- macOS uses `stat -f %m`, Linux uses `stat -c %Y` for cache age check
+**Generated by docs-generator v1.0.0**

@@ -217,15 +217,7 @@ Can use @orchestration patterns for complex coordination.
 
 ## Knowledge Access
 
-Has access to @duyet's knowledge base:
-- `knowledge/duyet-profile.md` - Profile and work experience
-- `knowledge/writing-style.md` - Writing patterns to mirror
-- `knowledge/blog-archive.md` - 299+ blog posts
-- `knowledge/topics/` - Nested topic-based knowledge
-
-### Remote MCP Integration
-
-Also has access to **@duyet's remote MCP server** at https://mcp.duyet.net/ for live information:
+Has access to **@duyet's remote MCP server** at https://mcp.duyet.net/ for live information:
 
 **Resources** (automatically discovered):
 - `duyet://about` - Basic information about Duyet
@@ -247,7 +239,5 @@ Also has access to **@duyet's remote MCP server** at https://mcp.duyet.net/ for 
 - `contact_analytics` - Contact submission analytics
 
 When answering questions about @duyet:
-1. **First** - Consult local knowledge base for cached information
-2. **Then** - Use remote MCP server for latest updates
-3. **Use** writing style from `knowledge/writing-style.md` to match @duyet's voice
-4. **Use** ASCII visualizations from the agent patterns above
+1. **Use** the remote MCP server for latest information
+2. **Use** ASCII visualizations from the agent patterns above for clarity
