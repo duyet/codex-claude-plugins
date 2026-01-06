@@ -53,6 +53,11 @@
       "name": "docs-generator",
       "source": "./docs-generator",
       "description": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md) from plugin metadata"
+    },
+    {
+      "name": "github",
+      "source": "./github",
+      "description": "GitHub operations using gh CLI - PRs, workflows, issues, repositories, and smart branch detection for implementation workflows"
     }
   ]
 }
