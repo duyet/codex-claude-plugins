@@ -2,6 +2,8 @@
 
 Enables autonomous overnight task execution through Ralph Wiggum loop integration.
 
+**Note**: Duyetbot includes its own copies of Ralph Wiggum scripts for reliable operation. The ralph-loop-setup.sh and ralph-stop-hook.sh are bundled with duyetbot.
+
 ## Overview
 
 Ralph Wiggum loop provides automated iteration management:

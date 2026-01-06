@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/../ralph-wiggum/hooks/stop-hook.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/ralph-stop-hook.sh"
           }
         ]
       }

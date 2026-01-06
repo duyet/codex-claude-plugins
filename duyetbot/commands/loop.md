@@ -10,7 +10,7 @@ Execute iteratively until complete: `$ARGUMENTS`
 **Ralph Integration**: This command activates Ralph Wiggum loop for autonomous execution, allowing tasks to continue overnight without human intervention.
 
 ```!
-"${CLAUDE_PLUGIN_ROOT}/../ralph-wiggum/scripts/setup-ralph-loop.sh" $ARGUMENTS
+"${CLAUDE_PLUGIN_ROOT}/scripts/ralph-loop-setup.sh" $ARGUMENTS
 ```
 
 ## Loop Protocol
