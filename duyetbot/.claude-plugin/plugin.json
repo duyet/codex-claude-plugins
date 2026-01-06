@@ -1,7 +1,7 @@
 {
   "name": "duyetbot",
-  "description": "Pragmatic software development companion with engineering discipline and transparent execution. Spawns team-agents and uses orchestration patterns for parallel work.",
-  "version": "1.3.0",
+  "description": "Pragmatic software development companion with engineering discipline, transparent execution, and autonomous overnight execution via Ralph Wiggum loop integration.",
+  "version": "1.5.0",
   "author": {
     "name": "duyet"
   }

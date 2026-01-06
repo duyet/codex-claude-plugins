@@ -19,6 +19,7 @@
 /plugin install orchestration@duyet-claude-plugins
 /plugin install duyetbot@duyet-claude-plugins
 /plugin install docs-generator@duyet-claude-plugins
+/plugin install github@duyet-claude-plugins
 ```
 
 ---
@@ -37,6 +38,7 @@
 | [🎼 orchestration](#🎼-orchestration) | Skill | Orchestrator skill for managing parallel... |
 | [🤖 duyetbot](#🤖-duyetbot) | Skill | Pragmatic software development companion... |
 | [🎯 docs-generator](#🎯-docs-generator) | Hook | Automatically generate and maintain plug... |
+| [🐙 github](#🐙-github) | Skill | GitHub operations using gh CLI - PRs, is... |
 
 
 ---
@@ -176,6 +178,21 @@ Skills:
 ```bash
   - `/generate-docs`: Manually trigger documentation generation for all plugins
 ```
+
+---
+
+### 🐙 github
+
+**GitHub operations using gh CLI - PRs, issues, workflows, repositories, releases, and smart branch detection for implementation workflows**
+
+**Components:**
+
+Skills:
+  - **github**
+
+---
+
+
 
 ---
 
