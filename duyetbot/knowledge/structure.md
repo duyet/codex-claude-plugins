@@ -4,30 +4,18 @@
 
 ```
 knowledge/
-├── README.md                    # This file - structure overview
+├── structure.md                 # This file - structure overview
 ├── duyet-profile.md             # Main profile, work, skills
 ├── writing-style.md             # Writing patterns for duyetbot
 ├── blog-archive.md              # Blog posts by year/topic
-├── _raw_data.txt                # Fetched llms.txt data
+├── _raw_data.txt                # Fetched llms.txt data (source)
 │
-└── topics/                      # Nested topic-based knowledge
-    ├── README.md                # Topic index
-    ├── clickhouse/              # ClickHouse specific
-    │   ├── overview.md
-    │   ├── on-kubernetes.md
-    │   └── best-practices.md
-    ├── rust/                    # Rust programming
-    │   ├── overview.md
-    │   ├── data-engineering.md
-    │   └── design-patterns.md
-    ├── data-engineering/        # Data Engineering
-    │   ├── overview.md
-    │   ├── apache-spark.md
-    │   └── airflow.md
-    ├── devops/                  # DevOps & Cloud
-    │   ├── kubernetes.md
-    │   └── ci-cd.md
-    └── side-projects/           # Personal projects
+└── topics/                      # Topic-based knowledge
+    ├── clickhouse-monitoring/   # ClickHouse monitoring dashboard
+    │   └── overview.md
+    ├── duyet-mcp-server/        # Personal MCP server
+    │   └── overview.md
+    └── duyetbot-agent/          # This agent plugin
         └── overview.md
 ```
 
@@ -67,25 +55,23 @@ Source code: [github.com/duyet/repo-name](https://github.com/duyet/repo-name)
 
 | Trigger | Action | Location |
 |---------|--------|----------|
-| New blog series | Create topic folder | `topics/{series-name}/` |
+| New project | Create topic folder | `topics/{project-name}/` |
 | New job | Update profile | `duyet-profile.md` |
-| New project | Add to projects | `topics/side-projects/` |
 | New tech focus | Create topic | `topics/{topic}/` |
 | Quarterly review | Refresh all | All files |
 
 ## Naming Conventions
 
 - **Files**: `kebab-case.md`
-- **Topics**: Lowercase directory names
-- **Series**: Match blog series naming
-- **Years**: For chronological organization
+- **Topics**: Lowercase with hyphens for multi-word names
+- **Project topics**: `{project-name}/` matching repository name
 
 ## Frontmatter Template
 
 ```markdown
 # Title
 
-> **Type**: {profile|blog|topic|guide}
+> **Type**: {profile|project|topic|guide}
 > **Last Updated**: YYYY-MM-DD
 > **Source**: {url|internal}
 > **Related**: [link1](path), [link2](path)
@@ -96,11 +82,9 @@ Source code: [github.com/duyet/repo-name](https://github.com/duyet/repo-name)
 ## Maintenance
 
 ```bash
-# Check for broken links
-# (Add markdown linting tool later)
-
-# Find orphaned files
-# (Add script later)
+# Update knowledge base
+cd /Users/duet/project/claude-plugins/duyetbot
+./scripts/fetch-duyet-data.sh
 
 # Update timestamps
 grep -r "Last Updated" knowledge/
@@ -108,4 +92,4 @@ grep -r "Last Updated" knowledge/
 
 ---
 
-**Design Principle**: Flat structure where possible, nested by topic when depth is needed. Each file should be independently useful but link to related content.
+**Design Principle**: Flat structure with topic-based organization. Each file independently useful with cross-references to related content.

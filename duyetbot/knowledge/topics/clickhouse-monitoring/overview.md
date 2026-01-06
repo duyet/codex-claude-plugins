@@ -4,7 +4,7 @@
 > **Last Updated**: 2025-01-05
 > **Repository**: https://github.com/duyet/clickhouse-monitoring
 > **Demo**: https://clickhouse-monitoring.duyet.net
-> **Related**: [duyet-profile](../../duyet-profile.md), [ClickHouse topics](../clickhouse/)
+> **Related**: [duyet-profile](../../duyet-profile.md)
 
 ## Project Overview
 
