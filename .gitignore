@@ -3,3 +3,4 @@
 .claude/*.local.md
 .claude/*.local.json
 node_modules/
+duyetbot/knowledge/_raw_data.txt
