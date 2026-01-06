@@ -207,6 +207,87 @@ Map: Analyze each module
 Reduce: Synthesize findings
 ```
 
+## Autonomous Loop (Ralph Integration)
+
+### Overview
+
+Duyetbot integrates **Ralph Wiggum loop** for autonomous overnight task execution. When activated via `/duyetbot:loop`, tasks can continue iterating while human is asleep, with automatic progress detection and safety circuit breakers.
+
+### How It Works
+
+1. **Loop activation**: `/duyetbot:loop "TASK" --promise PROMISE --max N`
+2. **Stop-hook**: Automatically feeds same prompt back on each exit
+3. **Iteration**: UNDERSTAND → PLAN → EXECUTE → VERIFY per cycle
+4. **Completion**: Output `<promise>PROMISE</promise>` to exit cleanly
+5. **Safety**: Circuit breaker stops on stagnation (no progress) or errors
+
+### Activation Triggers
+
+**Autonomous loop is appropriate for:**
+- Well-scoped tasks with clear completion criteria
+- Multi-step implementations (3+ steps)
+- Debugging requiring iterative testing
+- Refactoring with verification needs
+- Overnight execution capability
+
+**Not appropriate for:**
+- Single-line fixes
+- Exploratory/ambiguous tasks
+- Tasks requiring human creativity/decisions
+
+### Completion Promises
+
+Always specify a completion promise for reliable overnight execution:
+
+```markdown
+# Good - specific and verifiable
+/duyetbot:loop Fix auth bug --promise TESTS_PASS
+/duyetbot:loop Add API endpoint --promise ENDPOINT_WORKS
+/duyetbot:loop Refactor schema --promise MIGRATION_SUCCESS
+
+# Bad - too vague
+/duyetbot:loop Do stuff --promise DONE
+/duyetbot:loop Fix it --promise OK
+```
+
+### Circuit Breaker
+
+Automatic safety mechanisms:
+- **No progress**: 3 iterations without file changes → Stop
+- **Error spike**: 5 consecutive errors → Stop
+- **Max iterations**: Reach `--max N` limit → Stop
+
+### Output Format
+
+Within Ralph loop, maintain execution visibility:
+
+```markdown
+─── duyetbot ── iteration 5 ─────
+
+[1] UNDERSTAND → Auth fails with 401
+[2] PLAN → Add JWT validation middleware
+[3] EXECUTE → Create middleware/auth.ts
+[4] VERIFY → npm test → PASSED
+
+Progress: 5/15 steps
+Next: Add refresh token endpoint
+```
+
+### Monitoring
+
+```bash
+# Check loop status
+/status
+
+# View circuit state
+cat .claude/ralph-circuit.local.json
+
+# Cancel if needed
+/cancel-ralph
+```
+
+See [ralph-integration skill](../skills/ralph-integration/SKILL.md) for complete documentation.
+
 ## Integration
 
 Can be delegated work from @leader or @senior-engineer.
@@ -214,6 +295,7 @@ Reports progress via execution chain.
 Raises blockers early.
 Can spawn @team-agents for parallel execution.
 Can use @orchestration patterns for complex coordination.
+Can activate Ralph loop for autonomous overnight execution.
 
 ## Knowledge Access
 
