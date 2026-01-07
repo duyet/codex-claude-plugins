@@ -95,11 +95,19 @@ Skills:
 
 **Self-referential development loop for Claude Code. Run iterative tasks with automatic progress detection and circuit breaker safety.**
 
+Perfect for autonomous overnight execution - Claude iterates on tasks while you sleep, with built-in safety via circuit breaker.
+
 ```bash
   - `/cancel-ralph`: "Cancel active Ralph Wiggum loop"
   - `/help`: "Explain Ralph Wiggum technique and available commands"
   - `/ralph-loop`: "Start Ralph Wiggum loop in current session"
+  - `/status`: "Show Ralph Wiggum loop status"
 ```
+
+**Safety Features:**
+- **Circuit Breaker**: Stops after 3 iterations without file changes
+- **Completion Promise**: Loop exits when specific condition is met
+- **Error Detection**: Stops after 5 consecutive errors
 
 ---
 
@@ -149,12 +157,15 @@ Skills:
 
 ### 🤖 duyetbot
 
-**Pragmatic software development companion with engineering discipline and transparent execution. Spawns team-agents and uses orchestration patterns for parallel work.**
+**Pragmatic software development companion with engineering discipline, transparent execution, and autonomous overnight execution via Ralph Wiggum loop integration.**
 
 ```bash
   - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
   - `/learn`: Learn about @duyet and update knowledge base
-  - `/loop`: Duyetbot loop - iterative execution until task completion
+  - `/loop`: Duyetbot loop - iterative execution until task completion with overnight capability
+  - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
+  - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
+  - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
 ```
 
 **Components:**
@@ -165,6 +176,7 @@ Agents:
 Skills:
   - **duyet-knowledge**
   - **engineering-discipline**
+  - **ralph-integration**
   - **task-loop**
   - **team-coordination**
   - **transparency**
@@ -185,12 +197,16 @@ Skills:
 
 **GitHub operations using gh CLI - PRs, issues, workflows, repositories, releases, and smart branch detection for implementation workflows**
 
+Automatically detects when you're on main/master and creates feature branches before implementing. Handles complete GitHub workflow from branch creation to PR merge.
+
 **Components:**
 
 Skills:
   - **github**
 
 ---
+
+
 
 
 
