@@ -2,6 +2,8 @@
 
 > Extend Claude Code with specialized agents, commands, and skills.
 
+A collection of production-quality plugins for Claude Code, including autonomous agents, workflow automation, and developer tools.
+
 ## Quick Install
 
 ```bash
@@ -20,6 +22,30 @@
 /plugin install duyetbot@duyet-claude-plugins
 /plugin install docs-generator@duyet-claude-plugins
 /plugin install github@duyet-claude-plugins
+```
+
+## Usage Examples
+
+### Autonomous Overnight Execution
+```bash
+# Start duyetbot loop for overnight work
+/duyetbot:loop Implement user authentication with JWT --promise TESTS_PASS
+
+# Claude will iterate while you sleep, stopping when tests pass
+```
+
+### Parallel Team Execution
+```bash
+# Delegate to team agents for parallel work
+/duyetbot:spawn Implement the frontend dashboard
+# Leader coordinates senior + junior engineers working in parallel
+```
+
+### Smart GitHub Workflow
+```bash
+# Automatically creates feature branch from main
+/gh-pr create "Add user settings page"
+# Detects main/master, creates feature/X branch, implements, creates PR
 ```
 
 ---
@@ -247,4 +273,13 @@ Update `marketplace.json` → PR → Done
 
 ---
 
-MIT License
+## License
+
+MIT License - See individual plugin directories for details.
+
+## Links
+
+- [Report Issues](https://github.com/duyet/claude-plugins/issues)
+- [Request Features](https://github.com/duyet/claude-plugins/issues/new?template=feature_request.md)
+
+---
