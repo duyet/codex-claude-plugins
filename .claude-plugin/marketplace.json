@@ -58,6 +58,11 @@
       "name": "github",
       "source": "./github",
       "description": "GitHub operations using gh CLI - PRs, workflows, issues, repositories, and smart branch detection for implementation workflows"
+    },
+    {
+      "name": "fix",
+      "source": "./fix",
+      "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution. Supports Python, Node/TS, Rust, and Go projects."
     }
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "name": "fix",
+  "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
+  "version": "1.0.0",
+  "author": {
+    "name": "duyet"
+  }
+}

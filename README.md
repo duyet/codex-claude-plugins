@@ -22,6 +22,7 @@ A collection of production-quality plugins for Claude Code, including autonomous
 /plugin install duyetbot@duyet-claude-plugins
 /plugin install docs-generator@duyet-claude-plugins
 /plugin install github@duyet-claude-plugins
+/plugin install fix@duyet-claude-plugins
 ```
 
 ## Usage Examples
@@ -57,6 +58,7 @@ A collection of production-quality plugins for Claude Code, including autonomous
 | [🤖 duyetbot](#🤖-duyetbot) | Skill | Pragmatic software development companion... |
 | [🎯 docs-generator](#🎯-docs-generator) | Hook | Automatically generate and maintain plug... |
 | [🐙 github](#🐙-github) | Skill | GitHub operations using gh CLI - PRs, is... |
+| [🔧 fix](#🔧-fix) | Command | Fix issues, tests, and CI failures with ... |
 
 
 ---
@@ -218,6 +220,31 @@ Automatically detects when you're on main/master and creates feature branches be
 
 Skills:
   - **github**
+
+---
+
+### 🔧 fix
+
+**Fix issues, tests, and CI failures with intelligent problem detection and resolution**
+
+Auto-detects project type and runs appropriate checks. Spawns parallel agents for complex multi-file fixes.
+
+```bash
+  - `/fix:and-push`: Fix issues, commit, and push to remote
+  - `/fix:and-update-pr`: Fix issues and update existing PR
+  - `/fix:and-create-pr`: Fix issues and create new PR
+```
+
+**Supported Projects:**
+- Python (pytest, ruff, mypy)
+- Node/TypeScript (jest, vitest, eslint, tsc)
+- Rust (cargo test, clippy)
+- Go (go test, golint)
+
+**Components:**
+
+Skills:
+  - **test-detection**
 
 ---
 
