@@ -38,7 +38,6 @@ duyetbot/
 
   - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
   - `/learn`: Learn about @duyet and update knowledge base
-  - `/loop`: Duyetbot loop - iterative execution until task completion
   - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
   - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
   - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
@@ -51,7 +50,6 @@ duyetbot/
 
   - **duyet-knowledge**
   - **engineering-discipline**
-  - **task-loop**
   - **team-coordination**
   - **transparency**
 

@@ -8,7 +8,7 @@ A pragmatic software development companion for Claude Code with knowledge about 
 
 Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 
-1. **Loop-based simplicity** - Iterative cycles, not complex routing
+1. **Simplicity** - Clear methodical approach, not complex routing
 2. **Transparency** - Every step visible via execution chain
 3. **Engineering discipline** - No shortcuts, no hacks
 4. **Friendly & helpful** - Approachable with visual explanations
@@ -27,7 +27,6 @@ Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 |---------|-------------|
 | `/duyetbot [task]` | Main interaction |
 | `/duyetbot:think [problem]` | Deep structured analysis |
-| `/duyetbot:loop [task] [--promise TEXT] [--max N]` | Autonomous iterative execution with overnight capability |
 | `/duyetbot:spawn [task]` | Delegate to team agents |
 | `/duyetbot:orchestrate [task]` | Coordinate parallel workstreams |
 | `/learn <url|topic>` | Learn about @duyet and update knowledge |
@@ -38,25 +37,6 @@ Based on [duyetbot-agent](https://github.com/duyet/duyetbot-agent):
 ```
 /duyetbot Fix the auth bug in auth.ts
 ```
-
-### Autonomous Loop (Overnight Execution)
-```
-# Basic autonomous loop
-/duyetbot:loop Implement user authentication
-
-# With completion promise (recommended for overnight)
-/duyetbot:loop Fix the bug --promise TESTS_PASS
-
-# Max iterations for safety
-/duyetbot:loop Refactor database --max 50 --promise REFACTOR_COMPLETE
-```
-
-**How it works:**
-1. Activates Ralph Wiggum loop with automatic stop-hook
-2. Iterates through: UNDERSTAND → PLAN → EXECUTE → VERIFY
-3. Continues overnight while human is asleep
-4. Completes when `<promise>TAG</promise>` is output
-5. Safety: Circuit breaker stops on stagnation (3 no-progress) or errors (5 consecutive)
 
 ### Deep Analysis
 ```
@@ -161,9 +141,7 @@ Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>"
 |-------|---------|
 | `engineering-discipline` | Quality gates, no shortcuts |
 | `transparency` | Execution chain visibility |
-| `task-loop` | Iterative methodology |
 | `team-coordination` | Spawn and coordinate agents |
-| `ralph-integration` | Autonomous overnight execution via Ralph Wiggum loop |
 | `duyet-knowledge` | Maintain @duyet knowledge base |
 
 ## Team Integration
@@ -206,25 +184,20 @@ And use **@orchestration** patterns:
 ```
 duyetbot/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.4.0)
+│   └── plugin.json          # Manifest
 ├── .mcp.json                # MCP server configuration
-├── hooks/
-│   └── hooks.json           # Ralph Wiggum stop-hook integration
 ├── agents/
-│   └── duyetbot.md          # Agent definition with Ralph integration
+│   └── duyetbot.md          # Agent definition
 ├── commands/
 │   ├── duyetbot.md
 │   ├── think.md
-│   ├── loop.md              # Updated: invokes Ralph setup
 │   ├── spawn.md
 │   ├── orchestrate.md
 │   └── learn.md
 ├── skills/
 │   ├── engineering-discipline/
 │   ├── transparency/
-│   ├── task-loop/
 │   ├── team-coordination/
-│   ├── ralph-integration/   # NEW: Autonomous loop best practices
 │   └── duyet-knowledge/
 ├── knowledge/
 │   ├── duyet-profile.md
@@ -242,13 +215,11 @@ duyetbot/
 
 ## Changelog
 
-### 1.5.0
-- Integrate Ralph Wiggum loop for autonomous overnight execution
-- Add `ralph-integration` skill with best practices
-- Add hooks/ for Ralph stop-hook integration
-- Update `/loop` command with `--promise` and `--max` support
-- Agent can now iterate overnight while human sleeps
-- Circuit breaker safety (no progress, error detection)
+### 1.6.0
+- Remove `/duyetbot:loop` command
+- Remove Ralph Wiggum integration
+- Remove `task-loop` and `ralph-integration` skills
+- Simplified description to focus on transparent execution
 
 ### 1.4.0
 - Consolidate knowledge base structure (remove empty nested directory)

@@ -26,14 +26,6 @@ A collection of production-quality plugins for Claude Code, including autonomous
 
 ## Usage Examples
 
-### Autonomous Overnight Execution
-```bash
-# Start duyetbot loop for overnight work
-/duyetbot:loop Implement user authentication with JWT --promise TESTS_PASS
-
-# Claude will iterate while you sleep, stopping when tests pass
-```
-
 ### Parallel Team Execution
 ```bash
 # Delegate to team agents for parallel work
@@ -183,12 +175,11 @@ Skills:
 
 ### 🤖 duyetbot
 
-**Pragmatic software development companion with engineering discipline, transparent execution, and autonomous overnight execution via Ralph Wiggum loop integration.**
+**Pragmatic software development companion with engineering discipline and transparent execution.**
 
 ```bash
   - `/duyetbot`: Summon duyetbot - pragmatic software development companion with transparent execution
   - `/learn`: Learn about @duyet and update knowledge base
-  - `/loop`: Duyetbot loop - iterative execution until task completion with overnight capability
   - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
   - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
   - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
@@ -202,8 +193,6 @@ Agents:
 Skills:
   - **duyet-knowledge**
   - **engineering-discipline**
-  - **ralph-integration**
-  - **task-loop**
   - **team-coordination**
   - **transparency**
 
