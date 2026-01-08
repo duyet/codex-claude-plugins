@@ -94,8 +94,9 @@ Skills:
 **Create a Git commit with semantic commit message format**
 
 ```bash
-  - `/commit-and-push`: Create a git commit with semantic commit message format and push to remote
-  - `/commit`: Create a git commit with semantic commit message format
+  - `/commit:commit`: Create a git commit with semantic commit message format
+  - `/commit:and-push`: Commit and push to remote
+  - `/commit:and-create-pr`: Commit, push, and create a pull request
 ```
 
 ---

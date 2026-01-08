@@ -25,7 +25,7 @@ Always update `plugin.json` version when making changes.
 ```
 commit/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.1.0)
+│   └── plugin.json          # Manifest (version 1.2.0)
 ├── agents/                      # Sub-agent definitions
 ├── commands/                    # Slash commands
 ├── skills/                      # Reusable knowledge
@@ -36,8 +36,9 @@ commit/
 
 ### Commands
 
-  - `/commit-and-push`: Create a git commit with semantic commit message format and push to remote
-  - `/commit`: Create a git commit with semantic commit message format
+  - `/commit:commit`: Create a git commit with semantic commit message format
+  - `/commit:and-push`: Create a git commit with semantic commit message format and push to remote
+  - `/commit:and-create-pr`: Create a git commit with semantic commit message format and create a pull request
 
 
 ## Commit Convention
