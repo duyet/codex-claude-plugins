@@ -29,15 +29,25 @@ Claude will:
 4. Create an appropriate semantic commit message
 5. Stage changes and commit
 
-### `/commit:commit-and-push`
+### `/commit:and-push`
 
 Create a semantic commit and push to remote.
 
 ```bash
-/commit:commit-and-push
+/commit:and-push
 ```
 
 Same as `/commit:commit`, but also pushes the commit to the remote repository.
+
+### `/commit:and-create-pr`
+
+Create a semantic commit, push to remote, and create a pull request.
+
+```bash
+/commit:and-create-pr
+```
+
+Same as `/commit:and-push`, but also creates a pull request after pushing.
 
 ## Commit Format
 
@@ -74,11 +84,12 @@ test(user): add unit tests for profile validation
 ```
 commit/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin manifest
+│   └── plugin.json       # Plugin manifest
 ├── commands/
-│   ├── commit.md             # Commit command definition
-│   └── commit-and-push.md    # Commit and push command definition
-└── README.md                 # This file
+│   ├── commit.md         # Commit command
+│   ├── and-push.md       # Commit and push command
+│   └── and-create-pr.md  # Commit, push, and create PR command
+└── README.md             # This file
 ```
 
 ## Tips
@@ -90,9 +101,18 @@ commit/
 
 ## Changelog
 
+### [1.2.1] - 2025-01-10
+
+- **Changed**: Renamed `/commit:commit-and-push` to `/commit:and-push` for consistency
+- **Added**: Documentation for `/commit:and-create-pr` command
+
+### [1.2.0] - 2025-01-09
+
+- **Added**: `/commit:and-create-pr` command for committing, pushing, and creating PR in one operation
+
 ### [1.1.0] - 2025-01-03
 
-- **Added**: `/commit:commit-and-push` command for committing and pushing in one operation
+- **Added**: `/commit:and-push` command for committing and pushing in one operation
 - **Changed**: Plugin renamed from `commit-commands` to `commit` for shorter invocation
 
 ### [1.0.0] - Initial Release

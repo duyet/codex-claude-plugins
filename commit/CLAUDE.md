@@ -25,7 +25,7 @@ Always update `plugin.json` version when making changes.
 ```
 commit/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.2.0)
+│   └── plugin.json          # Manifest (version 1.2.1)
 ├── agents/                      # Sub-agent definitions
 ├── commands/                    # Slash commands
 ├── skills/                      # Reusable knowledge
