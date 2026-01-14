@@ -1,0 +1,23 @@
+{
+  "name": "prompt-engineering",
+  "description": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
+  "version": "1.0.0",
+  "author": {
+    "name": "duyetbot",
+    "email": "duyetbot@users.noreply.github.com"
+  },
+  "skills": [
+    {
+      "name": "grok-prompting",
+      "description": "Prompt engineering guidance for Grok (xAI) model with conversational prompting patterns and real-time knowledge integration"
+    },
+    {
+      "name": "claude-prompting",
+      "description": "Prompt engineering guidance for Claude (Anthropic) model with XML-style tags, long-context optimization, and extended thinking"
+    },
+    {
+      "name": "gemini-prompting",
+      "description": "Prompt engineering guidance for Gemini (Google) model with system instructions, multimodal prompting, and ultra-long context"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ Always update `plugin.json` version when making changes.
 ```
 duyetbot/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.3.0)
+│   └── plugin.json          # Manifest (version 1.7.0)
 ├── agents/                      # Sub-agent definitions
 ├── commands/                    # Slash commands
 ├── skills/                      # Reusable knowledge
@@ -41,6 +41,7 @@ duyetbot/
   - `/orchestrate`: Duyetbot orchestrate - coordinate parallel agent workstreams for complex tasks
   - `/spawn`: Duyetbot spawn - delegate tasks to team agents for parallel execution
   - `/think`: Duyetbot deep thinking - structured problem analysis with visible reasoning
+  - `/writing`: Review and rewrite content to match @duyet's writing style
 
 ### Agents
 
