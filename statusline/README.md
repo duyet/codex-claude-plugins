@@ -162,7 +162,6 @@ MIT License — see LICENSE file
 
 - **[team-agents](../team-agents)** — Coordinated parallel task execution
 - **[commit](../commit)** — Semantic Git commit automation
-- **[ralph-wiggum](../ralph-wiggum)** — Self-referential development loops
 
 ---
 

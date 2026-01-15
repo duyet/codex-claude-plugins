@@ -1,9 +1,0 @@
-{
-  "name": "ralph-wiggum",
-  "version": "2.0.0",
-  "description": "Self-referential development loop for Claude Code. Run iterative tasks with automatic progress detection and circuit breaker safety.",
-  "author": {
-    "name": "duyet",
-    "contributors": ["Daisy Hollman <daisy@anthropic.com>"]
-  }
-}

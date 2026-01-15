@@ -14,7 +14,6 @@ A collection of production-quality plugins for Claude Code, including autonomous
 /plugin install team-agents@duyet-claude-plugins
 /plugin install commit@duyet-claude-plugins
 /plugin install terminal-ui-design@duyet-claude-plugins
-/plugin install ralph-wiggum@duyet-claude-plugins
 /plugin install frontend-design@duyet-claude-plugins
 /plugin install interview@duyet-claude-plugins
 /plugin install statusline@duyet-claude-plugins
@@ -50,7 +49,6 @@ A collection of production-quality plugins for Claude Code, including autonomous
 | [👥 team-agents](#👥-team-agents) | Skill | Leader, Senior Engineer, and Junior Engi... |
 | [📝 commit](#📝-commit) | Command | Create a Git commit with semantic commit... |
 | [🎨 terminal-ui-design](#🎨-terminal-ui-design) | Skill | Create distinctive, production-grade ter... |
-| [🔄 ralph-wiggum](#🔄-ralph-wiggum) | Hook | Self-referential development loop for Cl... |
 | [🎨 frontend-design](#🎨-frontend-design) | Skill | Create distinctive, production-grade fro... |
 | [💬 interview](#💬-interview) | Command | Conduct in-depth requirements interviews... |
 | [📊 statusline](#📊-statusline) | Hook | Configurable status bar showing context ... |
@@ -109,26 +107,6 @@ Skills:
 
 Skills:
   - **terminal-ui-design**
-
----
-
-### 🔄 ralph-wiggum
-
-**Self-referential development loop for Claude Code. Run iterative tasks with automatic progress detection and circuit breaker safety.**
-
-Perfect for autonomous overnight execution - Claude iterates on tasks while you sleep, with built-in safety via circuit breaker.
-
-```bash
-  - `/cancel-ralph`: "Cancel active Ralph Wiggum loop"
-  - `/help`: "Explain Ralph Wiggum technique and available commands"
-  - `/ralph-loop`: "Start Ralph Wiggum loop in current session"
-  - `/status`: "Show Ralph Wiggum loop status"
-```
-
-**Safety Features:**
-- **Circuit Breaker**: Stops after 3 iterations without file changes
-- **Completion Promise**: Loop exits when specific condition is met
-- **Error Detection**: Stops after 5 consecutive errors
 
 ---
 
