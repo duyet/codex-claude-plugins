@@ -152,7 +152,7 @@ Alternative JSON structures supported:
 | Linux | File: `~/.local/share/opencode/auth.json` |
 | Windows | File: `%USERPROFILE%\.local\share\opencode\auth.json` |
 
-The provider is automatically detected from the `CLAUDE_MODEL` environment variable. Any model starting with `glm-` will use the z.ai API.
+The provider is automatically detected from the `CLAUDE_MODEL` or `ANTHROPIC_MODEL` environment variable. Any model starting with `glm-` will use the z.ai API.
 
 ## Features
 

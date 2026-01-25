@@ -2,8 +2,9 @@
 # Fetch rate limits from Anthropic OAuth API or z.ai API
 # Outputs JSON: {"provider": "anthropic"|"zai", "five_hour": N, "seven_day": N, "resets_at": "ISO", "error": "..."}
 
-# Determine model provider from CLAUDE_MODEL environment variable
-MODEL="${CLAUDE_MODEL:-}"
+# Determine model provider from environment variables
+# Check both CLAUDE_MODEL and ANTHROPIC_MODEL (either may be set)
+MODEL="${CLAUDE_MODEL:-${ANTHROPIC_MODEL:-}}"
 
 # Check if using GLM model (glm-4, glm-4.7, glm-flash, glm-plus, etc.)
 if [[ "$MODEL" =~ ^glm- ]]; then
