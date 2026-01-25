@@ -5,8 +5,8 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGIN_ROOT="$(dirname "$SCRIPT_DIR")"
 
-# Fetch rate limits
-rate_limits=$("$PLUGIN_ROOT/scripts/fetch-rate-limits.sh" 2>/dev/null)
+# Fetch rate limits using TypeScript CLI
+rate_limits=$(node --no-warnings "$PLUGIN_ROOT/scripts/format-status.ts" 2>/dev/null)
 
 # Parse rate limit values
 if [ -n "$rate_limits" ]; then
