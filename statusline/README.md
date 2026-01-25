@@ -14,6 +14,7 @@ Statusline keeps you informed about what's happening during your Claude Code ses
 | **Active Tools** | See which tools Claude is using right now |
 | **Agent Tracking** | Monitor running agents and their execution time |
 | **Task Progress** | Track todo completion in real-time |
+| **API Rate Limits** | Monitor usage across Anthropic (5h/7d) or z.ai GLM (5h) |
 
 ## Installation
 
@@ -87,6 +88,71 @@ All metrics displayed in a single line with empty values hidden:
 - ✓ Empty collections omitted (no agents/tools if zero)
 - ✓ Claude Code version hidden
 - ✓ Context shows matching system prompts and tools
+
+### API Rate Limits
+
+The plugin automatically detects your model provider and shows appropriate usage metrics:
+
+**Anthropic Models** (default, Claude, Opus, Sonnet, etc.):
+```
+5h: 42% | 7d: 28%
+```
+- Shows 5-hour and 7-day utilization percentages
+- Requires Claude Code OAuth credentials
+
+**z.ai GLM Models** (glm-4, glm-4.7, glm-flash, glm-plus, etc.):
+```
+z.ai: 15%
+```
+- Shows token quota percentage (5h equivalent)
+- Requires z.ai API key from opencode auth file
+
+#### z.ai Setup
+
+For GLM models, the plugin tries multiple credential sources in order:
+
+**1. macOS Keychain** (macOS only - highest priority)
+- Looks for keychain entries named: `z.ai`, `zai`, `opencode`, or `zai-coding-plan`
+- Parses JSON or uses raw value as API key
+
+**2. Environment Variables** (cross-platform)
+- `ZAI_API_KEY` - Generic z.ai API key
+- `ZAI_CODING_PLAN_KEY` - Coding plan specific key
+
+**3. Configuration Files** (cross-platform fallback)
+Tries these paths in order:
+```
+~/.local/share/opencode/auth.json    # Linux/Unix XDG standard
+~/.config/opencode/auth.json         # Alternative XDG location
+~/.opencode/auth.json                # Legacy location
+~/.zai/auth.json                     # z.ai specific
+```
+
+Example auth file structure:
+```json
+{
+  "zai-coding-plan": {
+    "key": "your-zai-api-key-here"
+  }
+}
+```
+
+Alternative JSON structures supported:
+```json
+{"zai": {"key": "..."}}
+{"apiKey": "..."}
+{"key": "..."}
+```
+
+**Recommended Setup by Platform:**
+
+| Platform | Recommended Method |
+|----------|-------------------|
+| macOS | Keychain: `security add-generic-password -s "z.ai" -w "your-key"` |
+| Linux | File: `~/.local/share/opencode/auth.json` |
+| Windows | File: `%USERPROFILE%\.local\share\opencode\auth.json` |
+
+The provider is automatically detected from the `CLAUDE_MODEL` environment variable. Any model starting with `glm-` will use the z.ai API.
 
 ## Features
 

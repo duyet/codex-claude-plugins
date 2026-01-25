@@ -1,7 +1,7 @@
 {
   "name": "statusline",
-  "version": "1.4.0",
-  "description": "Configurable status bar showing context usage, API rate limits (5h/7d), git branch, and active tools. Supports 1/2/3 line layouts with smart hiding of empty values.",
+  "version": "1.6.0",
+  "description": "Configurable status bar showing context usage, API rate limits (5h/7d for Anthropic, detailed metrics for z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts with smart hiding of empty values.",
   "author": {
     "name": "duyet"
   }

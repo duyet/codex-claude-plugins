@@ -8,11 +8,24 @@ import { execFileSync } from "child_process";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
+interface ZaiDetails {
+  tokens_pct: number;
+  token_reset: string;
+  monthly_pct: number;
+  monthly_remaining: number;
+  monthly_reset: string;
+  search: number;
+  web: number;
+  zread: number;
+}
+
 interface RateLimits {
+  provider?: string;  // "anthropic" or "zai"
   five_hour: number;
   seven_day: number;
   resets_at?: string;
   error?: string;
+  zai?: ZaiDetails;  // Extended data for z.ai provider
 }
 
 interface SessionMetrics {
@@ -112,9 +125,40 @@ function formatRateLimits(rateLimits?: RateLimits): string | null {
     return null; // Hide on other errors
   }
 
+  const provider = rateLimits.provider ?? "anthropic";
+
+  // z.ai format: 5-hour tokens + monthly tools
+  if (provider === "zai" && rateLimits.zai) {
+    const z = rateLimits.zai;
+    const parts: string[] = [];
+
+    // 5-hour token quota
+    parts.push(`Tokens: ${z.tokens_pct}%`);
+    if (z.token_reset) {
+      parts.push(`5h reset: ${z.token_reset}`);
+    }
+
+    // Monthly tool quota
+    if (z.monthly_remaining > 0) {
+      parts.push(`Tools: ${z.monthly_pct}% (${z.monthly_remaining} left, ${z.monthly_reset})`);
+    }
+
+    // Individual tool usage (only if non-zero)
+    const toolParts: string[] = [];
+    if (z.search > 0) toolParts.push(`Search:${z.search}`);
+    if (z.web > 0) toolParts.push(`Web:${z.web}`);
+    if (z.zread > 0) toolParts.push(`ZRead:${z.zread}`);
+
+    if (toolParts.length > 0) {
+      parts.push(toolParts.join(" "));
+    }
+
+    return `z.ai ${parts.join(" | ")}`;
+  }
+
+  // Anthropic format (5h/7d)
   const u5h = Math.round(rateLimits.five_hour);
   const u7d = Math.round(rateLimits.seven_day);
-
   return `5h: ${u5h}% | 7d: ${u7d}%`;
 }
 
