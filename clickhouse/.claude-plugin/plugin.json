@@ -1,0 +1,28 @@
+{
+  "name": "clickhouse",
+  "version": "1.0.0",
+  "description": "Comprehensive ClickHouse knowledge from Altinity KB + official docs. Covers schema design, MergeTree engines, query optimization, cluster management, backups, monitoring, and integrations.",
+  "author": "duyetbot",
+  "license": "MIT",
+  "claude": {
+    "minVersion": "1.0.0"
+  },
+  "capabilities": [
+    "skills"
+  ],
+  "triggers": [
+    "clickhouse",
+    "merge.*tree",
+    "olap",
+    "columnar.*database",
+    "ch\\.",
+    "replicated.*merge"
+  ],
+  "skills": [
+    {
+      "name": "clickhouse",
+      "path": "skills/clickhouse/SKILL.md",
+      "description": "ClickHouse database expertise: schema design, table engines, SQL dialect, query optimization, cluster operations, backups, monitoring, and integrations"
+    }
+  ]
+}

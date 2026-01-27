@@ -63,6 +63,11 @@
       "name": "prompt-engineering",
       "source": "./prompt-engineering",
       "description": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance, universal techniques (zero-shot, few-shot, CoT, ReAct, prompt chaining, Tree of Thoughts), and comprehensive documentation."
+    },
+    {
+      "name": "clickhouse",
+      "source": "./clickhouse",
+      "description": "Comprehensive ClickHouse knowledge from Altinity KB + official docs. Covers schema design, MergeTree engines, query optimization, cluster management, backups, monitoring, and integrations."
     }
   ]
 }
