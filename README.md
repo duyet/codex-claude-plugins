@@ -1,8 +1,14 @@
 # Claude Plugins Marketplace
 
+[![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
+[![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
+[![Plugins](https://img.shields.io/badge/plugins-12-blue?style=flat-square)](#plugins-at-a-glance)
+
 > Extend Claude Code with specialized agents, commands, and skills.
 
 A collection of production-quality plugins for Claude Code, including autonomous agents, workflow automation, and developer tools.
+
+**Latest Release:** [v1.0.0](https://github.com/duyet/claude-plugins/releases/tag/v1.0.0) | [CHANGELOG](CHANGELOG.md) | [Issues](https://github.com/duyet/claude-plugins/issues)
 
 ## Quick Install
 

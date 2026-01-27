@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          # Extract changes for this version from CHANGELOG
+          VERSION="${{ steps.get_version.outputs.version }}"
+          echo "## What's Changed\n" > release_notes.md
+
+          if grep -A 50 "## \[$VERSION\]" CHANGELOG.md; then
+            sed -n "/## \[$VERSION\]/,/## /p" CHANGELOG.md | sed '$d' | sed '1d' >> release_notes.md
+          else
+            echo "See CHANGELOG.md for detailed changes." >> release_notes.md
+          fi
+
+          cat release_notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_ref: ${{ github.ref }}
+          name: Release ${{ steps.get_version.outputs.version }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
