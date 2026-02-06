@@ -1,7 +1,7 @@
 {
   "name": "clickhouse",
-  "version": "1.0.0",
-  "description": "Comprehensive ClickHouse knowledge from Altinity KB + official docs. Covers schema design, MergeTree engines, query optimization, cluster management, backups, monitoring, and integrations.",
+  "version": "1.1.0",
+  "description": "ClickHouse expertise with 28 atomic review rules + 15 deep reference files. Schema design, query optimization, insert strategy, cluster management, backups, and monitoring.",
   "author": "duyetbot",
   "license": "MIT",
   "claude": {
@@ -20,9 +20,9 @@
   ],
   "skills": [
     {
-      "name": "clickhouse",
+      "name": "clickhouse-best-practices",
       "path": "skills/clickhouse/SKILL.md",
-      "description": "ClickHouse database expertise: schema design, table engines, SQL dialect, query optimization, cluster operations, backups, monitoring, and integrations"
+      "description": "MUST USE when reviewing ClickHouse schemas, queries, or configurations. Contains 28 rules that MUST be checked before providing recommendations. Always read relevant rule files and cite specific rules in responses."
     }
   ]
 }

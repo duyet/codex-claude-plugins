@@ -1,160 +1,203 @@
 ---
-name: clickhouse
-description: ClickHouse columnar OLAP database expertise. Schema design, MergeTree engines, query optimization, cluster management, backups, monitoring, and integrations. Compiled from Altinity KB (200+ articles) + official docs.
+name: clickhouse-best-practices
+description: MUST USE when reviewing ClickHouse schemas, queries, or configurations. Contains 28 rules that MUST be checked before providing recommendations. Always read relevant rule files and cite specific rules in responses.
 ---
 
-# ClickHouse Database Expert
+# ClickHouse Best Practices
 
-Comprehensive ClickHouse knowledge base for working with high-performance columnar OLAP databases.
+Guidance for ClickHouse covering schema design, query optimization, and data ingestion. Contains 28 atomic rules across 3 categories (schema, query, insert), prioritized by impact. Extended with 15+ reference files covering cluster management, Kubernetes, backups, monitoring, and integrations.
 
-## When to Invoke This Skill
+> **Official docs:** [ClickHouse Best Practices](https://clickhouse.com/docs/best-practices)
 
-Use this skill when:
-- Designing ClickHouse schemas (tables, partitions, ORDER BY)
-- Choosing table engines (MergeTree family decision tree)
-- Writing and optimizing ClickHouse SQL queries
-- Managing ClickHouse clusters (replication, sharding)
-- Debugging query performance or merge issues
-- Setting up backups and monitoring
-- Integrating ClickHouse with Kafka, S3, or other systems
-- Operating ClickHouse on Kubernetes
+## IMPORTANT: How to Apply This Skill
 
-## What is ClickHouse?
+**Before answering ClickHouse questions, follow this priority order:**
 
-ClickHouse is a columnar OLAP database designed for real-time analytics on large datasets.
+1. **Check for applicable rules** in the `rules/` directory
+2. **If rules exist:** Apply them and cite them in your response using "Per `rule-name`..."
+3. **If no rule exists:** Check `references/` for deeper topic coverage
+4. **If neither covers it:** Use general ClickHouse knowledge or search documentation
+5. **Always cite your source:** rule name, reference file, or URL
 
-**Key Characteristics:**
-- **Columnar storage**: Read only needed columns (10-100x faster than row stores for analytical queries)
-- **MergeTree engine family**: Automatic background merges for data organization
-- **SQL dialect with extensions**: Arrays, tuples, lambdas, specialized functions
-- **Append-first design**: Optimized for high-volume inserts, not point updates
+**Why rules take priority:** ClickHouse has specific behaviors (columnar storage, sparse indexes, merge tree mechanics) where general database intuition can be misleading. The rules encode validated, ClickHouse-specific guidance.
 
-## Golden Rules
+---
 
-1. **Always use MergeTree** (except tiny dimensions → Memory engine)
-2. **Sort key = query filter**: ORDER BY defines data layout on disk
-3. **Partition by time**: For TTL and efficient DROP PARTITION operations
-4. **Avoid mutations**: Use INSERT + new data instead of UPDATE/DELETE
-5. **Monitor merges**: Background merges impact performance significantly
+## Review Procedures
 
-## Quick Start Examples
+### For Schema Reviews (CREATE TABLE, ALTER TABLE)
 
-### Minimal Working Schema
+**Read these rule files in order:**
 
-```sql
--- Basic events table with best practices
-CREATE TABLE events (
-    timestamp DateTime,
-    user_id UInt32,
-    event_type LowCardinality(String),
-    session_id UUID,
-    metadata String,
-    revenue Decimal(18, 2) DEFAULT 0
-)
-ENGINE = MergeTree()
-PARTITION BY toYYYYMM(timestamp)  -- Monthly partitions
-ORDER BY (user_id, timestamp)     -- Data layout matches query pattern
-SETTINGS index_granularity = 8192;
+1. `rules/schema-pk-plan-before-creation.md` — ORDER BY is immutable
+2. `rules/schema-pk-cardinality-order.md` — Column ordering in keys
+3. `rules/schema-pk-prioritize-filters.md` — Filter column inclusion
+4. `rules/schema-pk-filter-on-orderby.md` — Query filter alignment
+5. `rules/schema-types-native-types.md` — Proper type selection
+6. `rules/schema-types-minimize-bitwidth.md` — Numeric type sizing
+7. `rules/schema-types-lowcardinality.md` — LowCardinality usage
+8. `rules/schema-types-avoid-nullable.md` — Nullable vs DEFAULT
+9. `rules/schema-types-enum.md` — Enum for finite value sets
+10. `rules/schema-partition-low-cardinality.md` — Partition count limits
+11. `rules/schema-partition-lifecycle.md` — Partitioning purpose
+12. `rules/schema-partition-query-tradeoffs.md` — Partition pruning trade-offs
+13. `rules/schema-partition-start-without.md` — Start without partitioning
+14. `rules/schema-json-when-to-use.md` — JSON type usage
+
+**Check for:**
+- [ ] PRIMARY KEY / ORDER BY column order (low-to-high cardinality)
+- [ ] Data types match actual data ranges
+- [ ] LowCardinality applied to appropriate string columns
+- [ ] Partition key cardinality bounded (100-1,000 values)
+- [ ] ReplacingMergeTree has version column if used
+
+### For Query Reviews (SELECT, JOIN, aggregations)
+
+**Read these rule files:**
+
+1. `rules/query-join-choose-algorithm.md` — Algorithm selection
+2. `rules/query-join-use-any.md` — ANY vs regular JOIN
+3. `rules/query-join-filter-before.md` — Pre-join filtering
+4. `rules/query-join-consider-alternatives.md` — Dictionaries/denormalization
+5. `rules/query-join-null-handling.md` — join_use_nulls setting
+6. `rules/query-index-skipping-indices.md` — Secondary index usage
+7. `rules/query-mv-incremental.md` — Incremental materialized views
+8. `rules/query-mv-refreshable.md` — Refreshable materialized views
+
+**Check for:**
+- [ ] Filters use ORDER BY prefix columns
+- [ ] JOINs filter tables before joining (not after)
+- [ ] Correct JOIN algorithm for table sizes
+- [ ] Skipping indices for non-ORDER BY filter columns
+
+### For Insert Strategy Reviews (data ingestion, updates, deletes)
+
+**Read these rule files:**
+
+1. `rules/insert-batch-size.md` — Batch sizing requirements
+2. `rules/insert-async-small-batches.md` — Async insert usage
+3. `rules/insert-format-native.md` — Native format for performance
+4. `rules/insert-mutation-avoid-update.md` — UPDATE alternatives
+5. `rules/insert-mutation-avoid-delete.md` — DELETE alternatives
+6. `rules/insert-optimize-avoid-final.md` — OPTIMIZE TABLE risks
+
+**Check for:**
+- [ ] Batch size 10K-100K rows per INSERT
+- [ ] No ALTER TABLE UPDATE for frequent changes
+- [ ] ReplacingMergeTree or CollapsingMergeTree for update patterns
+- [ ] Async inserts enabled for high-frequency small batches
+
+---
+
+## Output Format
+
+Structure review responses as follows:
+
+```
+## Rules Checked
+- `rule-name-1` — Compliant / Violation found
+- `rule-name-2` — Compliant / Violation found
+...
+
+## Findings
+
+### Violations
+- **`rule-name`**: Description of the issue
+  - Current: [what the code does]
+  - Required: [what it should do]
+  - Fix: [specific correction]
+
+### Compliant
+- `rule-name`: Brief note on why it's correct
+
+## Recommendations
+[Prioritized list of changes, citing rules]
 ```
 
-### Common Query Patterns
+---
 
-```sql
--- Effective time range filter
-SELECT * FROM events
-WHERE timestamp >= today() AND timestamp < tomorrow();
+## Rule Categories by Priority
 
--- Optimize JOIN (smaller table on RIGHT)
-SELECT * FROM large_table RIGHT JOIN small_table ON large_table.id = small_table.id;
+| Priority | Category | Impact | Prefix | Count |
+|----------|----------|--------|--------|-------|
+| 1 | Primary Key Selection | CRITICAL | `schema-pk-` | 4 |
+| 2 | Data Type Selection | CRITICAL | `schema-types-` | 5 |
+| 3 | JOIN Optimization | CRITICAL | `query-join-` | 5 |
+| 4 | Insert Batching | CRITICAL | `insert-batch-` | 1 |
+| 5 | Mutation Avoidance | CRITICAL | `insert-mutation-` | 2 |
+| 6 | Partitioning Strategy | HIGH | `schema-partition-` | 4 |
+| 7 | Skipping Indices | HIGH | `query-index-` | 1 |
+| 8 | Materialized Views | HIGH | `query-mv-` | 2 |
+| 9 | Async Inserts | HIGH | `insert-async-` | 2 |
+| 10 | OPTIMIZE Avoidance | HIGH | `insert-optimize-` | 1 |
+| 11 | JSON Usage | MEDIUM | `schema-json-` | 1 |
 
--- Check query plan
-EXPLAIN SELECT * FROM events WHERE user_id = 123;
-```
+---
 
-### Monitoring Queries
+## Quick Reference
 
-```sql
--- Running queries
-SELECT query_id, user, query, elapsed FROM system.processes ORDER BY elapsed DESC;
+### Schema Design — Primary Key (CRITICAL)
 
--- Table sizes
-SELECT database, table, formatReadableSize(sum(bytes)) as size
-FROM system.parts WHERE active = 1
-GROUP BY database, table ORDER BY sum(bytes) DESC;
+- `schema-pk-plan-before-creation` — Plan ORDER BY before table creation (immutable)
+- `schema-pk-cardinality-order` — Order columns low-to-high cardinality
+- `schema-pk-prioritize-filters` — Include frequently filtered columns
+- `schema-pk-filter-on-orderby` — Query filters must use ORDER BY prefix
 
--- Active merges
-SELECT table, elapsed, bytes_read_uncompressed FROM system.merges ORDER BY elapsed DESC;
-```
+### Schema Design — Data Types (CRITICAL)
 
-## Common Pitfalls
+- `schema-types-native-types` — Use native types, not String for everything
+- `schema-types-minimize-bitwidth` — Use smallest numeric type that fits
+- `schema-types-lowcardinality` — LowCardinality for <10K unique strings
+- `schema-types-enum` — Enum for finite value sets with validation
+- `schema-types-avoid-nullable` — Avoid Nullable; use DEFAULT instead
 
-| Pitfall | Why It's Bad | Better Approach |
-|---------|--------------|-----------------|
-| Modifying columns (MODIFY/DROP) | Triggers expensive mutation | Use ADD COLUMN only |
-| Updating/deleting rows | Mutations rewrite all data | Use TTL or new tables |
-| Bad ORDER BY | Can't leverage index | Match query WHERE patterns |
-| Too many partitions | Slow queries, high overhead | Aim for 100-1000 parts total |
-| SELECT * | Reads all columns (columnar penalty) | Select only needed columns |
-| String date comparison | Full scan | Use date functions on column |
+### Schema Design — Partitioning (HIGH)
 
-## ClickHouse Architecture Overview
+- `schema-partition-low-cardinality` — Keep partition count 100-1,000
+- `schema-partition-lifecycle` — Use partitioning for data lifecycle, not queries
+- `schema-partition-query-tradeoffs` — Understand partition pruning trade-offs
+- `schema-partition-start-without` — Consider starting without partitioning
 
-### Data Model
+### Schema Design — JSON (MEDIUM)
 
-- **Append-first**: No in-place updates (mutations are expensive)
-- **Parts and partitions**: Parts merge into larger parts (background process)
-- **Two-level index**: Sparse index (8192 rows/mark) + mark files
+- `schema-json-when-to-use` — JSON for dynamic schemas; typed columns for known
 
-### When ClickHouse Shines
+### Query Optimization — JOINs (CRITICAL)
 
-✅ Wide tables (100+ columns), read few columns
-✅ Time-series with time-based filters
-✅ Aggregations over billions of rows
-✅ Append-only workloads (events, logs, metrics)
+- `query-join-choose-algorithm` — Select algorithm based on table sizes
+- `query-join-use-any` — ANY JOIN when only one match needed
+- `query-join-filter-before` — Filter tables before joining
+- `query-join-consider-alternatives` — Dictionaries/denormalization vs JOIN
+- `query-join-null-handling` — join_use_nulls=0 for default values
 
-### When to Avoid ClickHouse
+### Query Optimization — Indices (HIGH)
 
-❌ Point updates/deletes (use row store like PostgreSQL)
-❌ Heavy JOINs on non-sorted keys
-❌ Complex transactions (no ACID support)
-❌ Low-latency OLTP (use row store)
+- `query-index-skipping-indices` — Skipping indices for non-ORDER BY filters
 
-## Key Topics by Reference
+### Query Optimization — Materialized Views (HIGH)
 
-### Schema & Table Design
+- `query-mv-incremental` — Incremental MVs for real-time aggregations
+- `query-mv-refreshable` — Refreshable MVs for complex joins
 
-| Topic | Reference | Description |
-|-------|-----------|-------------|
-| Core Concepts | `references/core-concepts.md` | Architecture, data model, internals |
-| Schema Design | `references/schema-design.md` | Database engines, migrations, version control |
-| Table Design | `references/table-design.md` | ORDER BY, partitioning, column selection |
-| Table Engines | `references/table-engines.md` | Complete MergeTree family reference |
+### Insert Strategy — Batching (CRITICAL)
 
-### Query & Performance
+- `insert-batch-size` — Batch 10K-100K rows per INSERT
 
-| Topic | Reference | Description |
-|-------|-----------|-------------|
-| SQL Reference | `references/sql-reference.md` | Complete SQL dialect, data types |
-| Query Optimization | `references/query-optimization.md` | EXPLAIN, JOINs, projections, skip indexes |
-| Advanced Features | `references/advanced-features.md` | Materialized views, mutations, TTL, dictionaries |
+### Insert Strategy — Async (HIGH)
 
-### Operations & Cluster
+- `insert-async-small-batches` — Async inserts for high-frequency small batches
+- `insert-format-native` — Native format for best performance
 
-| Topic | Reference | Description |
-|-------|-----------|-------------|
-| Debugging | `references/debugging.md` | Query debugging, merges, mutations, replication |
-| Cluster Management | `references/cluster-management.md` | Distributed tables, replication, sharding |
-| Kubernetes Operator | `references/kubernetes-operator.md` | K8s deployment and operations |
-| Backup & Restore | `references/backup-restore.md` | Backup strategies, disaster recovery |
-| Monitoring | `references/monitoring.md` | Query monitoring, health checks, system queries |
+### Insert Strategy — Mutations (CRITICAL)
 
-### Integration & Best Practices
+- `insert-mutation-avoid-update` — ReplacingMergeTree instead of ALTER UPDATE
+- `insert-mutation-avoid-delete` — Lightweight DELETE or DROP PARTITION
 
-| Topic | Reference | Description |
-|-------|-----------|-------------|
-| Integrations | `references/integrations.md` | Kafka, S3, PostgreSQL, MySQL, BI tools |
-| Best Practices | `references/best-practices.md` | Complete checklist, anti-patterns |
-| External References | `references/external.md` | Altinity KB links, official docs |
+### Insert Strategy — Optimization (HIGH)
+
+- `insert-optimize-avoid-final` — Let background merges work
+
+---
 
 ## Quick Decision Guides
 
@@ -177,43 +220,46 @@ See `references/table-engines.md` for complete reference.
 
 | Issue | Quick Fix |
 |-------|-----------|
-| Too many parts | `OPTIMIZE TABLE table FINAL` |
+| Too many parts | `OPTIMIZE TABLE table FINAL` (see `insert-optimize-avoid-final`) |
 | Slow query | `EXPLAIN SELECT ...` to check index usage |
-| Mutation stuck | Check `system.mutations`, use `OPTIMIZE FINAL` |
+| Mutation stuck | Check `system.mutations`, consider alternatives per `insert-mutation-avoid-update` |
 | Replication lag | Check `system.replication_queue`, ZooKeeper |
 | OOM on query | Increase `max_memory_usage`, optimize query |
 
 See `references/debugging.md` for detailed troubleshooting.
 
-## See Also
+---
 
-### Core References
-- `references/core-concepts.md` - Architecture, data model, MergeTree internals
-- `references/schema-design.md` - Database engines, schema organization, migrations
-- `references/table-design.md` - ORDER BY design, partitioning strategies, column selection
-- `references/table-engines.md` - Complete guide to all MergeTree family engines
-- `references/sql-reference.md` - Full SQL dialect with data types and functions
+## Deep Reference Files
+
+For topics beyond the 28 rules, see the `references/` directory:
+
+### Schema & Table Design
+- `references/core-concepts.md` — Architecture, data model, internals
+- `references/schema-design.md` — Database engines, migrations, version control
+- `references/table-design.md` — ORDER BY, partitioning, column selection
+- `references/table-engines.md` — Complete MergeTree family reference
 
 ### Query & Performance
-- `references/query-optimization.md` - EXPLAIN, JOIN optimization, projections, skip indexes
-- `references/advanced-features.md` - Materialized views, mutations, TTL, dictionaries
-- `references/debugging.md` - Query debugging, merge issues, replication problems
+- `references/sql-reference.md` — Complete SQL dialect, data types
+- `references/query-optimization.md` — EXPLAIN, JOINs, projections, skip indexes
+- `references/advanced-features.md` — Materialized views, mutations, TTL, dictionaries
 
-### Operations
-- `references/cluster-management.md` - Distributed tables, replication, sharding
-- `references/kubernetes-operator.md` - K8s deployment with Altinity operator
-- `references/backup-restore.md` - Backup strategies and disaster recovery
-- `references/monitoring.md` - Query monitoring, health checks, system queries
+### Operations & Cluster
+- `references/debugging.md` — Query debugging, merges, mutations, replication
+- `references/cluster-management.md` — Distributed tables, replication, sharding
+- `references/kubernetes-operator.md` — K8s deployment and operations
+- `references/backup-restore.md` — Backup strategies, disaster recovery
+- `references/monitoring.md` — Query monitoring, health checks, system queries
 
 ### Integration & Best Practices
-- `references/integrations.md` - Kafka, S3, PostgreSQL, MySQL, BI tools
-- `references/best-practices.md` - Comprehensive checklist and anti-patterns
-- `references/external.md` - Altinity KB (200+ articles) and official docs
-
-### System Queries
-- `references/system-queries.md` - Ready-to-use queries for operations and monitoring
+- `references/integrations.md` — Kafka, S3, PostgreSQL, MySQL, BI tools
+- `references/best-practices.md` — Complete checklist and anti-patterns
+- `references/external.md` — Altinity KB links, official docs
+- `references/system-queries.md` — Ready-to-use queries for operations
 
 ---
 
-**Version**: 1.0.0
-**Sources**: Altinity Knowledge Base (200+ articles) + ClickHouse Official Docs
+**Version**: 1.1.0
+**Rules**: Adapted from [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) (Apache-2.0)
+**References**: Altinity Knowledge Base (200+ articles) + ClickHouse Official Docs
