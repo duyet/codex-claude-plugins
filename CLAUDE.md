@@ -1,5 +1,14 @@
 # Claude Plugins Project
 
+## Install
+
+```bash
+/plugin marketplace add duyet/claude-plugins
+/plugin install <plugin-name>@duyet-claude-plugins
+```
+
+Alternative: `npx skills add duyet/claude-plugins` ([skills.sh](https://skills.sh))
+
 ## Versioning
 
 Follow semantic versioning (semver) for all plugins:

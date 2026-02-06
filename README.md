@@ -1,4 +1,4 @@
-# Claude Plugins Marketplace
+# Claude Plugins
 
 [![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
 [![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
@@ -9,6 +9,8 @@
 A collection of production-quality plugins for Claude Code, including autonomous agents, workflow automation, and developer tools.
 
 **Latest Release:** [v1.0.0](https://github.com/duyet/claude-plugins/releases/tag/v1.0.0) | [CHANGELOG](CHANGELOG.md) | [Issues](https://github.com/duyet/claude-plugins/issues)
+
+Available on **[skills.sh](https://skills.sh)** — the open agent skills ecosystem.
 
 ## Quick Install
 
@@ -28,6 +30,14 @@ A collection of production-quality plugins for Claude Code, including autonomous
 /plugin install docs-generator@duyet-claude-plugins
 /plugin install github@duyet-claude-plugins
 /plugin install fix@duyet-claude-plugins
+```
+
+### Alternative: Skills CLI
+
+Install via the open [Skills](https://skills.sh) ecosystem, works with Claude Code, Cursor, GitHub Copilot, Gemini, Windsurf, and [15+ other agents](https://skills.sh):
+
+```bash
+npx skills add duyet/claude-plugins
 ```
 
 ## Usage Examples
