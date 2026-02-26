@@ -1,69 +1,69 @@
 {
-  "collection_duration_seconds": 1,
-  "ecosystem": {
-    "active_workflows": 0,
-    "overall_success_rate": null,
-    "total_cost_usd": null,
-    "total_safe_outputs": 0,
-    "total_tokens": null,
-    "total_workflows": 2
-  },
+  "timestamp": "2026-02-26T22:58:57Z",
   "period": "daily",
-  "timestamp": "2026-02-26T12:35:23Z",
+  "collection_duration_seconds": 21,
   "workflows": {
     "daily-repo-status": {
-      "engagement": {
-        "discussion_replies": 0,
-        "issue_reactions": 0,
-        "pr_comments": 0
-      },
-      "quality_indicators": {
-        "avg_issue_close_time_hours": null,
-        "avg_pr_merge_time_hours": null,
-        "pr_merge_rate": null
-      },
       "safe_outputs": {
-        "comments_added": 0,
-        "discussions_created": 0,
         "issues_created": 0,
-        "prs_created": 0
+        "prs_created": 0,
+        "comments_added": 0,
+        "discussions_created": 0
       },
       "workflow_runs": {
-        "avg_duration_seconds": null,
+        "total": 0,
+        "successful": 0,
         "failed": 0,
         "success_rate": null,
-        "successful": 0,
-        "total": 0,
-        "total_cost_usd": null,
-        "total_tokens": null
+        "avg_duration_seconds": null,
+        "total_tokens": null,
+        "total_cost_usd": null
+      },
+      "engagement": {
+        "issue_reactions": 0,
+        "pr_comments": 0,
+        "discussion_replies": 0
+      },
+      "quality_indicators": {
+        "pr_merge_rate": null,
+        "avg_issue_close_time_hours": null,
+        "avg_pr_merge_time_hours": null
       }
     },
     "metrics-collector": {
-      "engagement": {
-        "discussion_replies": 0,
-        "issue_reactions": 0,
-        "pr_comments": 0
-      },
-      "quality_indicators": {
-        "avg_issue_close_time_hours": null,
-        "avg_pr_merge_time_hours": null,
-        "pr_merge_rate": null
-      },
       "safe_outputs": {
-        "comments_added": 0,
-        "discussions_created": 0,
         "issues_created": 0,
-        "prs_created": 0
+        "prs_created": 0,
+        "comments_added": 0,
+        "discussions_created": 0
       },
       "workflow_runs": {
-        "avg_duration_seconds": null,
+        "total": 0,
+        "successful": 0,
         "failed": 0,
         "success_rate": null,
-        "successful": 0,
-        "total": 0,
-        "total_cost_usd": null,
-        "total_tokens": null
+        "avg_duration_seconds": null,
+        "total_tokens": null,
+        "total_cost_usd": null
+      },
+      "engagement": {
+        "issue_reactions": 0,
+        "pr_comments": 0,
+        "discussion_replies": 0
+      },
+      "quality_indicators": {
+        "pr_merge_rate": null,
+        "avg_issue_close_time_hours": null,
+        "avg_pr_merge_time_hours": null
       }
     }
+  },
+  "ecosystem": {
+    "total_workflows": 2,
+    "active_workflows": 0,
+    "total_safe_outputs": 0,
+    "overall_success_rate": null,
+    "total_tokens": null,
+    "total_cost_usd": null
   }
 }
