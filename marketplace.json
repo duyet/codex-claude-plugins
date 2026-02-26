@@ -15,7 +15,7 @@
       "name": "team-agents",
       "id": "team-agents@duyet-claude-plugins",
       "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
-      "version": "1.0.0",
+      "version": "1.7.0",
       "type": "skill",
       "category": "agents"
     },
@@ -39,7 +39,7 @@
       "name": "frontend-design",
       "id": "frontend-design@duyet-claude-plugins",
       "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics",
-      "version": "1.0.0",
+      "version": "1.2.0",
       "type": "skill",
       "category": "design"
     },
@@ -55,7 +55,7 @@
       "name": "statusline",
       "id": "statusline@duyet-claude-plugins",
       "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
-      "version": "1.2.0",
+      "version": "1.6.0",
       "type": "hook",
       "category": "ui"
     },
@@ -71,7 +71,7 @@
       "name": "duyetbot",
       "id": "duyetbot@duyet-claude-plugins",
       "description": "Pragmatic software development companion with engineering discipline",
-      "version": "1.0.0",
+      "version": "1.7.0",
       "type": "skill",
       "category": "productivity"
     },
@@ -87,7 +87,7 @@
       "name": "github",
       "id": "github@duyet-claude-plugins",
       "description": "GitHub operations using gh CLI - PRs, issues, workflows, and smart branch detection",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "type": "skill",
       "category": "git"
     },
@@ -103,14 +103,22 @@
       "name": "clickhouse",
       "id": "clickhouse@duyet-claude-plugins",
       "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "type": "skill",
       "category": "database"
+    },
+    {
+      "name": "prompt-engineering",
+      "id": "prompt-engineering@duyet-claude-plugins",
+      "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "productivity"
     }
   ],
   "metadata": {
-    "lastUpdated": "2026-01-28",
-    "totalPlugins": 12,
+    "lastUpdated": "2026-02-26",
+    "totalPlugins": 13,
     "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database"]
   }
 }
