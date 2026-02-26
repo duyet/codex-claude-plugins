@@ -27,8 +27,8 @@ safe-outputs:
   create-issue:
     title-prefix: "[repo-status] "
     labels: [report, daily-status]
-source: githubnext/agentics/workflows/daily-repo-status.md@69c1ee19e39e6aaba35519aafefb5cbf314de323
-engine: copilot
+source: githubnext/agentics/workflows/daily-repo-status.md@5d6f916a73671a6f50841824182a5f19dd1ef316
+engine: codex
 ---
 
 # Daily Repo Status
