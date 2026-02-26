@@ -27,8 +27,10 @@ safe-outputs:
   create-issue:
     title-prefix: "[repo-status] "
     labels: [report, daily-status]
-source: githubnext/agentics/workflows/daily-repo-status.md@5d6f916a73671a6f50841824182a5f19dd1ef316
-engine: codex
+source: githubnext/agentics/workflows/daily-repo-status.md@76b334c67e69e4fd9a9f44c3a751d729539c9da6
+engine:
+  id: codex
+  model: gpt-5.1-codex-mini
 ---
 
 # Daily Repo Status

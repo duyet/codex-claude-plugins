@@ -25,7 +25,7 @@
 #
 # Source: github/gh-aw/.github/workflows/metrics-collector.md@bef7c14b4ae28c11f0730b94d30360cd75bbfc14
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"ee44003685554463e1d49fb928626679c1e2cc4d48d3d5db1037fe0892d72a06","compiler_version":"v0.50.4"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"99bb54723cfdecca60569419694fdf37ed7ec0f13fe80b50fec518c4df4b8405","compiler_version":"v0.50.4"}
 
 name: "Metrics Collector - Infrastructure Agent"
 "on":
@@ -286,7 +286,7 @@ jobs:
             const awInfo = {
               engine_id: "codex",
               engine_name: "Codex",
-              model: process.env.GH_AW_MODEL_AGENT_CODEX || "",
+              model: "gpt-5.1-codex-mini",
               version: "",
               agent_version: "0.104.0",
               cli_version: "v0.50.4",
@@ -477,7 +477,7 @@ jobs:
           CODEX_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}
           CODEX_HOME: /tmp/gh-aw/mcp-config
           GH_AW_MCP_CONFIG: /tmp/gh-aw/mcp-config/config.toml
-          GH_AW_MODEL_DETECTION_CODEX: ${{ vars.GH_AW_MODEL_DETECTION_CODEX || '' }}
+          GH_AW_MODEL_DETECTION_CODEX: gpt-5.1-codex-mini
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
           GITHUB_STEP_SUMMARY: ${{ env.GITHUB_STEP_SUMMARY }}
           OPENAI_API_KEY: ${{ secrets.CODEX_API_KEY || secrets.OPENAI_API_KEY }}

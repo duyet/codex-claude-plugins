@@ -7,7 +7,11 @@ permissions:
   pull-requests: read
   discussions: read
   actions: read
-engine: codex
+
+engine:
+  id: codex
+  model: gpt-5.1-codex-mini
+
 tools:
   agentic-workflows:
   github:
