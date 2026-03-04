@@ -293,6 +293,29 @@ gh repo create my-repo --template owner/template-repo
 
 The GitHub plugin includes commands for bulk operations:
 
+### Watch and Fix PR
+
+Automated fix loop for pull requests:
+
+```bash
+# Watch PR, fix issues from AI reviews, auto-merge when ready
+/github:watch-and-fix --auto-merge --max-iterations 5
+
+# Preview what would happen
+/github:watch-and-fix --dry-run
+
+# Watch specific PR
+/github:watch-and-fix --pr 123
+```
+
+The watch-and-fix command:
+1. Waits for CI to complete
+2. Gets review comments from AI agents
+3. Parses and applies fixes
+4. Commits and pushes changes
+5. Repeats until CI passes and PR is approved
+6. Optionally auto-merges when ready
+
 ### Bulk Close Issues
 
 ```bash

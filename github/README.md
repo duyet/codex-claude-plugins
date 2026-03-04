@@ -4,7 +4,7 @@ GitHub operations using gh CLI - PRs, issues, workflows, repositories, batch ope
 
 ## Version
 
-1.2.0
+1.3.0
 
 ## Components
 
@@ -15,6 +15,7 @@ GitHub operations using gh CLI - PRs, issues, workflows, repositories, batch ope
 - `/github:bulk-close-issues` - Close multiple issues by label or search query
 - `/github:bulk-merge-prs` - Merge multiple approved PRs
 - `/github:bulk-label` - Apply labels to multiple issues/PRs
+- `/github:watch-and-fix` - Watch PR, fix issues from AI reviews, and auto-merge when ready
 
 ## Features
 
@@ -70,6 +71,15 @@ gh pr create --title "feat: add new feature" --body "Implements #123"
 /github:bulk-label --remove "status:triage" --search "reviewed-by:@me"
 ```
 
+### Watch and Fix PR
+```bash
+# Watch PR, fix issues from AI reviews, and auto-merge when ready
+/github:watch-and-fix --auto-merge --max-iterations 5
+
+# Preview what would happen
+/github:watch-and-fix --dry-run
+```
+
 ## Real-World Workflows
 
 ### Automated PR Triage
@@ -81,6 +91,15 @@ for pr in $(gh pr list --author . --json number --jq '.[].number'); do
     gh pr edit $pr --add-label "first-time-contributor"
   fi
 done
+```
+
+### Watch and Fix Loop
+```bash
+# Continuous fix loop for a PR
+./examples/watch-and-fix.sh --auto-merge --max-iterations 10
+
+# Or use the slash command
+/github:watch-and-fix --auto-merge
 ```
 
 ### CI Failure Analysis
@@ -144,23 +163,26 @@ See the `examples/` directory for complete automation scripts:
 - `bulk-close-issues.sh` - Close issues by label with confirmation
 - `bulk-merge-prs.sh` - Merge approved PRs with passing CI
 - `pr-automation.sh` - Auto-label, auto-assign, and welcome contributors
+- `watch-and-fix.sh` - Watch PR, fix issues from AI reviews, auto-merge when ready
 
 ## Plugin Structure
 
 ```
 github/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.2.0)
+│   └── plugin.json          # Manifest (version 1.3.0)
 ├── commands/                # Slash commands
 │   ├── bulk-close-issues.md
 │   ├── bulk-merge-prs.md
-│   └── bulk-label.md
+│   ├── bulk-label.md
+│   └── watch-and-fix.md
 ├── skills/                  # Reusable knowledge
 │   └── github.md
 └── examples/                # Example scripts
     ├── bulk-close-issues.sh
     ├── bulk-merge-prs.sh
-    └── pr-automation.sh
+    ├── pr-automation.sh
+    └── watch-and-fix.sh
 ```
 
 ## Versioning
