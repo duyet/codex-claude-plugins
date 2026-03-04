@@ -106,11 +106,19 @@
       "version": "1.0.0",
       "type": "skill",
       "category": "productivity"
+    },
+    {
+      "name": "clickhouse-monitoring",
+      "id": "clickhouse-monitoring@duyet-claude-plugins",
+      "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "monitoring"
     }
   ],
   "metadata": {
-    "lastUpdated": "2026-03-04",
-    "totalPlugins": 12,
-    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database"]
+    "lastUpdated": "2026-03-05",
+    "totalPlugins": 13,
+    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring"]
   }
 }

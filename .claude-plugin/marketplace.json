@@ -63,6 +63,11 @@
       "name": "clickhouse",
       "source": "./clickhouse",
       "description": "Comprehensive ClickHouse knowledge from Altinity KB + official docs. Covers schema design, MergeTree engines, query optimization, cluster management, backups, monitoring, and integrations."
+    },
+    {
+      "name": "clickhouse-monitoring",
+      "source": "./clickhouse-monitoring",
+      "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool. Covers 45 dashboard pages including query monitoring, table management, merge operations, system metrics, security logs, and API integration."
     }
   ]
 }

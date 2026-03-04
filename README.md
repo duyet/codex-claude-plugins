@@ -2,7 +2,7 @@
 
 [![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
 [![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
-[![Plugins](https://img.shields.io/badge/plugins-12-blue?style=flat-square)](#plugins-at-a-glance)
+[![Plugins](https://img.shields.io/badge/plugins-13-blue?style=flat-square)](#plugins-at-a-glance)
 
 > Extend Claude Code with specialized agents, commands, and skills.
 
@@ -29,6 +29,7 @@ Available on **[skills.sh](https://skills.sh)** — the open agent skills ecosys
 /plugin install docs-generator@duyet-claude-plugins
 /plugin install github@duyet-claude-plugins
 /plugin install fix@duyet-claude-plugins
+/plugin install clickhouse-monitoring@duyet-claude-plugins
 ```
 
 ### Alternative: Skills CLI
@@ -71,6 +72,7 @@ npx skills add duyet/claude-plugins
 | [🎯 docs-generator](#🎯-docs-generator) | Hook | Automatically generate and maintain plug... |
 | [🐙 github](#🐙-github) | Skill | GitHub operations using gh CLI - PRs, is... |
 | [🔧 fix](#🔧-fix) | Command | Fix issues, tests, and CI failures with ... |
+| [📈 clickhouse-monitoring](#📈-clickhouse-monitoring) | Skill | Specialized knowledge for the ClickHouse Mo... |
 
 
 ---
@@ -227,6 +229,19 @@ Auto-detects project type and runs appropriate checks. Spawns parallel agents fo
 
 Skills:
   - **test-detection**
+
+---
+
+### 📈 clickhouse-monitoring
+
+**Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters**
+
+Covers 45 dashboard pages including query monitoring, table management, merge operations, system metrics, security logs, and API integration with static site patterns.
+
+**Components:**
+
+Skills:
+  - **clickhouse-monitoring**
 
 ---
 
