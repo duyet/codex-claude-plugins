@@ -21,7 +21,6 @@ Available on **[skills.sh](https://skills.sh)** — the open agent skills ecosys
 # Install plugins
 /plugin install team-agents@duyet-claude-plugins
 /plugin install commit@duyet-claude-plugins
-/plugin install terminal-ui-design@duyet-claude-plugins
 /plugin install frontend-design@duyet-claude-plugins
 /plugin install interview@duyet-claude-plugins
 /plugin install statusline@duyet-claude-plugins
@@ -64,7 +63,6 @@ npx skills add duyet/claude-plugins
 |--------|------|--------------|
 | [👥 team-agents](#👥-team-agents) | Skill | Leader, Senior Engineer, and Junior Engi... |
 | [📝 commit](#📝-commit) | Command | Create a Git commit with semantic commit... |
-| [🎨 terminal-ui-design](#🎨-terminal-ui-design) | Skill | Create distinctive, production-grade ter... |
 | [🎨 frontend-design](#🎨-frontend-design) | Skill | Create distinctive, production-grade fro... |
 | [💬 interview](#💬-interview) | Command | Conduct in-depth requirements interviews... |
 | [📊 statusline](#📊-statusline) | Hook | Configurable status bar showing context ... |
@@ -112,17 +110,6 @@ Skills:
   - `/commit:and-push`: Commit and push to remote
   - `/commit:and-create-pr`: Commit, push, and create a pull request
 ```
-
----
-
-### 🎨 terminal-ui-design
-
-**Create distinctive, production-grade terminal user interfaces with high design quality**
-
-**Components:**
-
-Skills:
-  - **terminal-ui-design**
 
 ---
 

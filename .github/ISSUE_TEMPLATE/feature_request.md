@@ -22,7 +22,6 @@ Add any other context or screenshots about the feature request here.
 **Which plugin would this affect?**
 - [ ] team-agents
 - [ ] commit
-- [ ] terminal-ui-design
 - [ ] frontend-design
 - [ ] interview
 - [ ] statusline
