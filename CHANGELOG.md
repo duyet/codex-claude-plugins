@@ -10,10 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Marketplace.json for centralized plugin registry
 - GitHub issue templates (bug report, feature request)
+- GitHub batch commands: bulk-close-issues, bulk-merge-prs, bulk-label
+- PR templates for commit plugin (default, bugfix, feature)
+- PR automation GitHub Action for auto-labeling and reviewer assignment
+- Enhanced GitHub documentation with examples and troubleshooting
 
 ### Changed
 - Improved documentation consistency across plugins
 - Better version tracking in plugin manifests
+- GitHub plugin: Enhanced batch operations and PR workflow
+- Commit plugin: Added PR template support and draft PR option
+
+### Removed
+- terminal-ui-design plugin (consolidated with frontend-design)
 
 ### Fixed
 
@@ -22,7 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - team-agents: Leader, Senior Engineer, Junior Engineer for parallel execution
 - commit: Semantic commit message format with PR workflows
-- terminal-ui-design: Production-grade terminal UI creation
 - frontend-design: Anti-slop frontend design patterns
 - interview: Socratic requirements gathering
 - statusline: Configurable status bar with API tracking
