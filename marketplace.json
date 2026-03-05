@@ -114,11 +114,19 @@
       "version": "1.0.0",
       "type": "skill",
       "category": "monitoring"
+    },
+    {
+      "name": "unsloth-training",
+      "id": "unsloth-training@duyet-claude-plugins",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "ml"
     }
   ],
   "metadata": {
     "lastUpdated": "2026-03-05",
-    "totalPlugins": 13,
-    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring"]
+    "totalPlugins": 14,
+    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring", "ml"]
   }
 }

@@ -1,0 +1,36 @@
+{
+  "name": "unsloth-training",
+  "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Includes dataset preparation, synthetic data generation, environment flags, MLX (Apple Silicon), FP8, vision models, mobile export, GGUF.",
+  "version": "1.0.0",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "claude": {
+    "minVersion": "1.0.0"
+  },
+  "capabilities": [
+    "skills"
+  ],
+  "triggers": [
+    "unsloth",
+    "fine.?tune",
+    "grpo",
+    "sft.*train",
+    "reward.*function",
+    "gguf",
+    "lora.*train",
+    "fp8",
+    "vision.*train",
+    "mlx.*train",
+    "qlora",
+    "mobile.*deploy"
+  ],
+  "skills": [
+    {
+      "name": "unsloth-training",
+      "path": "skills/unsloth-training/SKILL.md",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Supports FP8, vision models, mobile deployment, Docker, packing, and synthetic data generation."
+    }
+  ]
+}
