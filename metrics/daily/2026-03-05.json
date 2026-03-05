@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-03-05T03:58:40Z",
+  "timestamp": "2026-03-05T23:15:12Z",
   "period": "daily",
-  "collection_duration_seconds": null,
+  "collection_duration_seconds": 60,
   "workflows": {
     "daily-repo-status": {
       "safe_outputs": {
@@ -14,8 +14,8 @@
         "total": 0,
         "successful": 0,
         "failed": 0,
-        "success_rate": 0.0,
-        "avg_duration_seconds": 0,
+        "success_rate": null,
+        "avg_duration_seconds": null,
         "total_tokens": null,
         "total_cost_usd": null
       },
@@ -25,7 +25,7 @@
         "discussion_replies": 0
       },
       "quality_indicators": {
-        "pr_merge_rate": 0.0,
+        "pr_merge_rate": null,
         "avg_issue_close_time_hours": null,
         "avg_pr_merge_time_hours": null
       }
@@ -41,8 +41,8 @@
         "total": 0,
         "successful": 0,
         "failed": 0,
-        "success_rate": 0.0,
-        "avg_duration_seconds": 0,
+        "success_rate": null,
+        "avg_duration_seconds": null,
         "total_tokens": null,
         "total_cost_usd": null
       },
@@ -52,7 +52,7 @@
         "discussion_replies": 0
       },
       "quality_indicators": {
-        "pr_merge_rate": 0.0,
+        "pr_merge_rate": null,
         "avg_issue_close_time_hours": null,
         "avg_pr_merge_time_hours": null
       }
@@ -68,8 +68,8 @@
         "total": 0,
         "successful": 0,
         "failed": 0,
-        "success_rate": 0.0,
-        "avg_duration_seconds": 0,
+        "success_rate": null,
+        "avg_duration_seconds": null,
         "total_tokens": null,
         "total_cost_usd": null
       },
@@ -79,7 +79,7 @@
         "discussion_replies": 0
       },
       "quality_indicators": {
-        "pr_merge_rate": 0.0,
+        "pr_merge_rate": null,
         "avg_issue_close_time_hours": null,
         "avg_pr_merge_time_hours": null
       }
@@ -92,6 +92,5 @@
     "overall_success_rate": null,
     "total_tokens": null,
     "total_cost_usd": null
-  },
-  "notes": "agentic-workflows logs tool consistently failed to download data, so daily metrics defaulted to zeros and tokens/costs are unavailable."
+  }
 }
