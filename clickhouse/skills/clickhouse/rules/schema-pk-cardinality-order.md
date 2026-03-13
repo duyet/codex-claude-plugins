@@ -40,6 +40,6 @@ ORDER BY (event_type, event_date, event_id);
 | 3rd+ | Medium-High | user_id, session_id |
 | Last | High (if needed) | event_id, uuid |
 
-**Tip:** Use `toDate(timestamp)` instead of raw `DateTime` columns when day-level filtering suffices — this reduces index size from 32-bit to 16-bit representations.
+**Tip:** Use `toDate(timestamp)` instead of raw `DateTime` columns when day-level filtering suffices - this reduces index size from 32-bit to 16-bit representations.
 
 Reference: [Choosing a Primary Key](https://clickhouse.com/docs/best-practices/choosing-a-primary-key)

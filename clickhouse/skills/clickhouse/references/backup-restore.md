@@ -15,15 +15,11 @@ Backup strategies, disaster recovery, and data protection.
 
 ### Installation
 
-```bash
-# Download binary
-wget https://github.com/AlexAkulov/clickhouse-backup/releases/latest/download/clickhouse-backup-linux-amd64 \
-  -O /usr/local/bin/clickhouse-backup
-chmod +x /usr/local/bin/clickhouse-backup
-
-# Install from source
-go install github.com/AlexAkulov/clickhouse-backup@latest
-```
+See the [official clickhouse-backup documentation](https://github.com/AlexAkulov/clickhouse-backup#installation) for installation instructions using:
+- Docker images
+- DEB/RPM packages
+- Helm charts (for Kubernetes)
+- Building from source
 
 ### Configuration
 
@@ -38,7 +34,7 @@ general:
 
 clickhouse:
   username: default
-  password: ""
+  password: ""  # ⚠️ Use proper secret management in production
   host: localhost
   port: 9000
   debug: false
@@ -47,8 +43,8 @@ clickhouse:
   skip_tables: [system.*, temporary_*.*, information_schema*]
 
 s3:
-  access_key: AKIAIOSFODNN7EXAMPLE
-  secret_key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  access_key: AKIAIOSFODNN7EXAMPLE  # ⚠️ Placeholder - use AWS IAM roles or proper secrets
+  secret_key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY  # ⚠️ Placeholder
   bucket: clickhouse-backups
   endpoint: https://s3.amazonaws.com
   region: us-west-2
@@ -251,28 +247,13 @@ systemctl start clickhouse-server
 
 ### Complete Restore Procedure
 
-```bash
-# 1. Stop ClickHouse
-systemctl stop clickhouse-server
+For disaster recovery procedures, see the [clickhouse-backup documentation](https://github.com/AlexAkulov/clickhouse-backup#restore-commands).
 
-# 2. Clear data directory
-rm -rf /var/lib/clickhouse/*
-
-# 3. Restore from backup
-clickhouse-backup restore my_backup
-
-# OR: Restore from rsync backup
-rsync -av /backup/clickhouse/ /var/lib/clickhouse/
-
-# 4. Start ClickHouse
-systemctl start clickhouse-server
-
-# 5. Verify
-clickhouse-client --query="SELECT 1"
-
-# 6. Check data
-clickhouse-client --query="SELECT count() FROM my_db.events"
-```
+Key considerations:
+- Always verify backup integrity before restore
+- Test restore procedures in non-production environments
+- Use clickhouse-backup's built-in restore commands rather than manual filesystem operations
+- Consider restoring to a new database/cluster first to verify data integrity
 
 ### Point-in-Time Recovery
 
@@ -378,3 +359,4 @@ clickhouse-client --query="DROP DATABASE test_restore;"
 - `../SKILL.md` - Main skill entry point
 - `debugging.md` - Troubleshooting backup issues
 - `cluster-management.md` - Replication for high availability
+- `monitoring.md` - Backup monitoring and health checks

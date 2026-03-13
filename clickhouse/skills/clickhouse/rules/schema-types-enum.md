@@ -1,7 +1,7 @@
 ---
 title: Use Enum for Finite Value Sets
 impact: MEDIUM
-impactDescription: "Enum provides insert-time validation and natural ordering"
+impactDescription: "Insert-time validation and natural ordering; 1-2 bytes storage"
 tags: [schema, data-types, Enum, validation]
 ---
 
@@ -44,7 +44,7 @@ SELECT * FROM orders ORDER BY status;  -- Orders by enum value (1, 2, 3, 4)
 SELECT * FROM orders WHERE status > 'processing';  -- shipped and delivered
 ```
 
-**Enum guidelines:**
+**Enum Guidelines:**
 
 | Scenario | Use |
 |----------|-----|

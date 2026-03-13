@@ -2,6 +2,12 @@
 
 Kafka, S3, PostgreSQL, MySQL, RabbitMQ, and BI tools.
 
+> ⚠️ **Credential Security**: All credentials in examples below (`password123`, `AKIAIOSFODNN7EXAMPLE`, etc.) are **placeholders only**. Never use these in production. Use proper secret management:
+> - Environment variables
+> - Secret managers (AWS Secrets Manager, HashiCorp Vault, etc.)
+> - Kubernetes secrets (for K8s deployments)
+> - ClickHouse named collections with external configuration
+
 ## Kafka Integration
 
 ### Kafka Table Engine
@@ -140,6 +146,7 @@ SELECT * FROM s3(
         <s3_cold>
             <type>s3</type>
             <endpoint>https://bucket.s3.amazonaws.com/clickhouse/</endpoint>
+            <!-- ⚠️ Use AWS IAM roles or environment variables in production -->
             <access_key_id>AKIAIOSFODNN7EXAMPLE</access_key_id>
             <secret_access_key>wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</secret_access_key>
         </s3_cold>
@@ -168,6 +175,17 @@ ENGINE = MergeTree()
 ORDER BY timestamp
 SETTINGS storage_policy = 'hot_cold'
 TTL timestamp + INTERVAL 7 DAY TO DISK 's3_cold';
+```
+
+**Production S3 Configuration:** Use IAM roles or externalized secrets:
+```xml
+<s3_cold>
+    <type>s3</type>
+    <endpoint>https://bucket.s3.amazonaws.com/clickhouse/</endpoint>
+    <!-- Use environment variable: ${S3_ACCESS_KEY} -->
+    <access_key_id>${S3_ACCESS_KEY}</access_key_id>
+    <secret_access_key>${S3_SECRET_KEY}</secret_access_key>
+</s3_cold>
 ```
 
 ### S3 Caching

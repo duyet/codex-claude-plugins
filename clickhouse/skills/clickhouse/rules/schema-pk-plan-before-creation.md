@@ -1,52 +1,64 @@
 ---
-title: Plan ORDER BY Before Table Creation
+title: Plan PRIMARY KEY Before Table Creation
 impact: CRITICAL
 impactDescription: "ORDER BY is immutable; wrong choice requires full data migration"
-tags: [schema, primary-key, ORDER BY, planning]
+tags: [schema, primary-key, ORDER BY]
 ---
 
-## Plan ORDER BY Before Table Creation
+## Plan PRIMARY KEY Before Table Creation
 
-**Impact: CRITICAL**
+**Impact: CRITICAL** (immutable after creation)
 
-ClickHouse's PRIMARY KEY (defined via ORDER BY) is immutable after table creation. Once created with an incorrect ORDER BY, you cannot use ALTER TABLE to modify it. Fixing mistakes requires building a new table and migrating all data — a costly operation at scale.
+ClickHouse's ORDER BY clause defines physical data ordering and the sparse index. Unlike other databases, **ORDER BY cannot be modified after table creation**. A wrong choice requires creating a new table and migrating all data.
 
-**Before creating any table:**
-
-1. **Analyze query patterns** — Document your 5-10 most frequent queries
-2. **Identify filter columns** — Note which WHERE clause columns appear most often
-3. **Prioritize selectivity** — Rank columns by their ability to eliminate rows
-4. **Order by cardinality** — Place low-cardinality columns before high-cardinality ones
-5. **Keep it concise** — Limit to 4-5 key columns maximum
-
-**Incorrect (arbitrary column order without analysis):**
+**Incorrect (arbitrary ORDER BY without query analysis):**
 
 ```sql
--- No analysis of query patterns; arbitrary ORDER BY
+-- Creating table without analyzing query patterns
 CREATE TABLE events (
     event_id UUID,
-    timestamp DateTime,
-    user_id UInt32,
-    event_type String
+    user_id UInt64,
+    timestamp DateTime
 )
 ENGINE = MergeTree()
-ORDER BY (event_id);
--- event_id has highest cardinality, queries by user_id will full-scan
+ORDER BY (event_id);  -- Chosen arbitrarily
+
+-- Later: "Most queries filter by user_id!"
+-- Cannot fix with: ALTER TABLE events MODIFY ORDER BY (user_id, timestamp)
+-- ERROR: Cannot modify ORDER BY
 ```
 
-**Correct (ORDER BY based on documented query patterns):**
+**Correct (query-driven ORDER BY selection):**
 
 ```sql
--- Analyzed: 80% of queries filter by user_id + timestamp range
+-- Step 1: Document query patterns BEFORE creating table
+/*
+Query Analysis:
+- 60% of queries: WHERE user_id = ? AND timestamp BETWEEN ? AND ?
+- 25% of queries: WHERE event_type = ? AND timestamp > ?
+- 15% of queries: WHERE event_id = ?
+
+Conclusion: user_id and event_type are primary filters
+*/
+
+-- Step 2: Create table with correct ORDER BY
 CREATE TABLE events (
-    event_id UUID,
+    event_id UUID DEFAULT generateUUIDv4(),
+    user_id UInt64,
+    event_type LowCardinality(String),
     timestamp DateTime,
-    user_id UInt32,
-    event_type LowCardinality(String)
+    event_date Date DEFAULT toDate(timestamp)
 )
 ENGINE = MergeTree()
-ORDER BY (user_id, timestamp);
--- Matches dominant query pattern
+PARTITION BY toYYYYMM(event_date)
+ORDER BY (user_id, event_date, event_id);
 ```
+
+**Pre-creation checklist:**
+- [ ] Listed top 5-10 query patterns
+- [ ] Identified columns in WHERE clauses with frequency
+- [ ] Prioritized columns that exclude large numbers of rows
+- [ ] Ordered columns by cardinality (low first, high last)
+- [ ] Limited to 4-5 key columns (typically sufficient)
 
 Reference: [Choosing a Primary Key](https://clickhouse.com/docs/best-practices/choosing-a-primary-key)

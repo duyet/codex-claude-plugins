@@ -5,9 +5,31 @@ description: MUST USE when reviewing ClickHouse schemas, queries, or configurati
 
 # ClickHouse Best Practices
 
-Guidance for ClickHouse covering schema design, query optimization, and data ingestion. Contains 28 atomic rules across 3 categories (schema, query, insert), prioritized by impact. Extended with 15+ reference files covering cluster management, Kubernetes, backups, monitoring, and integrations.
+Guidance for ClickHouse covering schema design, query optimization, and data ingestion. Contains 28 atomic rules across 3 categories (schema, query, insert), prioritized by impact. Extended with 14 reference files covering cluster management, backups, monitoring, and integrations.
 
 > **Official docs:** [ClickHouse Best Practices](https://clickhouse.com/docs/best-practices)
+
+> **Official docs:** [ClickHouse Best Practices](https://clickhouse.com/docs/best-practices)
+
+---
+
+## ⚠️ Security Considerations
+
+### Credential Placeholders
+Example credentials in documentation (`password123`, `AKIAIOSFODNN7EXAMPLE`) are placeholders only. Never use these in production. Use proper secret management:
+- Environment variables
+- Secret managers (AWS Secrets Manager, HashiCorp Vault, etc.)
+- Kubernetes secrets (for K8s deployments)
+- ClickHouse named collections with external configuration
+
+### Installation & Operations
+For installation and operational procedures:
+- Follow official documentation links provided in reference files
+- Prefer package managers (`apt`, `yum`, `helm`) over direct downloads
+- Use versioned artifacts instead of `latest` in production
+- Test procedures in non-production environments first
+
+---
 
 ## IMPORTANT: How to Apply This Skill
 
@@ -248,7 +270,6 @@ For topics beyond the 28 rules, see the `references/` directory:
 ### Operations & Cluster
 - `references/debugging.md` — Query debugging, merges, mutations, replication
 - `references/cluster-management.md` — Distributed tables, replication, sharding
-- `references/kubernetes-operator.md` — K8s deployment and operations
 - `references/backup-restore.md` — Backup strategies, disaster recovery
 - `references/monitoring.md` — Query monitoring, health checks, system queries
 
@@ -260,6 +281,6 @@ For topics beyond the 28 rules, see the `references/` directory:
 
 ---
 
-**Version**: 1.1.0
-**Rules**: Adapted from [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) (Apache-2.0)
+**Version**: 1.3.0
+**Rules**: Synced with [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) (Apache-2.0)
 **References**: Altinity Knowledge Base (200+ articles) + ClickHouse Official Docs

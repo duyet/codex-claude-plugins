@@ -51,6 +51,10 @@ Deep-dive files covering topics beyond the rules:
 clickhouse/
 ├── .claude-plugin/
 │   └── plugin.json
+├── .github/
+│   └── workflows/
+│       ├── sync-rules.yml       # Auto-sync from ClickHouse/agent-skills
+│       └── README.md            # Workflow documentation
 ├── skills/
 │   └── clickhouse/
 │       ├── SKILL.md              # Review framework + rule index
@@ -78,7 +82,6 @@ clickhouse/
 │           ├── advanced-features.md
 │           ├── debugging.md
 │           ├── cluster-management.md
-│           ├── kubernetes-operator.md
 │           ├── backup-restore.md
 │           ├── monitoring.md
 │           ├── integrations.md
@@ -109,12 +112,51 @@ When reviewing ClickHouse code, the skill:
 
 ## Attribution
 
-- **Rules**: Adapted from [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) by ClickHouse Inc (Apache-2.0 license)
+- **Rules**: Synced from [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) by ClickHouse Inc (Apache-2.0 license)
 - **References**: Compiled from Altinity Knowledge Base (200+ articles) and ClickHouse Official Documentation
+
+## Automation
+
+### GitHub Actions Sync
+
+This plugin uses GitHub Actions to automatically sync rule files from the official ClickHouse/agent-skills repository:
+
+- **Workflow**: `.github/workflows/sync-rules.yml`
+- **Specification**: `spec/spec-process-cicd-sync-rules.md`
+- **Schedule**: Weekly (Sunday at midnight UTC)
+- **Trigger**: Manual trigger available from Actions tab
+
+The sync workflow:
+1. Fetches latest rules from ClickHouse/agent-skills
+2. Updates `skills/clickhouse/rules/` directory
+3. Auto-increments version number
+4. Creates a pull request for review
+
+**Custom content preserved**: Our extended `references/` directory is never modified by the sync.
+
+See [Workflow Specification](spec/spec-process-cicd-sync-rules.md) for detailed requirements, error handling, and validation criteria.
+
+### Manual Sync
+
+To manually trigger a sync:
+```bash
+# Via GitHub UI:
+# 1. Go to Actions tab
+# 2. Select "Sync Rules from ClickHouse/agent-skills"
+# 3. Click "Run workflow"
+
+# Via CLI (gh CLI):
+gh workflow run sync-rules.yml
+```
 
 ## Version
 
-**Current Version**: 1.1.0
+**Current Version**: 1.3.0
+
+**Version History**:
+- 1.3.0 — Synced rules from ClickHouse/agent-skills
+- 1.2.0 — Added security considerations
+- 1.1.0 — Initial release with extended references
 
 ## License
 
