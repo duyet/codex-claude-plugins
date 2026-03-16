@@ -316,6 +316,37 @@ The watch-and-fix command:
 5. Repeats until CI passes and PR is approved
 6. Optionally auto-merges when ready
 
+### Babysit PR
+
+Full PR lifecycle management with AI review bot integration:
+
+```bash
+# Babysit current branch's PR
+/github:babysit-pr
+
+# Babysit and auto-merge when ready
+/github:babysit-pr --auto-merge
+
+# Babysit specific PR with limited iterations
+/github:babysit-pr --pr 123 --max-iterations 5
+
+# Preview mode
+/github:babysit-pr --dry-run
+
+# Use with /loop for continuous monitoring
+/loop 10m /github:babysit-pr --auto-merge
+```
+
+The babysit-pr command:
+1. Waits for CI and review bots to post comments
+2. Reads ALL review comments (CodeRabbit, Sourcery, Gemini, and human reviewers)
+3. Parses bot-specific suggestion formats (code blocks, diffs, inline suggestions)
+4. Checks for and resolves merge conflicts
+5. Applies fixes using code understanding
+6. Commits, pushes, and waits for next CI cycle
+7. Repeats until CI passes and all suggestions addressed
+8. Optionally auto-merges with effort report (iterations, fixes per bot, duration)
+
 ### Bulk Close Issues
 
 ```bash

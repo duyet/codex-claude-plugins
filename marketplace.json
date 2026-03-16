@@ -78,8 +78,8 @@
     {
       "name": "github",
       "id": "github@duyet-claude-plugins",
-      "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, watch-and-fix automation, and smart branch detection",
-      "version": "1.3.0",
+      "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
+      "version": "1.4.0",
       "type": "skill",
       "category": "git"
     },

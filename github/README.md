@@ -4,18 +4,20 @@ GitHub operations using gh CLI - PRs, issues, workflows, repositories, batch ope
 
 ## Version
 
-1.3.0
+1.4.0
 
 ## Components
 
 ### Skills
-- **github** - Comprehensive GitHub operations knowledge
+- **github** - GitHub operations knowledge
+- **review-bots** - AI code review bot parsing (CodeRabbit, Sourcery, Gemini)
 
 ### Commands
 - `/github:bulk-close-issues` - Close multiple issues by label or search query
 - `/github:bulk-merge-prs` - Merge multiple approved PRs
 - `/github:bulk-label` - Apply labels to multiple issues/PRs
 - `/github:watch-and-fix` - Watch PR, fix issues from AI reviews, and auto-merge when ready
+- `/github:babysit-pr` - Babysit a PR: monitor, fix review bot suggestions (CodeRabbit, Sourcery, Gemini), resolve conflicts, and merge
 
 ## Features
 
@@ -78,6 +80,21 @@ gh pr create --title "feat: add new feature" --body "Implements #123"
 
 # Preview what would happen
 /github:watch-and-fix --dry-run
+```
+
+### Babysit PR
+```bash
+# Babysit current branch's PR — reads all review comments and fixes them
+/github:babysit-pr --auto-merge
+
+# Babysit specific PR with limited iterations
+/github:babysit-pr --pr 123 --max-iterations 5
+
+# Use with /loop for continuous monitoring every 10 minutes
+/loop 10m /github:babysit-pr --auto-merge
+
+# Preview mode
+/github:babysit-pr --dry-run
 ```
 
 ## Real-World Workflows
@@ -160,6 +177,7 @@ gh pr list --limit 100 --json number,title --jq '.[]'
 ## Examples
 
 See the `examples/` directory for complete automation scripts:
+- `babysit-pr.sh` - Babysit PR with review bot integration and effort reporting
 - `bulk-close-issues.sh` - Close issues by label with confirmation
 - `bulk-merge-prs.sh` - Merge approved PRs with passing CI
 - `pr-automation.sh` - Auto-label, auto-assign, and welcome contributors
@@ -170,15 +188,18 @@ See the `examples/` directory for complete automation scripts:
 ```
 github/
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 1.3.0)
+│   └── plugin.json          # Manifest (version 1.4.0)
 ├── commands/                # Slash commands
+│   ├── babysit-pr.md
 │   ├── bulk-close-issues.md
 │   ├── bulk-merge-prs.md
 │   ├── bulk-label.md
 │   └── watch-and-fix.md
 ├── skills/                  # Reusable knowledge
-│   └── github.md
+│   ├── github.md
+│   └── review-bots.md
 └── examples/                # Example scripts
+    ├── babysit-pr.sh
     ├── bulk-close-issues.sh
     ├── bulk-merge-prs.sh
     ├── pr-automation.sh
@@ -192,7 +213,7 @@ Follow semantic versioning (semver):
 | Change Type | Version Bump | Example |
 |-------------|--------------|---------|
 | Bug fix, docs | Patch | 1.2.0 → 1.2.1 |
-| New feature, minor change | Minor | 1.2.0 → 1.3.0 |
+| New feature, minor change | Minor | 1.2.0 → 1.4.0 |
 | Breaking change | Major | 1.2.0 → 2.0.0 |
 
 **When to bump:**

@@ -124,10 +124,9 @@ for iteration in $(seq 1 "$MAX_ITERATIONS"); do
 
   # Apply fixes using the fix skill
   echo "Applying fixes..."
-  # This would invoke the fix:and-update-pr skill
-  # For now, just notify that fixes need to be applied
-  echo "⚠️ Fix automation requires fix:and-update-pr skill integration"
-  echo "Please manually fix issues or ensure fix plugin is installed."
+  # Invoke fix:and-update-pr to address review comments
+  # For full review-bot-aware automation, use /github:babysit-pr instead
+  echo "Use '/fix:and-update-pr' to apply fixes, or '/github:babysit-pr' for full automation."
 
   # After fixes, the loop continues
   echo "Waiting for CI to restart..."
