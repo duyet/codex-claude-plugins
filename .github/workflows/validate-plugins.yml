@@ -1,0 +1,29 @@
+name: Validate Plugins
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master, "claude/**"]
+    paths:
+      - "**/.claude-plugin/plugin.json"
+      - "scripts/validate-plugins.sh"
+      - ".github/workflows/validate-plugins.yml"
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "**/.claude-plugin/plugin.json"
+      - "scripts/validate-plugins.sh"
+      - ".github/workflows/validate-plugins.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate plugin.json manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Validate all plugin manifests
+        run: bash scripts/validate-plugins.sh
