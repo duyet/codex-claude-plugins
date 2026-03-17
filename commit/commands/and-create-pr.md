@@ -17,7 +17,7 @@ Create a semantic commit and open a pull request for the changes.
 ## Context
 
 - Current Git status: !`git status`
-- Current Git diff (staged and unstaged changes): !`git diff HEAD`
+- Current Git diff (staged and unstaged changes): !`git diff HEAD --`
 - Current branch: !`git branch --show-current`
 - Default branch: !`git remote show origin | grep 'HEAD branch' | cut -d' ' -f5'
 - Recent commits: !`git log --oneline -5`
