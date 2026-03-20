@@ -83,10 +83,6 @@ npx skills add duyet/claude-plugins
 
 **Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution**
 
-```bash
-  - `/leader`
-```
-
 **Components:**
 
 Agents:
