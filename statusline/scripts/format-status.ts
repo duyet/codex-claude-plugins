@@ -383,20 +383,8 @@ function formatTasks(metrics: SessionMetrics): string | null {
 
 function formatModel(model?: string): string | null {
   if (!model) return null;
-
-  // Format GLM models
-  if (model.startsWith("glm-")) {
-    return `Model: GLM ${model.replace("glm-", "")}`;
-  }
-
-  // Format Anthropic models: "claude-opus-4-5-20251101" -> "Opus 4.5"
-  const short = model
-    .replace(/^claude-/, "")
-    .replace(/-\d{8}$/, "")
-    .replace(/-(\d)-(\d)$/, " $1.$2")
-    .replace(/-(\d)$/, " $1");
-  const capitalized = short.replace(/\b(\w)/g, (_, c) => c.toUpperCase());
-  return `Model: ${capitalized}`;
+  // Show raw model code name as-is (e.g. "glm-5.1", "claude-opus-4-5-20251101")
+  return model;
 }
 
 function formatDuration(duration?: string): string | null {
