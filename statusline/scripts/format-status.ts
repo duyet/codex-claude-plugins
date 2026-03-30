@@ -1,7 +1,7 @@
 /**
  * Compact one-line status formatter for Claude Code sessions
+ * Multi-provider support: Anthropic (5h/7d) and z.ai GLM (tokens + monthly tools)
  * Hides empty values, shows only relevant metrics
- * Includes rate limit tracking (5h/7d for Anthropic, dual quotas for z.ai)
  */
 
 import { dirname, join } from "path";
@@ -30,7 +30,7 @@ interface RateLimits {
   seven_day: number;
   resets_at?: string;
   error?: string;
-  zai?: ZaiDetails;  // Extended data for z.ai provider
+  zai?: ZaiDetails;
 }
 
 interface SessionMetrics {
@@ -63,22 +63,23 @@ interface FormattedStatus {
 // ===========================================================================
 
 /**
- * Detect model provider from environment variables
+ * Detect model provider from model name or environment variables
  */
-function detectProvider(): "zai" | "anthropic" {
-  const model = process.env.CLAUDE_MODEL ?? process.env.ANTHROPIC_MODEL ?? "";
-  return model.startsWith("glm-") ? "zai" : "anthropic";
+function detectProvider(model?: string): "zai" | "anthropic" {
+  if (model?.startsWith("glm-")) return "zai";
+  const envModel = process.env.CLAUDE_MODEL ?? process.env.ANTHROPIC_MODEL ?? "";
+  return envModel.startsWith("glm-") ? "zai" : "anthropic";
 }
 
 /**
  * Read z.ai API key from multiple sources
  */
 function getZaiApiKey(): string | null {
-  // 1. Try environment variables
+  // 1. Environment variables
   const envKey = process.env.ZAI_API_KEY ?? process.env.ZAI_CODING_PLAN_KEY;
   if (envKey) return envKey;
 
-  // 2. Try macOS Keychain
+  // 2. macOS Keychain
   if (process.platform === "darwin") {
     try {
       const keychainNames = ["z.ai", "zai", "opencode", "zai-coding-plan"];
@@ -93,16 +94,16 @@ function getZaiApiKey(): string | null {
               return parsed.key || parsed.apiKey || parsed.token;
             }
           } catch {
-            return result.trim(); // Raw value
+            return result.trim();
           }
         }
       }
     } catch {
-      // Keychain access failed, continue to other methods
+      // Keychain access failed
     }
   }
 
-  // 3. Try configuration files
+  // 3. Configuration files
   const homeDir = process.env.HOME ?? process.env.USERPROFILE ?? "";
   const authPaths = [
     join(homeDir, ".local", "share", "opencode", "auth.json"),
@@ -116,14 +117,13 @@ function getZaiApiKey(): string | null {
       try {
         const content = readFileSync(authPath, "utf-8");
         const auth = JSON.parse(content);
-        // Try multiple possible key paths
         return auth["zai-coding-plan"]?.key
           ?? auth.zai?.key
           ?? auth.apiKey
           ?? auth.key
           ?? null;
       } catch {
-        // File read or parse failed, continue
+        // File read or parse failed
       }
     }
   }
@@ -135,7 +135,7 @@ function getZaiApiKey(): string | null {
  * Fetch Anthropic OAuth token from keychain or credentials files
  */
 function getAnthropicToken(): string | null {
-  // 1. Try macOS Keychain (primary on macOS)
+  // 1. macOS Keychain
   if (process.platform === "darwin") {
     try {
       const result = execFileSync("security", [
@@ -147,7 +147,7 @@ function getAnthropicToken(): string | null {
           const token = parsed.claudeAiOauth?.accessToken;
           if (token) return token;
         } catch {
-          // Not JSON or doesn't have expected structure
+          // Not JSON
         }
       }
     } catch {
@@ -155,7 +155,7 @@ function getAnthropicToken(): string | null {
     }
   }
 
-  // 2. Try file-based credentials
+  // 2. File-based credentials
   const homeDir = process.env.HOME ?? "";
   const credPaths = [
     join(homeDir, ".claude", ".credentials.json"),
@@ -315,9 +315,9 @@ async function fetchAnthropicUsage(): Promise<RateLimits> {
 /**
  * Fetch rate limits from appropriate API based on model provider
  */
-export async function fetchRateLimits(): Promise<RateLimits | null> {
+export async function fetchRateLimits(model?: string): Promise<RateLimits | null> {
   try {
-    const provider = detectProvider();
+    const provider = detectProvider(model);
     return provider === "zai" ? await fetchZaiUsage() : await fetchAnthropicUsage();
   } catch {
     return null;
@@ -330,13 +330,22 @@ export async function fetchRateLimits(): Promise<RateLimits | null> {
 
 function formatContext(metrics: SessionMetrics): string | null {
   if (!metrics.context) return null;
-  const { percentage } = metrics.context;
+  const { percentage, used, total } = metrics.context;
 
   let color = "🟢";
   if (percentage > 85) color = "🔴";
   else if (percentage > 60) color = "🟡";
 
-  return `${color} ${percentage}%`;
+  const usedK = formatTokenCount(used);
+  const totalK = formatTokenCount(total);
+
+  return `${color} ${percentage}% (${usedK}/${totalK})`;
+}
+
+function formatTokenCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1000) return `${Math.floor(n / 1000)}k`;
+  return `${n}`;
 }
 
 function formatTools(metrics: SessionMetrics): string | null {
@@ -374,7 +383,20 @@ function formatTasks(metrics: SessionMetrics): string | null {
 
 function formatModel(model?: string): string | null {
   if (!model) return null;
-  return `Model: ${model}`;
+
+  // Format GLM models
+  if (model.startsWith("glm-")) {
+    return `Model: GLM ${model.replace("glm-", "")}`;
+  }
+
+  // Format Anthropic models: "claude-opus-4-5-20251101" -> "Opus 4.5"
+  const short = model
+    .replace(/^claude-/, "")
+    .replace(/-\d{8}$/, "")
+    .replace(/-(\d)-(\d)$/, " $1.$2")
+    .replace(/-(\d)$/, " $1");
+  const capitalized = short.replace(/\b(\w)/g, (_, c) => c.toUpperCase());
+  return `Model: ${capitalized}`;
 }
 
 function formatDuration(duration?: string): string | null {
@@ -394,27 +416,26 @@ function formatRateLimits(rateLimits?: RateLimits): string | null {
 
   const provider = rateLimits.provider ?? "anthropic";
 
-  // z.ai format: 5-hour tokens + monthly tools
+  // z.ai format: tokens % + monthly tools + per-tool breakdown
   if (provider === "zai" && rateLimits.zai) {
     const z = rateLimits.zai;
     const parts: string[] = [];
 
+    // Token quota (5h equivalent)
     parts.push(`Tokens: ${z.tokens_pct}%`);
     if (z.token_reset) {
-      parts.push(`5h reset: ${z.token_reset}`);
+      parts.push(`reset: ${z.token_reset}`);
     }
 
-    if (z.monthly_remaining > 0) {
-      parts.push(`Tools: ${z.monthly_pct}% (${z.monthly_remaining} left, ${z.monthly_reset})`);
-    }
+    // Monthly tool quota
+    if (z.monthly_remaining > 0 || z.monthly_pct > 0) {
+      const toolParts: string[] = [];
+      if (z.search > 0) toolParts.push(`Search:${z.search}`);
+      if (z.web > 0) toolParts.push(`Web:${z.web}`);
+      if (z.zread > 0) toolParts.push(`ZRead:${z.zread}`);
 
-    const toolParts: string[] = [];
-    if (z.search > 0) toolParts.push(`Search:${z.search}`);
-    if (z.web > 0) toolParts.push(`Web:${z.web}`);
-    if (z.zread > 0) toolParts.push(`ZRead:${z.zread}`);
-
-    if (toolParts.length > 0) {
-      parts.push(toolParts.join(" "));
+      const toolStr = toolParts.length > 0 ? ` [${toolParts.join(" ")}]` : "";
+      parts.push(`Tools: ${z.monthly_pct}% (${z.monthly_remaining} left)${toolStr}`);
     }
 
     return `z.ai ${parts.join(" | ")}`;
@@ -469,7 +490,9 @@ export function isShouldDisplay(metrics: SessionMetrics): boolean {
 // ===========================================================================
 
 async function main() {
-  const rateLimits = await fetchRateLimits();
+  // Try to detect model from env or args
+  const model = process.env.CLAUDE_MODEL ?? process.env.ANTHROPIC_MODEL ?? process.argv[2];
+  const rateLimits = await fetchRateLimits(model);
   if (rateLimits) {
     console.log(JSON.stringify(rateLimits));
   } else {
