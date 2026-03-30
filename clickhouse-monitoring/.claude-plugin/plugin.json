@@ -2,30 +2,5 @@
   "name": "clickhouse-monitoring",
   "version": "1.0.1",
   "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters. Covers 45 dashboard pages, query performance analysis, table management, and API integration.",
-  "author": { "name": "duyet" },
-  "license": "MIT",
-  "claude": {
-    "minVersion": "1.0.0"
-  },
-  "capabilities": [
-    "skills"
-  ],
-  "triggers": [
-    "clickhouse.*monitor",
-    "monitor.*dashboard",
-    "query.*performance",
-    "merge.*operations",
-    "system.*metrics",
-    "clickhouse.*api",
-    "observability",
-    "running.*queries",
-    "clickhouse.*dashboard"
-  ],
-  "skills": [
-    {
-      "name": "clickhouse-monitoring",
-      "path": "skills/clickhouse-monitoring/SKILL.md",
-      "description": "Specialized knowledge for the ClickHouse Monitor dashboard. Use when working with ClickHouse monitoring dashboards, analyzing query performance, writing ClickHouse system table queries, developing dashboard features, or integrating with the ClickHouse Monitor API."
-    }
-  ]
+  "author": { "name": "duyet" }
 }
