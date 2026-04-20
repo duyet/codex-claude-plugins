@@ -338,14 +338,23 @@ function formatContext(metrics: SessionMetrics): string | null {
 
   const usedK = formatTokenCount(used);
   const totalK = formatTokenCount(total);
+  const bar = progressBar(percentage);
 
-  return `${color} ${percentage}% (${usedK}/${totalK})`;
+  return `${color} ${bar} ${percentage}% (${usedK}/${totalK})`;
 }
 
 function formatTokenCount(n: number): string {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1000) return `${Math.floor(n / 1000)}k`;
   return `${n}`;
+}
+
+/**
+ * Generate a 10-char progress bar: ████░░░░░░
+ */
+function progressBar(pct: number): string {
+  const filled = Math.min(10, Math.max(0, Math.round(pct / 10)));
+  return "█".repeat(filled) + "░".repeat(10 - filled);
 }
 
 function formatTools(metrics: SessionMetrics): string | null {
@@ -409,30 +418,34 @@ function formatRateLimits(rateLimits?: RateLimits): string | null {
     const z = rateLimits.zai;
     const parts: string[] = [];
 
-    // Token quota (5h equivalent)
-    parts.push(`Tokens: ${z.tokens_pct}%`);
+    // Token quota (5h equivalent) with bar
+    const tBar = progressBar(z.tokens_pct);
+    parts.push(`Tokens: ${tBar} ${z.tokens_pct}%`);
     if (z.token_reset) {
       parts.push(`reset: ${z.token_reset}`);
     }
 
-    // Monthly tool quota
+    // Monthly tool quota with bar
     if (z.monthly_remaining > 0 || z.monthly_pct > 0) {
       const toolParts: string[] = [];
       if (z.search > 0) toolParts.push(`Search:${z.search}`);
       if (z.web > 0) toolParts.push(`Web:${z.web}`);
       if (z.zread > 0) toolParts.push(`ZRead:${z.zread}`);
 
+      const mBar = progressBar(z.monthly_pct);
       const toolStr = toolParts.length > 0 ? ` [${toolParts.join(" ")}]` : "";
-      parts.push(`Tools: ${z.monthly_pct}% (${z.monthly_remaining} left)${toolStr}`);
+      parts.push(`Tools: ${mBar} ${z.monthly_pct}% (${z.monthly_remaining} left)${toolStr}`);
     }
 
     return `z.ai ${parts.join(" | ")}`;
   }
 
-  // Anthropic format (5h/7d)
+  // Anthropic format (5h/7d) with bars
   const u5h = Math.round(rateLimits.five_hour);
   const u7d = Math.round(rateLimits.seven_day);
-  return `5h: ${u5h}% | 7d: ${u7d}%`;
+  const bar5 = progressBar(u5h);
+  const bar7 = progressBar(u7d);
+  return `5h: ${bar5} ${u5h}% | 7d: ${bar7} ${u7d}%`;
 }
 
 export function formatStatus(metrics: SessionMetrics): FormattedStatus {

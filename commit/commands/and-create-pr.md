@@ -16,11 +16,11 @@ Create a semantic commit and open a pull request for the changes.
 
 ## Context
 
-- Current Git status: !`git status`
-- Current Git diff (staged and unstaged changes): !`git diff HEAD --`
-- Current branch: !`git branch --show-current`
-- Default branch: !`git remote show origin | grep 'HEAD branch' | cut -d' ' -f5'
-- Recent commits: !`git log --oneline -5`
+- Current Git status: `git status`
+- Current Git diff (staged and unstaged changes): `git diff HEAD --`
+- Current branch: `git branch --show-current`
+- Default branch: `git remote show origin | grep 'HEAD branch' | cut -d' ' -f5'
+- Recent commits: `git log --oneline -5`
 
 ## Your task
 
@@ -58,7 +58,7 @@ If current branch is NOT main/master:
 git add .
 git commit -m "type(scope): description
 
-Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>"
+Co-Authored-By: duyetbot <bot@duyet.net>"
 ```
 
 ### Step 4: Push Branch
@@ -149,7 +149,7 @@ git checkout -b feat/user-authentication
 git add .
 git commit -m "feat(auth): add user authentication flow
 
-Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>"
+Co-Authored-By: duyetbot <bot@duyet.net>"
 
 # Push new branch
 git push -u origin feat/user-authentication

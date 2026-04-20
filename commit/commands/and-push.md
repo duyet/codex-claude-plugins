@@ -7,10 +7,10 @@ description: Create a git commit with semantic commit message format and push to
 
 ## Context
 
-- Current Git status: !`git status`
-- Current Git diff (staged and unstaged changes): !`git diff HEAD --`
-- Current branch: !`git branch --show-current`
-- Recent commits: !`git log --oneline -10`
+- Current Git status: `git status`
+- Current Git diff (staged and unstaged changes): `git diff HEAD --`
+- Current branch: `git branch --show-current`
+- Recent commits: `git log --oneline -10`
 
 ## Your task
 

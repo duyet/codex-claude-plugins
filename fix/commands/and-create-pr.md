@@ -26,16 +26,16 @@ Fix any failing tests or issues on the current branch, commit the fixes, and cre
 
 ```bash
 # Current branch
-!`git branch --show-current`
+git branch --show-current
 
 # Default branch (usually main or master)
-!`git remote show origin | grep 'HEAD branch' | cut -d' ' -f5`
+git remote show origin | grep 'HEAD branch' | cut -d' ' -f5
 
 # Uncommitted changes
-!`git status --short`
+git status --short
 
 # Commits ahead of base
-!`git log origin/$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)..HEAD --oneline 2>/dev/null || echo "Branch not pushed yet"`
+git log origin/$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)..HEAD --oneline 2>/dev/null || echo "Branch not pushed yet"
 ```
 
 ## Execution Flow

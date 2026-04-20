@@ -25,13 +25,13 @@ Fix failing CI checks, tests, or requested changes on an existing pull request, 
 
 ```bash
 # Current branch
-!`git branch --show-current`
+`git branch --show-current`
 
 # PR information (if PR number provided as $ARGUMENTS)
-!`gh pr view $ARGUMENTS --json number,title,url,state,statusCheckRollup,headRefName,baseRefName 2>/dev/null || echo "No PR number provided"`
+`gh pr view $ARGUMENTS --json number,title,url,state,statusCheckRollup,headRefName,baseRefName 2>/dev/null || echo "No PR number provided"`
 
 # Or find PR for current branch
-!`gh pr view --json number,title,url,state,statusCheckRollup 2>/dev/null || echo "No PR found for current branch"`
+`gh pr view --json number,title,url,state,statusCheckRollup 2>/dev/null || echo "No PR found for current branch"`
 ```
 
 ## Execution Flow
