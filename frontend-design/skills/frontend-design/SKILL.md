@@ -455,3 +455,231 @@ When implementing frontend:
    - Comments for non-obvious choices
 
 Remember: Claude is capable of extraordinary creative work. Commit fully to a distinctive vision that could only have been designed for this specific context.
+
+## Micro-Interaction Polish
+
+The difference between good and exceptional interfaces lies in microscopic details that users feel but don't consciously notice. These patterns make interfaces feel "expensive" and polished.
+
+### 1. Typography Enhancement
+
+**Text Wrapping for Headlines**:
+```css
+/* Prevents awkward widows in headlines */
+.hero-title {
+  text-wrap: balance;  /* Optimizes line breaks for headlines */
+}
+
+/* For multi-line text where you want pretty breaks */
+.description {
+  text-wrap: pretty;   /* Last line minimum 4 characters */
+}
+```
+- Use `balance` for headlines, titles, and short text blocks
+- Use `pretty` for descriptions, summaries, and body text where you want to avoid orphans
+
+**Font Smoothing**:
+```css
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+```
+- Critical for Mac rendering—removes "thin" look from fonts
+- Makes text appear more substantial and premium
+- Apply globally to `body` or typography containers
+
+**Tabular Numbers**:
+```css
+.price, .metric, .stat {
+  font-variant-numeric: tabular-nums;
+}
+```
+- Essential for data, prices, metrics—prevents jitter when numbers animate
+- Use for anything that changes value dynamically
+- Avoids visual shifting during countdowns, tickers, or live data
+
+### 2. Border Radius Consistency
+
+**Concentric Formula**:
+```css
+/* Outer radius = Inner radius + padding */
+.card {
+  padding: 1.5rem;
+  border-radius: 16px;
+}
+
+.card-inner {
+  border-radius: calc(16px - 1.5rem); /* Concentric borders align perfectly */
+}
+```
+- When nesting elements with borders, adjust inner radius by subtracting padding
+- Creates perfect alignment between concentric rounded corners
+- Prevents "thick border" appearance at corners
+
+### 3. Icon Animation Patterns
+
+**Contextual Icon States**:
+```css
+.icon {
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  transform: scale(1);
+}
+
+.icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.icon.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: drop-shadow(0 0 8px currentColor);
+}
+```
+- Icons should breathe: subtle scale + opacity changes
+- Use `filter: drop-shadow()` instead of `box-shadow` for icons (respects shape)
+- Keep animations under 200ms for responsive feel
+
+### 4. Animation Philosophy
+
+**Interruptible Animations**:
+```css
+/* GOOD: CSS transitions—user can interrupt */
+.button {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.button:hover {
+  transform: translateY(-2px);
+}
+
+/* AVOID: Keyframes for interactions—can't be interrupted */
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+```
+- Use CSS **transitions** for user-triggered animations (hover, click, focus)
+- Transitions can be interrupted when user moves away/clicks quickly
+- Reserve keyframes for continuous, non-interactive animations (loaders, backgrounds)
+
+**Split and Stagger Enter**:
+```css
+/* Elements enter from different directions */
+.card:nth-child(3n+1) { animation: slideFromLeft 0.4s ease forwards; }
+.card:nth-child(3n+2) { animation: slideFromBottom 0.4s ease forwards; }
+.card:nth-child(3n+3) { animation: slideFromRight 0.4s ease forwards; }
+
+/* Stagger with delay */
+.card:nth-child(1) { animation-delay: 0ms; }
+.card:nth-child(2) { animation-delay: 50ms; }
+.card:nth-child(3) { animation-delay: 100ms; }
+```
+- Vary entrance directions based on position for visual interest
+- Stagger delays: 50-100ms between elements feels premium, not sluggish
+- Never exceed 300ms total delay—users hate waiting for content
+
+**Subtle Exit Animations**:
+```css
+.modal.closing {
+  animation: fadeOut 0.15s ease forwards;
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: scale(0.98); }
+}
+```
+- Exits should be faster than enters (150ms vs 300-400ms)
+- Users want to dismiss things quickly
+- Skip exit animations if it delays navigation
+
+### 5. Alignment Precision
+
+**Optical vs Geometric Alignment**:
+```css
+/* Geometric center looks "off" with triangle icons */
+.icon-triangle {
+  transform: translateY(-1px); /* Nudge down for optical center */
+}
+
+/* Circles appear smaller than squares at same size */
+.icon-circle {
+  transform: scale(1.1); /* Slight scale for visual balance */
+}
+```
+- Trust your eyes, not the grid
+- Triangles, stars, and irregular shapes need optical adjustment
+- Different shapes at same "size" need visual balancing
+- Test: squint—if something feels off, adjust by 1-2px
+
+### 6. Depth Without Borders
+
+**Shadows Over Borders**:
+```css
+.card {
+  /* Instead of: border: 1px solid #e5e5e5; */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08),
+              0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.card-elevated {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+```
+- Shadows create depth without harsh edges
+- Layer multiple shadows for subtle, natural elevation
+- Borders can look "flat" or "boxed in"
+- Exception: use borders for grouping, dividers, or interactive states
+
+**Image Outlines**:
+```css
+.image-container {
+  position: relative;
+}
+
+.image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+  pointer-events: none;
+}
+```
+- Ultra-subtle 1px border at 10% opacity adds polish to images
+- Creates clean separation without visual weight
+- Use on images, cards, or featured content
+- In dark mode, use white with low opacity; light mode, use black
+
+### 7. Micro-Interaction Timing
+
+```css
+/* Fast interactions feel responsive */
+.fast-interaction { transition-duration: 150ms; }
+
+/* Standard interactions feel smooth */
+.standard-interaction { transition-duration: 200ms; }
+
+/* Slow animations feel deliberate */
+.deliberate-motion { transition-duration: 400ms; }
+```
+- 150ms: hover states, button clicks, toggle switches
+- 200ms: card lifts, dropdown opens, tooltip appears
+- 400ms+: page transitions, modal enters, complex animations
+- Never use 1s+ for anything—feels sluggish
+
+### Micro-Interaction Checklist
+
+Before shipping UI:
+- [ ] Headlines use `text-wrap: balance`
+- [ ] Font smoothing is applied (`antialiased`)
+- [ ] Numbers/data use `tabular-nums`
+- [ ] Concentric borders align (radius - padding formula)
+- [ ] Icons breathe (scale + opacity on hover)
+- [ ] User interactions use transitions (not keyframes)
+- [ ] Entrance animations are split/staggered
+- [ ] Exit animations are faster than enter
+- [ ] Irregular icons are optically aligned
+- [ ] Depth uses shadows (not borders)
+- [ ] Images have ultra-subtle outlines
+- [ ] Animation timing feels responsive (≤200ms for interactions)
