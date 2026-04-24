@@ -25,7 +25,7 @@ echo -e "${BLUE}[1/4] Creating knowledge directory...${NC}"
 mkdir -p "$KNOWLEDGE_DIR"
 
 echo -e "${BLUE}[2/4] Fetching llms.txt sources...${NC}"
-> "$DATA_FILE"
+: > "$DATA_FILE"
 
 for source in "${SOURCES[@]}"; do
   IFS='|' read -r url name <<< "$source"

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Feature Extractor - Extract commands, agents, skills from plugin directories
+# shellcheck disable=SC2034,SC2155
 
 extract_commands() {
     local plugin_dir="$1"

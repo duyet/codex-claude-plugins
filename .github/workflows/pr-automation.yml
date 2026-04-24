@@ -34,36 +34,36 @@ jobs:
 
           # Area labels based on file paths
           if echo "$FILES" | grep -q "^src/api/\|^api/"; then
-            gh pr edit "$PR_NUMBER" --add-label "area:api"
+            gh pr edit "$PR_NUMBER" --add-label "area:api" || true
           fi
 
           if echo "$FILES" | grep -q "^src/frontend/\|^components/\|^ui/"; then
-            gh pr edit "$PR_NUMBER" --add-label "area:frontend"
+            gh pr edit "$PR_NUMBER" --add-label "area:frontend" || true
           fi
 
           if echo "$FILES" | grep -q "^src/backend/\|^server/"; then
-            gh pr edit "$PR_NUMBER" --add-label "area:backend"
+            gh pr edit "$PR_NUMBER" --add-label "area:backend" || true
           fi
 
           if echo "$FILES" | grep -q "^docs/\|\.md$"; then
-            gh pr edit "$PR_NUMBER" --add-label "area:docs"
+            gh pr edit "$PR_NUMBER" --add-label "area:docs" || true
           fi
 
           if echo "$FILES" | grep -q "^tests/\|^test/"; then
-            gh pr edit "$PR_NUMBER" --add-label "area:tests"
+            gh pr edit "$PR_NUMBER" --add-label "area:tests" || true
           fi
 
           # Check for breaking changes in commits
           COMMITS=$(gh api repos/${{ github.repository }}/pulls/$PR_NUMBER/commits --jq '.[].commit.message' | grep -i "BREAKING CHANGE" || true)
           if [ -n "$COMMITS" ]; then
-            gh pr edit "$PR_NUMBER" --add-label "type:breaking"
+            gh pr edit "$PR_NUMBER" --add-label "type:breaking" || true
           fi
 
           # Documentation only
           if echo "$FILES" | grep -v "^docs/\|\.md$" | grep -q .; then
             :
           else
-            gh pr edit "$PR_NUMBER" --add-label "documentation"
+            gh pr edit "$PR_NUMBER" --add-label "documentation" || true
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
           PR_COUNT=$(gh pr list --author "$AUTHOR" --state all --limit 1 --json number --jq 'length')
 
           if [ "$PR_COUNT" -eq 1 ]; then
-            gh pr edit "$PR_NUMBER" --add-label "first-time-contributor"
+            gh pr edit "$PR_NUMBER" --add-label "first-time-contributor" || true
 
             gh pr comment "$PR_NUMBER" --body '## Welcome! 👋
 
