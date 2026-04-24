@@ -10,7 +10,6 @@
   "interface": {
     "displayName": "Interview",
     "shortDescription": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
-    "longDescription": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
     "developerName": "duyet",
     "category": "Productivity",
     "capabilities": [

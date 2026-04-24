@@ -10,7 +10,6 @@
   "interface": {
     "displayName": "Docs Generator",
     "shortDescription": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md)",
-    "longDescription": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md)",
     "developerName": "duyet",
     "category": "Docs",
     "capabilities": [

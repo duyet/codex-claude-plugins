@@ -9,7 +9,6 @@
   "interface": {
     "displayName": "Fix",
     "shortDescription": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
-    "longDescription": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
     "developerName": "duyet",
     "category": "Productivity",
     "capabilities": [

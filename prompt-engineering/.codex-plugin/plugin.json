@@ -9,7 +9,6 @@
   "interface": {
     "displayName": "Prompt Engineering",
     "shortDescription": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
-    "longDescription": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
     "developerName": "duyetbot",
     "category": "Productivity",
     "capabilities": [

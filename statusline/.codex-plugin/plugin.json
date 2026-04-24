@@ -10,7 +10,6 @@
   "interface": {
     "displayName": "Statusline",
     "shortDescription": "Multi-provider status bar with context health, API rate limits (Anthropic 5h/7d + z.ai GLM tokens/tools), git branch, and active tools. Auto-detects provider from model name. Supports 1/2/3 line layouts with smart hiding.",
-    "longDescription": "Multi-provider status bar with context health, API rate limits (Anthropic 5h/7d + z.ai GLM tokens/tools), git branch, and active tools. Auto-detects provider from model name. Supports 1/2/3 line layouts with smart hiding.",
     "developerName": "duyet",
     "category": "UI",
     "capabilities": [

@@ -9,7 +9,6 @@
   "interface": {
     "displayName": "Commit",
     "shortDescription": "Create a Git commit with semantic commit message format and PR workflow with templates",
-    "longDescription": "Create a Git commit with semantic commit message format and PR workflow with templates",
     "developerName": "duyet",
     "category": "Git",
     "capabilities": [

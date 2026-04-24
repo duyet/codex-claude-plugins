@@ -7,14 +7,16 @@
 /plugin install <plugin-name>@duyet-claude-plugins
 ```
 
+Alternative: `npx skills add duyet/claude-plugins` ([skills.sh](https://skills.sh))
+
+## Plugin Metadata
+
 Codex plugin metadata is maintained beside Claude metadata in each plugin:
 
 - Claude manifest: `.claude-plugin/plugin.json`
 - Codex manifest: `.codex-plugin/plugin.json`
 - Claude marketplace: `marketplace.json` and `.claude-plugin/marketplace.json`
 - Codex marketplace: `.agents/plugins/marketplace.json`
-
-Alternative: `npx skills add duyet/claude-plugins` ([skills.sh](https://skills.sh))
 
 ## Versioning
 

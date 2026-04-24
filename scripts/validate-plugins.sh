@@ -125,12 +125,18 @@ errors = []
 
 plugin_dirs = sorted(
     name for name in os.listdir(repo_root)
-    if os.path.isfile(os.path.join(repo_root, name, ".claude-plugin", "plugin.json"))
+    if (
+        os.path.isfile(os.path.join(repo_root, name, ".claude-plugin", "plugin.json"))
+        or os.path.isfile(os.path.join(repo_root, name, ".codex-plugin", "plugin.json"))
+    )
 )
 
 for plugin in plugin_dirs:
     claude_path = os.path.join(repo_root, plugin, ".claude-plugin", "plugin.json")
     codex_path = os.path.join(repo_root, plugin, ".codex-plugin", "plugin.json")
+    if not os.path.isfile(claude_path):
+        errors.append(f"{plugin}: missing .claude-plugin/plugin.json")
+        continue
     if not os.path.isfile(codex_path):
         errors.append(f"{plugin}: missing .codex-plugin/plugin.json")
         continue
@@ -172,10 +178,8 @@ def load_json(relpath):
     try:
         with open(os.path.join(repo_root, relpath)) as f:
             return json.load(f)
-    except FileNotFoundError:
-        errors.append(f"missing {relpath}")
-    except json.JSONDecodeError as exc:
-        errors.append(f"{relpath}: invalid JSON: {exc}")
+    except (FileNotFoundError, OSError, json.JSONDecodeError) as exc:
+        errors.append(f"{relpath}: {exc}")
     return None
 
 def require(condition, message):
@@ -186,6 +190,7 @@ root_marketplace = load_json("marketplace.json")
 if root_marketplace is None:
     root_marketplace = {"plugins": []}
 root_names = [plugin.get("name") for plugin in root_marketplace.get("plugins", [])]
+require(len(root_names) == len(set(root_names)), "marketplace.json contains duplicate plugin names")
 require(set(root_names) == plugin_set, "marketplace.json plugin names must match plugin directories")
 for plugin in root_marketplace.get("plugins", []):
     name = plugin.get("name")
@@ -210,6 +215,7 @@ codex_marketplace = load_json(".agents/plugins/marketplace.json")
 if codex_marketplace is None:
     codex_marketplace = {"plugins": []}
 codex_names = [plugin.get("name") for plugin in codex_marketplace.get("plugins", [])]
+require(len(codex_names) == len(set(codex_names)), ".agents/plugins/marketplace.json contains duplicate plugin names")
 require(set(codex_names) == plugin_set, ".agents/plugins/marketplace.json plugin names must match plugin directories")
 require(isinstance(codex_marketplace.get("interface", {}).get("displayName"), str), ".agents/plugins/marketplace.json missing interface.displayName")
 for plugin in codex_marketplace.get("plugins", []):
