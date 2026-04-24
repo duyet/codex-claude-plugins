@@ -1,6 +1,7 @@
 #!/bin/bash
 # Main Documentation Generator
 # Generates root README.md and plugin CLAUDE.md files
+# shellcheck disable=SC2034,SC2155
 
 set -euo pipefail
 

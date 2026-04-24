@@ -2,11 +2,11 @@
 
 [![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
 [![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
-[![Plugins](https://img.shields.io/badge/plugins-13-blue?style=flat-square)](#plugins-at-a-glance)
+[![Plugins](https://img.shields.io/badge/plugins-14-blue?style=flat-square)](#plugins-at-a-glance)
 
-> Extend Claude Code with specialized agents, commands, and skills.
+> Extend Claude Code and Codex with specialized agents, commands, and skills.
 
-A collection of production-quality plugins for Claude Code, including autonomous agents, workflow automation, and developer tools.
+A collection of production-quality plugins for Claude Code and Codex, including autonomous agents, workflow automation, and developer tools.
 
 **Latest Release:** [v1.0.0](https://github.com/duyet/claude-plugins/releases/tag/v1.0.0) | [CHANGELOG](CHANGELOG.md) | [Issues](https://github.com/duyet/claude-plugins/issues)
 
@@ -39,6 +39,14 @@ Install via the open [Skills](https://skills.sh) ecosystem, works with Claude Co
 ```bash
 npx skills add duyet/claude-plugins
 ```
+
+### Codex Metadata
+
+This repository also ships Codex plugin metadata in place:
+
+- Each plugin has a `.codex-plugin/plugin.json` beside its Claude `.claude-plugin/plugin.json`.
+- Codex marketplace entries live in `.agents/plugins/marketplace.json`.
+- Claude slash commands and agents stay in their original folders; Codex-facing wrapper skills live under `skills/*-workflow/SKILL.md` where a plugin needs a Codex entry point.
 
 ## Usage Examples
 
@@ -272,13 +280,14 @@ Add to `~/.claude/settings.json`:
 ```
 your-plugin/
 ├── .claude-plugin/plugin.json   # name, version, description
+├── .codex-plugin/plugin.json    # Codex manifest and interface metadata
 ├── agents/                      # .md with YAML frontmatter
 ├── commands/                    # slash commands
 ├── skills/                      # reusable knowledge
 └── hooks/hooks.json             # lifecycle hooks
 ```
 
-Update `marketplace.json` → PR → Done
+Update `marketplace.json`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json`, and both manifest files. Run `bash scripts/validate-plugins.sh` before opening a PR.
 
 ---
 

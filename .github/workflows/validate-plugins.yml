@@ -6,12 +6,20 @@ on:
     branches: [main, master, "claude/**"]
     paths:
       - "**/.claude-plugin/plugin.json"
+      - "**/.codex-plugin/plugin.json"
+      - ".agents/plugins/marketplace.json"
+      - ".claude-plugin/marketplace.json"
+      - "marketplace.json"
       - "scripts/validate-plugins.sh"
       - ".github/workflows/validate-plugins.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "**/.claude-plugin/plugin.json"
+      - "**/.codex-plugin/plugin.json"
+      - ".agents/plugins/marketplace.json"
+      - ".claude-plugin/marketplace.json"
+      - "marketplace.json"
       - "scripts/validate-plugins.sh"
       - ".github/workflows/validate-plugins.yml"
 

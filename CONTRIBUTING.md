@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to the Claude Plugins Marketplace!
+Thanks for your interest in contributing to the Claude and Codex Plugins Marketplace!
 
 ## Quick Start
 
@@ -16,6 +16,8 @@ Thanks for your interest in contributing to the Claude Plugins Marketplace!
 my-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (name, version, description)
+├── .codex-plugin/
+│   └── plugin.json          # Codex manifest and interface metadata
 ├── README.md                # Plugin documentation
 ├── CLAUDE.md               # Claude-specific instructions (optional, for skills/agents)
 ├── agents/                  # Agent definitions (optional)
@@ -39,7 +41,30 @@ my-plugin/
 }
 ```
 
-### 2. Documentation (README.md)
+### 2. Codex Manifest (.codex-plugin/plugin.json)
+
+Every plugin also needs a Codex manifest with the same `name`, `version`, `description`, and `author.name` as the Claude manifest:
+
+```json
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "description": "A brief description of what this plugin does",
+  "author": {
+    "name": "your-username"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "My Plugin",
+    "shortDescription": "A brief description of what this plugin does",
+    "developerName": "your-username",
+    "category": "Productivity",
+    "capabilities": ["Skill"]
+  }
+}
+```
+
+### 3. Documentation (README.md)
 
 Required sections:
 - Description of what the plugin does
@@ -48,14 +73,14 @@ Required sections:
 - Configuration options (if any)
 - Versioning guidelines (if applicable)
 
-### 3. Claude Instructions (CLAUDE.md)
+### 4. Claude Instructions (CLAUDE.md)
 
 Required for skills and agents:
 - How Claude should use the plugin
 - When to invoke it
 - Expected inputs and outputs
 
-### 4. Update Marketplace
+### 5. Update Marketplaces
 
 Add your plugin to `marketplace.json`:
 
@@ -70,7 +95,24 @@ Add your plugin to `marketplace.json`:
 }
 ```
 
-### 5. Update Main README
+Also add a Codex entry to `.agents/plugins/marketplace.json`:
+
+```json
+{
+  "name": "my-plugin",
+  "source": {
+    "source": "local",
+    "path": "./my-plugin"
+  },
+  "policy": {
+    "installation": "AVAILABLE",
+    "authentication": "ON_INSTALL"
+  },
+  "category": "Productivity"
+}
+```
+
+### 6. Update Main README
 
 Add your plugin to the main README.md table:
 
@@ -94,6 +136,7 @@ Follow [Semantic Versioning](https://semver.org/):
 - **Major** (1.0.0 → 2.0.0): Breaking changes
 
 Update plugin.json version on every change.
+Keep `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` in sync for shared metadata fields.
 
 ### Commits
 
@@ -112,6 +155,7 @@ refactor(my-plugin): refactor code
 - Test your plugin thoroughly before submitting
 - Include usage examples in README
 - Consider edge cases and error handling
+- Run `bash scripts/validate-plugins.sh` to validate Claude manifests, Codex manifests, and marketplace files
 
 ## Pull Request Process
 

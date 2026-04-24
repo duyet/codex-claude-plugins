@@ -1,6 +1,7 @@
 #!/bin/bash
 # Babysit PR - Monitor, fix review bot suggestions, resolve conflicts, merge
 # Usage: ./babysit-pr.sh [--auto-merge] [--max-iterations N] [--dry-run] [--pr NUMBER]
+# shellcheck disable=SC2034
 
 set -euo pipefail
 
