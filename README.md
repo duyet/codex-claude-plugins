@@ -1,18 +1,22 @@
-# Claude Plugins
+# Claude/Codex Plugins
 
 [![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
 [![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
 [![Plugins](https://img.shields.io/badge/plugins-14-blue?style=flat-square)](#plugins-at-a-glance)
 
-> Extend Claude Code and Codex with specialized agents, commands, and skills.
+> Extend Claude Code and Codex with specialized agents, commands, and skills from one shared plugin collection.
 
-A collection of production-quality plugins for Claude Code and Codex, including autonomous agents, workflow automation, and developer tools.
+A collection of production-quality plugins for Claude Code and Codex, including autonomous agents, workflow automation, statusline utilities, prompt engineering guidance, and developer tools.
 
 **Latest Release:** [v1.0.0](https://github.com/duyet/claude-plugins/releases/tag/v1.0.0) | [CHANGELOG](CHANGELOG.md) | [Issues](https://github.com/duyet/claude-plugins/issues)
 
 Available on **[skills.sh](https://skills.sh)** — the open agent skills ecosystem.
 
 ## Quick Install
+
+### Claude Code
+
+Use Claude Code's plugin marketplace commands:
 
 ```bash
 # Add marketplace
@@ -31,6 +35,35 @@ Available on **[skills.sh](https://skills.sh)** — the open agent skills ecosys
 /plugin install fix@duyet-claude-plugins
 /plugin install clickhouse-monitoring@duyet-claude-plugins
 ```
+
+### Codex
+
+Codex support is provided through the repo-local Codex marketplace file:
+
+```bash
+git clone https://github.com/duyet/claude-plugins.git
+cd claude-plugins
+```
+
+Then add or import the local Codex marketplace from:
+
+```text
+.agents/plugins/marketplace.json
+```
+
+That marketplace points each plugin at the matching local folder, for example:
+
+```json
+{
+  "name": "github",
+  "source": {
+    "source": "local",
+    "path": "./github"
+  }
+}
+```
+
+After the marketplace is added in Codex, install the plugins you want from the `Duyet Claude and Codex Plugins` marketplace. Codex-facing workflow skills are available under each plugin's `skills/` folder, including wrappers for Claude command-heavy plugins such as `commit`, `github`, `fix`, `statusline`, `team-agents`, and `duyetbot`.
 
 ### Alternative: Skills CLI
 
