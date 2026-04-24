@@ -7,6 +7,13 @@
 /plugin install <plugin-name>@duyet-claude-plugins
 ```
 
+Codex plugin metadata is maintained beside Claude metadata in each plugin:
+
+- Claude manifest: `.claude-plugin/plugin.json`
+- Codex manifest: `.codex-plugin/plugin.json`
+- Claude marketplace: `marketplace.json` and `.claude-plugin/marketplace.json`
+- Codex marketplace: `.agents/plugins/marketplace.json`
+
 Alternative: `npx skills add duyet/claude-plugins` ([skills.sh](https://skills.sh))
 
 ## Versioning
@@ -33,12 +40,16 @@ Always update `plugin.json` version when making changes.
 plugin-name/
 ├── .claude-plugin/
 │   └── plugin.json          # Manifest (name, version, description)
+├── .codex-plugin/
+│   └── plugin.json          # Codex manifest and interface metadata
 ├── agents/                  # Sub-agent definitions
 ├── commands/                # Slash commands
 ├── skills/                  # Reusable knowledge/procedures
 ├── hooks/                   # Hook configurations
 └── README.md                # Documentation
 ```
+
+When changing plugin metadata, keep Claude and Codex manifests in sync and run `bash scripts/validate-plugins.sh`.
 
 ## Commit Convention
 

@@ -1,0 +1,25 @@
+{
+  "name": "duyetbot",
+  "version": "1.7.0",
+  "description": "Pragmatic software development companion with engineering discipline and transparent execution.",
+  "author": {
+    "name": "duyet"
+  },
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Duyetbot",
+    "shortDescription": "Pragmatic software development companion with engineering discipline and transparent execution.",
+    "longDescription": "Pragmatic software development companion with engineering discipline and transparent execution.",
+    "developerName": "duyet",
+    "category": "Productivity",
+    "capabilities": [
+      "Skill",
+      "Command",
+      "Agent",
+      "Hook",
+      "MCP"
+    ]
+  }
+}

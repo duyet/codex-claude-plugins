@@ -1,0 +1,176 @@
+{
+  "name": "duyet-claude-plugins",
+  "interface": {
+    "displayName": "Duyet Claude Plugins"
+  },
+  "plugins": [
+    {
+      "name": "team-agents",
+      "source": {
+        "source": "local",
+        "path": "./team-agents"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Agents"
+    },
+    {
+      "name": "commit",
+      "source": {
+        "source": "local",
+        "path": "./commit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Git"
+    },
+    {
+      "name": "frontend-design",
+      "source": {
+        "source": "local",
+        "path": "./frontend-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
+    },
+    {
+      "name": "interview",
+      "source": {
+        "source": "local",
+        "path": "./interview"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "statusline",
+      "source": {
+        "source": "local",
+        "path": "./statusline"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "UI"
+    },
+    {
+      "name": "orchestration",
+      "source": {
+        "source": "local",
+        "path": "./orchestration"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Agents"
+    },
+    {
+      "name": "duyetbot",
+      "source": {
+        "source": "local",
+        "path": "./duyetbot"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "docs-generator",
+      "source": {
+        "source": "local",
+        "path": "./docs-generator"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Docs"
+    },
+    {
+      "name": "github",
+      "source": {
+        "source": "local",
+        "path": "./github"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Git"
+    },
+    {
+      "name": "fix",
+      "source": {
+        "source": "local",
+        "path": "./fix"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "clickhouse",
+      "source": {
+        "source": "local",
+        "path": "./clickhouse"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Database"
+    },
+    {
+      "name": "prompt-engineering",
+      "source": {
+        "source": "local",
+        "path": "./prompt-engineering"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "clickhouse-monitoring",
+      "source": {
+        "source": "local",
+        "path": "./clickhouse-monitoring"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Monitoring"
+    },
+    {
+      "name": "unsloth-training",
+      "source": {
+        "source": "local",
+        "path": "./unsloth-training"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "ML"
+    }
+  ]
+}
