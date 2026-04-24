@@ -51,6 +51,23 @@ elif not isinstance(author, dict):
 elif not isinstance(author.get("name"), str) or not author["name"].strip():
     errors.append("'author.name' must be a non-empty string")
 
+skills = data.get("skills")
+if isinstance(skills, list):
+    for i, skill in enumerate(skills):
+        if not isinstance(skill, dict):
+            errors.append(f"skills[{i}]: must be an object")
+            continue
+        if not isinstance(skill.get("name"), str) or not skill["name"].strip():
+            errors.append(f"skills[{i}]: missing 'name'")
+        if not isinstance(skill.get("description"), str) or not skill["description"].strip():
+            errors.append(f"skills[{i}]: missing 'description'")
+        path_value = skill.get("path")
+        if path_value is not None:
+            if not isinstance(path_value, str):
+                errors.append(f"skills[{i}]: 'path' must be a string")
+            elif not os.path.isfile(os.path.join(plugin_dir, path_value)):
+                errors.append(f"skills[{i}]: path '{path_value}' does not exist")
+
 if mode == "codex":
     for field in ("skills", "hooks", "mcpServers", "apps"):
         value = data.get(field)
@@ -152,23 +169,34 @@ plugin_dirs = sorted(
 plugin_set = set(plugin_dirs)
 
 def load_json(relpath):
-    with open(os.path.join(repo_root, relpath)) as f:
-        return json.load(f)
+    try:
+        with open(os.path.join(repo_root, relpath)) as f:
+            return json.load(f)
+    except FileNotFoundError:
+        errors.append(f"missing {relpath}")
+    except json.JSONDecodeError as exc:
+        errors.append(f"{relpath}: invalid JSON: {exc}")
+    return None
 
 def require(condition, message):
     if not condition:
         errors.append(message)
 
 root_marketplace = load_json("marketplace.json")
+if root_marketplace is None:
+    root_marketplace = {"plugins": []}
 root_names = [plugin.get("name") for plugin in root_marketplace.get("plugins", [])]
 require(set(root_names) == plugin_set, "marketplace.json plugin names must match plugin directories")
 for plugin in root_marketplace.get("plugins", []):
     name = plugin.get("name")
     for field in ("name", "id", "description", "version", "type", "category"):
-        require(isinstance(plugin.get(field), str) and plugin[field].strip(), f"marketplace.json {name}: missing {field}")
+        value = plugin.get(field)
+        require(isinstance(value, str) and value.strip(), f"marketplace.json {name}: missing {field}")
     require(plugin.get("id") == f"{name}@{root_marketplace.get('name')}", f"marketplace.json {name}: id does not match marketplace name")
 
 claude_marketplace = load_json(".claude-plugin/marketplace.json")
+if claude_marketplace is None:
+    claude_marketplace = {"plugins": []}
 claude_names = [plugin.get("name") for plugin in claude_marketplace.get("plugins", [])]
 require(set(claude_names).issubset(plugin_set), ".claude-plugin/marketplace.json references unknown plugin")
 for plugin in claude_marketplace.get("plugins", []):
@@ -179,6 +207,8 @@ for plugin in claude_marketplace.get("plugins", []):
         require(os.path.isdir(os.path.join(repo_root, source)), f".claude-plugin/marketplace.json {name}: source path does not exist")
 
 codex_marketplace = load_json(".agents/plugins/marketplace.json")
+if codex_marketplace is None:
+    codex_marketplace = {"plugins": []}
 codex_names = [plugin.get("name") for plugin in codex_marketplace.get("plugins", [])]
 require(set(codex_names) == plugin_set, ".agents/plugins/marketplace.json plugin names must match plugin directories")
 require(isinstance(codex_marketplace.get("interface", {}).get("displayName"), str), ".agents/plugins/marketplace.json missing interface.displayName")
@@ -197,7 +227,8 @@ for plugin in codex_marketplace.get("plugins", []):
     if isinstance(policy, dict):
         require(policy.get("installation") in {"NOT_AVAILABLE", "AVAILABLE", "INSTALLED_BY_DEFAULT"}, f".agents/plugins/marketplace.json {name}: invalid policy.installation")
         require(policy.get("authentication") in {"ON_INSTALL", "ON_USE"}, f".agents/plugins/marketplace.json {name}: invalid policy.authentication")
-    require(isinstance(plugin.get("category"), str) and plugin["category"].strip(), f".agents/plugins/marketplace.json {name}: missing category")
+    category = plugin.get("category")
+    require(isinstance(category, str) and category.strip(), f".agents/plugins/marketplace.json {name}: missing category")
 
 if errors:
     for error in errors:

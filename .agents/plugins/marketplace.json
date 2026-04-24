@@ -1,7 +1,7 @@
 {
   "name": "duyet-claude-plugins",
   "interface": {
-    "displayName": "Duyet Claude Plugins"
+    "displayName": "Duyet Claude and Codex Plugins"
   },
   "plugins": [
     {

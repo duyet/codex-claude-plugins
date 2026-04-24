@@ -2,7 +2,7 @@
 
 [![GitHub Release](https://img.shields.io/github/v/duyet/claude-plugins?style=flat-square)](https://github.com/duyet/claude-plugins/releases)
 [![License](https://img.shields.io/github/license/duyet/claude-plugins?style=flat-square)](LICENSE)
-[![Plugins](https://img.shields.io/badge/plugins-13-blue?style=flat-square)](#plugins-at-a-glance)
+[![Plugins](https://img.shields.io/badge/plugins-14-blue?style=flat-square)](#plugins-at-a-glance)
 
 > Extend Claude Code and Codex with specialized agents, commands, and skills.
 
