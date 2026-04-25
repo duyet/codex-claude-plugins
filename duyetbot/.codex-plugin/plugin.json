@@ -19,6 +19,7 @@
       "Agent",
       "Hook",
       "MCP"
-    ]
+    ],
+    "logo": "https://raw.githubusercontent.com/duyet/monorepo/refs/heads/master/packages/components/logo.svg"
   }
 }
