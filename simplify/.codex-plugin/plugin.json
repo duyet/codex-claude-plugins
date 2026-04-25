@@ -1,0 +1,19 @@
+{
+  "name": "simplify",
+  "version": "1.0.0",
+  "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
+  "author": {
+    "name": "duyet"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Simplify",
+    "shortDescription": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
+    "developerName": "duyet",
+    "category": "Productivity",
+    "capabilities": [
+      "Skill",
+      "Command"
+    ]
+  }
+}

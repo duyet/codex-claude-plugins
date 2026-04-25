@@ -92,6 +92,14 @@
       "category": "productivity"
     },
     {
+      "name": "simplify",
+      "id": "simplify@duyet-claude-plugins",
+      "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
+      "version": "1.0.0",
+      "type": "command",
+      "category": "productivity"
+    },
+    {
       "name": "clickhouse",
       "id": "clickhouse@duyet-claude-plugins",
       "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
@@ -126,7 +134,7 @@
   ],
   "metadata": {
     "lastUpdated": "2026-03-05",
-    "totalPlugins": 14,
+    "totalPlugins": 15,
     "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring", "ml"]
   }
 }

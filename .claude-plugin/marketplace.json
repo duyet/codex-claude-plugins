@@ -55,6 +55,11 @@
       "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution. Supports Python, Node/TS, Rust, and Go projects."
     },
     {
+      "name": "simplify",
+      "source": "./simplify",
+      "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found."
+    },
+    {
       "name": "prompt-engineering",
       "source": "./prompt-engineering",
       "description": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance, universal techniques (zero-shot, few-shot, CoT, ReAct, prompt chaining, Tree of Thoughts), and comprehensive documentation."
