@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artifact</title>
+<style>
+  :root {
+    --ivory: #FAF9F5;
+    --paper: #FFFFFF;
+    --slate: #141413;
+    --clay: #D97757;
+    --clay-d: #B85C3E;
+    --oat: #E3DACC;
+    --olive: #788C5D;
+    --rust: #B04A3F;
+    --g100: #F0EEE6;
+    --g200: #E6E3DA;
+    --g300: #D1CFC5;
+    --g500: #87867F;
+    --g700: #3D3D3A;
+    
+    --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--slate);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: 48px 24px 80px;
+  }
+
+  .page { max-width: 920px; margin: 0 auto; }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.012em; color: var(--slate); }
+  h1 { font-size: clamp(32px, 4vw, 42px); line-height: 1.1; margin-bottom: 18px; }
+  h2 { font-size: 24px; margin-bottom: 14px; margin-top: 32px; }
+
+  p { margin-bottom: 16px; color: var(--g700); }
+  a { color: var(--clay); text-decoration-color: var(--oat); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--clay); }
+
+  /* Utility Classes */
+  .mono { font-family: var(--mono); }
+  .text-small { font-size: 13px; color: var(--g500); }
+  
+  /* Badges / Chips */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 6px; font-family: var(--mono); font-size: 12px;
+    border: 1.5px solid var(--g300); background: var(--paper);
+  }
+  .badge.safe { background: rgba(120,140,93,0.1); border-color: rgba(120,140,93,0.4); color: var(--olive); }
+  .badge.attention { background: rgba(217,119,87,0.1); border-color: rgba(217,119,87,0.4); color: var(--clay); }
+
+  /* Cards */
+  .card {
+    background: var(--paper);
+    border: 1.5px solid var(--g300);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(20, 20, 19, 0.03);
+  }
+
+  /* Grid Layout */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="mono text-small">ARTIFACT</div>
+    <h1>New Document</h1>
+    <p>This is a starting point for generating rich, self-contained HTML artifacts.</p>
+  </header>
+
+  <section>
+    <h2>Example Section</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Option A</h3>
+        <p>Using CSS grids allows for easy side-by-side comparisons.</p>
+        <span class="badge safe">Recommended</span>
+      </div>
+      <div class="card">
+        <h3>Option B</h3>
+        <p>Ensure all CSS and structural elements remain in the single file.</p>
+        <span class="badge attention">Needs Review</span>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

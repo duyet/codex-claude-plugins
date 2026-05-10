@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PR Review - Artifact</title>
+<style>
+  :root {
+    --ivory: #FAF9F5; --paper: #FFFFFF; --slate: #141413; --clay: #D97757;
+    --oat: #E3DACC; --olive: #788C5D; --rust: #B04A3F;
+    --g100: #F0EEE6; --g200: #E6E3DA; --g300: #D1CFC5; --g500: #87867F; --g700: #3D3D3A;
+    --sans: system-ui, -apple-system, sans-serif; --mono: ui-monospace, "SF Mono", monospace;
+  }
+  body { background: var(--ivory); color: var(--slate); font-family: var(--sans); line-height: 1.5; padding: 40px 20px; }
+  .page { max-width: 1000px; margin: 0 auto; }
+  .header { margin-bottom: 32px; border-bottom: 1px solid var(--g300); padding-bottom: 24px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .meta { display: flex; gap: 12px; font-family: var(--mono); font-size: 13px; color: var(--g500); }
+  
+  .finding { background: var(--paper); border: 1.5px solid var(--g300); border-radius: 12px; padding: 20px; margin-bottom: 16px; position: relative; }
+  .finding.critical { border-left: 6px solid var(--rust); }
+  .finding.warning { border-left: 6px solid var(--clay); }
+  .finding.info { border-left: 6px solid var(--olive); }
+  
+  .diff { font-family: var(--mono); font-size: 13px; border: 1px solid var(--g200); border-radius: 8px; overflow: hidden; margin-top: 12px; }
+  .diff-line { display: grid; grid-template-columns: 40px 1fr; background: var(--paper); }
+  .diff-line.add { background: #f0f7ed; }
+  .diff-line.del { background: #fff1f0; }
+  .diff-num { background: var(--g100); text-align: right; padding-right: 8px; color: var(--g500); border-right: 1px solid var(--g200); }
+  .diff-txt { padding-left: 12px; white-space: pre; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="meta">PR #123 • OPEN</div>
+    <h1>Fix: Buffer Overflow in Stream Parser</h1>
+    <p>Reviewed 4 files. Found 2 critical issues.</p>
+  </div>
+
+  <div class="finding critical">
+    <div class="meta" style="color:var(--rust)">CRITICAL</div>
+    <h3>Potential Off-by-One in Buffer Allocation</h3>
+    <p>The allocation size does not account for the null terminator, which could lead to a heap overflow.</p>
+    <div class="diff">
+      <div class="diff-line del"><div class="diff-num">42</div><div class="diff-txt">- char *buf = malloc(len);</div></div>
+      <div class="diff-line add"><div class="diff-num">42</div><div class="diff-txt">+ char *buf = malloc(len + 1);</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

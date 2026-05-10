@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Explainer - Artifact</title>
+<style>
+  :root {
+    --ivory: #FAF9F5; --paper: #FFFFFF; --slate: #141413; --clay: #D97757;
+    --oat: #E3DACC; --olive: #788C5D; --rust: #B04A3F;
+    --g100: #F0EEE6; --g200: #E6E3DA; --g300: #D1CFC5; --g500: #87867F; --g700: #3D3D3A;
+    --serif: ui-serif, Georgia, serif; --sans: system-ui, -apple-system, sans-serif; --mono: ui-monospace, monospace;
+  }
+  body { background: var(--ivory); color: var(--slate); font-family: var(--sans); line-height: 1.6; padding: 60px 24px; }
+  .page { max-width: 840px; margin: 0 auto; }
+  header { margin-bottom: 48px; text-align: center; }
+  h1 { font-family: var(--serif); font-size: 42px; font-weight: 500; margin-bottom: 12px; }
+  .abstract { font-size: 18px; color: var(--g700); font-style: italic; margin-bottom: 32px; }
+  
+  .tabs { display: flex; flex-direction: column; margin: 32px 0; }
+  .tabs-nav { display: flex; gap: 4px; border-bottom: 1px solid var(--g200); }
+  .tabs-nav label { padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; font-size: 14px; font-weight: 500; color: var(--g500); }
+  .tab-content { display: none; background: var(--paper); border: 1px solid var(--g200); border-top: none; padding: 24px; border-radius: 0 0 12px 12px; }
+
+  #t1:checked ~ .tabs-nav label[for="t1"], #t2:checked ~ .tabs-nav label[for="t2"] { background: var(--paper); color: var(--clay); border: 1px solid var(--g200); border-bottom-color: var(--paper); margin-bottom: -1px; }
+  #t1:checked ~ #c1, #t2:checked ~ #c2 { display: block; }
+
+  .explodable { background: var(--g100); border: 1px solid var(--g300); border-radius: 12px; padding: 20px; cursor: pointer; transition: 150ms; }
+  .explodable:hover { border-color: var(--clay); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="mono text-small" style="color:var(--g500)">TECHNICAL EXPLORATION</div>
+    <h1>The Mechanics of Zero-Knowledge Proofs</h1>
+    <p class="abstract">An interactive deep-dive into cryptographic privacy.</p>
+  </header>
+
+  <div class="tabs">
+    <input type="radio" id="t1" name="rd" checked hidden>
+    <input type="radio" id="t2" name="rd" hidden>
+    <div class="tabs-nav">
+      <label for="t1">Overview</label>
+      <label for="t2">Mathematics</label>
+    </div>
+    <div id="c1" class="tab-content">
+      <h2>The Prover and the Verifier</h2>
+      <p>In a zero-knowledge proof, one party (the prover) can prove to another (the verifier) that they know a value, without conveying any information apart from the fact that they know the value.</p>
+    </div>
+    <div id="c2" class="tab-content">
+      <h2>Underlying Hard Problems</h2>
+      <p>Most ZK-SNARKs rely on the hardness of discrete logarithms or similar group-theoretic properties.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

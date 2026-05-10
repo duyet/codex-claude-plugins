@@ -130,6 +130,14 @@
       "version": "1.0.0",
       "type": "skill",
       "category": "ml"
+    },
+    {
+      "name": "anthropic-html",
+      "id": "anthropic-html@duyet-claude-plugins",
+      "description": "Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "design"
     }
   ],
   "metadata": {
