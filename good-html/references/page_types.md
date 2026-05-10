@@ -1,6 +1,6 @@
 # HTML Artifact Page Types
 
-The `anthropic-html` skill supports several specialized page types, each optimized for different engineering and research tasks.
+The `good-html` skill supports several specialized page types, each optimized for different engineering and research tasks.
 
 ## 1. Exploration & Comparison
 *   **Code Approaches:** Side-by-side view of multiple implementation options. Uses 2 or 3-column grids.

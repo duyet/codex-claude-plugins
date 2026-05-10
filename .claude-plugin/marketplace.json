@@ -75,8 +75,8 @@
       "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool. Covers 45 dashboard pages including query monitoring, table management, merge operations, system metrics, security logs, and API integration."
     },
     {
-      "name": "anthropic-html",
-      "source": "./anthropic-html",
+      "name": "good-html",
+      "source": "./good-html",
       "description": "Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's 'Unreasonable Effectiveness of HTML' patterns."
     }
   ]

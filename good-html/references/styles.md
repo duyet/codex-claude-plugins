@@ -1,6 +1,6 @@
-# Anthropic HTML Design System & Styles
+# Good HTML Design System & Styles
 
-This guide defines the aesthetic standards for `anthropic-html` artifacts. Strictly follow these to avoid the "generic AI" look and produce professional, high-fidelity engineering documents.
+This guide defines the aesthetic standards for `good-html` artifacts. Strictly follow these to avoid the "generic AI" look and produce professional, high-fidelity engineering documents.
 
 ## 1. Color Palettes
 Avoid standard bright blue/purple gradients. Use these muted, sophisticated palettes.

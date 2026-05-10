@@ -1,9 +1,9 @@
 ---
-name: anthropic-html
-description: Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's "Unreasonable Effectiveness of HTML" patterns. Use this skill when asked to "create HTML," "build a dashboard," "format a PR review," "make an interactive explainer," or when you need to "review and update" existing HTML to match this high-fidelity engineering style.
+name: good-html
+description: Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's "Unreasonable Effectiveness of HTML" patterns. Use this skill when asked to "create HTML," "build a dashboard," "format a PR review," "make an interactive explainer," or when you need to "review and update" existing HTML using the "good-html" style.
 ---
 
-# Anthropic HTML Artifact Generator
+# Good HTML Artifact Generator
 
 This skill enables Claude to generate or refactor highly effective, visually distinct, and functional HTML artifacts rather than relying on standard Markdown or low-resolution HTML. It is based on the design patterns from Thariq Shihipar's "The Unreasonable Effectiveness of HTML".
 
