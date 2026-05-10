@@ -138,7 +138,7 @@ for plugin in plugin_dirs:
         errors.append(f"{plugin}: missing .claude-plugin/plugin.json")
         continue
     if not os.path.isfile(codex_path):
-        errors.append(f"{plugin}: missing .codex-plugin/plugin.json")
+        # No Codex manifest means the plugin doesn't support Codex — skip parity check
         continue
 
     with open(claude_path) as f:

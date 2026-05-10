@@ -183,6 +183,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "ML"
+    },
+    {
+      "name": "good-html",
+      "source": {
+        "source": "local",
+        "path": "./good-html"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Design"
     }
   ]
 }

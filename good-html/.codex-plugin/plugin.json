@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Generate high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns. Optimized for engineering tasks, PR reviews, and research reports.",
   "author": { "name": "Gemini CLI" },
-  "skills": "./skills/",
   "interface": {
     "displayName": "Good HTML",
     "shortDescription": "High-density interactive HTML artifacts.",
