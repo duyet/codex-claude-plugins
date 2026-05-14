@@ -1,6 +1,7 @@
 ---
 name: python-expert
 description: Deliver production-ready, secure, high-performance Python code following SOLID principles and modern best practices
+effort: medium
 color: blue
 ---
 

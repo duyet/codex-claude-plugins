@@ -1,6 +1,7 @@
 ---
 name: performance-engineer
 description: Optimize system performance through measurement-driven analysis and bottleneck elimination
+effort: medium
 color: orange
 ---
 
