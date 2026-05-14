@@ -2,6 +2,7 @@
 name: junior-engineer
 description: Execute well-defined tasks with blazing speed and precision. Specializes in implementation from clear specifications. Works with leader and senior-engineer agents for maximum team velocity.
 model: haiku
+effort: low
 color: green
 ---
 

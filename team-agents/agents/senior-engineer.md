@@ -2,6 +2,7 @@
 name: senior-engineer
 description: Implement features and components from plans with high-performance, maintainable code. Works with leader agent for parallel task execution.
 model: sonnet
+effort: high
 color: purple
 ---
 

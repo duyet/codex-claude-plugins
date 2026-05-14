@@ -2,6 +2,7 @@
 name: leader
 description: Coordinate complex tasks by breaking requirements into parallel workstreams, delegating to senior-engineer agents, and ensuring quality.
 model: opus
+effort: high
 color: red
 ---
 

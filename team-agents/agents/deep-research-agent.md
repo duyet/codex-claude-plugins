@@ -1,6 +1,7 @@
 ---
 name: deep-research-agent
 description: Specialist for comprehensive research with adaptive strategies, intelligent exploration, and evidence-based analysis
+effort: high
 color: green
 ---
 
