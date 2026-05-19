@@ -195,6 +195,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Design"
+    },
+    {
+      "name": "anyrouter",
+      "source": {
+        "source": "local",
+        "path": "./anyrouter"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "AI"
     }
   ]
 }

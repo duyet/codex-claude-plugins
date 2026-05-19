@@ -138,11 +138,19 @@
       "version": "1.0.0",
       "type": "skill",
       "category": "design"
+    },
+    {
+      "name": "anyrouter",
+      "id": "anyrouter@duyet-claude-plugins",
+      "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "ai"
     }
   ],
   "metadata": {
-    "lastUpdated": "2026-03-05",
-    "totalPlugins": 15,
-    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring", "ml"]
+    "lastUpdated": "2026-05-19",
+    "totalPlugins": 16,
+    "categories": ["agents", "git", "design", "productivity", "ui", "docs", "database", "monitoring", "ml", "ai"]
   }
 }

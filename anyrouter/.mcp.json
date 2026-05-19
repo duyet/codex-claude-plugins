@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "anyrouter": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://anyrouter.dev/api/v1/mcp"],
+      "description": "AnyRouter MCP — list models, manage API keys, check credits, browse presets, and search conversations. Authorizes via OAuth on first use."
+    }
+  }
+}
