@@ -3,11 +3,11 @@
 ## Install
 
 ```bash
-/plugin marketplace add duyet/claude-plugins
+/plugin marketplace add duyet/codex-claude-plugins
 /plugin install <plugin-name>@duyet-claude-plugins
 ```
 
-Alternative: `npx skills add duyet/claude-plugins` ([skills.sh](https://skills.sh))
+Alternative: `npx skills add duyet/codex-claude-plugins` ([skills.sh](https://skills.sh))
 
 ## Plugin Metadata
 

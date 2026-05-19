@@ -282,7 +282,7 @@ MIT License - see LICENSE file for details.
 
 | Project | URL | Description |
 |---------|-----|-------------|
-| duyetbot | https://github.com/duyet/claude-plugins | Duyetbot plugin for Claude Code |
+| duyetbot | https://github.com/duyet/codex-claude-plugins | Duyetbot plugin for Claude Code |
 | clickhouse-monitoring | https://github.com/duyet/clickhouse-monitoring | ClickHouse monitoring dashboard |
 | duyet.net | https://duyet.net | Personal website |
 | blog.duyet.net | https://blog.duyet.net | Technical blog |

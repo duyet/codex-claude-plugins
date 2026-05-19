@@ -18,7 +18,7 @@ There is **no `references/` snapshot** — the skill links to live `.md` URLs (`
 ### Claude Code
 
 ```bash
-/plugin marketplace add duyet/claude-plugins
+/plugin marketplace add duyet/codex-claude-plugins
 /plugin install anyrouter@duyet-claude-plugins
 ```
 
@@ -32,7 +32,7 @@ export ANYROUTER_API_KEY="sk-ar-..."
 
 ### Codex
 
-The plugin's `.codex-plugin/plugin.json` declares Skill, Command, Agent, and MCP capabilities. Install via your Codex plugin loader the same way you install other plugins from `duyet/claude-plugins`.
+The plugin's `.codex-plugin/plugin.json` declares Skill, Command, Agent, and MCP capabilities. Install via your Codex plugin loader the same way you install other plugins from `duyet/codex-claude-plugins`.
 
 ### MCP only
 

@@ -170,6 +170,6 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 ## Getting Help
 
-- Check [existing issues](https://github.com/duyet/claude-plugins/issues)
+- Check [existing issues](https://github.com/duyet/codex-claude-plugins/issues)
 - Use [feature request template](.github/ISSUE_TEMPLATE/feature_request.md) for new ideas
 - Use [bug report template](.github/ISSUE_TEMPLATE/bug_report.md) for issues

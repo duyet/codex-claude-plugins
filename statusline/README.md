@@ -122,7 +122,7 @@ Empty values are never shown:
 
 ## Contributing
 
-Found an issue or have a feature idea? Open an issue on the [claude-plugins repository](https://github.com/duyet/claude-plugins/issues).
+Found an issue or have a feature idea? Open an issue on the [claude-plugins repository](https://github.com/duyet/codex-claude-plugins/issues).
 
 ## License
 

@@ -10,7 +10,7 @@ Fine-tune LLMs with [Unsloth](https://unsloth.ai/) using GRPO (reinforcement lea
 
 Or via [skills.sh](https://skills.sh):
 ```bash
-npx skills add duyet/claude-plugins/unsloth-training
+npx skills add duyet/codex-claude-plugins/unsloth-training
 ```
 
 ## Features
