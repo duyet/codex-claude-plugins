@@ -6,11 +6,12 @@ This plugin ships as both a **Claude Code plugin** (`.claude-plugin/`) and a **C
 
 ## What you get
 
-- **`anyrouter` skill** — discoverable knowledge for the agent: contract, model ids, integration patterns, migration recipes (from Anthropic, OpenAI, OpenRouter), routing, streaming, app attribution.
+- **`anyrouter` skill** — discoverable knowledge for the agent: the contract (base URL / key env / model id format), integration patterns, migration recipes (from OpenAI / Anthropic / OpenRouter), routing, streaming, app attribution, MCP overview. Tells the agent to **fetch live `.md` docs** instead of trusting any frozen snapshot.
 - **`/anyrouter:migrate` command** — interactive migration of an existing LLM integration to AnyRouter.
 - **`anyrouter-integrator` agent** — sub-agent that performs surgical migrations on demand.
 - **MCP server** — remote MCP at `https://anyrouter.dev/api/v1/mcp` for `list_models`, `get_credits`, `list_keys`, `create_key`, `revoke_key`, `list_presets`, `list_conversations`.
-- **`references/`** — a frozen snapshot of the AnyRouter docs (quickstart, dashboard, migration guides, MCP, routing, app attribution) so the agent can answer offline.
+
+There is **no `references/` snapshot** — the skill links to live `.md` URLs (`https://anyrouter.dev/docs/<path>.md`) so the agent always works with current content. The auto-generated index is at https://anyrouter.dev/docs.md.
 
 ## Install
 
@@ -35,7 +36,7 @@ The plugin's `.codex-plugin/plugin.json` declares Skill, Command, Agent, and MCP
 
 ### MCP only
 
-If you only want the AnyRouter MCP server in another client (Claude Desktop, Cursor, Claude Code CLI, OpenCode), point it at `https://anyrouter.dev/api/v1/mcp` — full per-client setup is in [`references/mcp.md`](references/mcp.md).
+If you only want the AnyRouter MCP server in another client (Claude Desktop, Cursor, Claude Code CLI, OpenCode), point it at `https://anyrouter.dev/api/v1/mcp`. Full per-client setup: https://anyrouter.dev/docs/mcp.md.
 
 ## Quick usage
 
@@ -54,7 +55,7 @@ You can also invoke the slash command directly:
 /anyrouter:migrate
 ```
 
-## Contract
+## The contract
 
 | Setting | Value |
 | --- | --- |
@@ -65,26 +66,14 @@ You can also invoke the slash command directly:
 | Anthropic-native base | `https://anyrouter.dev/api` (for `/messages`) |
 | MCP endpoint | `https://anyrouter.dev/api/v1/mcp` |
 
-## Reference snapshot
+## Live docs
 
-The `references/` directory contains the canonical AnyRouter docs at the time the plugin was published. Live docs always win — fetch fresh content from https://anyrouter.dev/docs for any current question.
+The skill links to live raw-markdown pages. Start with the index — it lists every section and every page:
 
-| Topic | File |
-| --- | --- |
-| Quickstart | `references/getting-started_quickstart.md` |
-| Dashboard tour | `references/guides_dashboard-tour.md` |
-| Claude Code | `references/guides_claude-code.md` |
-| Hermes Agent | `references/guides_hermes-agent.md` |
-| OpenClaw | `references/guides_openclaw.md` |
-| AI agent integration | `references/guides_ai-agent-integration.md` |
-| Streaming | `references/guides_streaming.md` |
-| Migrate from OpenAI | `references/guides_migrate-from-openai.md` |
-| Migrate from Anthropic | `references/guides_migrate-from-anthropic.md` |
-| Migrate from OpenRouter | `references/guides_migrate-from-openrouter.md` |
-| App attribution | `references/features_app-attribution.md` |
-| Smart routing | `references/features_routing.md` |
-| MCP server | `references/mcp.md` |
-| MCP API reference | `references/api-reference_mcp.md` |
+- https://anyrouter.dev/docs.md — auto-generated index
+- https://anyrouter.dev/llms-full.txt — every doc concatenated
+- https://anyrouter.dev/llms.txt — short LLM index per `llmstxt.org`
+- https://anyrouter.dev/docs/index.json — machine-readable manifest
 
 ## License
 
