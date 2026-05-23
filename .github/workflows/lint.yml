@@ -1,6 +1,8 @@
+---
 name: Lint
 
-on: # yamllint disable-line rule:truthy
+# yamllint disable rule:truthy
+"on":
   push:
     branches:
       - main
@@ -25,18 +27,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Super-linter
-        uses: super-linter/super-linter@v8.6.0
+        # super-linter v8.6.0
+        uses: super-linter/super-linter@9e863354e3ff62e0727d37183162c4a88873df41
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BRANCH: master
           VALIDATE_ALL_CODEBASE: false
-          # Languages this repo actually uses.
           VALIDATE_BASH: true
           VALIDATE_BASH_EXEC: true
           VALIDATE_CHECKOV: true
