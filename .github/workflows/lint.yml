@@ -4,10 +4,12 @@ on: # yamllint disable-line rule:truthy
   push:
     branches:
       - main
+      - master
       - "claude/**"
   pull_request:
     branches:
       - main
+      - master
 
 permissions: {}
 
@@ -32,3 +34,22 @@ jobs:
         uses: super-linter/super-linter@v8.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: master
+          VALIDATE_ALL_CODEBASE: false
+          # Languages this repo actually uses.
+          VALIDATE_BASH: true
+          VALIDATE_BASH_EXEC: true
+          VALIDATE_CHECKOV: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: true
+          VALIDATE_GITLEAKS: true
+          VALIDATE_GIT_MERGE_CONFLICT_MARKERS: true
+          VALIDATE_JSON: true
+          VALIDATE_JSON_PRETTIER: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_MARKDOWN_PRETTIER: true
+          VALIDATE_RENOVATE: true
+          VALIDATE_SHELL_SHFMT: true
+          VALIDATE_TRIVY: true
+          VALIDATE_YAML: true
+          VALIDATE_YAML_PRETTIER: true
