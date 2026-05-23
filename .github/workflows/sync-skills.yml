@@ -19,6 +19,9 @@ on:  # yamllint disable-line rule:truthy
       - '.github/workflows/sync-skills.yml'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 # Plugins whose skills/ subdirs (or root SKILL.md, for good-html) flatten
 # into duyet/skills. Edit this list to add or remove synced plugins.
 env:
