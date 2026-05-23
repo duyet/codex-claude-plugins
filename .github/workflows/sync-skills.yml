@@ -36,13 +36,16 @@ jobs:
       contents: read
     steps:
       - name: Checkout source (codex-claude-plugins)
-        uses: actions/checkout@v4
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           path: source
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Checkout target (duyet/skills)
-        uses: actions/checkout@v4
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: duyet/skills
           path: target
