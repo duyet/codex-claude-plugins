@@ -1,0 +1,149 @@
+name: Sync skills to duyet/skills
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'clickhouse/**'
+      - 'clickhouse-monitoring/**'
+      - 'frontend-design/**'
+      - 'orchestration/**'
+      - 'prompt-engineering/**'
+      - 'unsloth-training/**'
+      - 'duyetbot/**'
+      - 'github/**'
+      - 'good-html/**'
+      - 'anyrouter/**'
+      - 'marketplace.json'
+      - '.github/workflows/sync-skills.yml'
+  workflow_dispatch:
+
+# Plugins whose `skills/` subdirs (or root SKILL.md, for good-html) should
+# flatten into duyet/skills. Edit this list to add or remove synced plugins.
+env:
+  SOURCE_PLUGINS: "clickhouse clickhouse-monitoring frontend-design orchestration prompt-engineering unsloth-training duyetbot github good-html anyrouter"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout source (codex-claude-plugins)
+        uses: actions/checkout@v4
+        with:
+          path: source
+          fetch-depth: 1
+
+      - name: Checkout target (duyet/skills)
+        uses: actions/checkout@v4
+        with:
+          repository: duyet/skills
+          path: target
+          token: ${{ secrets.SKILLS_SYNC_TOKEN }}
+          fetch-depth: 0
+
+      - name: Flatten plugin skills into target layout
+        id: flatten
+        run: |
+          set -euo pipefail
+          cd source
+
+          # Build a list of target skill dirs we are about to replace, so we
+          # can prune them cleanly before copying fresh content.
+          declare -a TARGET_SKILLS=()
+          for plugin in $SOURCE_PLUGINS; do
+            if [ -f "$plugin/SKILL.md" ]; then
+              # Root-level SKILL.md (e.g. good-html). Use the plugin name.
+              TARGET_SKILLS+=("$plugin")
+            elif [ -d "$plugin/skills" ]; then
+              while IFS= read -r -d '' skill_dir; do
+                TARGET_SKILLS+=("$(basename "$skill_dir")")
+              done < <(find "$plugin/skills" -mindepth 2 -maxdepth 2 -name SKILL.md -printf '%h\0')
+            fi
+          done
+
+          echo "Target skill dirs to refresh: ${TARGET_SKILLS[*]}"
+
+          # Remove the existing copies in the target so deletions propagate.
+          for name in "${TARGET_SKILLS[@]}"; do
+            rm -rf "../target/$name"
+          done
+
+          # Copy each skill dir flat into the target.
+          for plugin in $SOURCE_PLUGINS; do
+            if [ -f "$plugin/SKILL.md" ]; then
+              mkdir -p "../target/$plugin"
+              cp "$plugin/SKILL.md" "../target/$plugin/SKILL.md"
+              for extra in assets references reference rules; do
+                if [ -d "$plugin/$extra" ]; then
+                  cp -r "$plugin/$extra" "../target/$plugin/$extra"
+                fi
+              done
+            elif [ -d "$plugin/skills" ]; then
+              while IFS= read -r -d '' skill_dir; do
+                name="$(basename "$skill_dir")"
+                cp -r "$skill_dir" "../target/$name"
+              done < <(find "$plugin/skills" -mindepth 2 -maxdepth 2 -name SKILL.md -printf '%h\0')
+            fi
+          done
+
+          # Record source SHA for the commit message.
+          echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "source_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Detect changes
+        id: diff
+        working-directory: target
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No skill changes to sync."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Changed files:"
+            git diff --cached --name-status
+          fi
+
+      - name: Open PR on duyet/skills
+        if: steps.diff.outputs.changed == 'true'
+        working-directory: target
+        env:
+          GH_TOKEN: ${{ secrets.SKILLS_SYNC_TOKEN }}
+          SOURCE_SHA: ${{ steps.flatten.outputs.source_sha }}
+          SOURCE_SHORT: ${{ steps.flatten.outputs.source_short }}
+        run: |
+          set -euo pipefail
+          BRANCH="sync/codex-${SOURCE_SHORT}"
+          git config user.name "duyetbot"
+          git config user.email "bot@duyet.net"
+          git checkout -b "$BRANCH"
+          git commit -m "chore: sync skills from codex-claude-plugins@${SOURCE_SHORT}"
+          git push -u origin "$BRANCH" --force-with-lease
+
+          BODY=$(cat <<EOF
+          Automated sync from [duyet/codex-claude-plugins@${SOURCE_SHORT}](https://github.com/duyet/codex-claude-plugins/commit/${SOURCE_SHA}).
+
+          Triggered by: \`${GITHUB_EVENT_NAME}\` on ${GITHUB_REF}
+
+          Changed files:
+
+          \`\`\`
+          $(git diff --name-status HEAD~1 || git show --stat HEAD)
+          \`\`\`
+          EOF
+          )
+
+          # Reuse existing PR for this branch if one is already open.
+          existing=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' || true)
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --body "$BODY"
+          else
+            gh pr create \
+              --title "Sync skills from codex-claude-plugins@${SOURCE_SHORT}" \
+              --body "$BODY" \
+              --base master \
+              --head "$BRANCH"
+          fi
