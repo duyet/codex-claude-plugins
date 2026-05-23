@@ -134,6 +134,7 @@ jobs:
           LINK="https://github.com/duyet/codex-claude-plugins"
           DIFF="$(git diff --name-status HEAD~1 2>/dev/null || \
             git show --stat HEAD)"
+          # shellcheck disable=SC2016
           BODY=$(printf '%s\n\n%s\n\n%s\n\n```\n%s\n```\n' \
             "Automated sync from [${SHORT}](${LINK}/commit/${SOURCE_SHA})." \
             "Triggered by \`${GITHUB_EVENT_NAME}\` on ${GITHUB_REF}." \
