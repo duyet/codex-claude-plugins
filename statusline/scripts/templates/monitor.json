@@ -1,0 +1,17 @@
+{
+  "name": "Monitor",
+  "description": "Rate-limit focused layout for monitoring API usage. Hides tools/agents, shows cache and reset timers.",
+  "line_format": "2",
+  "separator": "pipe",
+  "context_style": "progress_bar",
+  "icon_style": "emoji",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": false,
+  "show_agents": false,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}

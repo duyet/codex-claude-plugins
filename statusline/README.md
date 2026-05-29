@@ -1,128 +1,216 @@
 # Statusline
 
-A Claude Code plugin that provides real-time visibility into your coding session. Track context usage, API rate limits, active tools, running agents, and task progress at a glance.
+A Claude Code plugin that provides real-time visibility into your coding session. Track context usage, cache hit rates, session duration, API rate limits, active tools, and running agents — all at a glance.
 
-**Multi-provider support:** Automatically detects Anthropic vs z.ai GLM models and shows provider-specific metrics.
+**Dual-provider support:** Automatically adapts to Anthropic Claude and z.ai GLM models with provider-specific metrics.
 
-## Overview
-
-Statusline keeps you informed about what's happening during your Claude Code session without interrupting your workflow.
-
-| Metric | Anthropic | z.ai GLM |
-|--------|-----------|----------|
-| **Context Health** | Token count, percentage, progress bar | Token count, percentage, progress bar |
-| **Rate Limits** | 5h utilization, 7d utilization | Token quota %, monthly tools % |
-| **Tool Breakdown** | — | Search, Web, ZRead usage counts |
-| **Active Tools** | MCP server detection | MCP server detection |
-| **Agent Tracking** | Running agents and count | Running agents and count |
-| **Task Progress** | Todo completion tracking | Todo completion tracking |
-
-## Installation
-
-Add the plugin to your Claude Code instance:
+## Quick Start
 
 ```bash
 /plugin install statusline
+/statusline:setup
 ```
+
+Answer 4 questions and your statusline is live. That's it.
+
+## What You See
+
+The statusline renders in your terminal below the input prompt, updating automatically every turn.
+
+### 3-line Detailed (default)
+
+```
+📁 monorepo (master) → 🤖 opus-4.8[200k] (medium) → ⏳ 23m
+📊 ██░░░░░░░░ 21% (43k/200k) → 🗃️ 98% (42k/43k) cache hit → ⏱️ 5h: 45% | 7d: 28%
+🔧 Seq Ctx7
+```
+
+### 2-line Balanced
+
+```
+monorepo (master) → opus-4.8[200k] (medium) → 23m
+██░░░░░░░░ 21% (43k/200k) → cache 98% (42k/43k) → 5h: 45% | 7d: 28% → Seq Ctx7
+```
+
+### 1-line Minimal
+
+```
+monorepo (master) · opus-4.8[200k] (medium) · 21% · 5h: 45% | 7d: 28%
+```
+
+## Features
+
+### 📊 Context Health
+
+See how much of your context window you've used — with color-coded thresholds:
+
+| Range | Color | Meaning |
+|-------|-------|---------|
+| 0–49% | 🟢 Green | Plenty of room |
+| 50–69% | 🟡 Dim yellow | Starting to fill |
+| 70–84% | 🟡 Bold yellow | Getting tight |
+| 85%+ | 🔴 Bold red | Approaching limit |
+
+Three display styles:
+- **Progress bar**: `██░░░░░░░░ 21% (43k/200k)`
+- **With tokens**: `21% (43k/200k)`
+- **Compact**: `21%`
+
+### 🗃️ Cache Hit Rate (Anthropic only)
+
+Shows how effective prompt caching is for your session:
+
+```
+🗃️ 98% (42k/43k) cache hit
+```
+
+- Percentage with decimal precision when ≥99% (e.g., `99.98%`)
+- Token breakdown: cached reads vs total cacheable tokens
+- **Only shown for Anthropic Claude models** — GLM proxy values aren't real cache metrics
+
+### ⏳ Session Duration
+
+Tracks how long your current session has been running:
+
+```
+⏳ 1h23m
+```
+
+- File-based tracker persists across statusline updates
+- Auto-resets after 24 hours of inactivity
+
+### ⏱️ Rate Limits
+
+**Anthropic Claude** — 5-hour and 7-day utilization with reset timers:
+
+```
+⏱️ 5h: 45% (reset 1h12m) | 7d: 28%
+```
+
+**z.ai GLM** — Shown when available from the API:
+
+```
+⏱️ rate-limits: n/a
+```
+
+Rate limits use the same color thresholds as context health.
+
+### 🤖 Model Name
+
+Simplified model names with context window size:
+
+| Raw Model ID | Display |
+|-------------|---------|
+| `claude-opus-4-8` | `opus-4.8[200k]` |
+| `claude-sonnet-4-6` | `sonnet-4.6[200k]` |
+| `glm-5.1[1m]` | `glm-5.1[1m]` |
+
+Effort/reasoning level shown in parentheses: `opus-4.8[200k] (medium)`
+
+### 🔧 Active Tools & Agents
+
+Process-detected MCP servers and running agent count:
+
+```
+🔧 Seq Ctx7 ZRead
+👷 3 active
+```
+
+Hidden when idle: `💤 idle`
+
+### 📁 Project & Branch
+
+Current directory and git branch:
+
+```
+📁 monorepo (master)
+```
+
+## Dual-Provider Support
+
+| Feature | Anthropic Claude | z.ai GLM |
+|---------|-----------------|----------|
+| Model name | Simplified (e.g., `opus-4.8[200k]`) | Preserved from model ID |
+| Rate limits | 5h/7d from JSON payload | Shown when available |
+| Cache stats | ✅ Real prompt caching data | ❌ Hidden (proxy artifacts) |
+| Context window | From JSON payload | From JSON payload |
+| Effort level | low/medium/high/max | low/medium/high/max |
+| Session/tools | All features | All features |
+
+## Template Presets
+
+Six built-in presets for different workflows. Apply via `/statusline:config` → Template:
+
+| Template | Lines | Icons | Focus |
+|----------|-------|-------|-------|
+| **Detailed** | 3 | emoji | Full visibility — everything shown |
+| **Balanced** | 2 | unicode | Quick overview — key metrics only |
+| **Minimal** | 1 | none | Maximum space — bare essentials |
+| **Monitor** | 2 | emoji | Rate-limit tracking — hides tools |
+| **Developer** | 2 | unicode | Tools + agents + git focused |
+| **Performance** | 3 | emoji | Cache + context optimization |
+
+## Configuration
+
+All settings stored in `~/.claude/statusline.config.json`:
+
+```json
+{
+  "line_format": "3",
+  "separator": "arrow",
+  "context_style": "progress_bar",
+  "icon_style": "emoji",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": true,
+  "show_agents": true,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}
+```
+
+### Config Reference
+
+| Field | Values | Default | Description |
+|-------|--------|---------|-------------|
+| `line_format` | `"1"`, `"2"`, `"3"` | `"3"` | Number of output lines |
+| `separator` | `"arrow"`, `"pipe"`, `"dot"`, `"slash"` | `"arrow"` | Section separator |
+| `context_style` | `"progress_bar"`, `"tokens"`, `"compact"` | `"progress_bar"` | Context display format |
+| `icon_style` | `"emoji"`, `"unicode"`, `"minimal"` | `"emoji"` | Icon theme |
+| `show_context` | boolean | `true` | Token count and percentage |
+| `show_rate_limits` | boolean | `true` | API usage metrics |
+| `show_git_branch` | boolean | `true` | Current git branch |
+| `show_tools` | boolean | `true` | Running MCP servers |
+| `show_agents` | boolean | `true` | Running agent count |
+| `show_cache` | boolean | `true` | Cache hit rate (Claude only) |
+| `show_session` | boolean | `true` | Session duration |
+| `show_reasoning` | boolean | `true` | Effort level next to model |
 
 ## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/statusline:status` | Display current session metrics |
-| `/statusline:config` | Configure display format (1/2/3 lines) |
 | `/statusline:setup` | Interactive setup wizard |
+| `/statusline:config` | Quick layout/style changes |
+| `/statusline:status` | Display current session metrics |
 | `/statusline:disable` | Pause automatic status updates |
-
-## Provider Auto-Detection
-
-The plugin automatically detects your model provider:
-
-- **Anthropic** — Any Claude model (claude-opus, claude-sonnet, claude-haiku, etc.)
-- **z.ai GLM** — Any model starting with `glm-` (glm-5.1, glm-4, glm-flash, etc.)
-
-Detection happens from the model ID injected by Claude Code into the statusline JSON input.
-
-## Display Formats
-
-### 1-line (Compact)
-
-Everything on a single line:
-```
-claude-plugins (master) │ GLM 5.1 │ ctx: 21% 43k/200k │ tokens: 15% │ tools: 11% (883 left)
-```
-
-### 2-line (Default)
-
-Location + model on line 1, all metrics on line 2:
-```
-claude-plugins (master) │ GLM 5.1 │ v2.0.76
-ctx: 21% 43k/200k │ tokens: 15% │ tools: 11% (883 left) Web:35 ZRead:82
-```
-
-### 3-line (Detailed)
-
-Full layout with progress bar and token details:
-```
-claude-plugins (master) │ GLM 5.1 │ v2.0.76 │ explanatory
-ctx: ██░░░░░░░░ 21% (43k/200k tokens) │ tokens: 15% │ tools: 11% (883 left) Web:35 ZRead:82
-Tools: Seq Ctx7 │ Agents: 2 active │ Tasks: 3/5 (60%)
-```
-
-## Context Health
-
-Color-coded progress indicator:
-- 🟢 Green: 0-60% — Comfortable
-- 🟡 Yellow: 60-85% — Getting full
-- 🔴 Red: 85%+ — Approaching limit
-
-The 3-line format includes a visual progress bar: `███░░░░░░░ 30%`
-
-## API Rate Limits
-
-### Anthropic
-
-Shows 5-hour and 7-day utilization percentages:
-```
-5h: 42% │ 7d: 28%
-```
-
-Requires Claude Code OAuth credentials (auto-detected from keychain or config files).
-
-### z.ai GLM
-
-Shows token quota and monthly tool usage:
-```
-tokens: 15% │ tools: 11% (883 left) Web:35 ZRead:82
-```
-
-- **tokens** — 5-hour rolling window (equivalent to Anthropic's 5h)
-- **tools** — Monthly tool quota with remaining count
-- **Per-tool breakdown** — Search, Web-reader, ZRead usage
-
-#### z.ai Credential Sources (tried in order)
-
-1. **macOS Keychain** — `security add-generic-password -s "z.ai" -w "your-key"`
-2. **Environment** — `ZAI_API_KEY` or `ZAI_CODING_PLAN_KEY`
-3. **Config files** — `~/.local/share/opencode/auth.json` or `~/.zai/auth.json`
 
 ## Smart Hiding
 
-Empty values are never shown:
-- No "None", "0%", or "No tasks" clutter
-- Tool/agent sections hidden when inactive
-- Per-tool breakdown only shown when usage > 0
-- Output style hidden when set to "default"
+Empty values are never shown — no "0%" or "n/a" clutter:
+- Cache section hidden for GLM models (not real data)
+- Rate limits show "n/a" only when provider data is genuinely unavailable
+- Tools/agents sections collapse when nothing is running
+- Session duration hidden on first render (0s)
 
 ## Requirements
 
 - Claude Code v1.0.80+
-- Node.js 18+ (for TypeScript CLI)
-- `jq` (for Bash statusline script)
-
-## Contributing
-
-Found an issue or have a feature idea? Open an issue on the [claude-plugins repository](https://github.com/duyet/codex-claude-plugins/issues).
+- Python 3.8+ (for the statusline renderer)
+- Git (for branch detection)
 
 ## License
 

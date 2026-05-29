@@ -1,0 +1,17 @@
+{
+  "name": "Detailed",
+  "description": "3-line layout with progress bar, emoji icons, cache stats, session duration, and all sections.",
+  "line_format": "3",
+  "separator": "arrow",
+  "context_style": "progress_bar",
+  "icon_style": "emoji",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": true,
+  "show_agents": true,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}

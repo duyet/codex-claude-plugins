@@ -1,0 +1,17 @@
+{
+  "name": "Performance",
+  "description": "Cache and context focused layout for optimizing token usage. Shows detailed cache hit rates and context breakdown.",
+  "line_format": "3",
+  "separator": "arrow",
+  "context_style": "progress_bar",
+  "icon_style": "emoji",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": false,
+  "show_agents": false,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}
