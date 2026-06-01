@@ -97,6 +97,15 @@ This repository also ships Codex plugin metadata in place:
 # Detects main/master, creates feature/X branch, implements, creates PR
 ```
 
+### PR Babysitting with /goal
+```bash
+# Set a persistent goal to babysit a PR — auto-fix CI, address reviews, wait for green
+/goal /github:babysit-pr https://github.com/duyet/clickhouse-monitoring/pull/1355
+
+# With auto-merge and CI fixing
+/goal /github:babysit-pr --pr 1355 --auto-merge --fix-ci
+```
+
 ---
 
 ## Plugins at a Glance
