@@ -12,8 +12,7 @@ Continuously monitor a pull request with intelligent automation:
 - **Smart merge handling** for repos with auto-merge enabled
 - **Effort tracking** — reports total fixes, conflicts, and duration at completion
 
-> **🔴 Non-negotiable: CI must be green.**
-> This command **always** ensures the PR CI is green before considering the job done. It will auto-fix CI failures, auto-address all review comments (from bots and humans), and **wait** until everything is green — CI checks passing, no unresolved review comments, no merge conflicts. Do not stop the loop until all conditions are met or max iterations is reached.
+This command **always** ensures the PR CI is green before considering the job done. It will auto-fix CI failures, auto-address all review comments (from bots and humans), and **wait** until everything is green — CI checks passing, no unresolved review comments, no merge conflicts. Do not stop the loop until all conditions are met or max iterations is reached.
 
 ## Usage
 
