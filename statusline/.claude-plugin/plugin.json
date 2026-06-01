@@ -1,7 +1,7 @@
 {
   "name": "statusline",
-  "version": "1.7.0",
-  "description": "Multi-provider status bar with context health, API rate limits (Anthropic 5h/7d + z.ai GLM tokens/tools), git branch, and active tools. Auto-detects provider from model name. Supports 1/2/3 line layouts with smart hiding.",
+  "version": "1.8.0",
+  "description": "Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts, icon themes, and template presets.",
   "author": {
     "name": "duyet"
   }

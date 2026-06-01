@@ -1,0 +1,17 @@
+{
+  "name": "Developer",
+  "description": "Developer-focused layout with active tools, agents, and git branch. Compact context display.",
+  "line_format": "2",
+  "separator": "arrow",
+  "context_style": "tokens",
+  "icon_style": "unicode",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": true,
+  "show_agents": true,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}

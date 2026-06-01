@@ -1,0 +1,17 @@
+{
+  "name": "Minimal",
+  "description": "Single-line compact layout. No icons, just the essentials.",
+  "line_format": "1",
+  "separator": "dot",
+  "context_style": "compact",
+  "icon_style": "minimal",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": false,
+  "show_agents": false,
+  "show_cache": false,
+  "show_session": false,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}

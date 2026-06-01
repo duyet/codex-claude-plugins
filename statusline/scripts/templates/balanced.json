@@ -1,0 +1,17 @@
+{
+  "name": "Balanced",
+  "description": "2-line layout with tokens, unicode icons, and key metrics.",
+  "line_format": "2",
+  "separator": "arrow",
+  "context_style": "tokens",
+  "icon_style": "unicode",
+  "show_context": true,
+  "show_rate_limits": true,
+  "show_git_branch": true,
+  "show_tools": true,
+  "show_agents": true,
+  "show_cache": true,
+  "show_session": true,
+  "show_reasoning": true,
+  "color_style": "colorful"
+}
