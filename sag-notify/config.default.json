@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "events": {
+    "notification": true,
+    "summary": true
+  },
+  "voice_id": "nPczCjzI2devNBz1zQrb",
+  "model_id": "eleven_flash_v2_5",
+  "self_name": "Claude",
+  "language": "vi",
+  "key_file": "~/.secret",
+  "summary_file": "~/.claude/.sag-summary",
+  "error_log": "~/.claude/.sag-error.log",
+  "max_chars": 280,
+  "templates": {
+    "notification": "Đây là {name}. Mình đang làm ở project {project}, cần bạn xem qua một chút.",
+    "summary": "Đây là {name}, báo cáo từ project {project}: {body}"
+  }
+}

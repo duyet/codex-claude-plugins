@@ -83,6 +83,11 @@
       "name": "anyrouter",
       "source": "./anyrouter",
       "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits."
+    },
+    {
+      "name": "sag-notify",
+      "source": "./sag-notify",
+      "description": "Spoken voice notifications via sag (ElevenLabs TTS). Speaks a short alert when Claude needs you and a per-turn summary when work finishes, naming the project. Auto-injected hooks; configurable voice, language, and templates."
     }
   ]
 }
