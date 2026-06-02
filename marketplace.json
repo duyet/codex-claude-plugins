@@ -150,9 +150,9 @@
     {
       "name": "sag-notify",
       "id": "sag-notify@duyet-claude-plugins",
-      "description": "Spoken voice notifications via sag (ElevenLabs TTS): a short alert when Claude needs you and a per-turn summary when work finishes, naming the project. Configurable voice, language, and templates.",
-      "version": "1.0.0",
-      "type": "hook",
+      "description": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude speaks a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice, language, and templates.",
+      "version": "2.0.0",
+      "type": "skill",
       "category": "ui"
     }
   ],

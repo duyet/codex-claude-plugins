@@ -8,7 +8,7 @@ Walk the user through setup, doing the work for them where possible:
 
 1. **Check `sag` and `jq`** are installed: `command -v sag jq`. If `sag` is missing, point them at the install guide [skills/sag-voice/references/sag-cli.md](../skills/sag-voice/references/sag-cli.md) (`brew install steipete/tap/sag`) and stop.
 
-2. **Resolve the API key.** Check `ELEVENLABS_API_KEY` in the environment. If absent, instruct the user to add it themselves (do NOT ask them to paste the secret in chat). Recommend their shell env file so non-interactive hook shells inherit it:
+2. **Resolve the API key.** Check `ELEVENLABS_API_KEY` in the environment. If absent, instruct the user to add it themselves (do NOT ask them to paste the secret in chat). Recommend their shell env file so non-interactive shells (where `bin/speak.sh` runs) inherit it:
    ```
    ! echo "export ELEVENLABS_API_KEY='your-key'" >> ~/.zshenv
    ```
@@ -26,4 +26,4 @@ Walk the user through setup, doing the work for them where possible:
    ```
    Empty/`OK` = success. A 402 means the voice needs a paid plan — go back to step 4.
 
-7. Confirm the hooks are active and explain that summaries only speak when Claude writes a body to the configured `summary_file`.
+7. Confirm the **sag-voice** skill is enabled and explain the model: Claude itself runs `${CLAUDE_PLUGIN_ROOT}/bin/speak.sh` — `needs-you` right before it asks a question, and `done` once at the end of a substantive turn. There are no auto-firing hooks, so trivial turns stay silent.

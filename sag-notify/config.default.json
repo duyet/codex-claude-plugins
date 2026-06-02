@@ -9,7 +9,6 @@
   "self_name": "Claude",
   "language": "en",
   "key_file": "",
-  "summary_file": "~/.claude/.sag-summary",
   "error_log": "~/.claude/.sag-error.log",
   "max_chars": 280,
   "templates": {
@@ -18,12 +17,12 @@
   },
   "languages": {
     "en": {
-      "notification": "This is {name}. I'm working on project {project} and could use your input.",
-      "summary": "This is {name}, reporting from project {project}: {body}"
+      "notification": "Hi, this is {name}. Project {project} needs you. {body}",
+      "summary": "Hi, this is {name}. Project {project} is done. {body}"
     },
     "vi": {
-      "notification": "Đây là {name}. Mình đang làm ở project {project}, cần bạn xem qua một chút.",
-      "summary": "Đây là {name}, báo cáo từ project {project}: {body}"
+      "notification": "Chào, mình là {name}. Project {project} cần bạn xem qua. {body}",
+      "summary": "Chào, mình là {name}. Project {project} đã xong. {body}"
     }
   }
 }

@@ -2,10 +2,10 @@
 
 Spoken voice notifications for Claude Code via [`sag`](https://github.com/steipete/sag) (ElevenLabs TTS).
 
-- **Needs you** → when Claude waits for permission/input, it speaks a short alert naming the project.
-- **Turn done** → when Claude finishes substantive work, it speaks a one-line summary you author.
+- **Needs you** → just before Claude asks you a question, it speaks a short alert naming the project.
+- **Turn done** → when Claude finishes substantive work, it speaks a one-line summary of what it did.
 
-Both are driven by **auto-injected hooks** — once the plugin is enabled, every session gets them, no per-session setup.
+Both are **skill-driven**: Claude runs `sag` itself at the right moment (via the bundled `bin/speak.sh`), so the spoken line reflects what it actually did or needs. There are no auto-firing hooks — the **sag-voice** skill teaches Claude when and how to speak.
 
 ## Requirements
 
@@ -13,17 +13,19 @@ The `sag` CLI must be installed and authenticated. Install with `brew install st
 
 ## How it works
 
-| Event | Hook | Behavior |
-|-------|------|----------|
-| `Notification` | `hooks/notify.sh` | Speaks the notification template, naming the project, in the configured language. (The harness message is English, so it is replaced by the template.) |
-| `Stop` | `hooks/summary.sh` | Reads the body Claude wrote to `summary_file`, speaks it via the summary template, deletes the file. **Silent when no file exists**, so trivial turns are quiet. |
+Claude calls one helper at two moments:
 
-To make Claude speak a summary, it writes a short body to `~/.claude/.sag-summary` during a substantive turn. The hook adds the `This is <name>, reporting from project <name>:` framing automatically.
+| Moment | Command | Speaks (default) |
+|--------|---------|------------------|
+| Right before asking you (e.g. before `AskUserQuestion`) | `bin/speak.sh needs-you "<reason>"` | `Hi, this is Claude. Project <name> needs you. <reason>` |
+| End of a substantive turn | `bin/speak.sh done "<summary>"` | `Hi, this is Claude. Project <name> is done. <summary>` |
+
+`bin/speak.sh` reads your config, names the project from `$PWD`, renders the configured template, and speaks in the background. It exits silently when `sag`/`jq`/the API key are missing or the plugin is disabled, so it never blocks a turn. Trivial turns stay quiet because Claude simply doesn't call it.
 
 ## Setup
 
 1. Install + authenticate `sag` (see Requirements).
-2. Enable the plugin (it ships `hooks/hooks.json`).
+2. Enable the plugin and the **sag-voice** skill.
 3. Run `/sag-notify:setup` — checks `sag`/`jq`, resolves the API key, picks a voice, writes config, and tests audio.
 4. Or just rely on defaults: Brian voice, English templates, key from the `ELEVENLABS_API_KEY` environment variable.
 
@@ -31,7 +33,7 @@ To make Claude speak a summary, it writes a short body to `~/.claude/.sag-summar
 
 ## Configuration
 
-User config at `~/.config/sag-notify/config.json` overrides [`config.default.json`](config.default.json). See the **sag-voice** skill or run `/sag-notify:config`. Key settings: `enabled`, `events.{notification,summary}`, `voice_id`, `model_id`, `self_name`, `language`, `key_file`, `summary_file`, `error_log`, `max_chars`, `templates.{notification,summary}`, `languages.<lang>.{notification,summary}`.
+User config at `~/.config/sag-notify/config.json` overrides [`config.default.json`](config.default.json). See the **sag-voice** skill or run `/sag-notify:config`. Key settings: `enabled`, `events.{notification,summary}`, `voice_id`, `model_id`, `self_name`, `language`, `key_file`, `error_log`, `max_chars`, `templates.{notification,summary}`, `languages.<lang>.{notification,summary}`.
 
 ### Languages
 
@@ -49,8 +51,8 @@ jq '.language = "vi"' ~/.config/sag-notify/config.json > /tmp/c && mv /tmp/c ~/.
 
 - `/sag-notify:setup` — guided first-time setup + audio test
 - `/sag-notify:config` — change voice, language, templates, toggles
-- `/sag-notify:test` — fire both hooks and check `~/.claude/.sag-error.log`
+- `/sag-notify:test` — fire both notification lines and check `~/.claude/.sag-error.log`
 
 ## Troubleshooting
 
-Silent? Check `~/.claude/.sag-error.log` (the hooks log stderr there, never `/dev/null`). A `402` means a paid voice; switch to a premade one. Verify real audio in the **foreground** — the hooks background the call so their exit code can't tell you if sound played.
+Silent? Check `~/.claude/.sag-error.log` (errors are logged there, never `/dev/null`). A `402` means a paid voice; switch to a premade one. Verify real audio in the **foreground** — `bin/speak.sh` backgrounds the call so its exit code can't tell you if sound played.

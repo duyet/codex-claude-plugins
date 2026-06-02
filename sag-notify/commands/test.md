@@ -1,27 +1,27 @@
 # /sag-notify:test
 
-Speak a test line through the current configuration to confirm audio works.
+Speak both notification lines through the current configuration to confirm audio works.
 
 ## Action Required
 
-Run both hook paths the same way Claude Code would, then check the error log.
+Fire the helper the same way Claude does during a turn, then check the error log.
 
 1. Resolve config values:
    ```
    ! CFG=~/.config/sag-notify/config.json; [ -f "$CFG" ] || CFG="${CLAUDE_PLUGIN_ROOT}/config.default.json"; jq . "$CFG"
    ```
 
-2. **Notification path** — fire the hook with a sample cwd so it names a project:
+2. **Needs-you line** — names the current project:
    ```
-   ! echo '{"cwd":"/path/to/demo-project"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh"; echo exit=$?
-   ```
-
-3. **Summary path** — prime a body, then fire the Stop hook (use the configured language for the body):
-   ```
-   ! printf 'this is an audio test.' > ~/.claude/.sag-summary; echo '{"cwd":"/path/to/demo-project"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/summary.sh"; echo exit=$?
+   ! "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" needs-you "this is an audio test."; echo exit=$?
    ```
 
-4. **Check for silent failures** (the hooks background the call, so a clean exit ≠ sound):
+3. **Done line** — the end-of-turn summary:
+   ```
+   ! "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" done "this is an audio test."; echo exit=$?
+   ```
+
+4. **Check for silent failures** (the helper backgrounds the call, so a clean exit ≠ sound):
    ```
    ! sleep 6; [ -s ~/.claude/.sag-error.log ] && cat ~/.claude/.sag-error.log || echo "(no errors — audio played)"
    ```

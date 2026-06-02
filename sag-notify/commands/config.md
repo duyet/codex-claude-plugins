@@ -24,7 +24,7 @@ Common changes:
 - **Length cap**: `.max_chars = 200`.
 - **Key file**: `.key_file = "~/path/to/keyfile"` (sourced if `ELEVENLABS_API_KEY` is unset).
 
-After changing the voice or templates, verify in the FOREGROUND (hooks background the call):
+After changing the voice or templates, verify in the FOREGROUND (`bin/speak.sh` backgrounds the call):
 ```
 ! V=$(jq -r .voice_id ~/.config/sag-notify/config.json); M=$(jq -r .model_id ~/.config/sag-notify/config.json); sag speak --model-id "$M" --voice-id "$V" "test" 2>&1 | grep -iE "failed|402" || echo OK
 ```

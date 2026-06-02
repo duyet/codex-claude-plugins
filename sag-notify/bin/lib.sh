@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared helpers for the sag-notify hooks. Sourced by notify.sh and summary.sh.
+# Shared helpers for sag-notify. Sourced by bin/speak.sh (the agent-driven CLI).
 # Config precedence: user config (~/.config/sag-notify/config.json) → plugin default.
 
 # Plugin root: prefer the env Claude Code sets; fall back to this file's parent dir.
@@ -66,10 +66,14 @@ sag_speak() {
 }
 
 # sag_render <template> <name> <project> [body] — substitute {name}/{project}/{body}.
+# Collapses a dangling " {body}" to nothing when no body is given, and trims any
+# leftover double spaces / trailing space so empty-body lines read cleanly.
 sag_render() {
   local out="$1"
   out=${out//\{name\}/$2}
   out=${out//\{project\}/$3}
   out=${out//\{body\}/${4:-}}
+  out=${out//  / }      # collapse double spaces left by an empty {body}
+  out=${out% }          # drop a single trailing space
   printf '%s' "$out"
 }
