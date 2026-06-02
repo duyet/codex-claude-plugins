@@ -1,7 +1,7 @@
 # Reference: installing & configuring the `sag` CLI
 
 `sag` is the ElevenLabs text-to-speech CLI this plugin shells out to. It is a
-separate tool — install and authenticate it before the hooks can speak.
+separate tool — install and authenticate it before sag-notify can speak.
 
 - Project: https://github.com/steipete/sag
 - Homebrew tap: `steipete/tap`
@@ -80,13 +80,13 @@ Pick any premade voice id from `sag voices` and set it as the plugin's `voice_id
 
 ## How this plugin uses `sag`
 
-The hooks call:
+Claude (via the sag-voice skill) calls:
 
 ```bash
 sag speak --model-id <model_id> --voice-id <voice_id> "<text>"
 ```
 
 with `model_id` / `voice_id` taken from the plugin config (`config.default.json`,
-overridable in `~/.config/sag-notify/config.json`). The plugin resolves the API key
+overridable in `~/.config/sag-notify/config.json`). The API key is resolved
 from the environment, or from an optional `key_file` you set in your config. See the
 main `SKILL.md` and `/sag-notify:setup` for the plugin side.

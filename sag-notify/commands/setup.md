@@ -20,7 +20,7 @@ Walk the user through setup, doing the work for them where possible:
 
 5. **Write user config** to `~/.config/sag-notify/config.json` (create the dir). Start from the plugin's `config.default.json` and apply their choices with `jq`.
 
-6. **Verify audio in the FOREGROUND** (the hooks background the call, so exit codes lie):
+6. **Verify audio in the FOREGROUND** (the live notification backgrounds the call, so exit codes lie):
    ```
    ! sag speak --model-id eleven_flash_v2_5 --voice-id <ID> "<a short test line in their language>" 2>&1 | grep -iE "failed|402|payment" || echo OK
    ```
