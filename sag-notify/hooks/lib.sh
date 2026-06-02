@@ -27,17 +27,32 @@ cfg() {
   printf '%s' "${2:-}"
 }
 
-# Ensure ELEVENLABS_API_KEY is available, sourcing the configured key file if needed.
+# Ensure ELEVENLABS_API_KEY is available. Prefer the environment; optionally source
+# a user-configured key file (config `key_file`). No key file is assumed by default.
 sag_resolve_key() {
   [ -n "${ELEVENLABS_API_KEY:-}" ] && return 0
-  local kf; kf=$(sag_expand "$(cfg '.key_file' "$HOME/.secret")")
-  [ -f "$kf" ] && . "$kf" 2>/dev/null || true
+  local kf; kf=$(sag_expand "$(cfg '.key_file' '')")
+  [ -n "$kf" ] && [ -f "$kf" ] && . "$kf" 2>/dev/null || true
   [ -n "${ELEVENLABS_API_KEY:-}" ]
 }
 
 # sag_project <cwd> — speakable project name from a directory (hyphens/underscores → spaces).
 sag_project() {
   local p; p=$(basename "$1"); printf '%s' "${p//[-_]/ }"
+}
+
+# sag_template <notification|summary> — resolve the message template.
+# Precedence: explicit `templates.<kind>` override → `languages.<language>.<kind>`
+# preset → `languages.en.<kind>` fallback. Lets users pick a language (vi, en, …)
+# via the `language` setting, or fully override with their own `templates`.
+sag_template() {
+  local kind="$1" lang t
+  t=$(cfg ".templates.$kind" '')
+  [ -n "$t" ] && { printf '%s' "$t"; return; }
+  lang=$(cfg '.language' 'en')
+  t=$(cfg ".languages.${lang}.${kind}" '')
+  [ -n "$t" ] && { printf '%s' "$t"; return; }
+  cfg ".languages.en.${kind}" ''
 }
 
 # sag_speak <text> — fire-and-forget TTS; errors go to the configured log, never /dev/null.

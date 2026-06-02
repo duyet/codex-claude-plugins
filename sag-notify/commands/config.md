@@ -15,16 +15,18 @@ jq '<filter>' ~/.config/sag-notify/config.json > /tmp/sag-cfg.json && mv /tmp/sa
 ```
 
 Common changes:
+- **Language**: `.language = "vi"` (built-in: `en`, `vi`). Add a new one: `.languages.fr = {"notification":"…{name}…{project}…","summary":"…{name}…{project}…{body}…"}`.
 - **Voice**: `.voice_id = "<ID>"` (run `sag voices`; premade = free, professional = paid/402).
+- **Custom wording** (overrides the language preset): `.templates.notification = "…"` / `.templates.summary = "…"`. Set to `""` to fall back to the language preset.
 - **Disable a sound**: `.events.notification = false` or `.events.summary = false`.
 - **Turn everything off**: `.enabled = false`.
-- **Language → English**: set both templates, e.g. `.templates.notification = "This is {name}, project {project} needs your input."` and `.templates.summary = "This is {name} on project {project}. {body}"`.
 - **Name**: `.self_name = "..."`.
 - **Length cap**: `.max_chars = 200`.
+- **Key file**: `.key_file = "~/path/to/keyfile"` (sourced if `ELEVENLABS_API_KEY` is unset).
 
 After changing the voice or templates, verify in the FOREGROUND (hooks background the call):
 ```
-! source ~/.secret 2>/dev/null; sag speak --model-id "$(jq -r .model_id ~/.config/sag-notify/config.json)" --voice-id "$(jq -r .voice_id ~/.config/sag-notify/config.json)" "$(jq -r .templates.summary ~/.config/sag-notify/config.json | sed 's/{name}/Claude/;s/{project}/test/;s/{body}/kiểm tra/')" 2>&1 | grep -iE "failed|402" || echo OK
+! V=$(jq -r .voice_id ~/.config/sag-notify/config.json); M=$(jq -r .model_id ~/.config/sag-notify/config.json); sag speak --model-id "$M" --voice-id "$V" "test" 2>&1 | grep -iE "failed|402" || echo OK
 ```
 
 Always validate the result: `jq . ~/.config/sag-notify/config.json`.

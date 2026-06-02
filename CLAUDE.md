@@ -53,6 +53,30 @@ plugin-name/
 
 When changing plugin metadata, keep Claude and Codex manifests in sync and run `bash scripts/validate-plugins.sh`.
 
+## No Personal / Environment-Specific Information
+
+Plugins in this repo are **published and shared**. Never bake personal or
+machine-specific information into any plugin file (manifests, hooks, scripts,
+skills, commands, configs, docs, examples).
+
+**Never hardcode:**
+- Absolute home paths (`/Users/<you>/…`) — use `$HOME`, `~`, `${CLAUDE_PLUGIN_ROOT}`, or `$PWD`.
+- Personal secret-file conventions (e.g. `~/.secret`) — read secrets from documented env vars; allow an optional, user-set key-file path.
+- Real project, client, host, or repo names — use neutral placeholders (`demo-project`, `/path/to/project`).
+- Account-bound resources (private/professional voice IDs, API keys, tokens, account ids, emails).
+
+**Defaults must be generic.** Ship neutral, English-first defaults that work for
+any user. Put personal preferences (language, voice, key location, custom
+wording) in the user's own config under `~/.config/<plugin>/` — outside the repo,
+never committed.
+
+Author/owner metadata (`author`, marketplace `owner`) is allowed — that is
+legitimate attribution, not environment-specific leakage. Shipping additional
+**language presets** (e.g. a `vi` template set) is a feature, not personal info.
+
+Before committing a plugin, scan for leaks:
+`grep -rniE "/Users/|~/\.secret|<your-name>|<real-project-names>" <plugin>/`
+
 ## Commit Convention
 
 Use semantic commits with plugin scope:

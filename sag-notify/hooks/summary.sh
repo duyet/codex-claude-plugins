@@ -28,7 +28,7 @@ maxlen=$(cfg '.max_chars' '280')
 body=${body:0:$maxlen}
 name=$(cfg '.self_name' 'Claude')
 project=$(sag_project "$cwd")
-tmpl=$(cfg '.templates.summary' 'Đây là {name}, project {project}. {body}')
+tmpl=$(sag_template summary)
 
 sag_speak "$(sag_render "$tmpl" "$name" "$project" "$body")"
 exit 0

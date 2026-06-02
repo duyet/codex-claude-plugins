@@ -19,7 +19,7 @@ cwd=$(printf '%s' "$input" | jq -r '.cwd // empty' 2>/dev/null || true)
 
 name=$(cfg '.self_name' 'Claude')
 project=$(sag_project "$cwd")
-tmpl=$(cfg '.templates.notification' 'Đây là {name}, project {project} cần bạn xem qua.')
+tmpl=$(sag_template notification)
 
 sag_speak "$(sag_render "$tmpl" "$name" "$project")"
 exit 0

@@ -1,7 +1,7 @@
 {
   "name": "sag-notify",
-  "version": "1.0.0",
-  "description": "Spoken voice notifications via sag (ElevenLabs TTS). Speaks a short alert when Claude needs you, and a per-turn summary when work finishes — naming the project. Auto-injected hooks; configurable voice, language, and message templates.",
+  "version": "1.1.0",
+  "description": "Spoken voice notifications via sag (ElevenLabs TTS). Speaks a short alert when Claude needs you, and a per-turn summary when work finishes — naming the project. Auto-injected hooks; configurable voice, multi-language presets, and message templates.",
   "author": {
     "name": "duyet"
   }

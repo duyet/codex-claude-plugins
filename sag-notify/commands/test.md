@@ -11,14 +11,14 @@ Run both hook paths the same way Claude Code would, then check the error log.
    ! CFG=~/.config/sag-notify/config.json; [ -f "$CFG" ] || CFG="${CLAUDE_PLUGIN_ROOT}/config.default.json"; jq . "$CFG"
    ```
 
-2. **Notification path** — fire the hook with a fake cwd so it names a project:
+2. **Notification path** — fire the hook with a sample cwd so it names a project:
    ```
-   ! echo '{"cwd":"/Users/duet/project/anyrouter"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh"; echo exit=$?
+   ! echo '{"cwd":"/path/to/demo-project"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/notify.sh"; echo exit=$?
    ```
 
-3. **Summary path** — prime a body, then fire the Stop hook:
+3. **Summary path** — prime a body, then fire the Stop hook (use the configured language for the body):
    ```
-   ! printf 'đây là một bài kiểm tra âm thanh.' > ~/.claude/.sag-summary; echo '{"cwd":"/Users/duet/project/clickhouse-monitor"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/summary.sh"; echo exit=$?
+   ! printf 'this is an audio test.' > ~/.claude/.sag-summary; echo '{"cwd":"/path/to/demo-project"}' | "${CLAUDE_PLUGIN_ROOT}/hooks/summary.sh"; echo exit=$?
    ```
 
 4. **Check for silent failures** (the hooks background the call, so a clean exit ≠ sound):
