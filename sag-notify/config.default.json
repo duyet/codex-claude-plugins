@@ -10,19 +10,5 @@
   "language": "en",
   "key_file": "",
   "error_log": "~/.claude/.sag-error.log",
-  "max_chars": 280,
-  "templates": {
-    "notification": "",
-    "summary": ""
-  },
-  "languages": {
-    "en": {
-      "notification": "Hi, this is {name}. Project {project} needs you. {body}",
-      "summary": "Hi, this is {name}. Project {project} is done. {body}"
-    },
-    "vi": {
-      "notification": "Chào, mình là {name}. Project {project} cần bạn xem qua. {body}",
-      "summary": "Chào, mình là {name}. Project {project} đã xong. {body}"
-    }
-  }
+  "max_chars": 280
 }

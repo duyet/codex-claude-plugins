@@ -11,17 +11,17 @@ Fire the helper the same way Claude does during a turn, then check the error log
    ! CFG=~/.config/sag-notify/config.json; [ -f "$CFG" ] || CFG="${CLAUDE_PLUGIN_ROOT}/config.default.json"; jq . "$CFG"
    ```
 
-2. **Needs-you line** — names the current project:
+2. **Needs-you line** — name the current project and speak the greeting form Claude uses:
    ```
-   ! "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" needs-you "this is an audio test."; echo exit=$?
-   ```
-
-3. **Done line** — the end-of-turn summary:
-   ```
-   ! "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" done "this is an audio test."; echo exit=$?
+   ! V=$(jq -r '.voice_id // "nPczCjzI2devNBz1zQrb"' "$CFG"); M=$(jq -r '.model_id // "eleven_flash_v2_5"' "$CFG"); P=$(basename "$PWD" | tr '_-' '  '); sag speak --model-id "$M" --voice-id "$V" "Hi, this is Claude. Project $P needs you. This is an audio test." 2>>~/.claude/.sag-error.log &
    ```
 
-4. **Check for silent failures** (the helper backgrounds the call, so a clean exit ≠ sound):
+3. **Done line** — the end-of-turn summary form:
+   ```
+   ! V=$(jq -r '.voice_id // "nPczCjzI2devNBz1zQrb"' "$CFG"); M=$(jq -r '.model_id // "eleven_flash_v2_5"' "$CFG"); P=$(basename "$PWD" | tr '_-' '  '); sag speak --model-id "$M" --voice-id "$V" "Hi, this is Claude. Project $P is done. This is an audio test." 2>>~/.claude/.sag-error.log &
+   ```
+
+4. **Check for silent failures** (the call is backgrounded, so a clean exit ≠ sound):
    ```
    ! sleep 6; [ -s ~/.claude/.sag-error.log ] && cat ~/.claude/.sag-error.log || echo "(no errors — audio played)"
    ```

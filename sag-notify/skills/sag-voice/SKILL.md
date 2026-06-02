@@ -26,50 +26,80 @@ Key facts:
 
 ## Proactive voice notifications (the main behavior)
 
-This plugin is **skill-driven, not hook-driven**: *you* (Claude) run the notifier
-yourself at two moments, so the spoken line reflects what you actually did or need.
-Do not wait for a hook — there isn't one. Use the bundled helper:
+This plugin is **skill-driven, not hook-driven**: *you* (Claude) call `sag` yourself
+at two moments, so the spoken line reflects what you actually did or need. There is no
+hook and no wrapper script — you run `sag speak …` directly via Bash.
+
+Build the line from this shape (English default; speak in the user's `language` if set):
 
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" needs-you "<one clear sentence about what you need>"
-bash "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" done      "<one clear sentence about what you finished>"
+PROJECT=$(basename "$PWD" | tr '_-' '  ')
+sag speak --model-id eleven_flash_v2_5 --voice-id nPczCjzI2devNBz1zQrb \
+  "Hi, this is Claude. Project $PROJECT is done. <one-sentence summary>" \
+  2>>~/.claude/.sag-error.log &
 ```
 
-The helper reads the user's config, names the current project from `$PWD`, renders
-the configured template (`Hi, this is Claude. Project <name> needs you. <body>` /
-`… is done. <body>` by default), and speaks in the background. It exits silently if
-`sag`/`jq`/the API key are missing or the plugin is disabled, so it never blocks you.
+- Always **background the call** (`… &`) and redirect errors to the log (`2>>…`) so it
+  never blocks your turn or pollutes output.
+- `tr '_-' '  '` turns `claude-plugins` into the speakable `claude plugins`.
+- The default voice is **Brian** (`nPczCjzI2devNBz1zQrb`, premade/free) on
+  `eleven_flash_v2_5`. If the user set a different `voice_id`/`model_id` in their config,
+  read and use those instead (one-liner under *Honoring the user's config* below).
 
 ### When to speak
 
 1. **Right before you ask the user a question** — immediately *before* you call the
-   `AskUserQuestion` tool (or otherwise hand control back for permission/input), run:
+   `AskUserQuestion` tool (or otherwise hand control back for permission/input):
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" needs-you "I have two questions before I continue."
+   PROJECT=$(basename "$PWD" | tr '_-' '  ')
+   sag speak --model-id eleven_flash_v2_5 --voice-id nPczCjzI2devNBz1zQrb \
+     "Hi, this is Claude. Project $PROJECT needs you. I have two questions before I continue." \
+     2>>~/.claude/.sag-error.log &
    ```
-   This pings the user to come back. Speak first, then make the `AskUserQuestion` call.
+   Speak first, then make the `AskUserQuestion` call.
 
-2. **At the end of a substantive turn / session** — once, as the last thing you do
-   before yielding, when you finished real work (code changed, task completed, build
-   verified):
+2. **At the end of a substantive turn** — once, as the last thing you do before
+   yielding, when you finished real work (code changed, task completed, build verified):
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" done "Refactored the notifier into a skill; build is green."
+   PROJECT=$(basename "$PWD" | tr '_-' '  ')
+   sag speak --model-id eleven_flash_v2_5 --voice-id nPczCjzI2devNBz1zQrb \
+     "Hi, this is Claude. Project $PROJECT is done. Refactored the notifier to call sag directly." \
+     2>>~/.claude/.sag-error.log &
    ```
 
-### Rules for the body sentence
+### Wording rules
 
-- Write **one clear, complete sentence** — say *what* happened or *what* you need, not
-  a bare fragment. The template frames it as `Hi, this is Claude. Project <name> is
-  done. <body>`, so the body must stand on its own. Good: `Created the plugin and
-  removed the duplicate hooks.` Bad: `done` (the listener can't tell what's done).
-- Write it in the **configured language** (the `language` setting; default `en`). The
-  greeting/framing comes from the template — your body just continues it.
-- **No prefix, no project name, no "Claude"** — the template already adds
-  `Hi, this is <name>. Project <name> …`. Just supply the substance.
-- Keep it short (≤ `max_chars`, default 280) — a full clause, not a keyword dump.
-- **Skip it for trivial/chatty turns** so they stay silent. Only speak `done` when the
-  turn did substantive work; only speak `needs-you` when you genuinely block on input.
-- Speak `done` **at most once** per turn, as the final action.
+- Two fixed openings: **`Hi, this is Claude. Project <name> needs you. <reason>`** and
+  **`Hi, this is Claude. Project <name> is done. <summary>`**. Keep that greeting + project
+  frame; only the trailing sentence changes.
+- The trailing sentence must be **one clear, complete clause** — say *what* happened or
+  *what* you need. Good: `Created the plugin and removed the duplicate hooks.` Bad:
+  `done` (the listener can't tell what's done). Keep it under ~280 chars.
+- Speak in the user's **`language`** (default `en`). Vietnamese form:
+  `Chào, mình là Claude. Project <name> đã xong. <summary>` /
+  `… cần bạn xem qua. <reason>`.
+- **Skip it for trivial/chatty turns** so they stay silent. Only speak the "done" line
+  when the turn did substantive work; only speak "needs you" when you genuinely block on
+  input. Speak "done" **at most once** per turn, as the final action.
+
+### Honoring the user's config
+
+The defaults above work with no config. If you want to respect a user's chosen voice,
+model, name, or language, read them inline before speaking (each falls back to the default):
+
+```bash
+CFG=~/.config/sag-notify/config.json
+[ -f "$CFG" ] || CFG="${CLAUDE_PLUGIN_ROOT}/config.default.json"
+NAME=$(jq -r '.self_name // "Claude"' "$CFG" 2>/dev/null)
+VOICE=$(jq -r '.voice_id // "nPczCjzI2devNBz1zQrb"' "$CFG" 2>/dev/null)
+MODEL=$(jq -r '.model_id // "eleven_flash_v2_5"' "$CFG" 2>/dev/null)
+PROJECT=$(basename "$PWD" | tr '_-' '  ')
+sag speak --model-id "$MODEL" --voice-id "$VOICE" \
+  "Hi, this is $NAME. Project $PROJECT is done. <summary>" 2>>~/.claude/.sag-error.log &
+```
+
+Skip the whole thing silently if `sag` isn't installed (`command -v sag` fails),
+`enabled` is `false`, or there's no `ELEVENLABS_API_KEY` — never let it error your turn.
 
 ## Configuration
 
@@ -82,33 +112,20 @@ Config precedence: `~/.config/sag-notify/config.json` (user) overrides the plugi
 | `events.notification` / `events.summary` | `true` | Toggle the `needs-you` / `done` lines |
 | `voice_id` | `nPczCjzI2devNBz1zQrb` (Brian, premade) | ElevenLabs voice |
 | `model_id` | `eleven_flash_v2_5` | TTS model |
-| `self_name` | `Claude` | Substituted for `{name}` |
-| `language` | `en` | Picks a built-in preset from `languages` (e.g. `en`, `vi`) |
+| `self_name` | `Claude` | Spoken name in the greeting |
+| `language` | `en` | Default language for the spoken line (`en`/`vi` built into this skill) |
 | `key_file` | `""` (env only) | If set, sourced when `ELEVENLABS_API_KEY` is unset |
 | `error_log` | `~/.claude/.sag-error.log` | sag stderr sink (check this if silent) |
-| `max_chars` | `280` | Truncate the spoken body |
-| `templates.{notification,summary}` | `""` | Optional override; wins over the language preset |
-| `languages.<lang>.{notification,summary}` | en, vi shipped | Per-language presets |
+| `max_chars` | `280` | Keep the trailing sentence under this length |
 
-### Choosing a language
-
-The shipped config includes `en` and `vi` presets. Just set the language:
+There are **no message templates** — you (Claude) author the sentence yourself using
+the fixed greeting forms in *Wording rules* above. The wording lives in this skill,
+not in config, so any language works: just speak the line in the user's `language`
+(or whatever language they ask for in the moment).
 
 ```bash
 mkdir -p ~/.config/sag-notify
 jq '.language = "vi"' ~/.config/sag-notify/config.json > /tmp/c && mv /tmp/c ~/.config/sag-notify/config.json
-```
-
-Template resolution precedence: `templates.<kind>` (explicit override) →
-`languages.<language>.<kind>` → `languages.en.<kind>`. Placeholders: `{name}`,
-`{project}`, and `{body}`.
-
-**Add a new language** by adding a preset (no code change):
-```bash
-jq '.languages.fr = {
-  "notification": "Bonjour, ici {name}. Le projet {project} a besoin de vous. {body}",
-  "summary": "Bonjour, ici {name}. Le projet {project} est terminé. {body}"
-} | .language = "fr"' ~/.config/sag-notify/config.json > /tmp/c && mv /tmp/c ~/.config/sag-notify/config.json
 ```
 
 Validate after any change: `jq . ~/.config/sag-notify/config.json`.
@@ -119,10 +136,10 @@ Validate after any change: `jq . ~/.config/sag-notify/config.json`.
 - **`premade`** voices work on the **free** ElevenLabs tier.
 - **`professional`/library** voices return **`402 Payment Required`** on free plans
   ("Free users cannot use library voices via the API"). The call fails — and because
-  the helper backgrounds the call, you'd hear nothing with no clue why.
+  you background the call (`… &`), you'd hear nothing with no clue why.
 
-**Verify a voice in the foreground** before trusting it (the helper backgrounds the
-call, so its exit code is meaningless):
+**Verify a voice in the foreground** before trusting it (a backgrounded call's exit
+code is meaningless):
 ```bash
 sag speak --model-id eleven_flash_v2_5 --voice-id <ID> "test" 2>&1 | grep -iE "failed|402|payment"
 ```
@@ -134,4 +151,4 @@ Empty output = success. A 402 = pick a `premade` voice or upgrade the plan.
 2. `echo ${ELEVENLABS_API_KEY:+set}` (or check your `key_file`) — confirm the key resolves.
 3. Run a foreground `sag speak …` as above to see the real error.
 4. `jq . ~/.config/sag-notify/config.json` — confirm valid JSON and `enabled: true`.
-5. Fire the helper directly: `bash "${CLAUDE_PLUGIN_ROOT}/bin/speak.sh" done "audio test"`.
+5. Speak a foreground test line: `sag speak --model-id eleven_flash_v2_5 --voice-id nPczCjzI2devNBz1zQrb "audio test"`.
