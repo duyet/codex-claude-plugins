@@ -197,6 +197,18 @@
       "category": "Design"
     },
     {
+      "name": "sag-notify",
+      "source": {
+        "source": "local",
+        "path": "./sag-notify"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "UI"
+    },
+    {
       "name": "anyrouter",
       "source": {
         "source": "local",
@@ -207,6 +219,42 @@
         "authentication": "ON_INSTALL"
       },
       "category": "AI"
+    },
+    {
+      "name": "build-macos-apps",
+      "source": {
+        "source": "local",
+        "path": "./build-macos-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "build-ios-apps",
+      "source": {
+        "source": "local",
+        "path": "./build-ios-apps"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Development"
+    },
+    {
+      "name": "agent-loop",
+      "source": {
+        "source": "local",
+        "path": "./agent-loop"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Automation"
     }
   ]
 }

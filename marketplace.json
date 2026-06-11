@@ -154,11 +154,35 @@
       "version": "2.1.1",
       "type": "skill",
       "category": "ui"
+    },
+    {
+      "name": "build-macos-apps",
+      "id": "build-macos-apps@duyet-claude-plugins",
+      "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "development"
+    },
+    {
+      "name": "build-ios-apps",
+      "id": "build-ios-apps@duyet-claude-plugins",
+      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "development"
+    },
+    {
+      "name": "agent-loop",
+      "id": "agent-loop@duyet-claude-plugins",
+      "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+      "version": "0.2.0",
+      "type": "skill",
+      "category": "automation"
     }
   ],
   "metadata": {
-    "lastUpdated": "2026-06-02",
-    "totalPlugins": 18,
+    "lastUpdated": "2026-06-11",
+    "totalPlugins": 21,
     "categories": [
       "agents",
       "git",
@@ -169,7 +193,9 @@
       "database",
       "monitoring",
       "ml",
-      "ai"
+      "ai",
+      "development",
+      "automation"
     ]
   }
 }

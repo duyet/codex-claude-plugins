@@ -88,6 +88,21 @@
       "name": "sag-notify",
       "source": "./sag-notify",
       "description": "Spoken voice notifications via sag (ElevenLabs TTS). Skill-driven: Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language."
+    },
+    {
+      "name": "build-macos-apps",
+      "source": "./build-macos-apps",
+      "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows."
+    },
+    {
+      "name": "build-ios-apps",
+      "source": "./build-ios-apps",
+      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection."
+    },
+    {
+      "name": "agent-loop",
+      "source": "./agent-loop",
+      "description": "Continuous agent loop for overnight/day repo maintenance. Triage, autoreview, browser automation, and parallel agent work. Wake every 5 min, dispatch to threads, land autonomously."
     }
   ]
 }

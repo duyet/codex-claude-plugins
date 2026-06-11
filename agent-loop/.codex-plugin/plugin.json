@@ -1,0 +1,19 @@
+{
+  "name": "agent-loop",
+  "version": "0.2.0",
+  "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work to threads, land autonomously.",
+  "author": { "name": "duyetbot" },
+  "license": "MIT",
+  "skills": "./skills/",
+  "codex": {
+    "skills": ["agent-loop-orchestrator", "agent-loop-triage", "agent-loop-autoreview", "agent-loop-browser"],
+    "commands": ["agent-loop:start", "agent-loop:stop", "agent-loop:status", "agent-loop:triage", "agent-loop:autoreview"]
+  },
+  "interface": {
+    "displayName": "Agent Loop",
+    "shortDescription": "Continuous overnight/day repo maintenance with autonomous agent loops. Triage, autoreview, browser automation, and parallel agent work.",
+    "developerName": "duyetbot",
+    "category": "Automation",
+    "capabilities": ["Skill", "Command"]
+  }
+}
