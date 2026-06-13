@@ -28,7 +28,7 @@ It currently includes these skills:
 
 ## Plugin Structure
 
-```
+```text
 build-ios-apps/
 ├── .claude-plugin/            # Claude manifest
 ├── .codex-plugin/             # Codex manifest
