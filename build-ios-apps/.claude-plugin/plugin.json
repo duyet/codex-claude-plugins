@@ -1,0 +1,12 @@
+{
+  "name": "build-ios-apps",
+  "version": "1.0.0",
+  "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection.",
+  "author": {
+    "name": "duyet",
+    "url": "https://github.com/duyet"
+  },
+  "homepage": "https://github.com/duyet/codex-claude-plugins",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "license": "MIT"
+}
