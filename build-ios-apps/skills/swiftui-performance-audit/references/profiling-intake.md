@@ -16,6 +16,7 @@ Use this checklist when code review alone cannot explain the SwiftUI performance
 ## Default profiling request
 
 Ask the user to:
+
 - Run the app in a Release build when possible.
 - Use the SwiftUI Instruments template.
 - Reproduce the exact problematic interaction only long enough to capture the issue.

@@ -112,7 +112,9 @@ DSYMS="$RUN_DIR/dsyms"
   --extra-dsym "$RUN_DIR/ETTrace-iphonesimulator.xcarchive/dSYMs/ETTrace.framework.dSYM"
 ```
 
-Add `--require-framework <FrameworkName>` for app-owned dynamic frameworks that must symbolicate; use `--require-all-frameworks` only when every embedded framework is app-owned or expected to have symbols. If the helper reports a missing required app or framework dSYM, rebuild the exact simulator app with dSYM generation before tracing, or add the build output directory that contains those dSYMs as another `--search-root`.
+Add `--require-framework <FrameworkName>` for app-owned dynamic frameworks that must symbolicate; use `--require-all-frameworks` only when every embedded framework is app-owned or expected to have symbols. If the helper reports a missing required app or framework dSYM, rebuild the exact simulator app with dSYM generation before tracing, or add the build output directory that
+contains those dSYMs
+as another `--search-root`.
 
 Verify important UUIDs before tracing when the report looks suspicious:
 

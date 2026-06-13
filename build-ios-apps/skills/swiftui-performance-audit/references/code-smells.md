@@ -127,6 +127,7 @@ The same warning applies to legacy observation. Avoid having many descendants ob
 Use `@State` for view-owned state and derived values that intentionally belong to the view lifecycle. Do not move arbitrary expensive computation into `@State` unless you also define when and why it updates.
 
 Better alternatives:
+
 - precompute in the model or store
 - update derived state in response to a specific input change
 - memoize in a dedicated helper
@@ -135,6 +136,7 @@ Better alternatives:
 ### `equatable()` is conditional guidance
 
 Use `equatable()` only when:
+
 - equality is cheaper than recomputing the subtree, and
 - the view inputs are value-semantic and stable enough for meaningful equality checks
 
@@ -143,6 +145,7 @@ Do not apply `equatable()` as a blanket fix for all redraws.
 ## Triage order
 
 When multiple smells appear together, prioritize in this order:
+
 1. Broad invalidation and observation fan-out
 2. Unstable identity and list churn
 3. Main-thread work during render

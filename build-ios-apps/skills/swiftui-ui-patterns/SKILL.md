@@ -42,14 +42,14 @@ Choose a track based on your goal:
 
 Use the narrowest state tool that matches the ownership model:
 
-| Scenario | Preferred pattern |
-| --- | --- |
-| Local UI state owned by one view | `@State` |
-| Child mutates parent-owned value state | `@Binding` |
-| Root-owned reference model on iOS 17+ | `@State` with an `@Observable` type |
-| Child reads or mutates an injected `@Observable` model on iOS 17+ | Pass it explicitly as a stored property |
-| Shared app service or configuration | `@Environment(Type.self)` |
-| Legacy reference model on iOS 16 and earlier | `@StateObject` at the root, `@ObservedObject` when injected |
+| Scenario                                                          | Preferred pattern                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------- |
+| Local UI state owned by one view                                  | `@State`                                                    |
+| Child mutates parent-owned value state                            | `@Binding`                                                  |
+| Root-owned reference model on iOS 17+                             | `@State` with an `@Observable` type                         |
+| Child reads or mutates an injected `@Observable` model on iOS 17+ | Pass it explicitly as a stored property                     |
+| Shared app service or configuration                               | `@Environment(Type.self)`                                   |
+| Legacy reference model on iOS 16 and earlier                      | `@StateObject` at the root, `@ObservedObject` when injected |
 
 Choose the ownership location first, then pick the wrapper. Do not introduce a reference model when plain value state is enough.
 
@@ -79,11 +79,14 @@ Choose the ownership location first, then pick the wrapper. Do not introduce a r
 3. Sketch the view hierarchy, routing model, and presentation points; extract repeated parts into subviews. For complex navigation, read `references/navigationstack.md`, `references/sheets.md`, or `references/deeplinks.md`. **Build and verify no compiler errors before proceeding.**
 4. Implement async loading with `.task` or `.task(id:)`, plus explicit loading and error states when needed. Read `references/async-state.md` when the work depends on changing inputs or cancellation.
 5. Add previews for the primary and secondary states, then add accessibility labels or identifiers when the UI is interactive. Read `references/previews.md` when the view needs fixtures or injected mock dependencies.
-6. Validate with a build: confirm no compiler errors, check that previews render without crashing, ensure state changes propagate correctly, and sanity-check that list identity and observation scope will not cause avoidable re-renders. Read `references/performance.md` if the screen is large, scroll-heavy, or frequently updated. For common SwiftUI compilation errors — missing `@State` annotations, ambiguous `ViewBuilder` closures, or mismatched generic types — resolve them before updating callsites. **If the build fails:** read the error message carefully, fix the identified issue, then rebuild before proceeding to the next step. If a preview crashes, isolate the offending subview, confirm its state initialisation is valid, and re-run the preview before continuing.
+6. Validate with a build: confirm no compiler errors, check that previews render without crashing, ensure state changes propagate correctly, and sanity-check that list identity and observation scope will not cause avoidable re-renders. Read `references/performance.md` if the screen is large, scroll-heavy, or frequently updated. For common SwiftUI compilation errors — missing
+   `@State` annotations,
+   ambiguous `ViewBuilder` closures, or mismatched generic types — resolve them before updating callsites. **If the build fails:** read the error message carefully, fix the identified issue, then rebuild before proceeding to the next step. If a preview crashes, isolate the offending subview, confirm its state initialisation is valid, and re-run the preview before continuing.
 
 ## Component references
 
 Use `references/components-index.md` as the entry point. Each component reference should include:
+
 - Intent and best-fit scenarios.
 - Minimal usage pattern with local conventions.
 - Pitfalls and performance notes.

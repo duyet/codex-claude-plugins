@@ -6,6 +6,7 @@ description: Design App Intents, app entities, and App Shortcuts for iOS system 
 # iOS App Intents
 
 ## Overview
+
 Expose the smallest useful action and entity surface to the system. Start with the verbs and objects people would actually want outside the app, then implement a narrow App Intents layer that can deep-link or hand off cleanly into the main app when needed.
 
 Read these references as needed:
@@ -18,28 +19,33 @@ Read these references as needed:
 ## Core workflow
 
 ### 1) Start with actions, not screens
+
 - Identify the 1-3 highest-value actions that should work outside the app UI.
 - Prefer verbs like compose, open, find, filter, continue, inspect, or start.
 - Do not mirror the entire app navigation tree as intents.
 
 ### 2) Define a small entity surface
+
 - Add `AppEntity` types only for the objects the system needs to understand or route.
 - Keep the entity shape narrower than the app's persistence model.
 - Add `EntityQuery` or other query types only where disambiguation or suggestions are genuinely useful.
 
 ### 3) Decide whether the action completes in place or opens the app
+
 - Use non-opening intents for actions that can complete directly from the system surface.
 - Use `openAppWhenRun` or open-style intents when the user should land in a specific in-app workflow.
 - When the app must react inside the main scene, add one clear runtime handoff path instead of scattering ad hoc routing logic.
 - If the action can work in both modes, consider shipping both an inline version and an open-app version rather than forcing one compromise.
 
 ### 4) Make the actions discoverable
+
 - Add `AppShortcutsProvider` entries for the first set of high-value intents.
 - Choose titles, phrases, and symbols that make sense in Shortcuts, Siri, and Spotlight.
 - Keep shortcut phrases direct and task-oriented.
 - Reuse the same action model for widgets and controls when a widget configuration or intent-driven control already needs the same parameters.
 
 ### 5) Validate the runtime handoff
+
 - Build the app and confirm the intents target compiles cleanly.
 - Verify the app opens or routes to the expected place when an intent runs.
 - Summarize which actions are now exposed, which entities back them, and how the app handles invocation.

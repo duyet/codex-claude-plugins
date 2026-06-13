@@ -29,11 +29,11 @@ Use this structure when reporting SwiftUI performance findings so the user can q
 
 ## Metrics
 
-| Metric | Before | After | Notes |
-| --- | --- | --- | --- |
-| CPU | [value] | [value] | [note] |
+| Metric                 | Before  | After   | Notes  |
+| ---------------------- | ------- | ------- | ------ |
+| CPU                    | [value] | [value] | [note] |
 | Frame drops / hitching | [value] | [value] | [note] |
-| Memory peak | [value] | [value] | [note] |
+| Memory peak            | [value] | [value] | [note] |
 
 ## Next step
 

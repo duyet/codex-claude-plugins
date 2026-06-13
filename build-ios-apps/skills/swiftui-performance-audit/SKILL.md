@@ -20,12 +20,14 @@ Use this skill to diagnose SwiftUI performance issues from code first, then requ
 ## 1. Intake
 
 Collect:
+
 - Target view or feature code.
 - Symptoms and exact reproduction steps.
 - Data flow: `@State`, `@Binding`, environment dependencies, and observable models.
 - Whether the issue shows up on device or simulator, and whether it was observed in Debug or Release.
 
 Ask the user to classify the issue if possible:
+
 - CPU spike or battery drain
 - Janky scrolling or dropped frames
 - High memory or image pressure
@@ -37,6 +39,7 @@ For the full profiling intake checklist, read `references/profiling-intake.md`.
 ## 2. Code-First Review
 
 Focus on:
+
 - Invalidation storms from broad observation or environment reads.
 - Unstable identity in lists and `ForEach`.
 - Heavy derived work in `body` or view builders.
@@ -47,6 +50,7 @@ Focus on:
 Use `references/code-smells.md` for the detailed smell catalog and fix guidance.
 
 Provide:
+
 - Likely root causes with code references.
 - Suggested fixes and refactors.
 - If needed, a minimal repro or instrumentation suggestion.
@@ -54,6 +58,7 @@ Provide:
 ## 3. Guide the User to Profile
 
 If code review does not explain the issue, ask for runtime evidence:
+
 - A trace export or screenshots of the SwiftUI timeline and Time Profiler call tree.
 - Device/OS/build configuration.
 - The exact interaction being profiled.
@@ -71,6 +76,7 @@ Use `references/profiling-intake.md` for the exact checklist and collection step
 ## 5. Remediate
 
 Apply targeted fixes:
+
 - Narrow state scope and reduce broad observation fan-out.
 - Stabilize identities for `ForEach` and lists.
 - Move heavy work out of `body` into derived state updated from inputs, model-layer precomputation, memoized helpers, or background preprocessing. Use `@State` only for view-owned state, not as an ad hoc cache for arbitrary computation.
@@ -88,6 +94,7 @@ Summarize the delta (CPU, frame drops, memory peak) if provided.
 ## Outputs
 
 Provide:
+
 - A short metrics table (before/after if available).
 - Top issues (ordered by impact).
 - Proposed fixes with estimated effort.
