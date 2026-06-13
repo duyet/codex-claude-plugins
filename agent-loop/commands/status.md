@@ -22,7 +22,7 @@ Check the current state of the agent-loop.
 
 ## Output
 
-```
+```text
 Agent Loop: RUNNING (PID: 42391)
   Started: 2026-06-11 00:00:00 UTC
   Uptime: 2h 14m 32s

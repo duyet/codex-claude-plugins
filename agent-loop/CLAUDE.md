@@ -8,7 +8,7 @@ Continuous overnight/day repository maintenance with autonomous agent loops.
 
 ## Plugin Structure
 
-```
+```text
 agent-loop/
 ├── .claude-plugin/
 │   └── plugin.json          # Manifest (version 0.2.0)
@@ -25,32 +25,32 @@ agent-loop/
 
 ### Commands
 
-| Command | Description |
-|---------|-------------|
-| `/agent-loop:start` | Start the continuous maintenance loop |
-| `/agent-loop:stop` | Gracefully stop the loop |
-| `/agent-loop:status` | Check loop status and history |
-| `/agent-loop:triage` | One-shot repo queue triage |
-| `/agent-loop:autoreview` | One-shot PR review and fix |
+| Command                  | Description                           |
+| ------------------------ | ------------------------------------- |
+| `/agent-loop:start`      | Start the continuous maintenance loop |
+| `/agent-loop:stop`       | Gracefully stop the loop              |
+| `/agent-loop:status`     | Check loop status and history         |
+| `/agent-loop:triage`     | One-shot repo queue triage            |
+| `/agent-loop:autoreview` | One-shot PR review and fix            |
 
 ### Skills
 
-| Skill | Purpose |
-|-------|---------|
+| Skill                       | Purpose                                                |
+| --------------------------- | ------------------------------------------------------ |
 | **agent-loop-orchestrator** | Core loop: wait → triage → dispatch → monitor → report |
-| **agent-loop-triage** | GitHub issue/PR queue scanning and classification |
-| **agent-loop-autoreview** | Autonomous PR review, fix application, and merging |
-| **agent-loop-browser** | Browser automation for live UI proof and verification |
+| **agent-loop-triage**       | GitHub issue/PR queue scanning and classification      |
+| **agent-loop-autoreview**   | Autonomous PR review, fix application, and merging     |
+| **agent-loop-browser**      | Browser automation for live UI proof and verification  |
 
 ## Versioning
 
 Follow semantic versioning (semver):
 
-| Change Type | Version Bump | Example |
-|-------------|--------------|---------|
-| Bug fix, docs | Patch | 0.2.0 → 0.2.1 |
-| New feature, minor change | Minor | 0.2.0 → 0.3.0 |
-| Breaking change | Major | 0.2.0 → 1.0.0 |
+| Change Type               | Version Bump | Example       |
+| ------------------------- | ------------ | ------------- |
+| Bug fix, docs             | Patch        | 0.2.0 → 0.2.1 |
+| New feature, minor change | Minor        | 0.2.0 → 0.3.0 |
+| Breaking change           | Major        | 0.2.0 → 1.0.0 |
 
 Always update `plugin.json` version when making changes.
 
@@ -58,7 +58,7 @@ Always update `plugin.json` version when making changes.
 
 Use semantic commits with plugin scope:
 
-```
+```text
 feat(agent-loop): add new feature
 fix(agent-loop): fix bug
 docs(agent-loop): update documentation
