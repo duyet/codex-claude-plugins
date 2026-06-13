@@ -157,6 +157,16 @@ scrims, and clipping before adding more effects.
   Liquid Glass behavior; missing foreground activation can make a design bug
   look like a rendering bug.
 
+## App Icons and Accessibility
+
+- App icons are now layered and dynamic on macOS too. They respond to lighting and
+  system effects and follow a standardized, concentric icon grid. Ship the default,
+  dark, clear, and tinted appearances rather than a single flat icon.
+- Verify custom glass, colors, and animations under Reduce Transparency, Reduce
+  Motion, and the user's preferred Liquid Glass look. Standard components adapt
+  automatically; custom surfaces and animations may need explicit handling so they
+  stay legible and calm under these settings.
+
 ## When To Use Other Skills
 
 - Use `swiftui-patterns` when the main question is scene architecture,

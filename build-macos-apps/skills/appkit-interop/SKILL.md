@@ -50,6 +50,7 @@ the source of truth, while AppKit handles the imperative edge.
 - `references/window-panels.md`: window access, utility windows, and open/save panels.
 - `references/responder-menus.md`: first responder, command routing, and menu validation.
 - `references/drag-drop-pasteboard.md`: pasteboard, file URLs, and desktop drag/drop edges.
+- `references/appkit-overview.md`: AppKit topic map and notable symbols for orienting before bridging.
 
 ## Guardrails
 
