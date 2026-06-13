@@ -1,0 +1,12 @@
+{
+  "name": "build-macos-apps",
+  "version": "1.0.0",
+  "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
+  "author": {
+    "name": "duyet",
+    "url": "https://github.com/duyet"
+  },
+  "homepage": "https://github.com/duyet/codex-claude-plugins",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "license": "MIT"
+}
