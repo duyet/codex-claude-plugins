@@ -6,8 +6,19 @@
   "license": "MIT",
   "skills": "./skills/",
   "codex": {
-    "skills": ["agent-loop-orchestrator", "agent-loop-triage", "agent-loop-autoreview", "agent-loop-browser"],
-    "commands": ["agent-loop:start", "agent-loop:stop", "agent-loop:status", "agent-loop:triage", "agent-loop:autoreview"]
+    "skills": [
+      "agent-loop-orchestrator",
+      "agent-loop-triage",
+      "agent-loop-autoreview",
+      "agent-loop-browser"
+    ],
+    "commands": [
+      "agent-loop:start",
+      "agent-loop:stop",
+      "agent-loop:status",
+      "agent-loop:triage",
+      "agent-loop:autoreview"
+    ]
   },
   "interface": {
     "displayName": "Agent Loop",

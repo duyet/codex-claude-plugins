@@ -24,7 +24,8 @@ Gracefully shut down the running agent-loop.
 2. Active threads get up to 120s to finish (or 0 with `--force`)
 3. Final state is persisted to `.agent-loop/state.json`
 4. Prints cycle summary:
-```
+
+```text
 Agent Loop Stopped
   Cycles completed: 24
   Items processed: 87
