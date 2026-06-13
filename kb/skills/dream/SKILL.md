@@ -105,7 +105,7 @@ Default per-type retention, in days (`null` means keep forever). Override via a
 
 Print exactly this before any change. Omit any section that has zero items.
 
-```
+```text
 ## dream — consolidation report
 
 Merges (<N>):
@@ -160,7 +160,7 @@ notes found.` and stop.
 `dream forget "<query>" [<path>]` searches notes by keyword and semantic match, lists
 them, and proposes deletion as a diff:
 
-```
+```text
 [note:<file>] — "<title>" [Y/n]
 ```
 
