@@ -103,6 +103,11 @@
       "name": "agent-loop",
       "source": "./agent-loop",
       "description": "Continuous agent loop for overnight/day repo maintenance. Triage, autoreview, browser automation, and parallel agent work. Wake every 5 min, dispatch to threads, land autonomously."
+    },
+    {
+      "name": "kb",
+      "source": "./kb",
+      "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB."
     }
   ]
 }

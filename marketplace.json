@@ -178,6 +178,14 @@
       "version": "0.2.0",
       "type": "skill",
       "category": "automation"
+    },
+    {
+      "name": "kb",
+      "id": "kb@duyet-claude-plugins",
+      "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "productivity"
     }
   ],
   "metadata": {

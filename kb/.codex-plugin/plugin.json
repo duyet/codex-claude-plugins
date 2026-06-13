@@ -1,0 +1,19 @@
+{
+  "name": "kb",
+  "version": "1.0.0",
+  "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
+  "author": {
+    "name": "duyet"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Knowledge Base",
+    "shortDescription": "Maintain a markdown knowledge base: consolidate, dedupe, prune, and forget notes.",
+    "developerName": "duyet",
+    "category": "productivity",
+    "capabilities": ["Skill"],
+    "links": {
+      "homepage": "https://github.com/duyet/codex-claude-plugins"
+    }
+  }
+}
