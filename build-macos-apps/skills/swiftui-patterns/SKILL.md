@@ -61,13 +61,16 @@ Before writing the full UI:
 - Keep scenes explicit. A separate settings window, utility window, or menu bar extra should be modeled as its own scene, not hidden inside one monolithic `ContentView`.
 - Prefer system desktop affordances: `commands`, toolbars, sidebars, inspectors, contextual menus, and `searchable`.
 - For menu bar apps, keep `MenuBarExtra` item titles and action labels short and scannable. Cap visible menu item text at 30 characters; if source content is longer, truncate or summarize it before rendering and open the full content in a dedicated window or detail surface.
-- If a `MenuBarExtra` app should still behave like a regular Dock app with a visible main window/process, install an `NSApplicationDelegate` via `@NSApplicationDelegateAdaptor`, call `NSApp.setActivationPolicy(.regular)` during launch, and activate the app with `NSApp.activate(ignoringOtherApps: true)`. If the app is intentionally menu-bar-only, document that `.accessory` / no-Dock behavior is a deliberate product choice.
+- If a `MenuBarExtra` app should still behave like a regular Dock app with a visible main window/process, install an `NSApplicationDelegate` via `@NSApplicationDelegateAdaptor`, call `NSApp.setActivationPolicy(.regular)` during launch, and activate the app with `NSApp.activate(ignoringOtherApps: true)`.
+  If the app is intentionally menu-bar-only, document that `.accessory` / no-Dock behavior is a deliberate product choice.
 - Prefer system-adaptive colors, materials, and semantic foreground styles. Avoid fixed white/light backgrounds in scaffolding and examples unless the requested design explicitly calls for a custom non-adaptive theme.
-- Do not paint `NavigationSplitView` sidebars or root window panes with opaque custom `Color(...)` or `Color(nsColor: .windowBackgroundColor)` fills by default. Prefer native macOS sidebar/window materials and system-provided backgrounds unless the user explicitly asks for a custom opaque surface. In sidebar-detail-inspector layouts, let the sidebar keep the standard source-list/material appearance and reserve custom backgrounds for detail or inspector content cards where needed.
+- Do not paint `NavigationSplitView` sidebars or root window panes with opaque custom `Color(...)` or `Color(nsColor: .windowBackgroundColor)` fills by default. Prefer native macOS sidebar/window materials and system-provided backgrounds unless the user explicitly asks for a custom opaque surface.
+  In sidebar-detail-inspector layouts, let the sidebar keep the standard source-list/material appearance and reserve custom backgrounds for detail or inspector content cards where needed.
 - Use `@SceneStorage` for per-window ephemeral state and `@AppStorage` for durable user preferences.
 - Keep selection state explicit and stable. macOS layouts often pivot around sidebar selection rather than push navigation.
 - Prefer `NavigationSplitView` or a deliberate manual split layout over iOS-style stacked flows when the app benefits from always-visible structure.
-- For `List(...).listStyle(.sidebar)` and `NavigationSplitView` sidebars, prefer flat native rows with standard system selection/highlight behavior. Keep rows visually lightweight and Mail-like: at most one leading icon, one strong title line, and one optional secondary detail line in `.secondary`. Avoid stacked metadata rows, repeated inline utility icons, or dense multi-column status text in the sidebar. Reserve card-style and metadata-heavy surfaces for detail or inspector panes unless the user explicitly asks for a highly custom sidebar treatment.
+- For `List(...).listStyle(.sidebar)` and `NavigationSplitView` sidebars, prefer flat native rows with standard system selection/highlight behavior. Keep rows visually lightweight and Mail-like: at most one leading icon, one strong title line, and one optional secondary detail line in `.secondary`.
+  Avoid stacked metadata rows, repeated inline utility icons, or dense multi-column status text in the sidebar. Reserve card-style and metadata-heavy surfaces for detail or inspector panes unless the user explicitly asks for a highly custom sidebar treatment.
 - Keep primary actions discoverable from both UI chrome and keyboard shortcuts when appropriate.
 - Use SwiftUI-native scenes and views first. If you need low-level window, responder-chain, text system, or panel control, switch to `appkit-interop`.
 
@@ -78,16 +81,16 @@ For concrete sidebar row and split-view background examples, read
 
 Use the narrowest state tool that matches the ownership model:
 
-| Scenario | Preferred pattern |
-| --- | --- |
-| Local view or control state | `@State` |
-| Child mutates parent-owned value state | `@Binding` |
-| Root-owned reference model on macOS 14+ | `@State` with an `@Observable` type |
-| Child reads or mutates an injected `@Observable` model | Pass it explicitly as a stored property |
-| Window-scoped ephemeral selection or expansion state | `@SceneStorage` when practical, otherwise scene-owned `@State` |
-| Shared user preference | `@AppStorage` |
-| Shared app service or configuration | `@Environment(Type.self)` |
-| Legacy reference model on older targets | `@StateObject` at the owner and `@ObservedObject` when injected |
+| Scenario                                               | Preferred pattern                                               |
+| ------------------------------------------------------ | --------------------------------------------------------------- |
+| Local view or control state                            | `@State`                                                        |
+| Child mutates parent-owned value state                 | `@Binding`                                                      |
+| Root-owned reference model on macOS 14+                | `@State` with an `@Observable` type                             |
+| Child reads or mutates an injected `@Observable` model | Pass it explicitly as a stored property                         |
+| Window-scoped ephemeral selection or expansion state   | `@SceneStorage` when practical, otherwise scene-owned `@State`  |
+| Shared user preference                                 | `@AppStorage`                                                   |
+| Shared app service or configuration                    | `@Environment(Type.self)`                                       |
+| Legacy reference model on older targets                | `@StateObject` at the owner and `@ObservedObject` when injected |
 
 Choose the ownership location first, then the wrapper. Do not turn simple desktop state into a view model by reflex.
 
@@ -129,6 +132,7 @@ Choose the ownership location first, then the wrapper. Do not turn simple deskto
 ## Component References
 
 Use `references/components-index.md` as the entry point. Each component reference should include:
+
 - intent and best-fit scenarios
 - minimal usage pattern with desktop conventions
 - pitfalls and discoverability notes

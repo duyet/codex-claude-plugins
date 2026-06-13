@@ -47,6 +47,7 @@ failures precisely, and avoid treating every test failure like a product bug.
 ## Output Expectations
 
 Provide:
+
 - the command used
 - the smallest failing scope
 - the top failure category

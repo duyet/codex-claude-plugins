@@ -44,6 +44,7 @@ the fastest path to a reproducible result.
 ## Output Expectations
 
 Provide:
+
 - the package products you found
 - the command you ran
 - whether build, run, or test succeeded

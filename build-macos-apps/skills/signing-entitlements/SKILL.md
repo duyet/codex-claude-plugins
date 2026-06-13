@@ -52,6 +52,7 @@ hardened runtime confusion, or trust-policy rejection.
 ## Output Expectations
 
 Provide:
+
 - what artifact was inspected
 - what signing state it is in
 - the exact failure class

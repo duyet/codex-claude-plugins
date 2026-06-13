@@ -62,6 +62,7 @@ the source of truth, while AppKit handles the imperative edge.
 ## Output Expectations
 
 Provide:
+
 - the exact SwiftUI limitation being crossed
 - the smallest recommended bridge type
 - the data-flow boundary between SwiftUI and AppKit

@@ -41,6 +41,7 @@ hardened runtime, or distribution validation.
 ## Output Expectations
 
 Provide:
+
 - what artifact or settings were inspected
 - whether the app looks distribution-ready
 - the top missing prerequisite or failure mode

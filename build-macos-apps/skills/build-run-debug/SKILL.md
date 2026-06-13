@@ -121,6 +121,7 @@ simulator-specific workflows onto pure macOS tasks.
 ## Output Expectations
 
 Provide:
+
 - the detected project type
 - the script path and Codex environment action you configured, if applicable
 - the command you ran

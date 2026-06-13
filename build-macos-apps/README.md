@@ -35,7 +35,7 @@ It currently includes these skills:
 
 ## Plugin Structure
 
-```
+```text
 build-macos-apps/
 ├── .claude-plugin/            # Claude manifest
 ├── .codex-plugin/             # Codex manifest
