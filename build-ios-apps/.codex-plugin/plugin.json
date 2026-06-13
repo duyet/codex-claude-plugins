@@ -1,0 +1,20 @@
+{
+  "name": "build-ios-apps",
+  "version": "1.0.0",
+  "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection.",
+  "author": {
+    "name": "duyet"
+  },
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "interface": {
+    "displayName": "Build iOS Apps",
+    "shortDescription": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows",
+    "developerName": "duyet",
+    "category": "development",
+    "capabilities": ["Skill", "Agent"],
+    "links": {
+      "homepage": "https://github.com/duyet/codex-claude-plugins"
+    }
+  }
+}
