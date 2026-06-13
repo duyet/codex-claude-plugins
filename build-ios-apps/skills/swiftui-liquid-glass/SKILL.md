@@ -9,6 +9,31 @@ description: Implement and review iOS 26+ SwiftUI Liquid Glass UI. Use when adop
 
 Use this skill to build or review SwiftUI features that fully align with the iOS 26+ Liquid Glass API. Prioritize native APIs (`glassEffect`, `GlassEffectContainer`, glass button styles) and Apple design guidance. Keep usage consistent, interactive where needed, and performance aware.
 
+## Adoption Guidance
+
+Liquid Glass is a dynamic material that forms a distinct functional layer for
+controls and navigation. Adopting it well is mostly about getting out of the way:
+
+- **Prefer standard components.** Bars, sheets, popovers, and controls from SwiftUI
+  (and UIKit) adopt Liquid Glass automatically when you build with the latest SDK.
+  Reach for the explicit `glassEffect` API only when a standard component does not
+  already give you the treatment you need.
+- **Remove custom backgrounds on controls and navigation.** Custom backgrounds in
+  split views, tab bars, and toolbars can overlay or interfere with Liquid Glass and
+  the scroll-edge effect. Let the system determine background appearance; remove
+  custom effects unless they are essential.
+- **Test accessibility and display settings.** Reduce Transparency, Reduce Motion,
+  and the user's preferred Liquid Glass look can remove or modify effects. Standard
+  components adapt automatically; verify your custom elements, colors, and
+  animations under these configurations.
+- **Use glass on custom controls sparingly.** Overusing it distracts from content.
+  Limit glass to the most important functional elements.
+- **App icons are now layered and dynamic.** They respond to lighting and visual
+  effects, and use a standardized, concentric icon grid. Provide default (light),
+  dark, clear, and tinted appearances.
+- **New navigation affordances.** `TabView` gains `.tabBarMinimizeBehavior(.onScrollDown)`
+  and a search role via `Tab(role: .search)` (UIKit: `UISearchTab`).
+
 ## Workflow Decision Tree
 
 Choose the path that matches the request:
