@@ -6,7 +6,7 @@
 > anyone can consume it (file servers, Obsidian/Notion/MkDocs, LLMs, search
 > indexes, graph viewers).
 >
-> Source: https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md
+> Source: <https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md>
 
 ## Core principles
 
@@ -26,7 +26,7 @@
 
 A knowledge bundle is a hierarchical directory of markdown files:
 
-```
+```text
 bundle_root/
 ├── index.md            (optional; only place frontmatter is allowed in an index)
 ├── log.md              (optional)
@@ -38,6 +38,7 @@ bundle_root/
 ```
 
 **Reserved filenames:**
+
 - `index.md` — progressive-disclosure directory listings.
 - `log.md` — chronological update history.
 
@@ -51,12 +52,12 @@ Two sections: required YAML frontmatter, then a markdown body.
 
 ```yaml
 ---
-type: <Type name>                 # REQUIRED — non-empty string
-title: <Display name>             # Recommended
-description: <One-line summary>    # Recommended
-resource: <Canonical URI>          # Recommended for assets
-tags: [<tag>, <tag>]               # Optional
-timestamp: <ISO 8601 datetime>     # Optional
+type: <Type name> # REQUIRED — non-empty string
+title: <Display name> # Recommended
+description: <One-line summary> # Recommended
+resource: <Canonical URI> # Recommended for assets
+tags: [<tag>, <tag>] # Optional
+timestamp: <ISO 8601 datetime> # Optional
 # Producers may add arbitrary custom keys.
 ---
 ```
@@ -78,11 +79,11 @@ on round-trips.
 Standard markdown. Conventional section headings (prefer structural markdown —
 tables, lists, code blocks — over prose):
 
-| Section       | Purpose                                       |
-|---------------|-----------------------------------------------|
-| `# Schema`    | Structured description of columns/fields.     |
-| `# Examples`  | Concrete usage examples in code blocks.       |
-| `# Citations` | External sources supporting claims.           |
+| Section       | Purpose                                   |
+| ------------- | ----------------------------------------- |
+| `# Schema`    | Structured description of columns/fields. |
+| `# Examples`  | Concrete usage examples in code blocks.   |
+| `# Citations` | External sources supporting claims.       |
 
 ## Cross-linking
 
@@ -102,12 +103,12 @@ Optional, support progressive disclosure. Sections group concepts. No frontmatte
 ```markdown
 # Section Heading
 
-* [Title](relative-url) - description from the linked concept
-* [Subdirectory](subdir/) - group description
+- [Title](relative-url) - description from the linked concept
+- [Subdirectory](subdir/) - group description
 
 # Another Section
 
-* [Title](url) - description
+- [Title](url) - description
 ```
 
 Producers may generate them automatically; consumers may synthesize dynamically.
@@ -121,11 +122,13 @@ Date headings must use ISO 8601 `YYYY-MM-DD`. Leading bold words are conventiona
 # Directory Update Log
 
 ## 2026-05-22
-* **Update**: Description of change
-* **Creation**: Description of new content
+
+- **Update**: Description of change
+- **Creation**: Description of new content
 
 ## 2026-05-15
-* **Initialization**: Foundational changes
+
+- **Initialization**: Foundational changes
 ```
 
 ## Citations
@@ -166,7 +169,7 @@ Best-effort consumption is preferred over rejection.
 
 ## Minimal example
 
-```
+```text
 my_bundle/
 ├── index.md
 ├── datasets/
@@ -209,7 +212,7 @@ timestamp: 2026-05-28T00:00:00Z
 # Schema
 
 | Column        | Type    | Description                              |
-|---------------|---------|------------------------------------------|
+| ------------- | ------- | ---------------------------------------- |
 | `order_id`    | STRING  | Unique order identifier.                 |
 | `customer_id` | STRING  | FK to [customers](/tables/customers.md). |
 | `total_usd`   | NUMERIC | Order total in USD.                      |
