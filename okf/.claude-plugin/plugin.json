@@ -1,0 +1,12 @@
+{
+  "name": "okf",
+  "version": "1.0.0",
+  "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
+  "author": {
+    "name": "duyet",
+    "url": "https://github.com/duyet"
+  },
+  "homepage": "https://github.com/duyet/codex-claude-plugins",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "license": "MIT"
+}

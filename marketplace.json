@@ -186,6 +186,14 @@
       "version": "1.0.0",
       "type": "skill",
       "category": "productivity"
+    },
+    {
+      "name": "okf",
+      "id": "okf@duyet-claude-plugins",
+      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "productivity"
     }
   ],
   "metadata": {

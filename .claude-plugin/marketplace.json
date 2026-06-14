@@ -108,6 +108,11 @@
       "name": "kb",
       "source": "./kb",
       "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB."
+    },
+    {
+      "name": "okf",
+      "source": "./okf",
+      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter."
     }
   ]
 }
