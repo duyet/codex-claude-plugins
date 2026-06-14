@@ -80,9 +80,11 @@ if mode in ("codex", "antigravity"):
         if not os.path.exists(target):
             errors.append(f"'{field}' path does not exist: {value}")
 
-if mode == "codex":
+if mode in ("codex", "antigravity"):
     interface = data.get("interface")
-    if not isinstance(interface, dict):
+    if interface is None:
+        errors.append("missing required field: 'interface'")
+    elif not isinstance(interface, dict):
         errors.append("'interface' must be an object")
     else:
         for field in ("displayName", "shortDescription", "developerName", "category"):
@@ -92,6 +94,17 @@ if mode == "codex":
         if capabilities is not None:
             if not isinstance(capabilities, list) or not all(isinstance(item, str) and item.strip() for item in capabilities):
                 errors.append("'interface.capabilities' must be an array of non-empty strings")
+
+    mode_obj = data.get(mode)
+    if mode_obj is not None:
+        if not isinstance(mode_obj, dict):
+            errors.append(f"'{mode}' must be an object")
+        else:
+            for field in ("skills", "commands"):
+                val = mode_obj.get(field)
+                if val is not None:
+                    if not isinstance(val, list) or not all(isinstance(item, str) and item.strip() for item in val):
+                        errors.append(f"'{mode}.{field}' must be an array of non-empty strings")
 
 if errors:
     for error in errors:

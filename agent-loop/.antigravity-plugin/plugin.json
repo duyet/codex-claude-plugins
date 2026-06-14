@@ -5,5 +5,28 @@
   "author": { "name": "duyetbot" },
   "license": "MIT",
   "skills": "./skills/",
-  "commands": "./commands/"
+  "commands": "./commands/",
+  "antigravity": {
+    "skills": [
+      "agent-loop-orchestrator",
+      "agent-loop-triage",
+      "agent-loop-autoreview",
+      "agent-loop-browser"
+    ],
+    "commands": [
+      "agent-loop:start",
+      "agent-loop:stop",
+      "agent-loop:status",
+      "agent-loop:triage",
+      "agent-loop:autoreview",
+      "agent-loop:resume"
+    ]
+  },
+  "interface": {
+    "displayName": "Agent Loop",
+    "shortDescription": "Continuous overnight/day repo maintenance with autonomous agent loops. Triage, autoreview, browser automation, and parallel agent work.",
+    "developerName": "duyetbot",
+    "category": "Automation",
+    "capabilities": ["Skill", "Command"]
+  }
 }
