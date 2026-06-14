@@ -68,8 +68,8 @@ if isinstance(skills, list):
             elif not os.path.isfile(os.path.join(plugin_dir, path_value)):
                 errors.append(f"skills[{i}]: path '{path_value}' does not exist")
 
-if mode == "codex":
-    for field in ("skills", "hooks", "mcpServers", "apps"):
+if mode in ("codex", "antigravity"):
+    for field in ("skills", "hooks", "mcpServers", "apps", "commands", "agents"):
         value = data.get(field)
         if value is None:
             continue
@@ -80,6 +80,7 @@ if mode == "codex":
         if not os.path.exists(target):
             errors.append(f"'{field}' path does not exist: {value}")
 
+if mode == "codex":
     interface = data.get("interface")
     if not isinstance(interface, dict):
         errors.append("'interface' must be an object")
@@ -137,20 +138,27 @@ for plugin in plugin_dirs:
     if not os.path.isfile(claude_path):
         errors.append(f"{plugin}: missing .claude-plugin/plugin.json")
         continue
-    if not os.path.isfile(codex_path):
-        # No Codex manifest means the plugin doesn't support Codex — skip parity check
-        continue
-
     with open(claude_path) as f:
         claude = json.load(f)
-    with open(codex_path) as f:
-        codex = json.load(f)
 
-    for field in ("name", "version", "description"):
-        if claude.get(field) != codex.get(field):
-            errors.append(f"{plugin}: {field} differs between Claude and Codex manifests")
-    if claude.get("author", {}).get("name") != codex.get("author", {}).get("name"):
-        errors.append(f"{plugin}: author.name differs between Claude and Codex manifests")
+    if os.path.isfile(codex_path):
+        with open(codex_path) as f:
+            codex = json.load(f)
+        for field in ("name", "version", "description"):
+            if claude.get(field) != codex.get(field):
+                errors.append(f"{plugin}: {field} differs between Claude and Codex manifests")
+        if claude.get("author", {}).get("name") != codex.get("author", {}).get("name"):
+            errors.append(f"{plugin}: author.name differs between Claude and Codex manifests")
+
+    antigravity_path = os.path.join(repo_root, plugin, ".antigravity-plugin", "plugin.json")
+    if os.path.isfile(antigravity_path):
+        with open(antigravity_path) as f:
+            antigravity = json.load(f)
+        for field in ("name", "version", "description"):
+            if claude.get(field) != antigravity.get(field):
+                errors.append(f"{plugin}: {field} differs between Claude and Antigravity manifests")
+        if claude.get("author", {}).get("name") != antigravity.get("author", {}).get("name"):
+            errors.append(f"{plugin}: author.name differs between Claude and Antigravity manifests")
 
 if errors:
     for error in errors:
@@ -258,7 +266,13 @@ while IFS= read -r -d '' manifest; do
   check "Codex manifest: $plugin_name" validate_manifest "$manifest" codex
 done < <(find "$REPO_ROOT" -path "*/.codex-plugin/plugin.json" -not -path "*/node_modules/*" -print0 | sort -z)
 
-check "Claude/Codex manifest parity" validate_cross_manifest
+while IFS= read -r -d '' manifest; do
+  plugin_dir="$(dirname "$(dirname "$manifest")")"
+  plugin_name="$(basename "$plugin_dir")"
+  check "Antigravity manifest: $plugin_name" validate_manifest "$manifest" antigravity
+done < <(find "$REPO_ROOT" -path "*/.antigravity-plugin/plugin.json" -not -path "*/node_modules/*" -print0 | sort -z)
+
+check "Claude/Codex/Antigravity manifest parity" validate_cross_manifest
 check "Marketplace files" validate_marketplaces
 
 echo ""

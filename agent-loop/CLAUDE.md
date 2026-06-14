@@ -4,14 +4,16 @@ Continuous overnight/day repository maintenance with autonomous agent loops.
 
 ## Version
 
-0.2.0
+0.3.0
 
 ## Plugin Structure
 
 ```text
 agent-loop/
+├── .antigravity-plugin/
+│   └── plugin.json          # Antigravity manifest (version 0.3.0)
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 0.2.0)
+│   └── plugin.json          # Manifest (version 0.3.0)
 ├── commands/                # Slash commands
 ├── skills/                  # Reusable knowledge
 │   ├── agent-loop-orchestrator/

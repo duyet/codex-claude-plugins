@@ -8,7 +8,7 @@ Wake every 5m ──► Triage repos ──► Dispatch threads ──► Track 
 
 ## Version
 
-0.2.0
+0.3.0
 
 ## Overview
 
@@ -85,10 +85,12 @@ Sources adapted for the agent-loop plugin:
 
 ```text
 agent-loop/
+├── .antigravity-plugin/
+│   └── plugin.json          # Antigravity manifest (version 0.3.0)
 ├── .claude-plugin/
-│   └── plugin.json          # Manifest (version 0.2.0)
+│   └── plugin.json          # Manifest (version 0.3.0)
 ├── .codex-plugin/
-│   └── plugin.json          # Codex manifest
+│   └── plugin.json          # Codex manifest (version 0.3.0)
 ├── commands/                # Slash commands
 │   ├── start.md
 │   ├── stop.md
