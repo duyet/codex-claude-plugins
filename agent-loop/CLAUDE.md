@@ -34,6 +34,7 @@ agent-loop/
 | `/agent-loop:status`     | Check loop status and history         |
 | `/agent-loop:triage`     | One-shot repo queue triage            |
 | `/agent-loop:autoreview` | One-shot PR review and fix            |
+| `/agent-loop:resume`     | Resume the loop from persisted state  |
 
 ### Skills
 

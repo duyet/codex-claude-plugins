@@ -17,7 +17,8 @@
       "agent-loop:stop",
       "agent-loop:status",
       "agent-loop:triage",
-      "agent-loop:autoreview"
+      "agent-loop:autoreview",
+      "agent-loop:resume"
     ]
   },
   "interface": {
