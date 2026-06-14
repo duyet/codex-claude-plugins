@@ -58,8 +58,8 @@ When asked to init/scaffold an OKF bundle at `<path>`:
 
    # <Bundle name>
 
-   * [Datasets](datasets/) - <group description>
-   * [Tables](tables/) - <group description>
+   - [Datasets](datasets/) - <group description>
+   - [Tables](tables/) - <group description>
    ```
 
 4. Add a `references/` directory only if you expect standalone citation docs.
@@ -73,28 +73,29 @@ asset name where possible.
 
 ```markdown
 ---
-type: <Type name>                 # REQUIRED — e.g. "BigQuery Table", "API Endpoint", "Playbook"
-title: <Display name>             # strongly recommended
-description: <one-line summary>    # strongly recommended — used in indexes/previews
-resource: <canonical URI>          # for assets that have one
-tags: [<tag>, <tag>]               # optional, cross-cutting
-timestamp: <ISO 8601>              # optional, last meaningful change
+type: <Type name> # REQUIRED — e.g. "BigQuery Table", "API Endpoint", "Playbook"
+title: <Display name> # strongly recommended
+description: <one-line summary> # strongly recommended — used in indexes/previews
+resource: <canonical URI> # for assets that have one
+tags: [<tag>, <tag>] # optional, cross-cutting
+timestamp: <ISO 8601> # optional, last meaningful change
 ---
 
-# Schema        (when the concept has structured fields — prefer a table)
+# Schema (when the concept has structured fields — prefer a table)
 
-| Column | Type | Description |
-|--------|------|-------------|
+| Column | Type | Description                    |
+| ------ | ---- | ------------------------------ |
 | ...    | ...  | FK to [other](/group/other.md) |
 
-# Examples      (concrete usage in code blocks)
+# Examples (concrete usage in code blocks)
 
-# Citations      (external sources)
+# Citations (external sources)
 
 [1] [Title](https://example.com)
 ```
 
 Guidance:
+
 - Prefer structural markdown (tables, lists, code blocks) over prose paragraphs.
 - Express relationships by **linking** related concepts inline in the prose; the
   link is an undirected edge in the knowledge graph.
@@ -109,8 +110,8 @@ pull each bullet's description from the linked concept's `description`:
 ```markdown
 # Tables
 
-* [Orders](orders.md) - one row per completed customer order
-* [Customers](customers.md) - one row per customer
+- [Orders](orders.md) - one row per completed customer order
+- [Customers](customers.md) - one row per customer
 ```
 
 Use relative links inside an index (they sit beside their targets). Regenerate the
@@ -124,7 +125,8 @@ Append directory-level history, newest first, ISO dates:
 # Directory Update Log
 
 ## 2026-06-14
-* **Creation**: Added orders and customers tables.
+
+- **Creation**: Added orders and customers tables.
 ```
 
 ## Validate a bundle for OKF v0.1 conformance
@@ -136,7 +138,7 @@ check, then eyeball the report. It verifies:
 - `index.md` / `log.md` carry no frontmatter (root `index.md` may carry only
   `okf_version`).
 - Reports broken bundle-relative cross-links as warnings (broken links are
-  *tolerated* by the spec — surface them, don't fail on them).
+  _tolerated_ by the spec — surface them, don't fail on them).
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/okf/scripts/validate_okf.py ./bundles/my_bundle
