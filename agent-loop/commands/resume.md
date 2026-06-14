@@ -8,6 +8,7 @@ description: Resume the agent-loop from the last persisted state in .agent-loop/
 Resume the continuous agent-loop from the last saved state in `.agent-loop/state.json`.
 
 The loop will load the state file to recover statistics (cycle count, items processed, PRs merged) and continue the cycle:
+
 1. **Load State** — parse `.agent-loop/state.json` to restore loop context
 2. **Wait** — sleep for configured interval (default: 5 min)
 3. **Triage** — scan repo queues for actionable items

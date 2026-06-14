@@ -31,13 +31,14 @@ Codex plugin metadata is maintained beside Claude metadata in each plugin:
 
 Follow semantic versioning (semver) for all plugins:
 
-| Change Type | Version Bump | Example |
-|-------------|--------------|---------|
-| Bug fix, docs | Patch | 1.0.0 → 1.0.1 |
-| New feature, minor change | Minor | 1.0.0 → 1.1.0 |
-| Breaking change | Major | 1.0.0 → 2.0.0 |
+| Change Type               | Version Bump | Example       |
+| ------------------------- | ------------ | ------------- |
+| Bug fix, docs             | Patch        | 1.0.0 → 1.0.1 |
+| New feature, minor change | Minor        | 1.0.0 → 1.1.0 |
+| Breaking change           | Major        | 1.0.0 → 2.0.0 |
 
 **When to bump:**
+
 - Adding new commands, skills, or agents → **Minor**
 - Modifying existing behavior → **Minor** (or Major if breaking)
 - Updating documentation only → **Patch**
@@ -69,6 +70,7 @@ machine-specific information into any plugin file (manifests, hooks, scripts,
 skills, commands, configs, docs, examples).
 
 **Never hardcode:**
+
 - Absolute home paths (`/Users/<you>/…`) — use `$HOME`, `~`, `${CLAUDE_PLUGIN_ROOT}`, or `$PWD`.
 - Personal secret-file conventions (e.g. `~/.secret`) — read secrets from documented env vars; allow an optional, user-set key-file path.
 - Real project, client, host, or repo names — use neutral placeholders (`demo-project`, `/path/to/project`).
