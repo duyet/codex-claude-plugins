@@ -1,7 +1,1 @@
-.DS_Store
-*.log
-.claude/*.local.md
-.claude/*.local.json
-.antigravitycli
-node_modules/
-duyetbot/knowledge/_raw_data.txt
+.agent-loop/

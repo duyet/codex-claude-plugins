@@ -118,15 +118,15 @@ Set via environment variables:
 | `AGENT_LOOP_STATE_FILE` | .agent-loop/state.json | Persisted loop state |
 | `AGENT_LOOP_REPOS` | (from git remote) | Comma-separated repo list for broad scope |
 
-## State Persistence
+## State Persistence & Recovery
 
-The loop persists its state to `AGENT_LOOP_STATE_FILE`:
+The loop persists its state to `AGENT_LOOP_STATE_FILE` (default: `.agent-loop/state.json`):
 
 ```json
 {
   "cycle": 42,
   "started_at": "2026-06-11T00:00:00Z",
-  "last_cycle_end": "2026-06-11T00:05:23Z",
+  "last_cycle_end": "2026-06-14T14:30:23Z",
   "items_processed": 87,
   "items_autonomous": 34,
   "items_needs_review": 28,
@@ -136,9 +136,52 @@ The loop persists its state to `AGENT_LOOP_STATE_FILE`:
   "thread_history": [
     {"id": 1, "item": "GH-123", "result": "merged", "pr": "#456"},
     {"id": 2, "item": "GH-124", "result": "failed", "reason": "test flake"}
-  ]
+  ],
+  "version": "0.4.0",
+  "last_error": null,
+  "state_valid": true
 }
 ```
+
+### State Validation
+
+When loading state on startup:
+1. **File exists?** → Check if `.agent-loop/state.json` is readable
+2. **Valid JSON?** → Parse and catch JSON syntax errors
+3. **Required fields?** → Ensure cycle, started_at, items_processed, etc. are present
+4. **Type safety?** → Verify fields are correct types (numbers, strings, arrays)
+5. **Orphaned threads?** → Check for threads in history but marked as active
+6. **Metric consistency?** → Verify autonomous + needs_review + deferred = total
+
+### State Recovery
+
+If state.json is corrupted or missing:
+
+**Option 1: Resume from backup**
+```bash
+/agent-loop:restore --list              # List available backups
+/agent-loop:restore state-2026-06-14-143022.json  # Restore specific backup
+```
+
+**Option 2: Fresh start with backup of current**
+```bash
+/agent-loop:reset                       # Clear state, backup old state
+/agent-loop:start                       # Begin fresh loop
+```
+
+**Option 3: Inspect before deciding**
+```bash
+/agent-loop:inspect                     # View state details and errors
+/agent-loop:inspect --validate          # Check state integrity
+```
+
+### Backup System
+
+Backups are automatically created in `.agent-loop/backups/`:
+- Named with timestamp: `state-YYYY-MM-DD-HHmmss.json`
+- Auto-created when you run `/agent-loop:reset` or `/agent-loop:start --fresh`
+- Kept for full recovery (automatic cleanup keeps latest 50)
+- Can be inspected before restore: `/agent-loop:inspect --backup <file>`
 
 ## Thread Management
 

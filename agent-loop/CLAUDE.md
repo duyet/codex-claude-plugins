@@ -4,7 +4,7 @@ Continuous overnight/day repository maintenance with autonomous agent loops.
 
 ## Version
 
-0.3.0
+0.4.0
 
 ## Plugin Structure
 
@@ -27,14 +27,29 @@ agent-loop/
 
 ### Commands
 
-| Command                  | Description                           |
-| ------------------------ | ------------------------------------- |
-| `/agent-loop:start`      | Start the continuous maintenance loop |
-| `/agent-loop:stop`       | Gracefully stop the loop              |
-| `/agent-loop:status`     | Check loop status and history         |
-| `/agent-loop:triage`     | One-shot repo queue triage            |
-| `/agent-loop:autoreview` | One-shot PR review and fix            |
-| `/agent-loop:resume`     | Resume the loop from persisted state  |
+#### Loop Control
+
+| Command                  | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `/agent-loop:start`      | Start or resume the continuous maintenance loop          |
+| `/agent-loop:stop`       | Gracefully stop the loop and persist state               |
+| `/agent-loop:resume`     | Resume from persisted state (explicit resume)            |
+
+#### State Management
+
+| Command                  | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `/agent-loop:status`     | Quick status check (running, cycles, metrics)            |
+| `/agent-loop:inspect`    | Deep inspection of state file (history, errors, details) |
+| `/agent-loop:reset`      | Clear state and start fresh (backs up old state)         |
+| `/agent-loop:restore`    | Recover state from a backup                              |
+
+#### One-Shot Operations
+
+| Command                  | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `/agent-loop:triage`     | One-shot repo queue triage (doesn't start loop)          |
+| `/agent-loop:autoreview` | One-shot PR review and fix (doesn't start loop)          |
 
 ### Skills
 
