@@ -1,6 +1,6 @@
 ---
 name: frontend-design
-description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics.
+description: Create distinctive, production-grade frontend interfaces with React and Next.js. Design quality, component architecture, performance patterns, and state management. Use when building web components, pages, or applications.
 ---
 
 This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
@@ -326,6 +326,310 @@ components/
 - Consistent styling approach
 - Strict TypeScript types
 
+## Next.js App Router Patterns
+
+### Server vs Client Components
+
+```tsx
+// Server Component (default) - data fetching, no interactivity
+// app/users/page.tsx
+export default async function UsersPage() {
+  const users = await getUsers(); // Runs on server
+
+  return (
+    <div>
+      <h1>Users</h1>
+      <UserList users={users} />
+    </div>
+  );
+}
+
+// Client Component - interactivity required
+// components/user-search.tsx
+'use client';
+
+import { useState } from 'react';
+
+export function UserSearch({ onSearch }: { onSearch: (q: string) => void }) {
+  const [query, setQuery] = useState('');
+
+  return (
+    <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      onKeyDown={(e) => e.key === 'Enter' && onSearch(query)}
+    />
+  );
+}
+```
+
+### Streaming with Suspense
+
+```tsx
+// app/dashboard/page.tsx
+import { Suspense } from 'react';
+
+export default function DashboardPage() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+
+      {/* Fast data loads first */}
+      <Suspense fallback={<StatsSkeleton />}>
+        <StatsSection />
+      </Suspense>
+
+      {/* Slow data streams in */}
+      <Suspense fallback={<ChartSkeleton />}>
+        <AnalyticsChart />
+      </Suspense>
+    </div>
+  );
+}
+
+// Async component that streams
+async function StatsSection() {
+  const stats = await getStats(); // Can be slow
+  return <Stats data={stats} />;
+}
+```
+
+### Data Fetching Patterns
+
+```tsx
+// Parallel data fetching
+async function DashboardPage() {
+  const [users, orders, stats] = await Promise.all([
+    getUsers(),
+    getOrders(),
+    getStats(),
+  ]);
+
+  return <Dashboard users={users} orders={orders} stats={stats} />;
+}
+
+// With error boundary
+import { notFound } from 'next/navigation';
+
+async function UserPage({ params }: { params: { id: string } }) {
+  const user = await getUser(params.id);
+
+  if (!user) {
+    notFound(); // Renders not-found.tsx
+  }
+
+  return <UserProfile user={user} />;
+}
+```
+
+## React Performance Patterns
+
+### Component Decomposition for Performance
+
+```tsx
+// BAD: Large component with all state — all users re-render on any state change
+function BadUserList() {
+  const [filter, setFilter] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  return (
+    <div>
+      <input value={filter} onChange={e => setFilter(e.target.value)} />
+      {users.map(user => (
+        <div
+          key={user.id}
+          onClick={() => setSelectedId(user.id)}
+          className={selectedId === user.id ? 'selected' : ''}
+        >
+          {user.name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// GOOD: Push state down to where it's needed
+function FilterableUserList({ users }: { users: User[] }) {
+  const [filter, setFilter] = useState('');
+  const filtered = useMemo(
+    () => users.filter(u => u.name.includes(filter)),
+    [users, filter]
+  );
+
+  return (
+    <div>
+      <input value={filter} onChange={e => setFilter(e.target.value)} />
+      <SelectableList users={filtered} />
+    </div>
+  );
+}
+
+function SelectableList({ users }: { users: User[] }) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  return users.map(user => (
+    <UserItem
+      key={user.id}
+      user={user}
+      selected={selectedId === user.id}
+      onSelect={() => setSelectedId(user.id)}
+    />
+  ));
+}
+```
+
+### Memoization Strategies
+
+```tsx
+// Only memo when there's a measurable benefit
+const UserItem = memo(function UserItem({
+  user,
+  selected,
+  onSelect
+}: {
+  user: User;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <div
+      onClick={onSelect}
+      className={selected ? 'selected' : ''}
+    >
+      {user.name}
+    </div>
+  );
+});
+
+// useMemo for expensive computations
+function ExpensiveList({ items }: { items: Item[] }) {
+  const processed = useMemo(() => {
+    return items
+      .filter(complexFilter)
+      .sort(complexSort)
+      .map(complexTransform);
+  }, [items]);
+
+  return <List items={processed} />;
+}
+
+// useCallback for stable references passed to children
+function Parent() {
+  const [items, setItems] = useState<Item[]>([]);
+
+  const handleDelete = useCallback((id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  return <ItemList items={items} onDelete={handleDelete} />;
+}
+```
+
+## State Management Patterns
+
+### Context with Reducer
+
+```tsx
+// types
+interface State {
+  user: User | null;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+type Action =
+  | { type: 'FETCH_START' }
+  | { type: 'FETCH_SUCCESS'; user: User }
+  | { type: 'FETCH_ERROR'; error: Error }
+  | { type: 'LOGOUT' };
+
+// reducer
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'FETCH_START':
+      return { ...state, isLoading: true, error: null };
+    case 'FETCH_SUCCESS':
+      return { ...state, isLoading: false, user: action.user };
+    case 'FETCH_ERROR':
+      return { ...state, isLoading: false, error: action.error };
+    case 'LOGOUT':
+      return { ...state, user: null };
+  }
+}
+
+// context + provider
+const AuthContext = createContext<{
+  state: State;
+  dispatch: Dispatch<Action>;
+} | null>(null);
+
+function AuthProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(reducer, {
+    user: null,
+    isLoading: true,
+    error: null,
+  });
+
+  return (
+    <AuthContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// hook
+function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+}
+```
+
+### Custom Hooks
+
+```tsx
+// Debounced value hook
+function useDebouncedValue<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debounced;
+}
+
+// Local storage hook
+function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T | ((prev: T) => T)) => void] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    if (typeof window === 'undefined') return initialValue;
+    try {
+      const item = localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  const setValue = useCallback((value: T | ((prev: T) => T)) => {
+    setStoredValue(prev => {
+      const newValue = value instanceof Function ? value(prev) : value;
+      localStorage.setItem(key, JSON.stringify(newValue));
+      return newValue;
+    });
+  }, [key]);
+
+  return [storedValue, setValue];
+}
+```
+
 ## shadcn/ui Quick Reference
 
 **Core Philosophy**: shadcn/ui is NOT a component library—it's how you build your component library. You get actual component code that you own and can modify.
@@ -441,6 +745,11 @@ Before considering frontend work complete:
 - [ ] Accessibility: keyboard navigation, ARIA labels, color contrast
 - [ ] Mobile responsive (or explicitly desktop-only)
 - [ ] Code is production-ready (no console logs, proper error handling)
+- [ ] Server Components by default, Client Components only when needed
+- [ ] State pushed down to the lowest component that needs it
+- [ ] Suspense boundaries for async operations
+- [ ] Memoize only when profiling shows benefit
+- [ ] Proper error boundaries implemented
 
 ## Output Format
 
@@ -455,231 +764,3 @@ When implementing frontend:
    - Comments for non-obvious choices
 
 Remember: Claude is capable of extraordinary creative work. Commit fully to a distinctive vision that could only have been designed for this specific context.
-
-## Micro-Interaction Polish
-
-The difference between good and exceptional interfaces lies in microscopic details that users feel but don't consciously notice. These patterns make interfaces feel "expensive" and polished.
-
-### 1. Typography Enhancement
-
-**Text Wrapping for Headlines**:
-```css
-/* Prevents awkward widows in headlines */
-.hero-title {
-  text-wrap: balance;  /* Optimizes line breaks for headlines */
-}
-
-/* For multi-line text where you want pretty breaks */
-.description {
-  text-wrap: pretty;   /* Last line minimum 4 characters */
-}
-```
-- Use `balance` for headlines, titles, and short text blocks
-- Use `pretty` for descriptions, summaries, and body text where you want to avoid orphans
-
-**Font Smoothing**:
-```css
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-```
-- Critical for Mac rendering—removes "thin" look from fonts
-- Makes text appear more substantial and premium
-- Apply globally to `body` or typography containers
-
-**Tabular Numbers**:
-```css
-.price, .metric, .stat {
-  font-variant-numeric: tabular-nums;
-}
-```
-- Essential for data, prices, metrics—prevents jitter when numbers animate
-- Use for anything that changes value dynamically
-- Avoids visual shifting during countdowns, tickers, or live data
-
-### 2. Border Radius Consistency
-
-**Concentric Formula**:
-```css
-/* Outer radius = Inner radius + padding */
-.card {
-  padding: 1.5rem;
-  border-radius: 16px;
-}
-
-.card-inner {
-  border-radius: calc(16px - 1.5rem); /* Concentric borders align perfectly */
-}
-```
-- When nesting elements with borders, adjust inner radius by subtracting padding
-- Creates perfect alignment between concentric rounded corners
-- Prevents "thick border" appearance at corners
-
-### 3. Icon Animation Patterns
-
-**Contextual Icon States**:
-```css
-.icon {
-  transition: all 0.2s ease;
-  opacity: 0.6;
-  transform: scale(1);
-}
-
-.icon:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.icon.active {
-  opacity: 1;
-  transform: scale(1);
-  filter: drop-shadow(0 0 8px currentColor);
-}
-```
-- Icons should breathe: subtle scale + opacity changes
-- Use `filter: drop-shadow()` instead of `box-shadow` for icons (respects shape)
-- Keep animations under 200ms for responsive feel
-
-### 4. Animation Philosophy
-
-**Interruptible Animations**:
-```css
-/* GOOD: CSS transitions—user can interrupt */
-.button {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-.button:hover {
-  transform: translateY(-2px);
-}
-
-/* AVOID: Keyframes for interactions—can't be interrupted */
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-```
-- Use CSS **transitions** for user-triggered animations (hover, click, focus)
-- Transitions can be interrupted when user moves away/clicks quickly
-- Reserve keyframes for continuous, non-interactive animations (loaders, backgrounds)
-
-**Split and Stagger Enter**:
-```css
-/* Elements enter from different directions */
-.card:nth-child(3n+1) { animation: slideFromLeft 0.4s ease forwards; }
-.card:nth-child(3n+2) { animation: slideFromBottom 0.4s ease forwards; }
-.card:nth-child(3n+3) { animation: slideFromRight 0.4s ease forwards; }
-
-/* Stagger with delay */
-.card:nth-child(1) { animation-delay: 0ms; }
-.card:nth-child(2) { animation-delay: 50ms; }
-.card:nth-child(3) { animation-delay: 100ms; }
-```
-- Vary entrance directions based on position for visual interest
-- Stagger delays: 50-100ms between elements feels premium, not sluggish
-- Never exceed 300ms total delay—users hate waiting for content
-
-**Subtle Exit Animations**:
-```css
-.modal.closing {
-  animation: fadeOut 0.15s ease forwards;
-}
-@keyframes fadeOut {
-  to { opacity: 0; transform: scale(0.98); }
-}
-```
-- Exits should be faster than enters (150ms vs 300-400ms)
-- Users want to dismiss things quickly
-- Skip exit animations if it delays navigation
-
-### 5. Alignment Precision
-
-**Optical vs Geometric Alignment**:
-```css
-/* Geometric center looks "off" with triangle icons */
-.icon-triangle {
-  transform: translateY(-1px); /* Nudge down for optical center */
-}
-
-/* Circles appear smaller than squares at same size */
-.icon-circle {
-  transform: scale(1.1); /* Slight scale for visual balance */
-}
-```
-- Trust your eyes, not the grid
-- Triangles, stars, and irregular shapes need optical adjustment
-- Different shapes at same "size" need visual balancing
-- Test: squint—if something feels off, adjust by 1-2px
-
-### 6. Depth Without Borders
-
-**Shadows Over Borders**:
-```css
-.card {
-  /* Instead of: border: 1px solid #e5e5e5; */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08),
-              0 1px 2px rgba(0, 0, 0, 0.04);
-}
-
-.card-elevated {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-              0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-```
-- Shadows create depth without harsh edges
-- Layer multiple shadows for subtle, natural elevation
-- Borders can look "flat" or "boxed in"
-- Exception: use borders for grouping, dividers, or interactive states
-
-**Image Outlines**:
-```css
-.image-container {
-  position: relative;
-}
-
-.image-container::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: inherit;
-  pointer-events: none;
-}
-```
-- Ultra-subtle 1px border at 10% opacity adds polish to images
-- Creates clean separation without visual weight
-- Use on images, cards, or featured content
-- In dark mode, use white with low opacity; light mode, use black
-
-### 7. Micro-Interaction Timing
-
-```css
-/* Fast interactions feel responsive */
-.fast-interaction { transition-duration: 150ms; }
-
-/* Standard interactions feel smooth */
-.standard-interaction { transition-duration: 200ms; }
-
-/* Slow animations feel deliberate */
-.deliberate-motion { transition-duration: 400ms; }
-```
-- 150ms: hover states, button clicks, toggle switches
-- 200ms: card lifts, dropdown opens, tooltip appears
-- 400ms+: page transitions, modal enters, complex animations
-- Never use 1s+ for anything—feels sluggish
-
-### Micro-Interaction Checklist
-
-Before shipping UI:
-- [ ] Headlines use `text-wrap: balance`
-- [ ] Font smoothing is applied (`antialiased`)
-- [ ] Numbers/data use `tabular-nums`
-- [ ] Concentric borders align (radius - padding formula)
-- [ ] Icons breathe (scale + opacity on hover)
-- [ ] User interactions use transitions (not keyframes)
-- [ ] Entrance animations are split/staggered
-- [ ] Exit animations are faster than enter
-- [ ] Irregular icons are optically aligned
-- [ ] Depth uses shadows (not borders)
-- [ ] Images have ultra-subtle outlines
-- [ ] Animation timing feels responsive (≤200ms for interactions)
