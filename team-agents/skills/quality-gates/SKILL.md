@@ -1,9 +1,9 @@
 ---
 name: quality-gates
-description: Systematic quality verification procedures for code review and delivery. Use when validating completed work, conducting code reviews, or ensuring production readiness.
+description: Engineering discipline and systematic quality verification. Core principles, anti-patterns, decision rules, and gate procedures for code review and delivery.
 ---
 
-This skill provides structured quality gate procedures for verifying code quality, security, performance, and production readiness before delivery.
+This skill provides engineering discipline principles and structured quality gate procedures for verifying code quality, security, performance, and production readiness before delivery.
 
 ## When to Invoke This Skill
 
@@ -13,6 +13,57 @@ Automatically activate for:
 - Pre-deployment verification
 - Release readiness assessment
 - Post-implementation quality audit
+- Any work where engineering rigor matters
+
+## Engineering Discipline
+
+### Core Rules
+
+#### 1. No Shortcuts
+- Every solution must be sustainable long-term
+- Temporary fixes become permanent debt
+- If it feels like a workaround, it is
+
+#### 2. Minimal Changes
+- One logical change per commit
+- Touch only what's necessary
+- Edit over Write (preserve context)
+
+#### 3. Verify Before Complete
+- Tests pass
+- Lint clean
+- Manual verification when needed
+
+### Decision Rules
+
+#### When to Refactor
+Refactor when:
+- Adding features is painful
+- Bugs cascade
+- Code confuses
+
+Don't when:
+- Code works, rarely changes
+- No immediate need
+
+#### When to Abstract
+Abstract when:
+- Pattern appears 3+ times
+- Abstraction reduces complexity
+
+Don't when:
+- Only 1-2 occurrences
+- Abstraction more complex
+
+### Anti-Patterns
+
+| Bad | Why | Good |
+|-----|-----|------|
+| Magic numbers | Unclear | Named constants |
+| God objects | Unmaintainable | Single responsibility |
+| Copy-paste | Bug multiplication | Extract shared |
+| Commented code | Confusion | Git history |
+| Premature optimization | Wrong focus | Measure first |
 
 ## Quality Gate Levels
 
@@ -88,6 +139,9 @@ npm run build         # Verify build succeeds
 - [ ] Build completes successfully
 - [ ] No console.log statements in production code
 - [ ] No TODO comments blocking release
+- [ ] No hardcoded values
+- [ ] Error handling present
+- [ ] Input validation at boundaries
 
 ### 2. Test Coverage Gate
 
@@ -109,6 +163,7 @@ npm run test:coverage
 - [ ] Edge cases (null, empty, boundary values)
 - [ ] Integration points
 - [ ] User-facing behavior
+- [ ] Tests are deterministic
 
 ### 3. Security Gate
 
@@ -152,6 +207,7 @@ npm run lint:security  # Security-focused lint rules (if configured)
 - [ ] Images are optimized
 - [ ] Caching implemented where appropriate
 - [ ] No blocking operations on main thread
+- [ ] Resource cleanup handled
 
 ### 5. Documentation Gate
 
