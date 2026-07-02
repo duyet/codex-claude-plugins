@@ -15,7 +15,7 @@
       "name": "team-agents",
       "id": "team-agents@duyet-claude-plugins",
       "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
-      "version": "1.7.0",
+      "version": "1.9.0",
       "type": "skill",
       "category": "agents"
     },
@@ -31,7 +31,7 @@
       "name": "frontend-design",
       "id": "frontend-design@duyet-claude-plugins",
       "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics",
-      "version": "1.2.0",
+      "version": "1.4.0",
       "type": "skill",
       "category": "design"
     },
@@ -55,7 +55,7 @@
       "name": "orchestration",
       "id": "orchestration@duyet-claude-plugins",
       "description": "Orchestrator skill for managing parallel agent workstreams",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "type": "skill",
       "category": "agents"
     },
@@ -63,7 +63,7 @@
       "name": "duyetbot",
       "id": "duyetbot@duyet-claude-plugins",
       "description": "Pragmatic software development companion with engineering discipline",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "type": "skill",
       "category": "productivity"
     },
@@ -103,7 +103,7 @@
       "name": "clickhouse",
       "id": "clickhouse@duyet-claude-plugins",
       "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
-      "version": "1.1.0",
+      "version": "1.4.0",
       "type": "skill",
       "category": "database"
     },
@@ -111,7 +111,7 @@
       "name": "prompt-engineering",
       "id": "prompt-engineering@duyet-claude-plugins",
       "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "type": "skill",
       "category": "productivity"
     },
@@ -119,7 +119,7 @@
       "name": "clickhouse-monitoring",
       "id": "clickhouse-monitoring@duyet-claude-plugins",
       "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "type": "skill",
       "category": "monitoring"
     },
@@ -127,7 +127,7 @@
       "name": "unsloth-training",
       "id": "unsloth-training@duyet-claude-plugins",
       "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "skill",
       "category": "ml"
     },
