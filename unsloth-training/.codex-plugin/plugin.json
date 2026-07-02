@@ -1,6 +1,6 @@
 {
   "name": "unsloth-training",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Includes dataset preparation, synthetic data generation, environment flags, MLX (Apple Silicon), FP8, vision models, mobile export, GGUF.",
   "author": {
     "name": "duyet"
