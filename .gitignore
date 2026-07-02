@@ -1,1 +1,13 @@
+# Agent loop working state
 .agent-loop/
+
+# Antigravity CLI local links (machine-specific symlinks)
+.antigravitycli/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor / OS cruft
+Thumbs.db
+*.swp
