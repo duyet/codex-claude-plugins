@@ -1,7 +1,7 @@
 {
   "name": "orchestration",
   "description": "Orchestrator skill for managing parallel agent workstreams. Transform complex requests into coordinated multi-agent execution with elegant result synthesis.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "duyet"
   }
