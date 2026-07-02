@@ -1,67 +1,26 @@
 # Prompt Engineering Plugin
 
-Model-specific prompt engineering skills for Grok (xAI), Claude (Anthropic), and Gemini (Google).
+Model-specific prompt engineering guidance for Claude (Anthropic), Gemini (Google), and Grok (xAI), unified in a single skill.
 
 ## Overview
 
-This plugin provides comprehensive prompt engineering guidance tailored to each major LLM platform's unique characteristics, capabilities, and best practices. Each skill includes universal techniques adapted for the specific model, along with model-specific optimizations.
+This plugin provides comprehensive prompt engineering guidance tailored to each major LLM platform's unique characteristics, capabilities, and best practices. Universal techniques are covered once and adapted per model, alongside model-specific optimizations.
 
 ## Skills
 
-### grok-prompting
+### prompt-engineering
 
-Prompt engineering guidance for Grok (xAI) with conversational prompting patterns and real-time knowledge integration.
+Comprehensive prompt engineering guidance covering Claude, Gemini, and Grok. Use when crafting prompts to leverage each model's unique capabilities—XML-style tags for Claude, system instructions for Gemini, conversational style for Grok.
 
-**Key Features:**
-- Conversational, less-structured prompt style
-- Real-time X (Twitter) knowledge access
-- Less content-constrained responses
-- Witty, rebellious personality considerations
+**Covers:**
 
-**Best For:**
-- Current events analysis
-- Topics that might be filtered by other models
-- Direct, honest feedback
-- Creative, conversational applications
-
-### claude-prompting
-
-Prompt engineering guidance for Claude (Anthropic) with XML-style tags, long-context optimization, and extended thinking.
-
-**Key Features:**
-- XML-style tag formatting
-- 200K token context window
-- Extended thinking feature
-- Strong instruction following
-- Constitutional AI foundation
-
-**Best For:**
-- Long document analysis
-- Complex reasoning tasks
-- Precise instruction following
-- Code generation and review
-- Structured output requirements
-
-### gemini-prompting
-
-Prompt engineering guidance for Gemini (Google) with system instructions, multimodal prompting, and ultra-long context.
-
-**Key Features:**
-- System instructions for behavior control
-- Native multimodal (text, images, audio, video)
-- 1M+ token context window
-- Flash (fast) and Pro (capable) models
-
-**Best For:**
-- Multimodal applications
-- Very large document analysis
-- Image/video understanding
-- Code generation
-- Multilingual tasks
+- **Claude (Anthropic)** — XML-style tag formatting, 200K context, extended thinking, strong instruction following
+- **Gemini (Google)** — system instructions, native multimodal (text/image/audio/video), 1M+ context, Flash/Pro models
+- **Grok (xAI)** — conversational style, real-time X (Twitter) knowledge, direct/less-constrained responses
 
 ## Universal Techniques Covered
 
-Each skill covers these prompt engineering techniques, adapted for the specific model:
+Each technique is covered once and adapted per model:
 
 | Technique | Description |
 |-----------|-------------|
@@ -109,63 +68,25 @@ Each skill covers these prompt engineering techniques, adapted for the specific 
 
 ## Skill Structure
 
-Each skill follows this structure:
-
 ```
-[skill-name]/
-├── SKILL.md                    # Main skill documentation
+prompt-engineering/
+├── SKILL.md                    # Unified skill documentation
 └── references/
     ├── basics.md               # Foundational concepts
     ├── techniques.md           # Detailed technique explanations
-    ├── patterns.md             # Reusable prompt patterns
+    ├── claude.md               # Claude-specific guidance
+    ├── gemini.md               # Gemini-specific guidance
+    ├── grok.md                 # Grok-specific guidance
     └── examples.md             # Concrete examples
-```
-
-**Claude additionally includes:**
-- `xml-formatting.md` - XML tag patterns
-
-**Gemini additionally includes:**
-- `system-instructions.md` - System instruction guide
-- `multimodal.md` - Multimodal prompting
-
-## Usage
-
-### Invoking a Skill
-
-Each skill can be invoked automatically when crafting prompts for that specific model, or manually referenced for guidance.
-
-Example skill invocation:
-```
-@claude-prompting
-I need to analyze this 100-page document and extract key findings...
-
-@gemini-prompting
-I have this product image and need marketing copy...
-
-@grok-prompting
-What's the latest sentiment on crypto Twitter about Bitcoin?
-```
-
-### Combining Techniques
-
-The skills teach universal techniques that can be combined:
-
-```
-**Prompt Chaining + CoT:**
-Step 1: Extract relevant quotes (document analysis)
-Step 2: Synthesize findings (chain-of-thought reasoning)
-Step 3: Generate final report (structured output)
 ```
 
 ## Version
 
-**Current Version:** 1.0.0
+**Current Version:** 1.1.0
 
 ### Version History
-- **1.0.0** (2025-01-14): Initial release
-  - grok-prompting skill
-  - claude-prompting skill
-  - gemini-prompting skill
+- **1.1.0**: Merged grok/claude/gemini-prompting into a single unified `prompt-engineering` skill (synced with `@duyet/skills` canonical source)
+- **1.0.0** (2025-01-14): Initial release with separate grok-prompting, claude-prompting, gemini-prompting skills
 
 ## Contributing
 
