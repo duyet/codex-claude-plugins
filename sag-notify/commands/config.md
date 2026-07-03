@@ -1,3 +1,7 @@
+---
+description: Change sag-notify voice, language, enabled events, spoken name, or length cap
+---
+
 # /sag-notify:config
 
 Change voice-notification settings.

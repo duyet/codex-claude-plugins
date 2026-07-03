@@ -1,3 +1,7 @@
+---
+description: Speak both sag-notify lines (needs-you and done) to confirm voice, model, and audio work
+---
+
 # /sag-notify:test
 
 Speak both notification lines through the current configuration to confirm audio works.

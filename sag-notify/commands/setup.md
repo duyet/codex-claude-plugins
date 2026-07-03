@@ -1,3 +1,7 @@
+---
+description: One-time setup for spoken voice notifications via sag (ElevenLabs TTS) — install check, API key, voice, and language
+---
+
 # /sag-notify:setup
 
 One-time setup for spoken voice notifications via `sag` (ElevenLabs TTS).
