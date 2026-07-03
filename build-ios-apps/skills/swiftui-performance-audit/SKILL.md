@@ -107,8 +107,8 @@ Use `references/report-template.md` when formatting the final audit.
 - Common code smells and remediation patterns: `references/code-smells.md`
 - Audit output template: `references/report-template.md`
 - Add Apple documentation and WWDC resources under `references/` as they are supplied by the user.
-- Optimizing SwiftUI performance with Instruments: `references/optimizing-swiftui-performance-instruments.md`
-- Understanding and improving SwiftUI performance: `references/understanding-improving-swiftui-performance.md`
-- Understanding hangs in your app: `references/understanding-hangs-in-your-app.md`
-- Demystify SwiftUI performance (WWDC23): `references/demystify-swiftui-performance-wwdc23.md`
+- Optimizing SwiftUI performance with Instruments (Apple/WWDC resource, user-supplied)
+- Understanding and improving SwiftUI performance (Apple Developer documentation, user-supplied)
+- Understanding hangs in your app (Apple Developer documentation, user-supplied)
+- Demystify SwiftUI performance — WWDC23 (Apple/WWDC resource, user-supplied)
 - In addition to the references above, use web search to consult current Apple Developer documentation when Instruments workflows or SwiftUI performance guidance may have changed.

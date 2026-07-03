@@ -1,6 +1,6 @@
 ---
 name: ios-simulator-browser
-description: Mirror an iOS Simulator into the Codex in-app browser and render SwiftUI previews from importable Swift packages in that simulator with hot reload.
+description: Mirror an iOS Simulator into an in-app browser and hot-reload SwiftUI previews from importable Swift packages. Use when previewing SwiftUI in the simulator, mirroring a running simulator in the browser, or live-reloading package-backed previews.
 ---
 
 # iOS Simulator Browser

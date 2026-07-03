@@ -13,6 +13,9 @@ It currently includes these skills:
 - `swiftui-performance-audit`
 - `swiftui-ui-patterns`
 - `swiftui-view-refactor`
+- `apple-intelligence`
+- `core-ai`
+- `foundation-models`
 
 ## What It Covers
 
@@ -34,7 +37,6 @@ build-ios-apps/
 ├── .codex-plugin/             # Codex manifest
 ├── agents/
 │   └── openai.yaml            # OpenAI surface metadata
-├── assets/                    # Icons and SVGs
 └── skills/                    # Skill payloads
     ├── ios-debugger-agent/
     ├── ios-simulator-browser/
@@ -44,7 +46,10 @@ build-ios-apps/
     ├── swiftui-liquid-glass/
     ├── swiftui-performance-audit/
     ├── swiftui-ui-patterns/
-    └── swiftui-view-refactor/
+    ├── swiftui-view-refactor/
+    ├── apple-intelligence/
+    ├── core-ai/
+    └── foundation-models/
 ```
 
 ## License
