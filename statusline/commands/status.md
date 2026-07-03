@@ -1,3 +1,7 @@
+---
+description: Show current session metrics — context health, rate limits, model, duration, tools, and tasks
+---
+
 # /statusline:status
 
 Display real-time metrics about your current Claude Code session.
@@ -16,7 +20,7 @@ Check the current model from the environment or session info:
 
 Run:
 ```bash
-bash /Users/duet/project/claude-plugins/statusline/scripts/fetch-rate-limits.sh
+node --no-warnings "${CLAUDE_PLUGIN_ROOT}/scripts/format-status.ts"
 ```
 
 Or detect from the statusline output directly.

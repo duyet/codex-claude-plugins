@@ -1,5 +1,5 @@
 ---
-name: statusline
+name: statusline-workflow
 description: Use when configuring, previewing, troubleshooting, or disabling the Claude Code statusline plugin.
 ---
 

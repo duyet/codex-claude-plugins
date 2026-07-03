@@ -1,3 +1,7 @@
+---
+description: Disable statusline session monitoring while keeping the plugin installed
+---
+
 # /statusline:disable
 
 Disable real-time session monitoring and status updates.
@@ -15,7 +19,7 @@ Stops background session monitoring while keeping the plugin active. This preven
 - Stops real-time monitoring
 - Plugin remains installed and available
 - Status info can still be viewed on-demand with `/statusline:status`
-- Monitoring can be re-enabled anytime with `/statusline:enable`
+- Monitoring can be re-enabled anytime with `/statusline:config`
 
 ## Notes
 
@@ -26,5 +30,5 @@ Stops background session monitoring while keeping the plugin active. This preven
 
 ## Related Commands
 
-- `/statusline:enable` — Resume real-time monitoring
+- `/statusline:config` — Resume real-time monitoring
 - `/statusline:status` — View metrics without continuous monitoring

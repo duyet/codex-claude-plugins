@@ -1,3 +1,7 @@
+---
+description: Change statusline layout, visible sections, display style, or apply a preset template
+---
+
 # /statusline:config
 
 Configure the statusline display format and preferences.

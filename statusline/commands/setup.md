@@ -1,3 +1,7 @@
+---
+description: Interactive wizard to configure and generate a personalized statusline (layout, sections, icons, or a preset template)
+---
+
 # /statusline:setup
 
 Interactive setup wizard that configures and generates your personalized statusline.
@@ -66,7 +70,7 @@ Ensure `~/.claude/settings.json` has the statusLine configuration:
 {
   "statusLine": {
     "type": "command",
-    "command": "/Users/duet/.claude/statusline-command.sh"
+    "command": "~/.claude/statusline-command.sh"
   }
 }
 ```
