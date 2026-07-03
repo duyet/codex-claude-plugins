@@ -1,6 +1,6 @@
 ---
 name: task-loop
-description: Iterative execution methodology. Small steps, verify each, adapt based on results.
+description: Iterative execution loop — break work into small steps and verify each before the next, adapting from results. Use when executing multi-step tasks that need verification between steps.
 ---
 
 # Task Loop

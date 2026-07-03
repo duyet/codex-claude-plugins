@@ -25,11 +25,8 @@ knowledge/
 Use markdown relative links:
 
 ```markdown
-<!-- Link to topic -->
-See [ClickHouse on Kubernetes](topics/clickhouse/on-kubernetes.md)
-
 <!-- Link to profile -->
-For work history, see [duyet-profile.md](../duyet-profile.md)
+For work history, see [duyet-profile.md](./duyet-profile.md)
 ```
 
 ### External References
@@ -83,7 +80,7 @@ Source code: [github.com/duyet/repo-name](https://github.com/duyet/repo-name)
 
 ```bash
 # Update knowledge base
-cd /Users/duet/project/claude-plugins/duyetbot
+cd /path/to/claude-plugins/duyetbot
 ./scripts/fetch-duyet-data.sh
 
 # Update timestamps

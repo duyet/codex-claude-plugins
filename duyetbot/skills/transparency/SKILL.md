@@ -1,6 +1,6 @@
 ---
 name: transparency
-description: Patterns for showing thinking process and execution chain. Every step visible, every decision traceable.
+description: Show your thinking and execution chain with phase/thinking markers and debug traces. Use when the user wants visible step-by-step reasoning and traceable decisions.
 ---
 
 # Transparency

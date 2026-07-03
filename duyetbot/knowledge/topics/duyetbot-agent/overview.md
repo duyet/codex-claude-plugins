@@ -45,7 +45,6 @@ Duyetbot is an **autonomous AI agent** designed to maximize automation and self-
 |---------|---------|
 | `/duyetbot [task]` | Main interaction |
 | `/duyetbot:think [problem]` | Deep structured analysis |
-| `/duyetbot:loop [task]` | Iterate until complete |
 | `/duyetbot:spawn [task]` | Delegate to team agents |
 | `/duyetbot:orchestrate [task]` | Coordinate parallel workstreams |
 | `/learn <url|topic>` | Learn about @duyet and update knowledge |
