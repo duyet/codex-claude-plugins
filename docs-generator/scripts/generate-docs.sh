@@ -58,7 +58,7 @@ generate_root_readme() {
 
 ```bash
 # Add marketplace
-/plugin marketplace add duyet/claude-plugins
+/plugin marketplace add duyet/codex-claude-plugins
 
 # Install plugins
 EOF
@@ -174,7 +174,7 @@ Add to `~/.claude/settings.json`:
 {
   "extraKnownMarketplaces": {
     "duyet-claude-plugins": {
-      "source": { "source": "github", "repo": "duyet/claude-plugins" }
+      "source": { "source": "github", "repo": "duyet/codex-claude-plugins" }
     }
   },
   "enabledPlugins": {
