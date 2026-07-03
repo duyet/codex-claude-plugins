@@ -1,6 +1,6 @@
 {
   "name": "build-macos-apps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
   "author": {
     "name": "duyet"

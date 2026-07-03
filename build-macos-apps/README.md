@@ -10,6 +10,7 @@ It currently includes these skills:
 - `swiftpm-macos`
 - `packaging-notarization`
 - `swiftui-patterns`
+- `macos-app-best-practices`
 - `liquid-glass`
 - `window-management`
 - `appkit-interop`
@@ -53,6 +54,7 @@ build-macos-apps/
     ├── swiftpm-macos/
     ├── packaging-notarization/
     ├── swiftui-patterns/
+    ├── macos-app-best-practices/
     ├── liquid-glass/
     ├── window-management/
     ├── appkit-interop/
