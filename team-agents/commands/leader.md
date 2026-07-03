@@ -1,3 +1,8 @@
+---
+description: Coordinate a complex task with the Leader agent — breaks requirements into parallel workstreams and delegates to senior-engineer agents. Use for multi-component features, large refactors, or any work needing parallel execution with quality gates.
+argument-hint: "<task> [--team-size N] [--mode parallel|sequential|hybrid] [--quality standard|strict|critical] [--scope feature|bug|refactor|perf|security|docs]"
+---
+
 # /leader Command
 
 Activate the Leader agent to coordinate complex tasks with parallel senior engineer execution.
