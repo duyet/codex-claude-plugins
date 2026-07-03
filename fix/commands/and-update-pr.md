@@ -135,6 +135,6 @@ Waiting for CI to complete...
 ## Notes
 
 - Requires GitHub CLI (`gh`) authenticated
-- Will NOT merge the PR (use `/pr-manager` for merge)
+- Will NOT merge the PR (use `/github:bulk-merge-prs` for merge)
 - Preserves existing PR description and metadata
 - Respects branch protection rules
