@@ -1,6 +1,6 @@
 ---
 name: unsloth-training
-description: Fine-tune LLMs with Unsloth using GRPO or SFT. Supports FP8, vision models, mobile deployment, Docker, packing, GGUF export, dataset preparation, synthetic data, MLX (Apple Silicon). Use when: train with GRPO, fine-tune, reward functions, SFT training, FP8 training, vision fine-tuning, phone deployment, docker training, packing, export to GGUF, prepare dataset, synthetic data, install unsloth, environment flags, MLX training.
+description: "Fine-tune LLMs with Unsloth using GRPO or SFT. Supports FP8, vision models, mobile deployment, Docker, packing, GGUF export, dataset preparation, synthetic data, MLX (Apple Silicon). Use when: train with GRPO, fine-tune, reward functions, SFT training, FP8 training, vision fine-tuning, phone deployment, docker training, packing, export to GGUF, prepare dataset, synthetic data, install unsloth, environment flags, MLX training."
 ---
 
 <objective>
