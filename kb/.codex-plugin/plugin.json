@@ -1,6 +1,6 @@
 {
   "name": "kb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
   "author": {
     "name": "duyet"

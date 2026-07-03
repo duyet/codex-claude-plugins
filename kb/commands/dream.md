@@ -1,3 +1,7 @@
+---
+description: Consolidate a markdown knowledge base — merge near-duplicates, flag contradictions, prune stale notes, ingest inbox, refresh from sources, and rebuild the index; supports a forget subcommand and --auto.
+---
+
 # /dream
 
 Consolidate a markdown knowledge base: merge near-duplicates, flag contradictions, prune
