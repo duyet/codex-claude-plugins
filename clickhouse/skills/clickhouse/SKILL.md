@@ -5,9 +5,7 @@ description: MUST USE when reviewing ClickHouse schemas, queries, or configurati
 
 # ClickHouse Best Practices
 
-Guidance for ClickHouse covering schema design, query optimization, and data ingestion. Contains 28 atomic rules across 3 categories (schema, query, insert), prioritized by impact. Extended with 14 reference files covering cluster management, backups, monitoring, and integrations.
-
-> **Official docs:** [ClickHouse Best Practices](https://clickhouse.com/docs/best-practices)
+Guidance for ClickHouse covering schema design, query optimization, and data ingestion. Contains 28 atomic rules across 3 categories (schema, query, insert), prioritized by impact. Extended with 15 reference files covering cluster management, backups, monitoring, and integrations.
 
 > **Official docs:** [ClickHouse Best Practices](https://clickhouse.com/docs/best-practices)
 
@@ -281,6 +279,6 @@ For topics beyond the 28 rules, see the `references/` directory:
 
 ---
 
-**Version**: 1.3.0
+**Version**: 1.4.0
 **Rules**: Synced with [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) (Apache-2.0)
 **References**: Altinity Knowledge Base (200+ articles) + ClickHouse Official Docs
