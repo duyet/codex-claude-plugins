@@ -377,7 +377,6 @@ What's the latest on [topic] according to posts on X? Give me a summary of the c
 - `references/claude.md` - Claude-specific XML patterns
 - `references/gemini.md` - Gemini system instruction patterns
 - `references/grok.md` - Grok conversational patterns
-- `references/multimodal.md` - Multimodal prompting guide
 - `references/examples.md` - Concrete examples and templates
 
 ### Related Skills
