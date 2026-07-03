@@ -15,7 +15,7 @@
       "name": "team-agents",
       "id": "team-agents@duyet-claude-plugins",
       "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
-      "version": "1.9.0",
+      "version": "1.9.1",
       "type": "skill",
       "category": "agents"
     },
@@ -23,7 +23,7 @@
       "name": "commit",
       "id": "commit@duyet-claude-plugins",
       "description": "Create a Git commit with semantic commit message format and PR workflow with templates",
-      "version": "1.3.0",
+      "version": "1.3.2",
       "type": "command",
       "category": "git"
     },
@@ -39,7 +39,7 @@
       "name": "interview",
       "id": "interview@duyet-claude-plugins",
       "description": "Conduct in-depth requirements interviews using Socratic questioning",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "command",
       "category": "productivity"
     },
@@ -47,7 +47,7 @@
       "name": "statusline",
       "id": "statusline@duyet-claude-plugins",
       "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
-      "version": "1.6.0",
+      "version": "1.8.1",
       "type": "hook",
       "category": "ui"
     },
@@ -63,7 +63,7 @@
       "name": "duyetbot",
       "id": "duyetbot@duyet-claude-plugins",
       "description": "Pragmatic software development companion with engineering discipline",
-      "version": "1.8.0",
+      "version": "1.8.1",
       "type": "skill",
       "category": "productivity"
     },
@@ -71,7 +71,7 @@
       "name": "docs-generator",
       "id": "docs-generator@duyet-claude-plugins",
       "description": "Automatically generate and maintain plugin documentation",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "hook",
       "category": "docs"
     },
@@ -79,7 +79,7 @@
       "name": "github",
       "id": "github@duyet-claude-plugins",
       "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
-      "version": "1.4.0",
+      "version": "1.4.2",
       "type": "skill",
       "category": "git"
     },
@@ -87,7 +87,7 @@
       "name": "fix",
       "id": "fix@duyet-claude-plugins",
       "description": "Fix issues, tests, and CI failures with intelligent problem detection",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "command",
       "category": "productivity"
     },
@@ -95,7 +95,7 @@
       "name": "simplify",
       "id": "simplify@duyet-claude-plugins",
       "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "command",
       "category": "productivity"
     },
@@ -103,7 +103,7 @@
       "name": "clickhouse",
       "id": "clickhouse@duyet-claude-plugins",
       "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "type": "skill",
       "category": "database"
     },
@@ -111,7 +111,7 @@
       "name": "prompt-engineering",
       "id": "prompt-engineering@duyet-claude-plugins",
       "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "type": "skill",
       "category": "productivity"
     },
@@ -119,7 +119,7 @@
       "name": "clickhouse-monitoring",
       "id": "clickhouse-monitoring@duyet-claude-plugins",
       "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "type": "skill",
       "category": "monitoring"
     },
@@ -127,7 +127,7 @@
       "name": "unsloth-training",
       "id": "unsloth-training@duyet-claude-plugins",
       "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF.",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "type": "skill",
       "category": "ml"
     },
@@ -143,7 +143,7 @@
       "name": "anyrouter",
       "id": "anyrouter@duyet-claude-plugins",
       "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "skill",
       "category": "ai"
     },
@@ -151,7 +151,7 @@
       "name": "sag-notify",
       "id": "sag-notify@duyet-claude-plugins",
       "description": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language.",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "type": "skill",
       "category": "ui"
     },
@@ -159,15 +159,15 @@
       "name": "build-macos-apps",
       "id": "build-macos-apps@duyet-claude-plugins",
       "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "skill",
       "category": "development"
     },
     {
       "name": "build-ios-apps",
       "id": "build-ios-apps@duyet-claude-plugins",
-      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection.",
-      "version": "1.0.0",
+      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI.",
+      "version": "1.0.1",
       "type": "skill",
       "category": "development"
     },
@@ -175,7 +175,7 @@
       "name": "agent-loop",
       "id": "agent-loop@duyet-claude-plugins",
       "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "type": "skill",
       "category": "automation"
     },
@@ -183,7 +183,7 @@
       "name": "kb",
       "id": "kb@duyet-claude-plugins",
       "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "type": "skill",
       "category": "productivity"
     },

@@ -97,7 +97,7 @@
     {
       "name": "build-ios-apps",
       "source": "./build-ios-apps",
-      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows including App Intents, Simulator debugging, performance profiling, and memory leak detection."
+      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI."
     },
     {
       "name": "agent-loop",
@@ -113,6 +113,11 @@
       "name": "okf",
       "source": "./okf",
       "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter."
+    },
+    {
+      "name": "unsloth-training",
+      "source": "./unsloth-training",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Includes dataset preparation, synthetic data generation, environment flags, MLX (Apple Silicon), FP8, vision models, mobile export, GGUF."
     }
   ]
 }
