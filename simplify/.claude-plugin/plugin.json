@@ -1,7 +1,7 @@
 {
   "name": "simplify",
   "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "duyet"
   }
