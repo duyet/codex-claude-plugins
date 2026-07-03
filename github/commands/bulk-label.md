@@ -1,6 +1,6 @@
 ---
 allowed-tools: Bash(gh *)
-description: Apply labels to multiple issues or pull requests
+description: Add or remove labels across multiple issues or pull requests, selected by label or GitHub search query
 ---
 
 # Bulk Label

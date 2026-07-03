@@ -319,4 +319,3 @@ For long-running PRs, combine with `/loop` for periodic checks:
 - `/github:watch-and-fix` - Simpler CI-focused watch loop (no bot parsing)
 - `/fix:and-update-pr` - Single-iteration fix and push
 - `/github:bulk-merge-prs` - Merge multiple approved PRs
-- `/github:fix-workflow-failures` - Dedicated CI failure fixing tool
