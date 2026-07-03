@@ -1,6 +1,6 @@
 ---
 name: interview
-description: Use when the user wants a Socratic requirements interview before implementation.
+description: "Use before implementing when requirements are ambiguous: run a Socratic interview to clarify a vague feature request or to find gaps in a plan/spec file, and turn it into a decision-complete plan with scope, edge cases, and tests."
 ---
 
 # Interview
