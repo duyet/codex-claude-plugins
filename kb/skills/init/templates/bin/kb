@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# kb — capture/ingest/consolidate this shared-brain knowledge base.
+# KB location is configurable: $KB_DIR if set, else auto-detected from this
+# script's own location (resolves symlinks), so it works wherever kb lives.
+set -euo pipefail
+
+# --- resolve KB_DIR ---------------------------------------------------------
+if [[ -z "${KB_DIR:-}" ]]; then
+  src="${BASH_SOURCE[0]}"
+  while [[ -L "$src" ]]; do
+    dir="$(cd -P "$(dirname "$src")" && pwd)"; src="$(readlink "$src")"
+    [[ "$src" != /* ]] && src="$dir/$src"
+  done
+  KB_DIR="$(cd -P "$(dirname "$src")/.." && pwd)"
+fi
+export KB_DIR
+cd "$KB_DIR"
+
+inbox() { echo "$KB_DIR/raw/inbox/$(date +%F).md"; }
+
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  capture|c)
+    text="$*"
+    [[ -z "$text" ]] && { echo "usage: kb capture \"<note>\""; exit 1; }
+    f="$(inbox)"; mkdir -p "$(dirname "$f")"
+    [[ -f "$f" ]] || printf '# Inbox — %s\n\n' "$(date +%F)" > "$f"
+    printf -- '- %s — %s\n' "$(date +%H:%M)" "$text" >> "$f"
+    echo "captured → ${f#$KB_DIR/}  (run 'kb sync' to push)" ;;
+  ingest|i)
+    [[ -f "${1:-}" ]] || { echo "usage: kb ingest <file>  (adds a source doc to raw/)"; exit 1; }
+    mkdir -p "$KB_DIR/raw"; cp "$1" "$KB_DIR/raw/"
+    echo "added source → raw/$(basename "$1")  (run a dream pass to ingest it)" ;;
+  dream|d)
+    echo "Run the dream pass: read and execute $KB_DIR/DREAM.md"
+    echo "(or in an agent: \"run $KB_DIR/DREAM.md consolidation\")" ;;
+  sync|s)   exec "$KB_DIR/scripts/sync.sh" ;;
+  lint|l)   exec "$KB_DIR/scripts/lint.sh" ;;
+  wire|w)   exec "$KB_DIR/scripts/wire.sh" "${1:-on}" ;;
+  index)    cat "$KB_DIR/MEMORY.md" ;;
+  gen)      python3 "$KB_DIR/scripts/render_okf_viewer.py" "$KB_DIR/memory" \
+              --title "$(basename "$KB_DIR")" --out "$KB_DIR/viz.html" ;;
+  viz)      python3 "$KB_DIR/scripts/render_okf_viewer.py" "$KB_DIR/memory" \
+              --title "$(basename "$KB_DIR")" --out "$KB_DIR/viz.html"
+            if command -v open >/dev/null 2>&1; then open "$KB_DIR/viz.html"
+            else echo "viz.html → $KB_DIR/viz.html"; fi ;;
+  root|path) echo "$KB_DIR" ;;
+  autosync)
+    command -v crontab >/dev/null 2>&1 || { echo "crontab not available"; exit 1; }
+    line="*/15 * * * * $KB_DIR/scripts/sync.sh >> \$HOME/.kb-sync.log 2>&1"
+    rest="$(crontab -l 2>/dev/null | grep -v '/scripts/sync\.sh' || true)"
+    case "${1:-status}" in
+      on)  { [ -n "$rest" ] && printf '%s\n' "$rest"; printf '%s\n' "$line"; } | crontab -
+           echo "autosync on (*/15 min)" ;;
+      off) if [ -n "$rest" ]; then printf '%s\n' "$rest" | crontab -; else crontab -r 2>/dev/null || true; fi
+           echo "autosync off" ;;
+      status|*) crontab -l 2>/dev/null | grep -q '/scripts/sync\.sh' && echo "on" || echo "off" ;;
+    esac ;;
+  help|-h|--help)
+    cat <<EOF
+kb — shared-brain CLI   (KB_DIR=$KB_DIR)
+
+  kb capture "<note>"   append a timestamped line to today's raw/inbox
+  kb ingest <file>      copy a source doc into raw/ for later ingestion
+  kb dream              how to run the consolidation pass (agent task)
+  kb sync               pull + commit + push (no-op if no git remote)
+  kb lint               validate notes against the standard
+  kb index              print MEMORY.md
+  kb gen                regenerate OKF index.md files + viz.html
+  kb viz                regenerate + open the graph viewer
+  kb root               print the resolved KB location
+  kb autosync on|off|status   opt-in */15min sync cron (not installed by default)
+  kb wire on|off              add/remove the kb reflex in agents' global config
+EOF
+    ;;
+  *) echo "kb: unknown command '$cmd' (try: kb help)"; exit 1 ;;
+esac

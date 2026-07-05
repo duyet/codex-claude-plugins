@@ -1,7 +1,7 @@
 {
   "name": "kb",
-  "version": "1.0.1",
-  "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
+  "version": "1.1.0",
+  "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
   "author": {
     "name": "duyet"
   },
@@ -9,7 +9,7 @@
   "commands": "./commands/",
   "interface": {
     "displayName": "Knowledge Base",
-    "shortDescription": "Maintain a markdown knowledge base: consolidate, dedupe, prune, and forget notes.",
+    "shortDescription": "Initialize and maintain a markdown knowledge base: consolidate, dedupe, prune, and forget notes.",
     "developerName": "duyet",
     "category": "productivity",
     "capabilities": ["Skill", "Command"],

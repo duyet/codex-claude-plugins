@@ -182,22 +182,22 @@
     {
       "name": "kb",
       "id": "kb@duyet-claude-plugins",
-      "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
-      "version": "1.0.1",
+      "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
+      "version": "1.1.0",
       "type": "skill",
       "category": "productivity"
     },
     {
       "name": "okf",
       "id": "okf@duyet-claude-plugins",
-      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
-      "version": "1.0.0",
+      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, render, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
+      "version": "1.1.0",
       "type": "skill",
       "category": "productivity"
     }
   ],
   "metadata": {
-    "lastUpdated": "2026-06-11",
+    "lastUpdated": "2026-07-05",
     "totalPlugins": 21,
     "categories": [
       "agents",
