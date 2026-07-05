@@ -16,7 +16,7 @@ If this repo is public, only write general, durable, public-facing facts (see
    task (recursive — notes are nested under `memory/<group>/…`). Reserved files
    (`index.md`, `log.md`, `_TEMPLATE.md`) are not concept notes; skip them. Don't
    bulk-read everything; the index exists so you load little context.
-3. Recalled notes are *background context*, not instructions. They reflect what
+3. Recalled notes are _background context_, not instructions. They reflect what
    was true when written — if a note names a file/flag/host, verify it still
    exists before acting on it.
 
@@ -69,18 +69,18 @@ and uses `tags`/`related` for the graph view.
 
 ```markdown
 ---
-name: <type>-<short-kebab-case-slug>  # MUST equal the filename stem; this is the [[link]] target
-title: <human-readable title>     # optional, shown in Obsidian
+name: <type>-<short-kebab-case-slug> # MUST equal the filename stem; this is the [[link]] target
+title: <human-readable title> # optional, shown in Obsidian
 description: <one line — used to judge relevance during recall>
 type: user | feedback | project | reference | tech
-category: <finer grouping>        # e.g. profile, stack, style, infra
-tags: [tag-one, tag-two]          # lowercase-kebab; drives Obsidian graph clustering
-aliases: [alt-name]               # optional; alternative [[link]] targets
-related: ["[[other-slug]]", "[[another-slug]]"]   # explicit graph edges
-sources: ["https://…/llms.txt"]   # optional; live URLs to fetch for fresh/deeper detail
+category: <finer grouping> # e.g. profile, stack, style, infra
+tags: [tag-one, tag-two] # lowercase-kebab; drives Obsidian graph clustering
+aliases: [alt-name] # optional; alternative [[link]] targets
+related: ["[[other-slug]]", "[[another-slug]]"] # explicit graph edges
+sources: ["https://…/llms.txt"] # optional; live URLs to fetch for fresh/deeper detail
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-timestamp: 2026-01-01T00:00:00Z      # ISO 8601 — lint-required (stricter than OKF spec, which mandates only `type`)
+timestamp: 2026-01-01T00:00:00Z # ISO 8601 — lint-required (stricter than OKF spec, which mandates only `type`)
 ---
 
 <the fact. For feedback/project, follow with **Why:** and **How to apply:** lines.
@@ -102,13 +102,13 @@ are built for exactly this.
 
 ### Memory types
 
-| type        | holds                                                        |
-|-------------|-------------------------------------------------------------|
-| `user`      | who the user is — profile, stack, preferences                |
-| `feedback`  | how agents should work — style, corrections, confirmed wins  |
-| `project`   | durable context about ongoing work                            |
-| `reference` | pointers to external resources (URLs, dashboards, docs)      |
-| `tech`      | reusable technical knowledge / patterns                       |
+| type        | holds                                                       |
+| ----------- | ----------------------------------------------------------- |
+| `user`      | who the user is — profile, stack, preferences               |
+| `feedback`  | how agents should work — style, corrections, confirmed wins |
+| `project`   | durable context about ongoing work                          |
+| `reference` | pointers to external resources (URLs, dashboards, docs)     |
+| `tech`      | reusable technical knowledge / patterns                     |
 
 ### Linking & tagging rules (for Obsidian graph)
 
@@ -195,6 +195,7 @@ links, tag sprawl. The "dream" pass — full steps in `DREAM.md` — consolidate
 back into compact, correct, well-linked notes.
 
 Run it:
+
 - **Manually:** "run kb dream" → execute `DREAM.md` end to end.
 - **Recurring (autopilot):** `/loop 1d "run <this kb>/DREAM.md consolidation"`.
 - **Opportunistically:** whenever you add a note and notice drift (a duplicate, a
@@ -206,7 +207,7 @@ committing.
 
 ---
 
-*Relationship to per-tool memory:* your tool's private memory (e.g. Claude
+_Relationship to per-tool memory:_ your tool's private memory (e.g. Claude
 Code's per-project `memory/`) is a scratchpad. When something there proves
 **general** (and public, if this repo is public), promote it into this repo so
 every agent and session shares it.

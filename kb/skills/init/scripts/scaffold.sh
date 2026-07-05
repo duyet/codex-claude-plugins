@@ -7,15 +7,19 @@
 set -euo pipefail
 
 TEMPLATES="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
-TARGET="${1:-$HOME/kb}"   # pass an absolute path; this script does not expand ~
+TARGET="${1:-$HOME/kb}" # pass an absolute path; this script does not expand ~
 
 created=() skipped=()
 
 put() { # put <src-relative-to-templates> <dest-relative-to-target>
-  local src="$TEMPLATES/$1" dest="$TARGET/$2"
-  mkdir -p "$(dirname "$dest")"
-  if [[ -e "$dest" ]]; then skipped+=("$2"); return; fi
-  cp "$src" "$dest"; created+=("$2")
+	local src="$TEMPLATES/$1" dest="$TARGET/$2"
+	mkdir -p "$(dirname "$dest")"
+	if [[ -e "$dest" ]]; then
+		skipped+=("$2")
+		return
+	fi
+	cp "$src" "$dest"
+	created+=("$2")
 }
 
 mkdir -p "$TARGET"
@@ -36,18 +40,21 @@ chmod +x "$TARGET"/scripts/*.sh "$TARGET/bin/kb" 2>/dev/null || true
 
 # Starter memory groups + inbox — empty dirs need a placeholder to survive git.
 for d in memory/user memory/feedback memory/reference memory/projects memory/topics raw/inbox; do
-  mkdir -p "$TARGET/$d"
-  [[ -e "$TARGET/$d/.gitkeep" ]] || { : > "$TARGET/$d/.gitkeep"; created+=("$d/.gitkeep"); }
+	mkdir -p "$TARGET/$d"
+	[[ -e "$TARGET/$d/.gitkeep" ]] || {
+		: >"$TARGET/$d/.gitkeep"
+		created+=("$d/.gitkeep")
+	}
 done
 
 if [[ ! -e "$TARGET/.agent/state.json" ]]; then
-  mkdir -p "$TARGET/.agent"
-  printf '{}\n' > "$TARGET/.agent/state.json"
-  created+=(".agent/state.json")
+	mkdir -p "$TARGET/.agent"
+	printf '{}\n' >"$TARGET/.agent/state.json"
+	created+=(".agent/state.json")
 fi
 
 if [[ ! -e "$TARGET/MEMORY.md" ]]; then
-  cat > "$TARGET/MEMORY.md" <<'EOF'
+	cat >"$TARGET/MEMORY.md" <<'EOF'
 # Memory Index
 
 Master table of contents. One line per note — read this first, then open only
@@ -56,12 +63,12 @@ the notes relevant to your task. See `AGENTS.md` for the protocol.
 (No notes yet — this index is rebuilt by hand or by a `DREAM.md` pass as notes
 are added under `memory/`.)
 EOF
-  created+=("MEMORY.md")
+	created+=("MEMORY.md")
 fi
 
 # Initial OKF index.md + viz.html so the bundle is immediately browsable.
 python3 "$TARGET/scripts/render_okf_viewer.py" "$TARGET/memory" \
-  --title "$(basename "$TARGET")" --out "$TARGET/viz.html" >/dev/null
+	--title "$(basename "$TARGET")" --out "$TARGET/viz.html" >/dev/null
 
 echo "kb scaffolded at $TARGET"
 echo "  created: ${#created[@]} file(s)"

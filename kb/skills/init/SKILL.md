@@ -23,7 +23,7 @@ A self-contained directory — plain markdown, no database, no server — that i
   keeps working even if this Claude plugin is later removed: `bin/kb`
   (capture/lint/sync/gen/viz/wire), `scripts/render_okf_viewer.py` (regenerates
   `memory/**/index.md` + a self-contained `viz.html` graph viewer), `scripts/
-  lint.sh`, `scripts/sync.sh`, `scripts/wire.sh`.
+lint.sh`, `scripts/sync.sh`, `scripts/wire.sh`.
 
 This is the generic, brand-neutral form of a personal "shared brain" pattern —
 it ships with no memory content, no assumed git remote, and no personal
@@ -55,6 +55,7 @@ actually wants `dream` (consolidate existing notes) instead of `init`.
    **never overwrites a file that already exists** in the target. It ends by
    running `render_okf_viewer.py` once so `memory/index.md` and `viz.html`
    exist immediately.
+
 3. **Report what happened**: how many files were created vs. skipped
    (pre-existing), and the target path.
 4. **Offer, but do not run automatically, three follow-ups** — each changes
@@ -66,7 +67,7 @@ actually wants `dream` (consolidate existing notes) instead of `init`.
      if they have one). Skip silently if they don't want git.
    - **Wiring.** `<target>/scripts/wire.sh on` adds a small marked block to
      `~/.claude/CLAUDE.md` (and `~/.codex/AGENTS.md` / `~/.config/opencode/
-     AGENTS.md` if those tools are present) so every future session
+AGENTS.md` if those tools are present) so every future session
      auto-reads the kb. This edits files **outside** the scaffolded folder and
      affects every future session — explain what it does and get explicit
      confirmation before running it. `wire.sh off` cleanly reverses it.

@@ -9,10 +9,12 @@ REPO="${KB_DIR:-$HOME/kb}"
 cd "$REPO"
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "not a git repo — run 'git init' first, or skip sync"; exit 0
+	echo "not a git repo — run 'git init' first, or skip sync"
+	exit 0
 fi
 if [ -z "$(git remote)" ]; then
-  echo "no git remote configured — run 'git remote add origin <url>' to enable sync"; exit 0
+	echo "no git remote configured — run 'git remote add origin <url>' to enable sync"
+	exit 0
 fi
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -24,8 +26,8 @@ git pull --rebase --autostash origin "$BRANCH"
 
 # Commit local changes, if any.
 if [ -n "$(git status --porcelain)" ]; then
-  git add -A
-  git commit -q -m "memory: auto-sync $(date '+%Y-%m-%d %H:%M')"
+	git add -A
+	git commit -q -m "memory: auto-sync $(date '+%Y-%m-%d %H:%M')"
 fi
 
 # Push (sets upstream on first run).

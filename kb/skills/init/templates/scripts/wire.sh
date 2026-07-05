@@ -7,7 +7,7 @@
 set -euo pipefail
 
 KB_DIR="${KB_DIR:-$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-HOME_BASE="${KB_HOME:-$HOME}"          # override in tests for isolation
+HOME_BASE="${KB_HOME:-$HOME}" # override in tests for isolation
 action="${1:-on}"
 
 # Tidy reference: ~/kb when it resolves to this repo, else the real path.
@@ -16,9 +16,9 @@ REF="$KB_DIR"
 if [ -d "$HOME/kb" ] && [ "$(cd -P "$HOME/kb" 2>/dev/null && pwd)" = "$KB_DIR" ]; then REF="~/kb"; fi
 
 # Targets: always wire Claude Code (.claude); wire other agents only if present.
-targets=( "$HOME_BASE/.claude/CLAUDE.md" "$HOME_BASE/.claude/AGENTS.md" )
-[ -d "$HOME_BASE/.codex" ]           && targets+=( "$HOME_BASE/.codex/AGENTS.md" )
-[ -d "$HOME_BASE/.config/opencode" ] && targets+=( "$HOME_BASE/.config/opencode/AGENTS.md" )
+targets=("$HOME_BASE/.claude/CLAUDE.md" "$HOME_BASE/.claude/AGENTS.md")
+[ -d "$HOME_BASE/.codex" ] && targets+=("$HOME_BASE/.codex/AGENTS.md")
+[ -d "$HOME_BASE/.config/opencode" ] && targets+=("$HOME_BASE/.config/opencode/AGENTS.md")
 
 BLOCK="<!-- kb:start (managed by kb wire; remove with: kb wire off) -->
 # Knowledge Base — shared brain ($REF)
@@ -33,15 +33,21 @@ Full protocol: \`$REF/AGENTS.md\`. Consolidate via \`$REF/DREAM.md\`. If this kb
 strip_block() { [ -f "$1" ] && awk '/<!-- kb:start/{s=1} s!=1{print} /<!-- kb:end/{s=0}' "$1" || true; }
 
 wire_one() {
-  local f="$1" body
-  if [ "$action" = off ] && [ ! -f "$f" ]; then return; fi
-  mkdir -p "$(dirname "$f")"; touch "$f"
-  body="$(strip_block "$f")"
-  if [ "$action" = off ]; then
-    printf '%s\n' "$body" > "$f"; echo "unwired $f"
-  else
-    { printf '%s\n' "$body"; printf '\n%s\n' "$BLOCK"; } > "$f"; echo "wired   $f"
-  fi
+	local f="$1" body
+	if [ "$action" = off ] && [ ! -f "$f" ]; then return; fi
+	mkdir -p "$(dirname "$f")"
+	touch "$f"
+	body="$(strip_block "$f")"
+	if [ "$action" = off ]; then
+		printf '%s\n' "$body" >"$f"
+		echo "unwired $f"
+	else
+		{
+			printf '%s\n' "$body"
+			printf '\n%s\n' "$BLOCK"
+		} >"$f"
+		echo "wired   $f"
+	fi
 }
 
 for t in "${targets[@]}"; do wire_one "$t"; done
