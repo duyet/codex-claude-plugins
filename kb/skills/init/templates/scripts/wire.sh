@@ -12,6 +12,7 @@ action="${1:-on}"
 
 # Tidy reference: ~/kb when it resolves to this repo, else the real path.
 REF="$KB_DIR"
+# shellcheck disable=SC2088  # "~/kb" here is a literal display string, not a path to expand.
 if [ -d "$HOME/kb" ] && [ "$(cd -P "$HOME/kb" 2>/dev/null && pwd)" = "$KB_DIR" ]; then REF="~/kb"; fi
 
 # Targets: always wire Claude Code (.claude); wire other agents only if present.

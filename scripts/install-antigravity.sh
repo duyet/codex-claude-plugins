@@ -14,7 +14,8 @@ find_antigravity_plugins() {
   done
 }
 
-PLUGINS=($(find_antigravity_plugins))
+PLUGINS=()
+while IFS= read -r p; do PLUGINS+=("$p"); done < <(find_antigravity_plugins)
 
 if [ ${#PLUGINS[@]} -eq 0 ]; then
   echo "No plugins with .antigravity-plugin/plugin.json found in the repository."
