@@ -107,12 +107,12 @@
     {
       "name": "kb",
       "source": "./kb",
-      "description": "Knowledge base maintenance skills. Consolidate, dedupe, prune, refresh, and forget notes in a markdown KB."
+      "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB."
     },
     {
       "name": "okf",
       "source": "./okf",
-      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter."
+      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, render, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter."
     },
     {
       "name": "unsloth-training",

@@ -12,9 +12,11 @@ offline.
 
 ## Skills
 
-- **okf** — author, initialize, and validate OKF bundles. Scaffolds the correct
-  layout, writes concept docs with proper frontmatter, generates `index.md` /
-  `log.md`, and ships `validate_okf.py` for OKF v0.1 conformance checks.
+- **okf** — author, initialize, validate, and render OKF bundles. Scaffolds the
+  correct layout, writes concept docs with proper frontmatter, generates
+  `index.md` / `log.md`, ships `validate_okf.py` for OKF v0.1 conformance
+  checks, and `render_okf_viewer.py` to render a bundle as a self-contained
+  interactive graph viewer.
 - **okf-refactor** — convert existing knowledge (loose notes, wikis, README/docs,
   a catalog/metadata export, a database schema) into a conformant OKF bundle:
   one concept per file, cross-linked into a knowledge graph, with generated indexes.
@@ -43,6 +45,9 @@ okf add a BigQuery Table concept for the orders table
 
 # Validate conformance
 python3 skills/okf/scripts/validate_okf.py ./bundles/my_catalog
+
+# Render an interactive graph viewer
+python3 skills/okf/scripts/render_okf_viewer.py ./bundles/my_catalog
 
 # Refactor existing knowledge into OKF
 okf-refactor convert ./notes into an OKF bundle at ./bundles/notes

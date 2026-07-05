@@ -1,7 +1,7 @@
 {
   "name": "okf",
-  "version": "1.0.0",
-  "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
+  "version": "1.1.0",
+  "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, render, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
