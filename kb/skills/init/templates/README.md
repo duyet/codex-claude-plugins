@@ -14,7 +14,7 @@ via the `DREAM.md` consolidation pass.
 
 ## Structure
 
-```
+```text
 .
 ├── AGENTS.md      ← canonical protocol for ALL agents (read/write/dream rules)
 ├── CLAUDE.md      ← thin pointer to AGENTS.md

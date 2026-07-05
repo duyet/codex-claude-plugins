@@ -17,8 +17,10 @@ fi
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-# Pull first so we rebase local work on top of any remote changes.
-git pull --rebase --autostash origin "$BRANCH" || true
+# Pull first so we rebase local work on top of any remote changes. Deliberately
+# not `|| true`: a failed rebase (e.g. a conflict) must stop the script here —
+# continuing to commit/push would stage raw conflict markers.
+git pull --rebase --autostash origin "$BRANCH"
 
 # Commit local changes, if any.
 if [ -n "$(git status --porcelain)" ]; then

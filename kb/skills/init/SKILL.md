@@ -45,9 +45,11 @@ actually wants `dream` (consolidate existing notes) instead of `init`.
    path the user gave explicitly. Confirm the path with the user if ambiguous.
 2. **Scaffold.** Run the bundled script with an absolute path (it does not
    expand `~`):
+
    ```bash
    bash "${CLAUDE_PLUGIN_ROOT}/skills/init/scripts/scaffold.sh" "$HOME/kb"
    ```
+
    It is idempotent — creates missing files, chmods scripts executable, seeds
    starter `memory/{user,feedback,reference,projects,topics}/` groups, and
    **never overwrites a file that already exists** in the target. It ends by

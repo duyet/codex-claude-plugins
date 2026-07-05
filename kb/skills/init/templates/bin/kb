@@ -43,11 +43,12 @@ case "$cmd" in
   viz)      python3 "$KB_DIR/scripts/render_okf_viewer.py" "$KB_DIR/memory" \
               --title "$(basename "$KB_DIR")" --out "$KB_DIR/viz.html"
             if command -v open >/dev/null 2>&1; then open "$KB_DIR/viz.html"
+            elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$KB_DIR/viz.html"
             else echo "viz.html → $KB_DIR/viz.html"; fi ;;
   root|path) echo "$KB_DIR" ;;
   autosync)
     command -v crontab >/dev/null 2>&1 || { echo "crontab not available"; exit 1; }
-    line="*/15 * * * * $KB_DIR/scripts/sync.sh >> \$HOME/.kb-sync.log 2>&1"
+    line="*/15 * * * * \"$KB_DIR/scripts/sync.sh\" >> \"\$HOME/.kb-sync.log\" 2>&1"
     rest="$(crontab -l 2>/dev/null | grep -v '/scripts/sync\.sh' || true)"
     case "${1:-status}" in
       on)  { [ -n "$rest" ] && printf '%s\n' "$rest"; printf '%s\n' "$line"; } | crontab -

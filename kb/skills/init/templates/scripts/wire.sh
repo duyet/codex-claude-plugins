@@ -34,6 +34,7 @@ strip_block() { [ -f "$1" ] && awk '/<!-- kb:start/{s=1} s!=1{print} /<!-- kb:en
 
 wire_one() {
   local f="$1" body
+  if [ "$action" = off ] && [ ! -f "$f" ]; then return; fi
   mkdir -p "$(dirname "$f")"; touch "$f"
   body="$(strip_block "$f")"
   if [ "$action" = off ]; then

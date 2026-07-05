@@ -69,7 +69,7 @@ and uses `tags`/`related` for the graph view.
 
 ```markdown
 ---
-name: <short-kebab-case-slug>     # MUST equal the filename stem; this is the [[link]] target
+name: <type>-<short-kebab-case-slug>  # MUST equal the filename stem; this is the [[link]] target
 title: <human-readable title>     # optional, shown in Obsidian
 description: <one line — used to judge relevance during recall>
 type: user | feedback | project | reference | tech

@@ -22,6 +22,12 @@ Usage:
   render_okf_viewer.py <bundle_dir> [--title NAME] [--out FILE]
 
 Idempotent: re-running overwrites the same outputs.
+
+Trust boundary: viz.html renders each concept's title/description/tags/type
+HTML-escaped, but a concept's markdown *body* is passed through `marked.parse`
+unsanitized, same as any local Markdown-to-HTML viewer (e.g. Obsidian) — a
+bundle is trusted the way a vault you open locally is trusted. Don't point
+this at a bundle containing untrusted, unreviewed markdown.
 """
 import argparse
 import json
@@ -68,17 +74,34 @@ def strip_wikilink(ref):
     return ref.replace("[[", "").replace("]]", "").split("|")[0].split("#")[0].strip()
 
 
+def html_escape(s):
+    return (s.replace("&", "&amp;").replace("<", "&lt;")
+             .replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def safe_json(obj):
+    """json.dumps, with <, >, & neutralized so it can't break out of <script>."""
+    return (json.dumps(obj).replace("<", "\\u003c")
+            .replace(">", "\\u003e").replace("&", "\\u0026"))
+
+
 def collect(root):
     concepts = []
+    seen_slugs = {}
     for dp, dn, fn in os.walk(root):
+        dn[:] = [d for d in dn if not d.startswith(".")]
         dn.sort()
         for name in sorted(fn):
             if not name.endswith(".md") or name in RESERVED or name.startswith("_"):
                 continue
             path = os.path.join(dp, name)
-            fm, body = split_fm(open(path, encoding="utf-8").read())
+            fm, body = split_fm(open(path, encoding="utf-8-sig").read())
             rel = os.path.relpath(path, root)
             slug = name[:-3]
+            if slug in seen_slugs:
+                print(f"warning: duplicate slug '{slug}' ({rel} and {seen_slugs[slug]}) "
+                      "— ids will collide in the viewer; rename one", file=sys.stderr)
+            seen_slugs[slug] = rel
             md_links = [
                 href.split("#")[0] for href in re.findall(r"\]\(([^)\s]+)\)", body)
                 if href.lower().endswith(".md") and "://" not in href
@@ -113,16 +136,26 @@ def write_indexes(root, concepts, bundle_label):
     by_dir = {}
     for c in concepts:
         by_dir.setdefault(c["dirpath"], []).append(c)
-    dirs_to_index = set(by_dir.keys()) | {root}
-    for dp, dn, _fn in os.walk(root):
-        if dn:
-            dirs_to_index.add(dp)
+
+    # Bottom-up: a directory earns an index.md only if it holds concepts
+    # itself or a child directory does — so a parent's "Groups" links never
+    # point at an empty, unindexed child, and hidden dirs (holding no
+    # collected concepts) never qualify.
+    has_content = set()
+    for dirpath, dirnames, _fn in os.walk(root, topdown=False):
+        visible = [d for d in dirnames if not d.startswith(".")]
+        child_has_content = any(os.path.join(dirpath, d) in has_content for d in visible)
+        if dirpath == root or dirpath in by_dir or child_has_content:
+            has_content.add(dirpath)
+
     written = []
-    for dirpath in sorted(dirs_to_index):
+    for dirpath in sorted(has_content):
         rel = os.path.relpath(dirpath, root)
         is_root = rel == "."
-        subdirs = sorted(d for d in os.listdir(dirpath)
-                          if os.path.isdir(os.path.join(dirpath, d)))
+        subdirs = sorted(
+            d for d in os.listdir(dirpath)
+            if not d.startswith(".") and os.path.join(dirpath, d) in has_content
+        )
         here = sorted(by_dir.get(dirpath, []), key=lambda c: c["title"].lower())
         if not subdirs and not here:
             continue
@@ -161,7 +194,7 @@ def build_bundle(root, concepts):
             )
             if target_slug and target_slug in slugs and target_slug != c["slug"]:
                 edge_set.add((c["slug"], target_slug))
-    degree = {s: 0 for s in slugs}
+    degree = dict.fromkeys(slugs, 0)
     for a, b in edge_set:
         degree[a] += 1
         degree[b] += 1
@@ -234,8 +267,10 @@ window.BUNDLE=__BUNDLE__;
 (function(){
   const b=window.BUNDLE, byId={}; b.nodes.forEach(n=>byId[n.data.id]=n.data);
   const back={}; b.edges.forEach(e=>{(back[e.data.target]=back[e.data.target]||[]).push(e.data.source)});
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function safeHref(u){return /^https?:\/\//i.test(u||'')?u:''}
   const leg=document.getElementById("legend");
-  b.types.forEach(t=>{const s=document.createElement("span");s.innerHTML='<i style="background:'+b.palette[t]+'"></i>'+t;leg.appendChild(s)});
+  b.types.forEach(t=>{const s=document.createElement("span");s.innerHTML='<i style="background:'+b.palette[t]+'"></i>'+esc(t);leg.appendChild(s)});
   const cy=cytoscape({container:document.getElementById("graph"),elements:[...b.nodes,...b.edges],style:[
     {selector:"node",style:{"label":"data(label)","background-color":"data(color)","width":"data(size)","height":"data(size)","color":"#334155","font-size":10,"text-valign":"bottom","text-margin-y":4,"text-wrap":"wrap","text-max-width":80}},
     {selector:"node:selected",style:{"border-width":3,"border-color":"#0f172a"}},
@@ -245,13 +280,14 @@ window.BUNDLE=__BUNDLE__;
     cy.nodes().unselect(); const el=cy.getElementById(id); if(el&&el.length)el.select();
     const n=byId[id]; if(!n) return;
     const bodyMd=b.bodies[id]||"";
-    const tags=(n.tags||[]).map(t=>'<span>'+t+'</span>').join("");
-    const bl=(back[id]||[]).map(s=>'<li><a data-id="'+s+'">'+((byId[s]||{}).label||s)+'</a></li>').join("");
+    const tags=(n.tags||[]).map(t=>'<span>'+esc(t)+'</span>').join("");
+    const bl=(back[id]||[]).map(s=>'<li><a data-id="'+esc(s)+'">'+esc((byId[s]||{}).label||s)+'</a></li>').join("");
+    const href=safeHref(n.resource);
     document.getElementById("detail").innerHTML=
-      '<h1>'+n.label+'</h1>'+
-      '<span class="badge" style="background:'+(b.palette[n.type]||'#64748b')+'">'+n.type+'</span>'+
-      (n.resource?' <a class="muted" href="'+n.resource+'" target="_blank" rel="noopener">source ↗</a>':'')+
-      '<p class="desc">'+(n.description||'')+'</p>'+
+      '<h1>'+esc(n.label)+'</h1>'+
+      '<span class="badge" style="background:'+(b.palette[n.type]||'#64748b')+'">'+esc(n.type)+'</span>'+
+      (href?' <a class="muted" href="'+esc(href)+'" target="_blank" rel="noopener">source ↗</a>':'')+
+      '<p class="desc">'+esc(n.description)+'</p>'+
       (tags?'<div class="tags">'+tags+'</div>':'')+
       '<div class="body">'+marked.parse(bodyMd)+'</div>'+
       (bl?'<div id="backlinks"><h2>Linked from</h2><ul>'+bl+'</ul></div>':'');
@@ -284,7 +320,7 @@ def main():
     concepts = collect(root)
     idx = write_indexes(root, concepts, title)
     bundle = build_bundle(root, concepts)
-    html = VIZ.replace("__NAME__", title).replace("__BUNDLE__", json.dumps(bundle))
+    html = VIZ.replace("__NAME__", html_escape(title)).replace("__BUNDLE__", safe_json(bundle))
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     open(out, "w", encoding="utf-8").write(html)
 
