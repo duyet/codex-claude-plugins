@@ -118,6 +118,11 @@
       "name": "unsloth-training",
       "source": "./unsloth-training",
       "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Includes dataset preparation, synthetic data generation, environment flags, MLX (Apple Silicon), FP8, vision models, mobile export, GGUF."
+    },
+    {
+      "name": "command-code",
+      "source": "./command-code",
+      "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent. Fan out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel, each committed to its own branch for review."
     }
   ]
 }

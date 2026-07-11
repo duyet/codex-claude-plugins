@@ -194,11 +194,19 @@
       "version": "1.1.0",
       "type": "skill",
       "category": "productivity"
+    },
+    {
+      "name": "command-code",
+      "id": "command-code@duyet-claude-plugins",
+      "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent — fan out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel.",
+      "version": "1.0.0",
+      "type": "skill",
+      "category": "development"
     }
   ],
   "metadata": {
     "lastUpdated": "2026-07-05",
-    "totalPlugins": 21,
+    "totalPlugins": 22,
     "categories": [
       "agents",
       "git",
