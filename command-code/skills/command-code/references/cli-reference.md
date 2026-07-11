@@ -96,3 +96,5 @@ cmd -c -p "continue; finish the remaining acceptance criteria, then commit" --yo
 ```
 
 `-c` continues the last conversation in that directory, preserving its context.
+
+> **Caveat — `-c` can overflow context on a long session.** Resuming reloads the *entire* prior conversation. If the original run was large (a big multi-file implementation), `cmd -c` can exceed the model's context window (e.g. a 262k-token limit) and fail immediately without doing any work. When the remaining work is small and well-defined (add one file, fix one gap), prefer a **fresh, narrowly-scoped `cmd -p`** — no `-c` — that names only the remaining task and the file(s) to mirror. A fresh small-context run is more reliable than resuming a bloated one. Reserve `-c` for short sessions or when you genuinely need the prior context.

@@ -93,7 +93,7 @@ Concurrent `pnpm build` / `bun build` across several worktrees causes OOM and th
 | Start a REPL session | `cmd` |
 | Start with a first message | `cmd "refactor the auth module"` |
 | One-shot answer, then exit | `cmd -p "explain apps/main/src/auth.ts"` |
-| Resume last conversation | `cmd -c` / `cmd --continue` |
+| Resume last conversation | `cmd -c` / `cmd --continue` (⚠️ can overflow context on a *large* prior session — for a small leftover task prefer a fresh scoped `cmd -p`; see `references/cli-reference.md`) |
 | Resume a named conversation | `cmd -r "<name>"` |
 | Fork a session (leave original untouched) | `cmd --resume <id> --fork-session` |
 | Plan first, don't edit | `cmd --plan` or `--permission-mode plan` |
