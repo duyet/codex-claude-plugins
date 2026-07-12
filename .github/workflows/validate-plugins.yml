@@ -31,7 +31,7 @@ jobs:
     name: Validate plugin.json manifests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Validate all plugin manifests
         run: bash scripts/validate-plugins.sh
