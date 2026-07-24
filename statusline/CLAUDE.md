@@ -1,6 +1,6 @@
 # Statusline Plugin
 
-Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, active tools, and agent tracking. Supports 1/2/3 line layouts, icon themes, and 6 template presets. Dual-provider: Anthropic Claude and z.ai GLM.
+Configurable multi-line status bar with context health, cache hit rate + live TTL countdown, session cost, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, active tools, and agent tracking. Supports 1/2/3 line layouts, icon themes, and 6 template presets. Dual-provider: Anthropic Claude and z.ai GLM.
 
 ## Versioning
 
@@ -25,7 +25,7 @@ Always update `plugin.json` version when making changes.
 ```
 statusline/
 ├── .claude-plugin/
-│   └── plugin.json              # Manifest (version 1.8.0)
+│   └── plugin.json              # Manifest (version 1.9.0)
 ├── commands/                    # Slash commands
 │   ├── setup.md                 # /statusline:setup — interactive wizard
 │   ├── config.md                # /statusline:config — quick changes

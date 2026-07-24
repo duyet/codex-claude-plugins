@@ -24,6 +24,8 @@ DEFAULT_CONFIG = {
     "show_cache": True,
     "show_session": True,
     "show_reasoning": True,
+    "show_cost": True,
+    "cache_ttl": "5m",
     "color_style": "colorful",
 }
 
@@ -44,19 +46,19 @@ ICONS = {
         "folder": "📁", "branch": "", "model": "🤖",
         "context": "📊", "rate": "⏱️", "cache": "🗃️",
         "tools": "🔧", "agents": "👷", "session": "⏳",
-        "idle": "💤",
+        "cost": "💰", "idle": "💤",
     },
     "unicode": {
         "folder": "■", "branch": "⑂", "model": "◈",
         "context": "▪", "rate": "◷", "cache": "◇",
         "tools": "▸", "agents": "◆", "session": "∘",
-        "idle": "·",
+        "cost": "¤", "idle": "·",
     },
     "minimal": {
         "folder": "", "branch": "", "model": "",
         "context": "", "rate": "", "cache": "",
         "tools": "", "agents": "", "session": "",
-        "idle": "",
+        "cost": "", "idle": "",
     },
 }
 
@@ -114,6 +116,80 @@ is_claude = model_id.lower().startswith("claude-")
 cache_total = cc + cr if cu else 0
 cache_hit_pct = (cr * 100 / cache_total) if cache_total > 0 else 0
 cache_pct_str = f"{cache_hit_pct:.2f}%" if cache_hit_pct >= 99 else f"{int(cache_hit_pct)}%"
+
+# Session cost (from Claude Code payload)
+_cost = g("cost.total_cost_usd", "")
+try:
+    cost_usd = float(_cost)
+except (TypeError, ValueError):
+    cost_usd = None
+
+# Cache TTL window: parse "5m" / "1h" style config into seconds
+def parse_ttl(s):
+    s = str(s).strip().lower()
+    m = re.match(r'^(\d+)\s*([mh]?)$', s)
+    if not m:
+        return 300
+    n, unit = int(m.group(1)), m.group(2)
+    return n * 3600 if unit == "h" else n * 60
+
+cache_ttl_secs = parse_ttl(cfg.get("cache_ttl", "5m"))
+cache_ttl_label = f"{cache_ttl_secs // 3600}h" if cache_ttl_secs % 3600 == 0 else f"{cache_ttl_secs // 60}m"
+
+# Track when the cache was last refreshed: token totals change on every API
+# request, and every request rewrites the cache — so (total changed) == (TTL
+# clock reset). Persist {total, ts} per-cwd in /tmp and diff against it.
+cache_age_secs = None
+if is_claude and cache_total > 0:
+    try:
+        _key = hashlib.md5((cwd or "").encode()).hexdigest()[:12]
+        _cache_state = f"/tmp/claude-cachettl-{_key}.json"
+        _now = _time.time()
+        try:
+            with open(_cache_state) as f:
+                st = json.load(f)
+        except Exception:
+            st = {}
+        if st.get("total") != total:
+            st = {"total": total, "ts": _now}
+            with open(_cache_state, "w") as f:
+                json.dump(st, f)
+        cache_age_secs = max(0, _now - float(st.get("ts", _now)))
+    except Exception:
+        cache_age_secs = None
+
+def fmt_countdown(secs):
+    secs = int(secs)
+    if secs >= 3600:
+        return f"{secs // 3600}h{(secs % 3600) // 60}m"
+    if secs >= 60:
+        return f"{secs // 60}m{secs % 60:02d}s"
+    return f"{secs}s"
+
+def cache_segment(compact=False):
+    """Cache hit % + live TTL countdown, or an explicit 'expired' marker."""
+    if not (is_claude and cache_total > 0):
+        return ""
+    cache_pct_int = int(cache_hit_pct)
+    cache_color = "\033[1;32m" if cache_pct_int >= 70 else "\033[0;33m" if cache_pct_int >= 40 else "\033[1;31m"
+    label = "" if compact else "cache "
+    if cache_age_secs is not None and cache_age_secs > cache_ttl_secs:
+        ago = fmt_countdown(cache_age_secs - cache_ttl_secs)
+        return f"\033[1;31m{label}expired{RST} {DIM}({ago} ago · next msg full price){RST}"
+    seg = f"{cache_color}{label}{cache_pct_str}{RST}"
+    if not compact:
+        seg += f" {DIM}({fmt_tok(cr)}/{fmt_tok(cache_total)}){RST}"
+    if cache_age_secs is not None:
+        left = cache_ttl_secs - cache_age_secs
+        left_color = "\033[1;31m" if left < 60 else "\033[0;33m" if left < cache_ttl_secs * 0.25 else DIM
+        seg += f" {DIM}{cache_ttl_label}{RST} ⏳{left_color}{fmt_countdown(left)}{RST}"
+    return seg
+
+def cost_segment():
+    if not cfg.get("show_cost", True) or cost_usd is None:
+        return ""
+    s = f"${cost_usd:.2f}" if cost_usd >= 0.01 or cost_usd == 0 else f"${cost_usd:.4f}"
+    return f"\033[1;32m{s}{RST}"
 
 
 # ── Formatters ─────────────────────────────────────
@@ -265,11 +341,16 @@ def render_3line():
         else:
             line2_parts.append(f"{icons['context']} {DIM}context: empty{RST}")
 
-    # Cache
-    if cfg.get("show_cache", True) and is_claude and cache_total > 0:
-        cache_pct_int = int(cache_hit_pct)
-        cache_color = "\033[1;32m" if cache_pct_int >= 70 else "\033[0;33m" if cache_pct_int >= 40 else "\033[1;31m"
-        line2_parts.append(f"{icons['cache']} {cache_color}{cache_pct_str}{RST} {DIM}({fmt_tok(cr)}/{fmt_tok(cache_total)}){RST} cache hit")
+    # Cache (hit % + TTL countdown)
+    if cfg.get("show_cache", True):
+        seg = cache_segment()
+        if seg:
+            line2_parts.append(f"{icons['cache']} {seg}")
+
+    # Session cost
+    cseg = cost_segment()
+    if cseg:
+        line2_parts.append(f"{icons['cost']} {cseg}")
 
     # Rate limits
     if cfg.get("show_rate_limits", True):
@@ -333,10 +414,14 @@ def render_2line():
         else:
             line2_parts.append(f"{cc_col}{pct}%{RST}")
 
-    if cfg.get("show_cache", True) and is_claude and cache_total > 0:
-        cache_pct_int = int(cache_hit_pct)
-        cache_color = "\033[1;32m" if cache_pct_int >= 70 else "\033[0;33m" if cache_pct_int >= 40 else "\033[1;31m"
-        line2_parts.append(f"{cache_color}cache {cache_pct_str}{RST} {DIM}({fmt_tok(cr)}/{fmt_tok(cache_total)}){RST}")
+    if cfg.get("show_cache", True):
+        seg = cache_segment()
+        if seg:
+            line2_parts.append(seg)
+
+    cseg = cost_segment()
+    if cseg:
+        line2_parts.append(cseg)
 
     if cfg.get("show_rate_limits", True):
         rate_parts = []
@@ -381,6 +466,15 @@ def render_1line():
         if r7d != "": rate_bits.append(f"7d:{color_for(r7d)}{int(float(r7d))}%{RST}")
         if rate_bits:
             parts.append(f" {DIM}|{RST} ".join(rate_bits))
+
+    if cfg.get("show_cache", True):
+        seg = cache_segment(compact=True)
+        if seg:
+            parts.append(seg)
+
+    cseg = cost_segment()
+    if cseg:
+        parts.append(cseg)
 
     if session_dur:
         parts.append(f"{DIM}{session_dur}{RST}")

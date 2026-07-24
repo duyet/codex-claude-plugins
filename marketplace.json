@@ -47,7 +47,7 @@
       "name": "statusline",
       "id": "statusline@duyet-claude-plugins",
       "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
-      "version": "1.8.1",
+      "version": "1.9.0",
       "type": "hook",
       "category": "ui"
     },

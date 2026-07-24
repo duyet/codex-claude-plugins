@@ -56,17 +56,28 @@ Three display styles:
 - **With tokens**: `21% (43k/200k)`
 - **Compact**: `21%`
 
-### 🗃️ Cache Hit Rate (Anthropic only)
+### 🗃️ Cache Hit Rate + TTL Countdown (Anthropic only)
 
-Shows how effective prompt caching is for your session:
+Shows how effective prompt caching is, and how long until the cache expires:
 
 ```
-🗃️ 98% (42k/43k) cache hit
+🗃️ cache 98% (42k/43k) 5m ⏳3m40s
+🗃️ cache expired (1m00s ago · next msg full price)
 ```
 
 - Percentage with decimal precision when ≥99% (e.g., `99.98%`)
 - Token breakdown: cached reads vs total cacheable tokens
+- Live countdown of the cache TTL window (`cache_ttl`: `"5m"` default, or `"1h"`); the clock resets whenever a new API request lands
+- Once expired, shows an explicit red marker instead of a stale hit % — the next message repays the full prompt price
 - **Only shown for Anthropic Claude models** — GLM proxy values aren't real cache metrics
+
+### 💰 Session Cost
+
+Total cost of the current session, straight from Claude Code's payload:
+
+```
+💰 $1.23
+```
 
 ### ⏳ Session Duration
 
@@ -168,6 +179,8 @@ All settings stored in `~/.claude/statusline.config.json`:
   "show_cache": true,
   "show_session": true,
   "show_reasoning": true,
+  "show_cost": true,
+  "cache_ttl": "5m",
   "color_style": "colorful"
 }
 ```
@@ -185,7 +198,9 @@ All settings stored in `~/.claude/statusline.config.json`:
 | `show_git_branch` | boolean | `true` | Current git branch |
 | `show_tools` | boolean | `true` | Running MCP servers |
 | `show_agents` | boolean | `true` | Running agent count |
-| `show_cache` | boolean | `true` | Cache hit rate (Claude only) |
+| `show_cache` | boolean | `true` | Cache hit rate + TTL countdown (Claude only) |
+| `cache_ttl` | `"5m"`, `"1h"` | `"5m"` | Prompt-cache TTL window for the countdown |
+| `show_cost` | boolean | `true` | Total session cost (USD) |
 | `show_session` | boolean | `true` | Session duration |
 | `show_reasoning` | boolean | `true` | Effort level next to model |
 

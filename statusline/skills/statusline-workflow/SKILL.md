@@ -117,7 +117,9 @@ Config file: `~/.claude/statusline.config.json`
 | `separator` | `"arrow"`, `"pipe"`, `"dot"`, `"slash"` | `"arrow"` | Section separator character |
 | `context_style` | `"progress_bar"`, `"tokens"`, `"compact"` | `"progress_bar"` | How context usage is displayed |
 | `icon_style` | `"emoji"`, `"unicode"`, `"minimal"` | `"emoji"` | Icon theme for section labels |
-| `show_cache` | `true/false` | `true` | Cache hit rate (Anthropic only, hidden for GLM) |
+| `show_cache` | `true/false` | `true` | Cache hit rate + live TTL countdown (Anthropic only, hidden for GLM) |
+| `cache_ttl` | `"5m"`, `"1h"` | `"5m"` | Prompt-cache TTL window used for the countdown / expired marker |
+| `show_cost` | `true/false` | `true` | Total session cost in USD (from Claude Code payload) |
 | `show_session` | `true/false` | `true` | Session duration tracker |
 | `show_reasoning` | `true/false` | `true` | Effort level next to model name |
 | `show_context` | `true/false` | `true` | Token count and percentage |
