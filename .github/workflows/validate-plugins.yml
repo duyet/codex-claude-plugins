@@ -5,34 +5,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main, master, "claude/**"]
-    paths:
-      - "**/.claude-plugin/plugin.json"
-      - "**/.codex-plugin/plugin.json"
-      - "**/.grok-plugin/plugin.json"
-      - "**/.grok-build-plugin/plugin.json"
-      - "**/.antigravity-plugin/plugin.json"
-      - "**/assets/logo.svg"
-      - ".agents/plugins/marketplace.json"
-      - ".claude-plugin/marketplace.json"
-      - ".grok-plugin/marketplace.json"
-      - "marketplace.json"
-      - "scripts/validate-plugins.sh"
-      - ".github/workflows/validate-plugins.yml"
   pull_request:
     branches: [main, master]
-    paths:
-      - "**/.claude-plugin/plugin.json"
-      - "**/.codex-plugin/plugin.json"
-      - "**/.grok-plugin/plugin.json"
-      - "**/.grok-build-plugin/plugin.json"
-      - "**/.antigravity-plugin/plugin.json"
-      - "**/assets/logo.svg"
-      - ".agents/plugins/marketplace.json"
-      - ".claude-plugin/marketplace.json"
-      - ".grok-plugin/marketplace.json"
-      - "marketplace.json"
-      - "scripts/validate-plugins.sh"
-      - ".github/workflows/validate-plugins.yml"
 
 permissions:
   contents: read

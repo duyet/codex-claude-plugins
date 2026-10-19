@@ -17,7 +17,8 @@
     "category": "UI",
     "capabilities": [
       "Skill",
-      "Command"
+      "Command",
+      "Hook"
     ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"

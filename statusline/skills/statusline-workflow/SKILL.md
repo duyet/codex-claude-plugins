@@ -13,16 +13,16 @@ Resolve the plugin directory from this skill's location (`${CLAUDE_PLUGIN_ROOT}`
 
 1. Read the existing config and the `statusLine` entry in `~/.claude/settings.json` before changing anything.
 2. Write the config. For a preset, copy `scripts/templates/<name>.json` to `~/.claude/statusline.config.json`. For custom, build it from the fields below and keep unchanged values.
-3. Point `statusLine` at the renderer using an absolute path, because settings files do not expand plugin variables.
+3. Point `statusLine` at `~/.claude/statusline/statusline.py`. The plugin's SessionStart hook copies the renderer there on every session, so the path survives plugin updates. On first setup, copy it there yourself.
 
    ```json
-   {"statusLine": {"type": "command", "command": "python3 /absolute/path/to/statusline/scripts/statusline.py"}}
+   {"statusLine": {"type": "command", "command": "python3 ~/.claude/statusline/statusline.py"}}
    ```
 
 4. Preview by piping sample JSON to the renderer.
 
    ```bash
-   echo '{"workspace":{"current_dir":"'"$PWD"'"},"model":{"id":"claude-opus-5-5"},"context_window":{"context_window_size":200000,"current_usage":{"input_tokens":43000}},"effort":{"level":"medium"},"rate_limits":{"five_hour":{"used_percentage":45},"seven_day":{"used_percentage":28}}}' | python3 /absolute/path/to/statusline/scripts/statusline.py
+   echo '{"workspace":{"current_dir":"'"$PWD"'"},"model":{"id":"claude-opus-5-5"},"context_window":{"context_window_size":200000,"current_usage":{"input_tokens":43000}},"effort":{"level":"medium"},"rate_limits":{"five_hour":{"used_percentage":45},"seven_day":{"used_percentage":28}}}' | python3 ~/.claude/statusline/statusline.py
    ```
 
 5. To troubleshoot, run the same command with real-looking JSON and check provider detection, the rate-limit fields, and that empty sections are hidden. `bash scripts/test-statusline.sh` runs the regression suite.

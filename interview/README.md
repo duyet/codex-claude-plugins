@@ -8,7 +8,7 @@ Clarify ambiguous requirements before coding. Claude asks batched, option-based 
 
 ## Ships
 
-- `interview-workflow` skill: question categories, how to ask, stop condition, spec format.
+- `interview` skill: question categories, how to ask, stop condition, spec format.
 - `/interview <prompt or spec path>`: runs the skill.
 
 ## Usage

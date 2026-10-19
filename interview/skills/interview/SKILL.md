@@ -1,5 +1,5 @@
 ---
-name: interview-workflow
+name: interview
 description: Use before implementing when requirements are ambiguous. Interview the user to clarify a vague request or to find gaps in a plan or spec file, then write a decision-complete spec.
 ---
 

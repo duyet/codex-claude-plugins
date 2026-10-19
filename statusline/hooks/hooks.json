@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p \"$HOME/.claude/statusline\" && cp \"${CLAUDE_PLUGIN_ROOT}/scripts/statusline.py\" \"$HOME/.claude/statusline/statusline.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
