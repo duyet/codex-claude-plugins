@@ -1,6 +1,6 @@
 # clickhouse
 
-ClickHouse review guidance for schemas, queries, and inserts, built around 28 atomic rules.
+ClickHouse review checklist for schemas, queries, and inserts.
 
 ## Install
 
@@ -10,8 +10,4 @@ ClickHouse review guidance for schemas, queries, and inserts, built around 28 at
 
 ## What ships
 
-- `skills/clickhouse/SKILL.md`: decision tree that routes a review to the right rules.
-- `skills/clickhouse/rules/`: 28 rules with incorrect and correct examples, grouped by schema, query, and insert.
-- `skills/clickhouse/references/`: schema design, query optimization, debugging, and monitoring queries.
-
-Rules are synced from [ClickHouse/agent-skills](https://github.com/ClickHouse/agent-skills) (Apache-2.0).
+- `skills/clickhouse/SKILL.md`: 28-rule review checklist, cited by rule name.

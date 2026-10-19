@@ -1,6 +1,6 @@
 # unsloth-training
 
-Fine-tune LLMs with [Unsloth](https://unsloth.ai/) using GRPO (reinforcement learning) or SFT (supervised fine-tuning).
+Fine-tune LLMs with [Unsloth](https://unsloth.ai/) using GRPO or SFT.
 
 ## Install
 
@@ -10,6 +10,4 @@ Fine-tune LLMs with [Unsloth](https://unsloth.ai/) using GRPO (reinforcement lea
 
 ## What ships
 
-- `skills/unsloth-training/SKILL.md`: decision tables for GRPO vs SFT, defaults, and symptom fixes.
-- `reference/`: installation, datasets, reward design, hyperparameters, FP8, vision, MLX, export, deployment, mobile, and troubleshooting guides.
-- `reference/grpo/`: runnable GRPO script, reward functions, and hyperparameter examples.
+- `skills/unsloth-training/SKILL.md`: when to use GRPO vs SFT, reward rules, and symptom fixes.

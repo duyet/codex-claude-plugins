@@ -18,6 +18,7 @@ REGISTRY = ROOT / "marketplace.json"
 REPO_URL = "https://github.com/duyet/codex-claude-plugins"
 LICENSE = "MIT"
 LOGO = "./assets/logo.svg"
+MAX_SKILL_LINES = 60
 COMPONENTS = {
     "skills": ("skills", "Skill"),
     "commands": ("commands", "Command"),
@@ -227,6 +228,9 @@ def lint_plugin(plugin_dir):
                 errors.append(f"{skill_md.relative_to(ROOT)}: frontmatter name {meta.get('name')!r} != dir {skill_dir.name!r}")
             if not meta.get("description"):
                 errors.append(f"{skill_md.relative_to(ROOT)}: missing description")
+            lines = len(skill_md.read_text().splitlines())
+            if lines > MAX_SKILL_LINES:
+                errors.append(f"{skill_md.relative_to(ROOT)}: {lines} lines, keep skills under {MAX_SKILL_LINES} (what, when, where; not how)")
     for doc in plugin_dir.rglob("*.md"):
         text = doc.read_text()
         for ref in LINK.findall(FENCE.sub("", text)):

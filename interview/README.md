@@ -1,19 +1,5 @@
-# Interview
+# interview
 
-Clarify ambiguous requirements before coding. Claude asks batched, option-based questions, then writes a decision-complete spec.
+Install: `/plugin install interview@duyet-claude-plugins`
 
-```bash
-/plugin install interview@duyet-claude-plugins
-```
-
-## Ships
-
-- `interview` skill: question categories, how to ask, stop condition, spec format.
-- `/interview <prompt or spec path>`: runs the skill.
-
-## Usage
-
-```text
-/interview "add a commenting system to the blog"
-/interview ./docs/feature-spec.md
-```
+- `interview` skill and `/interview <prompt or spec path>`: ask batched, option-based questions, then write a decision-complete spec.

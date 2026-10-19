@@ -1,11 +1,5 @@
-# Prompt engineering
+# prompt-engineering
 
-Write and adapt prompts for Claude, Gemini, and Grok.
+Install: `/plugin install prompt-engineering@duyet-claude-plugins`
 
-```bash
-/plugin install prompt-engineering@duyet-claude-plugins
-```
-
-## Ships
-
-- `prompt-engineering` skill: a short method, cross-model techniques, and one reference per model family (Claude, Gemini, Grok) with only the differences that change how you prompt.
+- `prompt-engineering` skill: a short method and the differences between Claude, Gemini, and Grok prompting.

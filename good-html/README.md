@@ -1,11 +1,5 @@
-# Good HTML
+# good-html
 
-Build or review dense, interactive, self-contained HTML artifacts: dashboards, PR reviews, plans, explainers.
+Install: `/plugin install good-html@duyet-claude-plugins`
 
-```bash
-/plugin install good-html@duyet-claude-plugins
-```
-
-## Ships
-
-- `good-html` skill with a palette and font stacks, CSS-only tabs and diff components, a boilerplate, and three example pages.
+- `good-html` skill: build or review dense, self-contained HTML artifacts. Ships a palette, CSS-only components, a boilerplate, and three example pages.

@@ -1,16 +1,6 @@
-# Commit plugin
+# commit
 
-Semantic commits, optionally pushed or opened as a PR.
+Install: `/plugin install commit@duyet-claude-plugins`
 
-## Install
-
-```text
-/plugin install commit@duyet-claude-plugins
-```
-
-## What ships
-
-- `/commit:commit` - commit changes with a `type(scope): description` message
-- `/commit:and-push` - commit and push
-- `/commit:and-create-pr` - commit, push, and open a PR using `.pr-templates/` (feat, fix, default)
-- `commit-workflow` skill - the shared rules for all three
+- `/commit:commit`, `/commit:and-push`, `/commit:and-create-pr`: semantic commit, push, or PR.
+- `commit-workflow` skill: shared rules. PR bodies use `.pr-templates/` (feature, bugfix, default).

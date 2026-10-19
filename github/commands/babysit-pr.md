@@ -20,8 +20,8 @@ Defaults: the current branch's PR, 10 iterations, 15 minute CI timeout. Without 
 Refuse to run on the default branch or with uncommitted changes. Then repeat up to the iteration limit.
 
 1. Wait for CI to finish, plus a short grace period for review bots to post.
-2. For each failing check, read the failed logs (`gh run view <id> --log-failed`), fix the root cause, and run the failing check locally before pushing.
-3. Fetch every review comment: `gh api repos/{owner}/{repo}/pulls/{pr}/comments`, `.../issues/{pr}/comments`, and `gh pr view --json reviews`. See the `review-bots` skill for bot formats. Apply actionable ones. Skip a suggestion that is wrong or out of scope and say why in a reply.
+2. For each failing check, read the failed logs (`gh run view --log-failed`), fix the root cause, and run the failing check locally before pushing.
+3. Fetch every review comment: inline, issue, and review comments. See the `review-bots` skill for bot formats. Apply actionable ones. Skip a suggestion that is wrong or out of scope and say why in a reply.
 4. Merge the base branch if the PR conflicts and resolve conflicts by intent, not by taking one side.
 5. Commit with a semantic message and push. Never force-push to a shared branch.
 6. Stop when CI is green with nothing unresolved, or when the limit is reached. On the limit, report what is still failing.

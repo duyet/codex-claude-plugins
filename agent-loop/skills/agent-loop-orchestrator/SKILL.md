@@ -9,12 +9,7 @@ Each cycle runs four steps: triage, dispatch, monitor, report. This skill runs o
 
 ## Scheduling
 
-Do not run `sleep` in a shell to wait between cycles. A sleeping shell holds the session and usually hits a tool timeout. Use the harness's own recurring-run facility instead:
-
-- Claude Code: `/loop <interval> /agent-loop:resume` (or the `schedule` skill for runs that outlive the session).
-- Codex, Cursor, and other harnesses: use their scheduled or recurring task feature, or an external cron job that invokes the agent CLI in headless mode with `/agent-loop:resume`.
-
-If the harness has no such facility, run one cycle, report, and tell the user how to rerun it.
+Never `sleep` in a shell between cycles. Use the harness's recurring-run facility (Claude Code: `/loop <interval> /agent-loop:resume`, or the `schedule` skill). Without one, run one cycle, report, and tell the user how to rerun.
 
 ## Cycle
 
@@ -27,15 +22,7 @@ Stop early if the state file has `shutdown_requested: true`. Let running workers
 
 ## Configuration
 
-Read from command flags first, then environment variables, then defaults.
-
-| Variable                     | Default                | Meaning                                         |
-| ---------------------------- | ---------------------- | ----------------------------------------------- |
-| `AGENT_LOOP_INTERVAL`        | 300                    | Seconds between cycles, passed to the scheduler |
-| `AGENT_LOOP_MAX_CONCURRENCY` | 3                      | Max parallel workers                            |
-| `AGENT_LOOP_SCOPE`           | current                | Triage scope: `current`, `all`, or `org`        |
-| `AGENT_LOOP_REPOS`           | git remote             | Comma-separated repos for `all` scope           |
-| `AGENT_LOOP_STATE_FILE`      | .agent-loop/state.json | State file path                                 |
+Flags, then env, then defaults: `AGENT_LOOP_INTERVAL` (300 s), `AGENT_LOOP_MAX_CONCURRENCY` (3), `AGENT_LOOP_SCOPE` (`current`, `all`, `org`), `AGENT_LOOP_REPOS` (git remote), `AGENT_LOOP_STATE_FILE` (`.agent-loop/state.json`).
 
 ## State file
 

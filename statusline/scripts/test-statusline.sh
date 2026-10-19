@@ -91,11 +91,9 @@ echo ""
 
 # Error handling
 echo "=== Error Handling ==="
-out=$(echo '{}' | python3 "$STATUSLINE_SCRIPT" 2>&1)
-[ $? -eq 0 ] && pass "Handles empty JSON" || fail "Crashes on empty JSON"
+echo '{}' | python3 "$STATUSLINE_SCRIPT" >/dev/null 2>&1 && pass "Handles empty JSON" || fail "Crashes on empty JSON"
 
-out=$(echo 'not json' | python3 "$STATUSLINE_SCRIPT" 2>&1)
-[ $? -eq 0 ] && pass "Handles malformed JSON" || fail "Crashes on malformed JSON"
+echo 'not json' | python3 "$STATUSLINE_SCRIPT" >/dev/null 2>&1 && pass "Handles malformed JSON" || fail "Crashes on malformed JSON"
 echo ""
 
 # Model formatting

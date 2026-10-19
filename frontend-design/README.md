@@ -1,11 +1,5 @@
-# Frontend design
+# frontend-design
 
-Build distinctive, production-grade frontends that avoid generic AI aesthetics.
+Install: `/plugin install frontend-design@duyet-claude-plugins`
 
-```bash
-/plugin install frontend-design@duyet-claude-plugins
-```
-
-## Ships
-
-- `frontend-design` skill: pick a bold aesthetic direction, stack defaults (shadcn/ui, Tailwind, Recharts), a list of AI-design tells to avoid, and short implementation rules.
+- `frontend-design` skill: pick a bold aesthetic direction, avoid generic AI design tells, and apply short implementation rules.

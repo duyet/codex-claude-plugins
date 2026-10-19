@@ -5,28 +5,10 @@ description: Write or improve prompts for Claude, Gemini, or Grok. Use when craf
 
 # Prompt engineering
 
-## Method
+State the goal and success test first. Test on 3 to 5 realistic inputs including a hard one, change one thing at a time, and delete instructions no failing case needs. Use examples for format, delimiters between instructions and data, and the API's structured-output and thinking settings instead of prose. Check the provider's current model list and docs for ids, limits, and parameters.
 
-1. State the goal, the audience of the output, and the success test before writing.
-2. Write the prompt: context, then task, then output format. Say what to do. Add the reason when a rule is not obvious.
-3. Run it on 3 to 5 realistic inputs, including a hard one. Change one thing at a time and keep what fixes a real failure.
-4. Delete instructions that no failing case needs.
+Model differences:
 
-## Techniques that pay off on every model
-
-- Examples beat description for format and tone. Use 3 to 5 varied ones, clearly separated from the instructions.
-- Separate instructions from data with delimiters so pasted content is not read as commands.
-- Specify the output shape exactly, and use the API's structured-output feature when you need machine-readable results.
-- For multi-step work, split into chained prompts with a checkable result at each step.
-- For reasoning, use the model's built-in thinking setting. Do not prescribe the steps.
-- Tool-using agents need clear tool descriptions, stop conditions, and what to do on failure.
-
-## Model deltas
-
-Read the one that matches the target model. Each lists only what changes how you prompt it.
-
-- [references/claude.md](references/claude.md)
-- [references/gemini.md](references/gemini.md)
-- [references/grok.md](references/grok.md)
-
-Model ids, context limits, and parameters change often. Check the provider's current model list instead of copying ids from memory.
+- **Claude.** XML tags for distinct inputs, long documents first and the question last. It follows instructions literally, so say what to do, not what to avoid. Use adaptive or extended thinking, not scripted steps.
+- **Gemini.** Role, rules, and format in the system instruction, task and data in the user turn. Keep prompts short and direct. Name each multimodal input. Use built-in grounding for current facts.
+- **Grok.** Conversational and direct. It has live X and web access, so give the time window and source type and ask for citations. Specify the register for contested topics. Ask it to separate sourced fact from opinion.

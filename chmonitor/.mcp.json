@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "chmonitor": {
+      "type": "http",
+      "url": "${CHMONITOR_URL:-https://dash.chmonitor.dev}/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${CHMONITOR_API_KEY}"
+      }
+    }
+  }
+}

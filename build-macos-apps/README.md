@@ -1,30 +1,16 @@
-# Build macOS Apps Plugin
+# build-macos-apps
 
 Skills and commands for building, running, testing, signing, and shipping macOS apps.
 
-## What ships
-
-- `build-run-debug`
-- `test-triage`
-- `signing-entitlements`
-- `swiftpm-macos`
-- `packaging-notarization`
-- `swiftui-patterns`
-- `macos-app-best-practices`
-- `liquid-glass`
-- `window-management`
-- `appkit-interop`
-- `view-refactor`
-- `telemetry`
-
-Commands: `/build-and-run-macos-app`, `/fix-codesign-error`, `/test-macos-app`.
-
 ## Install
 
-```bash
+```text
 /plugin install build-macos-apps@duyet-claude-plugins
 ```
 
-## License
+## What ships
 
-MIT
+- `build-run-debug`, `swiftpm-macos`, `test-triage`, `telemetry`: build, run, test, and log.
+- `signing-entitlements`, `packaging-notarization`: signing and distribution.
+- `swiftui-patterns`, `macos-app-best-practices`, `liquid-glass`, `window-management`, `view-refactor`, `appkit-interop`: UI guidance.
+- Commands: `/build-and-run-macos-app`, `/fix-codesign-error`, `/test-macos-app`.

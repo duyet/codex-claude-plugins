@@ -5,21 +5,6 @@ description: Capture browser proof for a PR, such as screenshots of a preview de
 
 # Agent loop browser
 
-Use whatever browser tool the harness provides: a Chrome DevTools MCP server, a browser-control extension, or a headless CLI such as Playwright. Prefer one attached to the user's existing browser session when the page needs login. If no browser tool is available, log that and skip the browser step. Do not fail the item for it.
+Use whatever browser tool the harness provides. Prefer one attached to the user's session when the page needs login. If none is available, log it and skip. Do not fail the item for it.
 
-## Proof workflow
-
-1. Open the preview or deployed URL for the PR.
-2. Wait for text that shows the page loaded, not a fixed delay.
-3. Exercise the changed behavior (click, fill, navigate) if the PR changes a flow.
-4. Take a full-page screenshot to a temp directory, named `agent-loop-proof-<pr>.png`.
-5. Report the screenshot path and what it shows.
-
-## Failure handling
-
-| Case                                    | Action                                       |
-| --------------------------------------- | -------------------------------------------- |
-| Page 404                                | Report the broken URL                        |
-| Element missing                         | Retry once after the page settles, then skip |
-| Login required and no logged-in session | Skip and report                              |
-| Screenshot fails                        | Report the page text instead                 |
+Open the PR's preview URL, wait for content rather than a fixed delay, exercise the changed flow, and save a full-page screenshot to a temp directory as `agent-loop-proof-<pr>.png`. Report the path and what it shows. On a 404, report the URL. On a missing login or a failed screenshot, skip and report the page text instead.

@@ -92,7 +92,7 @@
     {
       "name": "chmonitor",
       "source": "./chmonitor",
-      "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
+      "description": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase.",
       "version": "2.0.0",
       "category": "Monitoring",
       "logo": "./chmonitor/assets/logo.svg"

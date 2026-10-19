@@ -13,12 +13,7 @@ State the purpose, the audience, and one aesthetic (for example editorial, bruta
 
 ## Stack defaults
 
-Use what the project already has. Otherwise prefer:
-
-- Components: shadcn/ui, then Radix UI primitives, then Headless UI. Read the current shadcn docs or its MCP server instead of recalling the API.
-- Styling: Tailwind with CSS variables for design tokens.
-- Charts: Recharts for standard charts, D3 only for custom ones.
-- Motion: CSS first, Framer Motion for orchestrated React animation.
+Use what the project already has. Otherwise prefer shadcn/ui (read its current docs or MCP server), Tailwind with CSS variable tokens, Recharts, and CSS motion first.
 
 ## Avoid these tells
 
@@ -36,11 +31,7 @@ Use what the project already has. Otherwise prefer:
 
 ## Implementation rules
 
-- Server Components by default in Next.js. Add `"use client"` only for state, effects, or browser APIs, and keep those leaves small.
-- Fetch in parallel, stream slow parts behind Suspense.
-- Keep components small and composed. Split a file over about 100 lines.
-- Accessible by default: semantic elements, visible focus, labeled controls, contrast that passes WCAG AA, `prefers-reduced-motion` respected.
-- Responsive from the first draft.
+Match the project's framework. Fetch in parallel and stream slow parts. Keep components small. Accessible by default (semantic elements, visible focus, WCAG AA contrast, `prefers-reduced-motion`) and responsive from the first draft.
 
 ## Before finishing
 

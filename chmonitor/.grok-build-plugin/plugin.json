@@ -1,7 +1,7 @@
 {
   "name": "chmonitor",
   "version": "2.0.0",
-  "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
+  "description": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -9,12 +9,13 @@
   "license": "MIT",
   "logo": "./assets/logo.svg",
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "chmonitor",
-    "shortDescription": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
+    "shortDescription": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase.",
     "developerName": "duyet",
     "category": "Monitoring",
-    "capabilities": ["Skill"],
+    "capabilities": ["Skill", "MCP"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

@@ -5,30 +5,12 @@ description: Scaffold a new shared-brain knowledge base folder (default ~/kb), a
 
 # init
 
-Creates a self-contained folder with no database and no server.
+Creates a self-contained folder: `AGENTS.md`, `CLAUDE.md`, `DREAM.md`, `MEMORY.md`, an OKF v0.1 `memory/` bundle, `raw/inbox/`, and a vendored CLI (`bin/kb`, `scripts/`) that works without this plugin. It ships no memory content or git remote. If a kb already exists at the target, consider `dream` instead.
 
-- Protocol files: `AGENTS.md` (read and write rules), `CLAUDE.md` (pointer), `DREAM.md` (consolidation pass), `MEMORY.md` (index).
-- `memory/`, an OKF v0.1 bundle with starter groups.
-- `raw/inbox/` for quick captures and `raw/` for immutable sources.
-- A vendored CLI in `bin/kb` and `scripts/`, so the folder works without this plugin. It includes the graph viewer renderer, `lint.sh`, `sync.sh`, and `wire.sh`.
+1. Target: user path, else `$KB_DIR`, else `$HOME/kb`.
+2. Run `scripts/scaffold.sh <absolute-target>` from this skill's directory. It does not expand `~` and never overwrites existing files.
+3. Report files created and skipped.
+4. Offer separately, and run none without a yes: add `<target>/bin` to PATH, `git init`, and `<target>/scripts/wire.sh on`. Explain that `wire.sh on` edits global agent config files outside the folder, and `off` reverses it.
+5. Do not invent personal facts to seed `memory/`.
 
-The scaffold ships no memory content, git remote, or branding.
-
-If a kb already exists at the target, check whether the user wants the `dream` skill instead.
-
-## Steps
-
-1. Resolve the target: a path the user gave, else `$KB_DIR`, else `$HOME/kb`. Confirm if ambiguous.
-2. Run `scripts/scaffold.sh <absolute-target>` from this skill's directory. It does not expand `~`. It creates only files that do not exist, makes scripts executable, and ends by rendering `memory/index.md` and `viz.html`.
-3. Report how many files were created and how many were skipped.
-4. Offer these follow-ups separately and run none without a yes.
-   - Add `export PATH="<target>/bin:$PATH"` to the shell rc.
-   - `git init`, plus `git remote add origin <url>` if the user has one.
-   - `<target>/scripts/wire.sh on`. It edits global agent config files outside the folder (`~/.claude/CLAUDE.md`, plus `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` when present) so every future session reads the kb. `wire.sh off` reverses it. Explain this before asking.
-5. Do not invent personal facts to seed `memory/`. Leave it empty or ask what to record.
-
-## Afterwards
-
-- The note format is `memory/_TEMPLATE.md` and the full protocol is `AGENTS.md`.
-- Use the `dream` skill to consolidate notes and the `okf` plugin for custom concept types and conformance checks.
-- `kb viz` opens the graph viewer.
+Note format: `memory/_TEMPLATE.md`. Protocol: `AGENTS.md`. Custom concept types and conformance: the `okf` plugin.
