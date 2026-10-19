@@ -389,4 +389,3 @@ SELECT * FROM system.zookeeper WHERE path = '/clickhouse/tables';
 
 - `../SKILL.md` - Main skill entry point
 - `monitoring.md` - Health checks and monitoring queries
-- `cluster-management.md` - Replication setup and configuration

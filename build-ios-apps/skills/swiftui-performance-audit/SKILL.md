@@ -110,5 +110,5 @@ Use `references/report-template.md` when formatting the final audit.
 - Optimizing SwiftUI performance with Instruments (Apple/WWDC resource, user-supplied)
 - Understanding and improving SwiftUI performance (Apple Developer documentation, user-supplied)
 - Understanding hangs in your app (Apple Developer documentation, user-supplied)
-- Demystify SwiftUI performance — WWDC23 (Apple/WWDC resource, user-supplied)
+- Demystify SwiftUI performance: WWDC23 (Apple/WWDC resource, user-supplied)
 - In addition to the references above, use web search to consult current Apple Developer documentation when Instruments workflows or SwiftUI performance guidance may have changed.

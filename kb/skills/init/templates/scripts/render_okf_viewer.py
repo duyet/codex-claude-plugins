@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-# Vendored from the `okf` plugin's skills/okf/scripts/render_okf_viewer.py so
-# this kb stays self-contained (works even if that plugin is uninstalled).
 """Render OKF v0.1 derived artifacts for any bundle. Stdlib only.
 
 Walks a bundle directory once and emits:
-  - `<dir>/index.md` at every level    — OKF progressive-disclosure listings
+  - `<dir>/index.md` at every level    - OKF progressive-disclosure listings
                                           (root carries `okf_version: "0.1"`;
                                           others carry none)
-  - `<bundle>/viz.html` (or --out)     — self-contained graph viewer
+  - `<bundle>/viz.html` (or --out)     - self-contained graph viewer
                                           (cytoscape + marked via CDN)
 
 Frontmatter is read with a flat line-scan (`key: value`), the same convention
-used by validate_okf.py — no nested YAML, no PyYAML dependency. Concepts link
+used by validate_okf.py - no nested YAML, no PyYAML dependency. Concepts link
 to each other three ways, all three are read as graph edges:
   - `related: ["[[slug]]", "other-slug"]` frontmatter
   - `[[slug]]` wikilinks in the body
@@ -25,7 +23,7 @@ Idempotent: re-running overwrites the same outputs.
 
 Trust boundary: viz.html renders each concept's title/description/tags/type
 HTML-escaped, but a concept's markdown *body* is passed through `marked.parse`
-unsanitized, same as any local Markdown-to-HTML viewer (e.g. Obsidian) — a
+unsanitized, same as any local Markdown-to-HTML viewer (e.g. Obsidian) - a
 bundle is trusted the way a vault you open locally is trusted. Don't point
 this at a bundle containing untrusted, unreviewed markdown.
 """
@@ -35,7 +33,7 @@ import os
 import re
 import sys
 
-# Deterministic, cycling palette — assigned to types in first-seen order so
+# Deterministic, cycling palette - assigned to types in first-seen order so
 # any bundle's custom `type` values get stable, distinct colors without
 # hardcoding a fixed vocabulary.
 PALETTE = [
@@ -100,7 +98,7 @@ def collect(root):
             slug = name[:-3]
             if slug in seen_slugs:
                 print(f"warning: duplicate slug '{slug}' ({rel} and {seen_slugs[slug]}) "
-                      "— ids will collide in the viewer; rename one", file=sys.stderr)
+                      "- ids will collide in the viewer; rename one", file=sys.stderr)
             seen_slugs[slug] = rel
             md_links = [
                 href.split("#")[0] for href in re.findall(r"\]\(([^)\s]+)\)", body)
@@ -138,7 +136,7 @@ def write_indexes(root, concepts, bundle_label):
         by_dir.setdefault(c["dirpath"], []).append(c)
 
     # Bottom-up: a directory earns an index.md only if it holds concepts
-    # itself or a child directory does — so a parent's "Groups" links never
+    # itself or a child directory does - so a parent's "Groups" links never
     # point at an empty, unindexed child, and hidden dirs (holding no
     # collected concepts) never qualify.
     has_content = set()
@@ -169,7 +167,7 @@ def write_indexes(root, concepts, bundle_label):
         if here:
             out += ["## Concepts", ""]
             for c in here:
-                tail = f" — {c['description']}" if c["description"] else ""
+                tail = f" - {c['description']}" if c["description"] else ""
                 out.append(f"- [{c['title']}]({os.path.basename(c['path'])}){tail}")
             out += [""]
         p = os.path.join(dirpath, "index.md")
@@ -221,7 +219,7 @@ VIZ = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__NAME__ — OKF Bundle Viewer</title>
+<title>__NAME__ - OKF Bundle Viewer</title>
 <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
 <style>

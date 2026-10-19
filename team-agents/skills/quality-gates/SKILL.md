@@ -1,377 +1,61 @@
 ---
 name: quality-gates
-description: Engineering discipline and systematic quality verification. Core principles, anti-patterns, decision rules, and gate procedures for code review and delivery.
+description: Concrete checks to run before calling work done, with rules for reporting results honestly. Use before handing off, opening a PR, or merging code written by you or a subagent.
 ---
 
-This skill provides engineering discipline principles and structured quality gate procedures for verifying code quality, security, performance, and production readiness before delivery.
+# Quality gates
 
-## When to Invoke This Skill
+Run the repo's own commands. Find them in `package.json` scripts, `Makefile`, CI config, or the contributing docs. Do not invent commands.
 
-Automatically activate for:
-- Code review and validation
-- Pre-merge quality checks
-- Pre-deployment verification
-- Release readiness assessment
-- Post-implementation quality audit
-- Any work where engineering rigor matters
+## Gates
 
-## Engineering Discipline
+Run in this order and stop at the first failure.
 
-### Core Rules
+1. **Lint and format.** The project's linter on changed files at minimum. Fix with the auto-fixer, then re-run.
+2. **Typecheck.** Whole project, not just changed files. Types break across files.
+3. **Tests.** Run tests for the changed area first, then the full suite once before handoff. Add or update a test for each behavior you changed.
+4. **Build.** Run once, at the end, after everything else passes. Do not run builds in parallel workers because concurrent builds exhaust memory. Verify once after merging.
+5. **Security scan.** Run the dependency audit if dependencies changed. Grep the diff for hardcoded secrets, new `eval`, string-built SQL, and disabled TLS or auth checks.
 
-#### 1. No Shortcuts
-- Every solution must be sustainable long-term
-- Temporary fixes become permanent debt
-- If it feels like a workaround, it is
+Add these when the change warrants them.
 
-#### 2. Minimal Changes
-- One logical change per commit
-- Touch only what's necessary
-- Edit over Write (preserve context)
+| Change touches | Extra gate |
+|----------------|-----------|
+| Public API, schema, config format | Check callers and docs, note breaking changes |
+| Migrations | Apply on a scratch database and roll forward |
+| Hot path or query | Measure before and after, report the numbers |
+| UI | Run the app and exercise the changed flow, including empty and error states |
+| Deploy config, auth, payments | Second reviewer, and a rollback plan in the PR |
 
-#### 3. Verify Before Complete
-- Tests pass
-- Lint clean
-- Manual verification when needed
+## Reporting rules
 
-### Decision Rules
+- Report the exact command and its result. Never write "tests pass" from memory or from a previous run.
+- Skipped, quarantined, or `xfail` tests are reported as skipped, with a count. They are not passes.
+- If a gate cannot run (missing tool, no network, no credentials), say so and mark the gate as not verified. Do not mark it green.
+- A flaky failure is a failure. Re-run once to classify it, report both runs, and do not hide it.
+- Pre-existing failures are reported separately from ones you caused. Prove it by running the same command on the base branch.
+- Do not weaken a gate to get green. No deleting tests, loosening assertions, adding `skip`, raising lint ignores, or lowering coverage thresholds without the user's approval.
+- Do not report "done" with failures remaining. Report "blocked" and list what is failing.
 
-#### When to Refactor
-Refactor when:
-- Adding features is painful
-- Bugs cascade
-- Code confuses
+## When a gate fails
 
-Don't when:
-- Code works, rarely changes
-- No immediate need
+1. Read the actual error. Fix the cause, not the symptom.
+2. Re-run the failed gate, then every earlier gate, since the fix may break them.
+3. If the same gate fails three times with different fixes, stop and report what you tried.
+4. If the failure is outside your change, report it and ask before widening scope.
 
-#### When to Abstract
-Abstract when:
-- Pattern appears 3+ times
-- Abstraction reduces complexity
+## Review checklist
 
-Don't when:
-- Only 1-2 occurrences
-- Abstraction more complex
+- The diff contains only changes that trace to the request. No drive-by refactors or reformatting.
+- New behavior has a test that fails without the change.
+- Errors are handled or propagated, never swallowed.
+- No debug output, commented-out code, or stray TODOs without an owner.
+- Docs and examples match the new behavior.
 
-### Anti-Patterns
+## Anti-patterns
 
-| Bad | Why | Good |
-|-----|-----|------|
-| Magic numbers | Unclear | Named constants |
-| God objects | Unmaintainable | Single responsibility |
-| Copy-paste | Bug multiplication | Extract shared |
-| Commented code | Confusion | Git history |
-| Premature optimization | Wrong focus | Measure first |
-
-## Quality Gate Levels
-
-### Standard (Default)
-
-For routine changes, bug fixes, small features:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    STANDARD GATES                        │
-├─────────────────────────────────────────────────────────┤
-│ ✓ All tests pass                                        │
-│ ✓ Linting clean (no errors)                             │
-│ ✓ TypeScript compiles (no type errors)                  │
-│ ✓ Code follows project patterns                         │
-│ ✓ No obvious security issues                            │
-│ ✓ Changes match requirements                            │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Strict
-
-For significant features, refactors, public APIs:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                     STRICT GATES                         │
-├─────────────────────────────────────────────────────────┤
-│ All Standard gates PLUS:                                │
-│ ✓ Test coverage ≥ 90% for new code                      │
-│ ✓ Security scan passes (no high/critical)               │
-│ ✓ Performance benchmarks met                            │
-│ ✓ API documentation updated                             │
-│ ✓ Breaking changes documented                           │
-│ ✓ Peer review completed                                 │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Critical
-
-For security-sensitive, production-critical, high-risk changes:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    CRITICAL GATES                        │
-├─────────────────────────────────────────────────────────┤
-│ All Strict gates PLUS:                                  │
-│ ✓ Security audit by security-focused review             │
-│ ✓ Load testing completed                                │
-│ ✓ Rollback procedure documented and tested              │
-│ ✓ Monitoring and alerting configured                    │
-│ ✓ Stakeholder sign-off obtained                         │
-│ ✓ Incident response plan updated                        │
-└─────────────────────────────────────────────────────────┘
-```
-
-## Quality Gate Procedures
-
-### 1. Code Quality Gate
-
-```bash
-# Run these checks in sequence
-npm run lint          # or: bun run lint
-npm run type-check    # or: bun run type-check
-npm run test          # or: bun run test
-npm run build         # Verify build succeeds
-```
-
-**Verification checklist:**
-- [ ] Zero linting errors
-- [ ] Zero TypeScript errors
-- [ ] All tests pass
-- [ ] Build completes successfully
-- [ ] No console.log statements in production code
-- [ ] No TODO comments blocking release
-- [ ] No hardcoded values
-- [ ] Error handling present
-- [ ] Input validation at boundaries
-
-### 2. Test Coverage Gate
-
-```bash
-npm run test:coverage
-```
-
-**Coverage requirements by level:**
-
-| Level | Line Coverage | Branch Coverage | Function Coverage |
-|-------|--------------|-----------------|-------------------|
-| Standard | ≥ 70% | ≥ 60% | ≥ 70% |
-| Strict | ≥ 90% | ≥ 80% | ≥ 90% |
-| Critical | ≥ 95% | ≥ 90% | ≥ 95% |
-
-**What to test:**
-- [ ] Happy path scenarios
-- [ ] Error handling paths
-- [ ] Edge cases (null, empty, boundary values)
-- [ ] Integration points
-- [ ] User-facing behavior
-- [ ] Tests are deterministic
-
-### 3. Security Gate
-
-**Automated checks:**
-```bash
-npm audit              # Dependency vulnerabilities
-npm run lint:security  # Security-focused lint rules (if configured)
-```
-
-**Manual review checklist:**
-- [ ] No hardcoded secrets or credentials
-- [ ] Input validation on all user inputs
-- [ ] Output encoding to prevent XSS
-- [ ] SQL/NoSQL injection prevention
-- [ ] Authentication checks on protected routes
-- [ ] Authorization verified for sensitive operations
-- [ ] HTTPS enforced for sensitive data
-- [ ] Sensitive data not logged
-- [ ] CORS configured correctly
-
-**For Strict/Critical:**
-- [ ] OWASP Top 10 review completed
-- [ ] Security-focused code review by second engineer
-- [ ] Penetration testing (Critical only)
-
-### 4. Performance Gate
-
-**Metrics to verify:**
-
-| Metric | Standard | Strict | Critical |
-|--------|----------|--------|----------|
-| Page Load | < 3s | < 2s | < 1s |
-| API Response | < 500ms | < 200ms | < 100ms |
-| Bundle Size | < 500KB | < 300KB | < 200KB |
-| Memory Leak | None | None | None |
-
-**Verification steps:**
-- [ ] No N+1 queries introduced
-- [ ] Database queries use indexes
-- [ ] Large lists are paginated
-- [ ] Images are optimized
-- [ ] Caching implemented where appropriate
-- [ ] No blocking operations on main thread
-- [ ] Resource cleanup handled
-
-### 5. Documentation Gate
-
-**Required documentation:**
-
-| Level | README | API Docs | Changelog | Architecture |
-|-------|--------|----------|-----------|--------------|
-| Standard | ✓ | - | ✓ | - |
-| Strict | ✓ | ✓ | ✓ | - |
-| Critical | ✓ | ✓ | ✓ | ✓ |
-
-**Checklist:**
-- [ ] README updated with new features/changes
-- [ ] API endpoints documented (Strict+)
-- [ ] Breaking changes clearly noted
-- [ ] Migration guide provided (if applicable)
-- [ ] Architecture decisions recorded (Critical)
-
-### 6. Integration Gate
-
-**Verification steps:**
-- [ ] Feature works end-to-end
-- [ ] No regression in existing functionality
-- [ ] Cross-browser testing (if frontend)
-- [ ] Mobile responsiveness verified (if applicable)
-- [ ] Third-party integrations tested
-
-**For Strict/Critical:**
-- [ ] E2E test suite passes
-- [ ] Staging environment validation
-- [ ] User acceptance testing completed
-
-## Quality Gate Report Template
-
-```markdown
-## Quality Gate Report
-
-**Feature**: [Feature Name]
-**Level**: [Standard | Strict | Critical]
-**Date**: [YYYY-MM-DD]
-**Reviewer**: [Name]
-
-### Summary
-| Gate | Status | Notes |
-|------|--------|-------|
-| Code Quality | ✅ PASS | All checks clean |
-| Test Coverage | ✅ PASS | 92% coverage |
-| Security | ✅ PASS | No vulnerabilities |
-| Performance | ⚠️ WARN | API slightly slow |
-| Documentation | ✅ PASS | Updated |
-| Integration | ✅ PASS | E2E passing |
-
-### Detailed Results
-
-#### Code Quality
-- Lint: 0 errors, 0 warnings
-- TypeScript: 0 errors
-- Tests: 47 passed, 0 failed
-- Build: Success
-
-#### Test Coverage
-- Lines: 92% (target: 90%)
-- Branches: 85% (target: 80%)
-- Functions: 94% (target: 90%)
-
-#### Security
-- npm audit: 0 vulnerabilities
-- Manual review: Completed, no issues
-- [x] Input validation verified
-- [x] Auth checks verified
-
-#### Performance
-- Page load: 1.8s (target: < 2s)
-- API response: 180ms (target: < 200ms)
-- Bundle size: 287KB (target: < 300KB)
-
-#### Issues Found
-1. [WARN] API endpoint `/api/users` responds in 450ms under load
-   - Recommendation: Add caching layer
-   - Severity: Low
-   - Blocking: No
-
-### Verdict
-
-**✅ APPROVED FOR MERGE**
-
-All critical gates pass. Performance warning noted for future optimization.
-```
-
-## Gate Failure Handling
-
-When a gate fails:
-
-### 1. Identify Severity
-
-| Severity | Description | Action |
-|----------|-------------|--------|
-| Blocker | Prevents deployment | Must fix before merge |
-| Critical | Security/data risk | Must fix before merge |
-| Major | Significant issue | Should fix, can defer with approval |
-| Minor | Quality concern | Can defer to follow-up |
-
-### 2. Document the Issue
-
-```markdown
-### Gate Failure: [Gate Name]
-
-**Severity**: [Blocker | Critical | Major | Minor]
-**Description**: [What failed and why]
-**Impact**: [What happens if not fixed]
-**Remediation**: [How to fix]
-**Timeline**: [When it will be fixed]
-**Approved By**: [If deferring, who approved]
-```
-
-### 3. Resolution Path
-
-```
-Blocker/Critical → Fix immediately → Re-run gates
-Major → Fix or get approval → Document decision
-Minor → Create follow-up ticket → Proceed with caution
-```
-
-## Quick Reference Commands
-
-```bash
-# Standard gate check
-npm run lint && npm run type-check && npm run test && npm run build
-
-# Coverage check
-npm run test:coverage
-
-# Security audit
-npm audit
-
-# Full strict gate
-npm run lint && npm run type-check && npm run test:coverage && npm run build && npm audit
-```
-
-## Checklist Summary
-
-### Pre-Review (Author)
-- [ ] Self-reviewed code changes
-- [ ] Tests added/updated
-- [ ] Documentation updated
-- [ ] No debugging code left
-- [ ] Commit messages are clear
-
-### Code Review (Reviewer)
-- [ ] Logic is correct
-- [ ] Code is readable
-- [ ] Follows project patterns
-- [ ] No security concerns
-- [ ] Tests are meaningful
-- [ ] Error handling is appropriate
-
-### Pre-Merge
-- [ ] All CI checks pass
-- [ ] Required approvals obtained
-- [ ] Conflicts resolved
-- [ ] Branch is up to date
-
-### Pre-Deploy (Critical)
-- [ ] Rollback plan documented
-- [ ] Monitoring configured
-- [ ] Stakeholders notified
-- [ ] Deployment window confirmed
+- Running only the tests you wrote.
+- Declaring success after the build passes but before tests ran.
+- Using coverage percentage as proof of correctness.
+- Fixing a type error with `any` or a cast.
+- Silent retries until green.

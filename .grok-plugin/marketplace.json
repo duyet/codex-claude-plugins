@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "team-agents",
-      "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
+      "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
       "category": "Agents",
       "source": {
         "type": "local",
@@ -19,7 +19,7 @@
         "team-agents"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.9.1",
+      "version": "1.10.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -27,7 +27,7 @@
     },
     {
       "name": "commit",
-      "description": "Create a Git commit with semantic commit message format and PR workflow with templates",
+      "description": "Semantic commits, with optional push or a PR from templates.",
       "category": "Git",
       "source": {
         "type": "local",
@@ -38,7 +38,7 @@
         "commit"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.3.2",
+      "version": "1.4.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -46,7 +46,7 @@
     },
     {
       "name": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics",
+      "description": "Distinctive, production-grade frontend design that avoids generic AI aesthetics.",
       "category": "Design",
       "source": {
         "type": "local",
@@ -57,7 +57,7 @@
         "frontend-design"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -65,7 +65,7 @@
     },
     {
       "name": "interview",
-      "description": "Conduct in-depth requirements interviews using Socratic questioning",
+      "description": "Interview the user to clarify requirements, then write a spec.",
       "category": "Productivity",
       "source": {
         "type": "local",
@@ -76,7 +76,7 @@
         "interview"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -95,7 +95,7 @@
         "statusline"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.9.0",
+      "version": "2.0.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -114,7 +114,7 @@
         "orchestration"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -122,7 +122,7 @@
     },
     {
       "name": "github",
-      "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
+      "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
       "category": "Git",
       "source": {
         "type": "local",
@@ -133,7 +133,7 @@
         "github"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.4.2",
+      "version": "1.5.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -141,7 +141,7 @@
     },
     {
       "name": "fix",
-      "description": "Fix issues, tests, and CI failures with intelligent problem detection",
+      "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
       "category": "Productivity",
       "source": {
         "type": "local",
@@ -152,7 +152,7 @@
         "fix"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -160,7 +160,7 @@
     },
     {
       "name": "clickhouse",
-      "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
+      "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
       "category": "Database",
       "source": {
         "type": "local",
@@ -171,7 +171,7 @@
         "clickhouse"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.4.1",
+      "version": "2.0.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -179,7 +179,7 @@
     },
     {
       "name": "prompt-engineering",
-      "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
+      "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok.",
       "category": "Productivity",
       "source": {
         "type": "local",
@@ -190,7 +190,7 @@
         "prompt-engineering"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -198,7 +198,7 @@
     },
     {
       "name": "clickhouse-monitoring",
-      "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
+      "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
       "category": "Monitoring",
       "source": {
         "type": "local",
@@ -209,7 +209,7 @@
         "clickhouse-monitoring"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -217,7 +217,7 @@
     },
     {
       "name": "unsloth-training",
-      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF.",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT: rewards, datasets, FP8, vision, MLX, export, mobile.",
       "category": "ML",
       "source": {
         "type": "local",
@@ -228,7 +228,7 @@
         "unsloth-training"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.2",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -236,7 +236,7 @@
     },
     {
       "name": "good-html",
-      "description": "Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns.",
+      "description": "Dense, interactive, self-contained HTML artifacts and reviews.",
       "category": "Design",
       "source": {
         "type": "local",
@@ -247,7 +247,7 @@
         "good-html"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -255,7 +255,7 @@
     },
     {
       "name": "anyrouter",
-      "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits.",
+      "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server.",
       "category": "AI",
       "source": {
         "type": "local",
@@ -266,7 +266,7 @@
         "anyrouter"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -285,7 +285,7 @@
         "sag-notify"
       ],
       "logo": "assets/logo.svg",
-      "version": "2.1.2",
+      "version": "2.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -304,7 +304,7 @@
         "build-macos-apps"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -312,7 +312,7 @@
     },
     {
       "name": "build-ios-apps",
-      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI.",
+      "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
       "category": "Development",
       "source": {
         "type": "local",
@@ -323,7 +323,7 @@
         "build-ios-apps"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -331,7 +331,7 @@
     },
     {
       "name": "agent-loop",
-      "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+      "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
       "category": "Automation",
       "source": {
         "type": "local",
@@ -342,7 +342,7 @@
         "agent-loop"
       ],
       "logo": "assets/logo.svg",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -361,7 +361,7 @@
         "kb"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -380,7 +380,7 @@
         "okf"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -388,7 +388,7 @@
     },
     {
       "name": "command-code",
-      "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent — fan out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel.",
+      "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
       "category": "Development",
       "source": {
         "type": "local",
@@ -399,7 +399,7 @@
         "command-code"
       ],
       "logo": "assets/logo.svg",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"

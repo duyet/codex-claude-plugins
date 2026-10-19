@@ -13,8 +13,8 @@ from unsloth import FastLanguageModel  # Must come after
 
 | Flag | Purpose | Default |
 |------|---------|---------|
-| `UNSLOTH_RETURN_LOGITS` | Force return logits — needed for evaluation | Off |
-| `UNSLOTH_COMPILE_DISABLE` | Disable auto compiler — debug incorrect results | Off |
+| `UNSLOTH_RETURN_LOGITS` | Force return logits - needed for evaluation | Off |
+| `UNSLOTH_COMPILE_DISABLE` | Disable auto compiler - debug incorrect results | Off |
 | `UNSLOTH_DISABLE_FAST_GENERATION` | Disable fast generation for generic models | Off |
 | `UNSLOTH_ENABLE_LOGGING` | Show which functions are compiled | Off |
 | `UNSLOTH_FORCE_FLOAT32` | Use float32 on float16 machines (useful for Gemma 3) | Off |

@@ -1,7 +1,7 @@
 {
   "name": "clickhouse-monitoring",
-  "version": "1.1.1",
-  "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
+  "version": "1.2.0",
+  "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -11,7 +11,7 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Clickhouse Monitoring",
-    "shortDescription": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters",
+    "shortDescription": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
     "developerName": "duyet",
     "category": "Monitoring",
     "capabilities": [

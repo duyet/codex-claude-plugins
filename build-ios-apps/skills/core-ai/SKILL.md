@@ -15,34 +15,34 @@ over `NDArray` tensors (image inputs use a pixel-buffer value).
 
 Available on **Apple Intelligence** devices: iPhone/iPad with A17 Pro or later, Mac
 with M1 or later, Apple Vision Pro (M2+). Building requires the **Metal Toolchain**
-in Xcode (not installed by default) — without it, builds that include `.aimodel`
+in Xcode (not installed by default), without it, builds that include `.aimodel`
 files fail with a missing Metal compiler error.
 
 > Core AI runs your own model files at the tensor level. For Apple's high-level
 > on-device LLM API (chat sessions, tool calling, guided generation), use the
-> Foundation Models framework — a separate framework, not covered here.
+> Foundation Models framework, a separate framework, not covered here.
 
 ## Workflow
 
 1. **Inspect the model** in Xcode's model viewer:
-   - _General_ — size (parameter count and on-disk storage), numeric precision split
+   - _General_: size (parameter count and on-disk storage), numeric precision split
      into **compute** (used during inference) and **storage** (weights on disk),
      operation distribution, and editable metadata.
-   - _Functions_ — each inference function's input/output names, types, and shapes.
+   - _Functions_: each inference function's input/output names, types, and shapes.
      A `?` in a dimension means it is dynamic (supplied or determined at runtime).
-2. **Bundle the model** — add the `.aimodel` file to the Xcode target (it appears in
+2. **Bundle the model**: add the `.aimodel` file to the Xcode target (it appears in
    the _Compile Sources_ build phase). Install the Metal Toolchain first.
-3. **Load the model** — `AIModel(contentsOf:)` is asynchronous because Core AI
+3. **Load the model**: `AIModel(contentsOf:)` is asynchronous because Core AI
    **specializes** the model for the current device and selects the compute units
    that deliver the best performance. For large models this can take significant
    time, so consider ahead-of-time compilation (below).
-4. **Load a function** — `model.loadFunction(named:)` returns the function or `nil`
+4. **Load a function**: `model.loadFunction(named:)` returns the function or `nil`
    when no function with that name exists (it throws on other load failures). Use
    `functionNames` when a model has multiple functions. The same inference function
    is safe to call from concurrent tasks.
-5. **Prepare inputs** — match each input's shape and scalar type from
+5. **Prepare inputs**: match each input's shape and scalar type from
    `function.descriptor`, then write data through a mutable view.
-6. **Run and read outputs** — `function.run(inputs:)` returns outputs keyed by name;
+6. **Run and read outputs**: `function.run(inputs:)` returns outputs keyed by name;
    pull each result with `outputs.remove(_:)` and read it through a view.
 
 ## Core API
@@ -86,21 +86,21 @@ processOutput(prediction.view())
 
 ### Tensors and values
 
-- `NDArray` — an n-dimensional tensor. Build it with `NDArray(shape:scalarType:)`.
+- `NDArray`: an n-dimensional tensor. Build it with `NDArray(shape:scalarType:)`.
   It is **read-only by default**: use `mutableView(as:)` → `contiguousElements` to
   write, and `view()` to read. Swift enforces read vs. write access at compile time.
-- `scalarType` — the element type, e.g. `.float32`. Shape is an `[Int]` matching the
+- `scalarType`: the element type, e.g. `.float32`. Shape is an `[Int]` matching the
   model's expectation; a `?` dimension in the viewer is dynamic.
-- **Images** — values marked as images at conversion time use a pixel-buffer value
+- **Images**: values marked as images at conversion time use a pixel-buffer value
   rather than `NDArray`.
-- `ValueDescriptor` — `.ndArray(ArrayDescriptor)` vs. image cases. Inspect
+- `ValueDescriptor`: `.ndArray(ArrayDescriptor)` vs. image cases. Inspect
   `descriptor.inputDescriptor(of:)` / `outputDescriptor(of:)` at runtime so the app
   can adapt if a function's signature changes between deployments without code edits.
 
 ## Ahead-of-Time (AOT) Compilation
 
-On-device specialization can delay first load. Move the most expensive part — model
-compilation — to the build machine with the **`coreai-build`** CLI. It converts
+On-device specialization can delay first load. Move the most expensive part, model
+compilation, to the build machine with the **`coreai-build`** CLI. It converts
 `MyModel.aimodel` into one `MyModel.<arch>.aimodelc` asset per device architecture.
 At runtime the app picks the asset for the current architecture and loads it with the
 **same** `AIModel` API, so loading code does not change.
@@ -132,7 +132,7 @@ Notes:
   matches `<arch>` at runtime.
 - Compute units default to best performance. Pass `--preferred-compute` to override,
   and use matching load options.
-- A compiled asset still requires **some** on-device specialization — AOT removes the
+- A compiled asset still requires **some** on-device specialization, AOT removes the
   bulk of compilation, not all of it. AOT only targets Apple Intelligence devices.
 
 ## Checklist
@@ -149,7 +149,7 @@ Notes:
 
 ## Resources
 
-- Apple — _Integrating on-device AI models in your app with Core AI_
-- Apple — _Compiling Core AI models ahead of time_
+- Apple: _Integrating on-device AI models in your app with Core AI_
+- Apple: _Compiling Core AI models ahead of time_
 - Prefer Apple docs for up-to-date API details; web-search the current Core AI
   documentation alongside this skill.

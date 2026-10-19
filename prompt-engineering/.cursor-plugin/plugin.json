@@ -1,7 +1,7 @@
 {
   "name": "prompt-engineering",
-  "version": "1.1.1",
-  "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
+  "version": "1.2.0",
+  "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok.",
   "author": {
     "name": "duyet"
   },

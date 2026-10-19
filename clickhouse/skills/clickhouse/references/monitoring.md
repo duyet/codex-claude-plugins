@@ -1,6 +1,6 @@
 # ClickHouse Monitoring
 
-Query monitoring, health checks, system queries, and metrics.
+Query monitoring, health checks, system queries, and metrics. Ready-to-use queries against `system.*` tables.
 
 ## Current Query Monitoring
 
@@ -497,14 +497,212 @@ clickhouse_table_size_bytes{table="events"}
 4. **Table Sizes**
    - Top 10 tables by size
    - Growth rate
+## See also
 
-5. **System Resources**
-   - CPU usage
-   - Memory usage
-   - Disk usage
+- `debugging.md` for troubleshooting
 
-## See Also
+## Table, column and partition details
 
-- `../SKILL.md` - Main skill entry point
-- `debugging.md` - Troubleshooting issues
-- `system-queries.md` - Ready-to-use monitoring queries
+### Column Information
+
+```sql
+-- Column sizes and compression
+SELECT
+    database,
+    table,
+    column,
+    type,
+    formatReadableSize(sum(data_uncompressed_bytes)) as uncompressed,
+    formatReadableSize(sum(data_compressed_bytes)) as compressed,
+    sum(data_compressed_bytes) / sum(data_uncompressed_bytes) as ratio
+FROM system.columns
+WHERE database != 'system'
+GROUP BY database, table, column, type
+ORDER BY sum(data_uncompressed_bytes) DESC
+LIMIT 50;
+
+-- All columns in a table
+SELECT
+    name,
+    type,
+    default_kind,
+    default_expression,
+    comment
+FROM system.columns
+WHERE database = 'my_database'
+  AND table = 'my_table'
+ORDER BY position;
+```
+
+### Partition Information
+
+```sql
+-- Partition details
+SELECT
+    partition,
+    sum(rows) as total_rows,
+    count() as parts,
+    formatReadableSize(sum(bytes)) as size,
+    min(min_timestamp) as min_time,
+    max(max_timestamp) as max_time
+FROM system.parts
+WHERE active = 1
+  AND table = 'my_table'
+  AND database = currentDatabase()
+GROUP BY partition
+ORDER BY partition DESC;
+
+-- Large partitions (many parts)
+SELECT
+    partition,
+    count() as parts,
+    sum(rows) as total_rows
+FROM system.parts
+WHERE active = 1
+  AND table = 'my_table'
+GROUP BY partition
+HAVING parts > 100
+ORDER BY parts DESC;
+```
+
+---
+
+## Databases, users and dictionaries
+
+## Database Information
+
+### All Databases
+
+```sql
+-- All databases
+SELECT
+    name,
+    engine,
+    data_path,
+    metadata_path
+FROM system.databases
+ORDER BY name;
+
+-- Database engine types
+SELECT
+    engine,
+    count() as count
+FROM system.databases
+GROUP BY engine
+ORDER BY count DESC;
+```
+
+---
+
+## User and Security
+
+### User Information
+
+```sql
+-- All users
+SELECT * FROM system.users;
+
+-- User quotas
+SELECT * FROM system.quotas;
+
+-- Current roles
+SELECT * FROM system.current_roles;
+```
+
+### Access Control
+
+```sql
+-- Row policies
+SELECT * FROM system.row_policies;
+
+-- Grants
+SELECT * FROM system.grants;
+```
+
+---
+
+## System Health
+
+### General Health
+
+```sql
+-- Server info
+SELECT version(), uptime(), now() as current_time;
+
+-- Memory usage
+SELECT
+    formatReadableSize(sum(bytes_allocated)) as allocated,
+    formatReadableSize(sum(bytes_used)) as used
+FROM system.dictionaries;
+
+-- Load average
+SELECT * FROM system.asynchronous_metrics
+WHERE metric LIKE '%load%';
+```
+
+### Settings
+
+```sql
+-- All settings
+SELECT * FROM system.settings
+ORDER BY name;
+
+-- Current settings
+SELECT * FROM system.settings
+WHERE changed == 1;
+```
+
+---
+
+## Dictionary Information
+
+### All Dictionaries
+
+```sql
+-- Dictionary status
+SELECT
+    name,
+    status,
+    origin,
+    type,
+    element_count,
+    bytes_allocated
+FROM system.dictionaries
+ORDER BY name;
+
+-- Loading dictionaries
+SELECT
+    name,
+    status,
+    loading_start_time,
+    loading_duration_seconds
+FROM system.dictionaries
+WHERE status != 'LOADED';
+```
+
+---
+
+## Table growth over time
+
+```sql
+-- Daily table growth
+SELECT
+    toStartOfDay(event_time) as day,
+    database,
+    table,
+    formatReadableSize(sum(bytes)) as size
+FROM system.part_log
+WHERE event_type = 'NewPart'
+  AND event_time > now() - INTERVAL 7 DAY
+GROUP BY day, database, table
+ORDER BY day DESC, sum(bytes) DESC;
+```
+
+---
+
+**Tips**:
+- Use `formatReadableSize()` for human-readable byte sizes
+- Use `formatReadableQuantity()` for human-readable row counts
+- Filter `WHERE active = 1` to see only active parts
+- Use `currentDatabase()` to refer to current database
+- Most `system.*` tables have `event_date` for partitioning

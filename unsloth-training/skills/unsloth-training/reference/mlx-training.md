@@ -1,7 +1,7 @@
 # MLX-Tune: Fine-tuning on Apple Silicon
 
 **mlx-tune** (formerly unsloth-mlx) brings the Unsloth API to Apple Silicon Macs
-using Apple's MLX framework. 100% API-compatible with Unsloth — write once, run
+using Apple's MLX framework. 100% API-compatible with Unsloth - write once, run
 on Mac (MLX) or cloud (CUDA).
 
 ## Installation

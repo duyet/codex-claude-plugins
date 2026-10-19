@@ -1,7 +1,7 @@
 {
   "name": "anyrouter",
-  "version": "1.0.1",
-  "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits.",
+  "version": "1.1.0",
+  "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"

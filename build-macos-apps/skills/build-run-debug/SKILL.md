@@ -7,9 +7,7 @@ description: Build, run, and debug macOS apps with shell-first Xcode and Swift w
 
 ## Quick Start
 
-Use this skill to set up one project-local `script/build_and_run.sh` entrypoint,
-wire `.codex/environments/environment.toml` so the Codex app shows a Run button,
-then use that script as the default build/run path.
+Set up one project-local `script/build_and_run.sh` entrypoint, then use it as the default build/run path.
 
 Prefer shell-first workflows:
 
@@ -30,7 +28,7 @@ simulator-specific workflows onto pure macOS tasks.
 
 1. Discover the project shape.
    - Check whether the workspace is already inside a git repo with `git rev-parse --is-inside-work-tree`.
-   - If no git repo is present, run `git init` at the project/workspace root before building so Codex app git-backed features are available. Never run `git init` inside a nested subdirectory when the current workspace already belongs to a parent repo.
+   - If no git repo is present, run `git init` at the project/workspace root before building so changes are tracked. Never run `git init` inside a nested subdirectory when the current workspace already belongs to a parent repo.
    - Look for `.xcworkspace`, `.xcodeproj`, and `Package.swift`.
    - If more than one candidate exists, explain the default choice and the ambiguity.
 
@@ -58,34 +56,25 @@ simulator-specific workflows onto pure macOS tasks.
    - For SwiftPM GUI apps, make the script build the product, create `dist/<AppName>.app`, copy the binary to `Contents/MacOS/<AppName>`, generate a minimal `Contents/Info.plist` with `CFBundlePackageType=APPL`, `CFBundleExecutable`, `CFBundleIdentifier`, `CFBundleName`, `LSMinimumSystemVersion`, and `NSPrincipalClass=NSApplication`, then launch with `/usr/bin/open -n <bundle>`.
    - For SwiftPM GUI `--logs` and `--telemetry`, launch the bundle with `/usr/bin/open -n` first, then stream unified logs with `/usr/bin/log stream --info ...`.
    - Do not recommend direct SwiftPM executable launch for AppKit/SwiftUI GUI apps.
-   - Use `references/run-button-bootstrap.md` as the canonical source for the
-     script shape and exact environment file format. Do not fork a second
-     authoritative snippet in another skill or command.
+   - Use `references/run-button-bootstrap.md` as the canonical source for the script shape. Do not fork a second snippet elsewhere.
    - Keep the run script outside app source. It belongs in `script/build_and_run.sh`, not in `App/`, `Views/`, `Models/`, `Stores/`, `Services/`, or `Support/`.
 
-4. Write `.codex/environments/environment.toml` at the project root once the script exists.
-   - Use this exact placement: `.codex/environments/environment.toml`.
-   - Use the exact action shape in `references/run-button-bootstrap.md`.
-   - This file is what gives the user a Codex app Run button wired to the script.
-   - If the project already has this file, update the `Run` action command to point at `./script/build_and_run.sh` instead of creating a duplicate action.
-   - Keep this Codex environment config separate from Swift app source files.
-
-5. Build and run through the script.
+4. Build and run through the script.
    - Default to `./script/build_and_run.sh`.
    - Use `./script/build_and_run.sh --debug`, `--logs`, `--telemetry`, or `--verify` when the user asks for debugger/log/telemetry/process verification support.
 
-6. Summarize failures correctly.
+5. Summarize failures correctly.
    - Classify the blocker as compiler, linker, signing, build settings, missing SDK/toolchain, script bug, or runtime launch.
    - Quote the smallest useful error snippet and explain what it means.
 
-7. Debug the right way.
+6. Debug the right way.
    - Use the script's `--logs` or `--telemetry` mode for config, entitlement, sandbox, and action-event verification.
    - For SwiftPM GUI apps, if the app bundle launches but its window still does not come forward, check whether the entrypoint needs `NSApp.setActivationPolicy(.regular)` and `NSApp.activate(ignoringOtherApps: true)`.
    - Use the script's `--debug` mode or direct `lldb` if symbolized crash debugging is needed.
    - If the user needs to instrument and verify specific window, sidebar, menu, or menu bar actions, switch to `telemetry`.
    - Keep evidence tight and user-facing.
 
-8. Use Xcode-aware MCP tooling only when it helps.
+7. Use Xcode-aware MCP tooling only when it helps.
    - If the user explicitly asks for XcodeBuildMCP and it is already available, prefer it over ad hoc setup.
    - Use the MCP for Xcode-aware discovery or debug/logging workflows when the available tool surface clearly matches the task.
    - Fall back to shell commands immediately when the MCP does not provide a clean macOS path.
@@ -106,13 +95,12 @@ simulator-specific workflows onto pure macOS tasks.
 
 ## References
 
-- `references/run-button-bootstrap.md`: canonical `build_and_run.sh` and `.codex/environments/environment.toml` contract.
+- `references/run-button-bootstrap.md`: canonical `build_and_run.sh` script shapes.
 
 ## Guardrails
 
 - Prefer the narrowest command that proves or disproves the current theory.
 - Do not leave the user with a one-off manual command chain once a stable `build_and_run.sh` script can own the workflow.
-- Do not write `.codex/environments/environment.toml` before the run script exists, and do not point the Run action at a stale script path.
 - Do not launch a SwiftUI/AppKit SwiftPM GUI app as a raw executable unless the user explicitly wants to diagnose that failure mode: it can produce no Dock icon, no foreground activation, and missing bundle identifier warnings. Keep raw executable launch only for true command-line tools.
 - Do not claim UI state you cannot inspect directly.
 - Do not describe mobile or simulator workflows as if they apply to macOS.
@@ -123,7 +111,7 @@ simulator-specific workflows onto pure macOS tasks.
 Provide:
 
 - the detected project type
-- the script path and Codex environment action you configured, if applicable
+- the script path you configured, if applicable
 - the command you ran
 - whether build and launch succeeded
 - the top blocker if they failed

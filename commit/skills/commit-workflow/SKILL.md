@@ -1,23 +1,18 @@
 ---
 name: commit-workflow
-description: Use when the user asks to create a semantic commit, commit and push, or create a pull request from local changes.
+description: Use when creating a semantic commit, committing and pushing, or opening a pull request from local changes. The commit commands delegate here.
 ---
 
-# Commit Workflow
+# Commit workflow
 
-Use this skill to turn local repository changes into a clean semantic commit, and optionally push or open a pull request.
+1. Read git status, the diff against HEAD, the current branch, and recent commits to match the repo's style.
+2. Split unrelated changes into separate commits. Stage only files that belong to the change, never unrelated dirty work.
+3. Message format is `type(scope): description` in the imperative. Types: feat, fix, docs, style, refactor, test, chore.
+4. Push only when asked. Prefer `--force-with-lease` and only when a forced update is requested. Do not rewrite history otherwise.
 
-## Workflow
+## Pull requests
 
-1. Inspect the current branch, git status, unstaged/staged diff, and recent commits.
-2. Decide whether the change should be one commit or split into multiple focused commits.
-3. Stage only the files that belong to the requested change.
-4. Use semantic commit format: `type(scope): description`.
-5. When creating a pull request, create a feature branch first if the current branch is the default branch.
-6. Use the repo's existing pull request templates when present.
-
-## Safety
-
-- Do not include unrelated dirty work in the commit.
-- Do not rewrite history unless the user explicitly asks.
-- Prefer `--force-with-lease` over force push when a forced update is explicitly required.
+- On the default branch, first create a branch named `<type>/<short-kebab-description>`.
+- Push with `git push -u origin <branch>`, then `gh pr create`. Title matches the commit message. Add `--draft` when asked.
+- Body: use the repo's own PR template if it has one. Otherwise pick from `.pr-templates/` in this plugin by commit type: `fix` uses `bugfix.md`, `feat` uses `feature.md`, anything else uses `default.md`. Fill in the placeholders. If no template is found, write a short summary and change list.
+- Print the PR URL when done.

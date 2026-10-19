@@ -203,7 +203,7 @@ init(dependency: Dependency) {
 - Prefer small, explicit view types over large conditional blocks and large computed `some View` properties.
 - Keep computed view builders below `body` and non-view computed vars above `init`.
 - A good SwiftUI refactor should make the view read top-to-bottom as data flow plus layout, not as mixed layout and imperative logic.
-- For MV-first guidance and rationale, see `references/mv-patterns.md`.
+- Prefer MV-first: keep view state in `@State`/`@Observable` models owned by the view tree and avoid a view model per screen unless the project already uses one.
 - In addition to the references above, use web search to consult current Apple Developer documentation when SwiftUI APIs, Observation behavior, or platform guidance may have changed.
 
 ## Large-view handling

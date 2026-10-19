@@ -1,4 +1,4 @@
-# Open Knowledge Format (OKF) v0.1 — Specification
+# Open Knowledge Format (OKF) v0.1 - Specification
 
 > Vendor-neutral format for representing knowledge as plain markdown files with
 > YAML frontmatter. Not tied to any agent, framework, model provider, or serving
@@ -10,16 +10,16 @@
 
 ## Core principles
 
-- **Human- and agent-readable** — no SDK or query language between reader and content.
-- **Version-controllable** — bundles live in git; diffs, blame, review just work.
-- **Portable, lock-in free** — a bundle is a directory; tarball it, host it anywhere.
-- **Structured + unstructured deliberately** — frontmatter for the few fields you
+- **Human- and agent-readable** - no SDK or query language between reader and content.
+- **Version-controllable** - bundles live in git; diffs, blame, review just work.
+- **Portable, lock-in free** - a bundle is a directory; tarball it, host it anywhere.
+- **Structured + unstructured deliberately** - frontmatter for the few fields you
   query/filter/index on; markdown body for prose, schemas, examples.
-- **Minimally opinionated, freely extensible** — a small set of required keys for
+- **Minimally opinionated, freely extensible** - a small set of required keys for
   interoperability; arbitrary extra frontmatter keys and body sections are allowed.
-- **Progressive disclosure** — `index.md` files let a reader navigate one level at
+- **Progressive disclosure** - `index.md` files let a reader navigate one level at
   a time instead of loading the whole bundle.
-- **Graph-shaped** — concepts link to each other via normal markdown links,
+- **Graph-shaped** - concepts link to each other via normal markdown links,
   expressing relationships richer than the directory tree.
 
 ## Bundle structure
@@ -39,8 +39,8 @@ bundle_root/
 
 **Reserved filenames:**
 
-- `index.md` — progressive-disclosure directory listings.
-- `log.md` — chronological update history.
+- `index.md` - progressive-disclosure directory listings.
+- `log.md` - chronological update history.
 
 Every other `.md` file represents one concept.
 
@@ -52,7 +52,7 @@ Two sections: required YAML frontmatter, then a markdown body.
 
 ```yaml
 ---
-type: <Type name> # REQUIRED — non-empty string
+type: <Type name> # REQUIRED - non-empty string
 title: <Display name> # Recommended
 description: <One-line summary> # Recommended
 resource: <Canonical URI> # Recommended for assets
@@ -62,22 +62,22 @@ timestamp: <ISO 8601 datetime> # Optional
 ---
 ```
 
-- **`type` (REQUIRED)** — descriptive string identifying the concept category
+- **`type` (REQUIRED)** - descriptive string identifying the concept category
   (e.g. `BigQuery Table`, `API Endpoint`, `Playbook`). Types are not centrally
   registered; consumers must tolerate unknown types.
-- **`title`** — display name; consumers may derive from filename if omitted.
-- **`description`** — single-sentence summary for previews and indexes.
-- **`resource`** — URI uniquely identifying the underlying asset.
-- **`tags`** — YAML list for cross-cutting categorization.
-- **`timestamp`** — last meaningful change, ISO 8601.
+- **`title`** - display name; consumers may derive from filename if omitted.
+- **`description`** - single-sentence summary for previews and indexes.
+- **`resource`** - URI uniquely identifying the underlying asset.
+- **`tags`** - YAML list for cross-cutting categorization.
+- **`timestamp`** - last meaningful change, ISO 8601.
 
 Producers may add custom key/value pairs; consumers must preserve unknown fields
 on round-trips.
 
 ### Body
 
-Standard markdown. Conventional section headings (prefer structural markdown —
-tables, lists, code blocks — over prose):
+Standard markdown. Conventional section headings (prefer structural markdown -
+tables, lists, code blocks - over prose):
 
 | Section       | Purpose                                   |
 | ------------- | ----------------------------------------- |
@@ -87,9 +87,9 @@ tables, lists, code blocks — over prose):
 
 ## Cross-linking
 
-- **Absolute (bundle-relative) — recommended:** `[customers](/tables/customers.md)`
-  — stable when documents move within subdirectories.
-- **Relative — standard markdown:** `[neighbor](./other.md)`.
+- **Absolute (bundle-relative) - recommended:** `[customers](/tables/customers.md)`
+  - stable when documents move within subdirectories.
+- **Relative - standard markdown:** `[neighbor](<relative-path>)`.
 
 Links assert relationships conveyed by the surrounding prose, not by link syntax.
 Consumers treat all links as undirected edges; broken links are tolerated as
@@ -103,12 +103,12 @@ Optional, support progressive disclosure. Sections group concepts. No frontmatte
 ```markdown
 # Section Heading
 
-- [Title](relative-url) - description from the linked concept
-- [Subdirectory](subdir/) - group description
+- [Title](<relative-url>) - description from the linked concept
+- [Subdirectory](<subdir/>) - group description
 
 # Another Section
 
-- [Title](url) - description
+- [Title](<url>) - description
 ```
 
 Producers may generate them automatically; consumers may synthesize dynamically.
@@ -139,9 +139,7 @@ absolute URLs, bundle-relative paths, or paths into a `references/` subdirectory
 ```markdown
 # Citations
 
-[1] [Title](https://absolute-url)
-[2] [Title](/bundle-relative-path)
-[3] [Title](references/local-reference.md)
+[1] [Title](https://example.com/page)
 ```
 
 ## Conformance
@@ -159,7 +157,7 @@ permissive model supports growth, refactoring, and partial agent generation.
 ## Versioning
 
 A bundle may declare its target version with `okf_version: "0.1"` in the
-**bundle-root `index.md` frontmatter** — the only place frontmatter appears in an
+**bundle-root `index.md` frontmatter** - the only place frontmatter appears in an
 index file.
 
 - **Minor bumps:** backward-compatible additions (new optional fields, headings).

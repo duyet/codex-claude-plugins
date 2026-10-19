@@ -1,46 +1,30 @@
 ---
 name: good-html
-description: Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's "Unreasonable Effectiveness of HTML" patterns. Use this skill when asked to "create HTML," "build a dashboard," "format a PR review," "make an interactive explainer," or when you need to "review and update" existing HTML using the "good-html" style.
+description: Build or review a dense, interactive, self-contained HTML artifact such as a dashboard, PR review, implementation plan, or explainer. Use when asked to create HTML, or to review and update existing HTML in this style.
 ---
 
-# Good HTML Artifact Generator
+# Good HTML
 
-This skill enables Claude to generate or refactor highly effective, visually distinct, and functional HTML artifacts rather than relying on standard Markdown or low-resolution HTML. It is based on the design patterns from Thariq Shihipar's "The Unreasonable Effectiveness of HTML".
+Produce one `.html` file that works as a small app or document, not Markdown and not a generic page.
 
-The core philosophy is that a single HTML file can act as a high-density "mini-app" or interactive document that is completely self-contained and highly portable.
+## Rules
 
-## Core Rules for HTML Generation & Review
-
-1.  **Single-File Output Only:** The entire artifact must fit within one `.html` file.
-2.  **Zero Dependencies:** Do NOT use external CSS frameworks (no Tailwind, Bootstrap, etc.) or external font files. 
-3.  **Inline Everything:** All styles must be in a `<style>` block. Use inline `<svg>` for graphics.
-4.  **Avoid "AI Defaults":** Do not use generic bright blue/purple gradients or basic Bootstrap aesthetics. Use the provided earthy, muted color palette and robust system fonts.
-
-## Resources
-
-When generating or reviewing an artifact, consult the following resources:
-
-*   **[references/patterns.md](references/patterns.md):** Read this for specific architectural patterns, CSS-only interactivity, and the **Review Checklist**.
-*   **[references/styles.md](references/styles.md):** The design system for colors, typography, and spacing.
-*   **[references/components.md](references/components.md):** Use this for pre-built interactive components (tabs, diffs, timelines).
-*   **[assets/boilerplate.html](assets/boilerplate.html):** Use this file as the structural starting point.
+1. One file. Styles in a `<style>` block, graphics as inline `<svg>`, no external CSS frameworks, fonts, or images.
+2. Prefer CSS-only state: hidden radio inputs plus sibling selectors for tabs, native `<details>` for collapsible sections. Use `<script>` only when CSS cannot do it.
+3. Use the palette and system font stacks in [references/styles.md](references/styles.md). Avoid purple or blue gradients and web fonts.
+4. Pack information: CSS Grid for side-by-side comparisons, sticky headers or sidebars on long content, semantic severity colors (`.safe`, `.attention`, `.critical`).
+5. Write the complete file. Do not truncate.
 
 ## Workflow
 
-### For New Artifacts
-1.  **Analyze Request:** Determine the optimal page type (see [references/page_types.md](references/page_types.md)).
-2.  **Plan Layout:** Decide on the grid structure and interaction model.
-3.  **Implement:** Use the boilerplate and component library to build the file.
+New artifact:
+1. Pick the page type: comparison of options, PR review, code explainer, implementation plan, status or incident report, triage board, concept explainer, slide deck, or SVG diagram.
+2. Start from [assets/boilerplate.html](assets/boilerplate.html). Page-type examples: [assets/pr-review.html](assets/pr-review.html), [assets/implementation-plan.html](assets/implementation-plan.html), [assets/research-explainer.html](assets/research-explainer.html).
+3. Copy tabs, diffs, and timelines from [references/components.md](references/components.md).
 
-### For Review & Refactoring
-1.  **Audit:** Compare the current HTML against the **Review Checklist** in `patterns.md`.
-2.  **Identify Bottlenecks:** Find external dependencies, generic styles, or low-density layouts.
-3.  **Apply Surgical Updates:**
-    *   Inline external CSS/JS.
-    *   Swap web fonts for the system font stack.
-    *   Update colors to the Ivory/Slate/Clay palette.
-    *   Refactor lists or simple tables into high-density Grids or Tabs.
-4.  **Verify Interactivity:** Ensure state handling (e.g. tabs) is refactored to use the CSS-only radio engine where appropriate.
-
-## Output Code
-Output the complete HTML code within a standard code block for the user to copy, or write it directly to an HTML file if instructed. Do not truncate the code.
+Reviewing existing HTML, fix in this order:
+1. Remove every external `<link>` and `<script src>`; inline what is needed.
+2. Swap web fonts for system stacks and recolor to the palette.
+3. Replace a single long column with a grid, and add sticky context for long scrolls.
+4. Replace JS-driven simple state with the radio or `<details>` patterns.
+5. Replace bitmap icons with inline SVG.

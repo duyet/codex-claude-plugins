@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Claude Code StatusLine — Configurable renderer
+# Claude Code StatusLine - Configurable renderer
 # Reads ~/.claude/statusline.config.json for layout/section/icon preferences.
 # Falls back to 3-line detailed layout if no config exists.
 #
@@ -76,7 +76,10 @@ SEP = f" {DIM}{SEP_CHAR}{RST} "
 
 
 # ── Parse input JSON ───────────────────────────────
-d = json.load(sys.stdin)
+try:
+    d = json.load(sys.stdin)
+except ValueError:
+    d = {}
 
 def g(path, default=""):
     node = d
@@ -102,7 +105,7 @@ if cu:
     total = itok + cc + cr
 else:
     itok = cc = cr = 0
-    total = 0
+    total = int(g("context_window.total_input_tokens", 0))
 
 pct = int(total * 100 / ws) if ws > 0 else 0
 
@@ -111,7 +114,7 @@ r5h       = g("rate_limits.five_hour.used_percentage", "")
 r7d       = g("rate_limits.seven_day.used_percentage", "")
 r5h_reset = g("rate_limits.five_hour.resets_at", "")
 
-# Cache (Anthropic only — GLM proxy reports fake cache values)
+# Cache (Anthropic only - GLM proxy reports fake cache values)
 is_claude = model_id.lower().startswith("claude-")
 cache_total = cc + cr if cu else 0
 cache_hit_pct = (cr * 100 / cache_total) if cache_total > 0 else 0
@@ -137,7 +140,7 @@ cache_ttl_secs = parse_ttl(cfg.get("cache_ttl", "5m"))
 cache_ttl_label = f"{cache_ttl_secs // 3600}h" if cache_ttl_secs % 3600 == 0 else f"{cache_ttl_secs // 60}m"
 
 # Track when the cache was last refreshed: token totals change on every API
-# request, and every request rewrites the cache — so (total changed) == (TTL
+# request, and every request rewrites the cache - so (total changed) == (TTL
 # clock reset). Persist {total, ts} per-cwd in /tmp and diff against it.
 cache_age_secs = None
 if is_claude and cache_total > 0:
@@ -233,7 +236,7 @@ def simplify_model(mid, ctx_size):
     if s.startswith("claude-"):
         s = s[7:]
     s = re.sub(r'-\d{8,}$', '', s)
-    s = re.sub(r'-(\d+)$', r'.\1', s)
+    s = re.sub(r'(\d)-(\d+)$', r'\1.\2', s)
     if re.search(r'\[\d+[km]\]$', s):
         return s
     def fmt_ctx(n):
@@ -300,7 +303,7 @@ if cfg.get("show_agents", True):
 
 
 # ═══════════════════════════════════════════════════
-# RENDER — Layout templates
+# RENDER - Layout templates
 # ═══════════════════════════════════════════════════
 
 def render_3line():

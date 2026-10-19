@@ -1,22 +1,20 @@
 {
   "name": "build-ios-apps",
-  "version": "1.0.1",
-  "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI.",
+  "version": "1.1.0",
+  "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
   },
   "license": "MIT",
   "skills": "./skills/",
-  "agents": "./agents/",
   "interface": {
     "displayName": "Build iOS Apps",
-    "shortDescription": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI.",
+    "shortDescription": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
     "developerName": "duyet",
     "category": "Development",
     "capabilities": [
-      "Skill",
-      "Agent"
+      "Skill"
     ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"

@@ -121,5 +121,5 @@ Button("Confirm") { }
 
 ## Resources
 
-- Reference guide: `references/liquid-glass.md`
+- For macOS specifics, use the `liquid-glass` skill from the build-macos-apps plugin when it is installed.
 - Prefer Apple docs for up-to-date API details, and use web search to consult current Apple Developer documentation in addition to the references above.

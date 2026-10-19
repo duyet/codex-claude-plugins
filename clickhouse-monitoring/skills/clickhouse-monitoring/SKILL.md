@@ -1,6 +1,6 @@
 ---
 name: clickhouse-monitoring
-description: "Specialized knowledge for the ClickHouse Monitor dashboard. Use this skill when: working with ClickHouse monitoring dashboards, analyzing query performance, writing ClickHouse system table queries, developing dashboard features, or integrating with the ClickHouse Monitor API. Covers query monitoring, table management, merge operations, system metrics, and ClickHouse version compatibility."
+description: "Use when working on the ClickHouse Monitor dashboard: adding charts, pages, or query configs, calling its API, or handling ClickHouse version differences in system table queries."
 ---
 
 # ClickHouse Monitor
@@ -31,57 +31,9 @@ CLICKHOUSE_NAME="Production,Staging"
 
 Access hosts via `?host=0`, `?host=1`, etc. in URLs.
 
-## Core Features
+## Core features
 
-### Query Monitoring
-
-Track query performance and resource usage:
-- **Running Queries** - Active queries with progress %, memory, row counts, estimated completion
-- **History Queries** - Query log with execution metrics (duration, CPU, memory)
-- **Failed Queries** - Error details, stack traces, failure patterns
-- **Expensive Queries** - Ranked by CPU, memory, duration, rows read
-- **Query Cache** - Hit/miss rates, size, eviction statistics
-- **Thread Analysis** - Per-thread performance breakdown for parallel queries
-- **Parallelization** - Thread utilization and parallel effectiveness
-
-### Table Management
-
-Browse database objects and metadata:
-- **Data Explorer** - Interactive schema tree (databases → tables → columns → dependencies)
-- **Tables Overview** - Storage stats, part counts, sizes, replication status
-- **Replicas** - Health status, lag, queue size, absolute delay
-- **Replication Queue** - Pending/in-progress tasks from Keeper/ZooKeeper
-- **Projections** - Definition, status, usage statistics
-- **View Refreshes** - Materialized view refresh schedules and history
-- **Part Info** - Active part details with levels, rows, bytes
-- **Dictionaries** - External dictionary status, source type, memory usage
-
-### Merge Operations
-
-Monitor background MergeTree activity:
-- **Merges** - Active merges with progress, rows read/written, memory
-- **Merge Performance** - Historical merge trends, part size distribution
-- **Mutations** - Table mutation status, progress, failed mutations
-- **New Parts Created** - Part creation frequency for optimization
-
-### System Metrics
-
-Real-time server monitoring:
-- **Metrics** - CPU, memory, disk, network, query counters
-- **Async Metrics** - Background-calculated metrics (cache sizes, queue depths)
-- **Disks** - Storage volume configuration and usage
-- **Settings** - Server configuration values and current settings
-- **MergeTree Settings** - Engine-specific settings per table
-
-### Security & Logs
-
-Track security events and system logs:
-- **Sessions** - User session history with authentication details
-- **Login Attempts** - Authentication events, failures, reason codes
-- **Audit Log** - Security-related events (DDL, user changes, access)
-- **Text Log** - Server logs with query context and stack traces
-- **Stack Traces** - Live thread stack traces for debugging
-- **Crashes** - Historical crash reports with diagnostics
+The dashboard covers query monitoring (running, history, failed, expensive, cache), table management (explorer, replicas, projections, dictionaries), merges and mutations, system metrics and settings, and security logs (sessions, login attempts, crashes). See `references/dashboard-pages.md` for every page.
 
 ## API Usage
 
@@ -138,14 +90,14 @@ GET /api/v1/explorer/columns?hostId={hostId}&database={db}&table={t}
 
 ### Static Site Architecture
 
-**CRITICAL**: Fully static site with client-side data fetching. No SSR, no middleware.
+Fully static site with client-side data fetching. No SSR, no middleware.
 
 **Routing Pattern:**
 ```typescript
 // Static route with query parameter
-app/overview/page.tsx  →  /overview?host=0
+app/overview/page.tsx  to  /overview?host=0
 
-// NOT dynamic routes (deprecated)
+// NOT dynamic routes (not supported)
 // app/[host]/overview/page.tsx
 ```
 
@@ -300,11 +252,10 @@ export const backupsConfig: QueryConfig = {
 **Empty charts?**
 - Verify required log tables enabled: `query_log`, `metric_log`, `part_log`
 - Check ClickHouse configuration for log settings
-- See `docs/clickhouse-schemas/` for table requirements
 
 **API returns `table_not_found`?**
 - Optional table missing - verify ClickHouse configuration
-- Version mismatch - check `docs/clickhouse-schemas/tables/{table}.md`
+- Version mismatch: check the query's `since` versions in `references/clickhouse-compat.md`
 
 **Multi-host not working?**
 - Verify all three env arrays have same length
@@ -319,7 +270,3 @@ export const backupsConfig: QueryConfig = {
 - [Development Guide](references/development.md) - Architecture patterns, conventions, contribution workflow
 - [ClickHouse Compatibility](references/clickhouse-compat.md) - Version-aware queries, schema docs, optional tables
 - [Project Repository](https://github.com/duyet/clickhouse-monitor)
-
----
-
-*This skill documentation is synced from the main clickhouse-monitor repository. Run `bun run scripts/sync-docs.ts` to update.*

@@ -1,7 +1,7 @@
 {
   "name": "interview",
-  "version": "1.0.1",
-  "description": "Conduct in-depth requirements interviews using Socratic questioning",
+  "version": "1.1.0",
+  "description": "Interview the user to clarify requirements, then write a spec.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -11,7 +11,7 @@
   "commands": "./commands/",
   "interface": {
     "displayName": "Interview",
-    "shortDescription": "Conduct in-depth requirements interviews using Socratic questioning",
+    "shortDescription": "Interview the user to clarify requirements, then write a spec.",
     "developerName": "duyet",
     "category": "Productivity",
     "capabilities": [

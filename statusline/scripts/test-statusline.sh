@@ -2,7 +2,7 @@
 # Statusline compatibility and regression tests
 # Run: bash statusline/scripts/test-statusline.sh
 
-STATUSLINE_SCRIPT="$HOME/.claude/statusline-command.sh"
+STATUSLINE_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/statusline.py"
 CONFIG_FILE="$HOME/.claude/statusline.config.json"
 BACKUP_CONFIG="$HOME/.claude/statusline.config.json.bak"
 
@@ -25,7 +25,7 @@ pass() { echo -e "${GREEN}✓${NC} $1"; PASSED=$((PASSED + 1)); }
 fail() { echo -e "${RED}✗${NC} $1"; FAILED=$((FAILED + 1)); }
 
 run() {
-    echo "$2" | "$STATUSLINE_SCRIPT" 2>&1
+    echo "$2" | python3 "$STATUSLINE_SCRIPT" 2>&1
 }
 
 # ============================================
@@ -81,10 +81,10 @@ echo ""
 
 # Error handling
 echo "=== Error Handling ==="
-out=$(echo '{}' | "$STATUSLINE_SCRIPT" 2>&1)
+out=$(echo '{}' | python3 "$STATUSLINE_SCRIPT" 2>&1)
 [ $? -eq 0 ] && pass "Handles empty JSON" || fail "Crashes on empty JSON"
 
-out=$(echo 'not json' | "$STATUSLINE_SCRIPT" 2>&1)
+out=$(echo 'not json' | python3 "$STATUSLINE_SCRIPT" 2>&1)
 [ $? -eq 0 ] && pass "Handles malformed JSON" || fail "Crashes on malformed JSON"
 echo ""
 

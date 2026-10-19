@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate every harness manifest from marketplace.json, and lint plugins.
+"""Generate every harness manifest and the README plugin table from marketplace.json, and lint plugins.
 
   python3 scripts/plugins.py sync    # rewrite generated manifests
   python3 scripts/plugins.py check   # fail on drift or broken plugins
@@ -24,7 +24,7 @@ COMPONENTS = {
     "agents": ("agents", "Agent"),
 }
 FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.S)
-LOCAL_REF = re.compile(r"\]\(((?:\./)?(?:references|scripts|assets|templates|rules)/[^)#\s]+)\)")
+LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 
 
 def components(plugin_dir):
@@ -152,11 +152,23 @@ def marketplaces(registry):
     }
 
 
+def readme(registry):
+    text = (ROOT / "README.md").read_text()
+    start, end = "<!-- plugins:start -->", "<!-- plugins:end -->"
+    rows = ["| Plugin | Category | Description |", "| --- | --- | --- |"]
+    rows += [f"| [{p['name']}](./{p['name']}/) | {p['category']} | {p['description']} |" for p in registry["plugins"]]
+    head, _, rest = text.partition(start)
+    _, _, tail = rest.partition(end)
+    return f"{head}{start}\n" + "\n".join(rows) + f"\n{end}{tail}"
+
+
 def generated(registry):
     out = marketplaces(registry)
     for entry in registry["plugins"]:
         out.update(plugin_manifests(entry, registry["author"]))
-    return {path: json.dumps(data, indent=2, ensure_ascii=False) + "\n" for path, data in out.items()}
+    files = {path: json.dumps(data, indent=2, ensure_ascii=False) + "\n" for path, data in out.items()}
+    files["README.md"] = readme(registry)
+    return files
 
 
 def lint(registry):
@@ -198,8 +210,13 @@ def lint_plugin(plugin_dir):
                 errors.append(f"{skill_md.relative_to(ROOT)}: missing description")
     for doc in plugin_dir.rglob("*.md"):
         text = doc.read_text()
-        for ref in LOCAL_REF.findall(text):
-            if not (doc.parent / ref).exists():
+        for ref in LINK.findall(text):
+            if re.match(r"[a-z]+:", ref) or ref.startswith(("/", "<", "$", "~")):
+                continue
+            target = (doc.parent / ref).resolve()
+            if not target.is_relative_to(plugin_dir.resolve()):
+                errors.append(f"{doc.relative_to(ROOT)}: link {ref} leaves the plugin, which installs alone")
+            elif not target.exists():
                 errors.append(f"{doc.relative_to(ROOT)}: broken link {ref}")
         if "—" in text:
             errors.append(f"{doc.relative_to(ROOT)}: contains an em dash")

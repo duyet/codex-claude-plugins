@@ -1,7 +1,7 @@
 {
   "name": "commit",
-  "version": "1.3.2",
-  "description": "Create a Git commit with semantic commit message format and PR workflow with templates",
+  "version": "1.4.0",
+  "description": "Semantic commits, with optional push or a PR from templates.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -11,7 +11,7 @@
   "commands": "./commands/",
   "interface": {
     "displayName": "Commit",
-    "shortDescription": "Create a Git commit with semantic commit message format and PR workflow with templates",
+    "shortDescription": "Semantic commits, with optional push or a PR from templates.",
     "developerName": "duyet",
     "category": "Git",
     "capabilities": [

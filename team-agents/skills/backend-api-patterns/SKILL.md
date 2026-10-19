@@ -1,549 +1,62 @@
 ---
 name: backend-api-patterns
-description: Backend and API implementation patterns for scalability, security, and maintainability. Use when building APIs, services, and backend infrastructure.
+description: Rules for designing and implementing HTTP APIs and backend services. Use when adding endpoints, auth, database access, caching, or background work to a service.
 ---
 
-This skill provides backend and API implementation patterns for building robust, scalable services.
+# Backend API patterns
 
-## When to Invoke This Skill
+Follow the existing framework, ORM, and error conventions in the repo first. These rules fill the gaps.
 
-Automatically activate for:
-- API endpoint implementation
-- Database operations and queries
-- Authentication and authorization
-- Caching and performance optimization
-- Service architecture design
+## API design
 
-## API Design Patterns
+- Validate every input at the edge with a schema (body, query, params, headers). Reject unknown shapes with 400 and field-level errors. Never trust types alone.
+- Use one error envelope across the service, with a stable machine-readable `code`, a human `message`, and a request id. Never return stack traces or raw database errors.
+- Status codes: 400 invalid input, 401 unauthenticated, 403 authenticated but not allowed, 404 missing (also for resources the caller may not know exist), 409 conflict, 422 only if the repo already uses it, 429 rate limited.
+- List endpoints paginate from day one. Prefer cursor pagination for large or changing data, and cap page size server-side.
+- Mutations that clients may retry (payments, creates from queues) accept an idempotency key.
+- Version only when a breaking change ships. Adding fields is not breaking. Removing or retyping them is.
 
-### Consistent Response Structure
+## Layering
 
-```typescript
-// Standard API response envelope
-interface ApiResponse<T> {
-  data?: T;
-  error?: {
-    code: string;
-    message: string;
-    details?: Record<string, unknown>;
-  };
-  meta?: {
-    pagination?: {
-      page: number;
-      pageSize: number;
-      total: number;
-      totalPages: number;
-    };
-    timestamp?: string;
-    requestId?: string;
-  };
-}
+- Handlers parse, call a service, and map the result to a response. No business logic or SQL in handlers.
+- Services hold business rules and own transaction boundaries. Repositories hold queries. Do not add a repository layer in a service that only has a handful of queries.
+- Pass the authenticated principal into services explicitly. Do not read it from globals inside business code.
 
-// Success response helper
-function success<T>(data: T, meta?: ApiResponse<T>['meta']): ApiResponse<T> {
-  return { data, meta };
-}
+## Auth
 
-// Error response helper
-function error(
-  code: string,
-  message: string,
-  details?: Record<string, unknown>
-): ApiResponse<never> {
-  return { error: { code, message, details } };
-}
+- Authorization is checked per resource (does this user own this row), not only per route. Missing ownership checks are the most common API bug.
+- Hash passwords with argon2id or bcrypt. Never log, return, or store tokens and secrets in plain text.
+- Short-lived access tokens, rotating refresh tokens stored hashed server-side, revocation on password change.
+- Compare secrets with constant-time functions. Rate limit login and token endpoints per account and per IP.
+- CORS: explicit origin allowlist. Never reflect arbitrary origins when credentials are allowed.
 
-// Paginated response helper
-function paginated<T>(
-  data: T[],
-  page: number,
-  pageSize: number,
-  total: number
-): ApiResponse<T[]> {
-  return {
-    data,
-    meta: {
-      pagination: {
-        page,
-        pageSize,
-        total,
-        totalPages: Math.ceil(total / pageSize),
-      },
-    },
-  };
-}
-```
+## Database
 
-### Route Handler Pattern
+- Parameterize every query. No string-built SQL, including `ORDER BY` columns (allowlist them).
+- Find N+1 patterns by checking query counts in tests for list endpoints. Batch or join.
+- Select only needed columns on hot paths. Index columns used in `WHERE`, `JOIN`, and `ORDER BY`, and confirm with `EXPLAIN` before and after.
+- Wrap multi-write operations in one transaction. Do not call external services (HTTP, email) inside a transaction, use an outbox or run them after commit.
+- Migrations are forward-only and safe under rolling deploys. Add nullable column, backfill, then add constraint. Never rename or drop in the same release that stops using the column.
+- Set statement and connection timeouts and a bounded pool size.
 
-```typescript
-// Generic handler wrapper with error handling
-type Handler<T> = (
-  req: Request,
-  context: { params: Record<string, string> }
-) => Promise<T>;
+## Caching
 
-function createHandler<T>(handler: Handler<T>) {
-  return async (req: Request, context: { params: Record<string, string> }) => {
-    const requestId = crypto.randomUUID();
+- Cache only after measuring. Name the invalidation trigger before adding a cache.
+- Key by every input that changes the result, including tenant and user id for per-user data.
+- Always set a TTL. Add jitter for hot keys and request coalescing to prevent stampedes.
+- A cache failure must fall back to the source, not return 500.
 
-    try {
-      const result = await handler(req, context);
-      return Response.json(success(result, { requestId }));
-    } catch (err) {
-      if (err instanceof AppError) {
-        return Response.json(
-          error(err.code, err.message),
-          { status: err.statusCode }
-        );
-      }
+## Reliability
 
-      console.error(`[${requestId}] Unexpected error:`, err);
-      return Response.json(
-        error('INTERNAL_ERROR', 'An unexpected error occurred'),
-        { status: 500 }
-      );
-    }
-  };
-}
+- Every outbound call has a timeout. Retry only idempotent calls, with backoff and a cap.
+- Background jobs are idempotent and safe to run twice.
+- Log structured events with the request id. Never log credentials, tokens, or full request bodies with personal data.
+- Health endpoints check dependencies the service cannot work without, not every downstream.
 
-// Usage
-export const GET = createHandler(async (req, { params }) => {
-  const user = await userService.findById(params.id);
-  if (!user) throw new NotFoundError('User', params.id);
-  return user;
-});
-```
+## Anti-patterns
 
-## Service Layer Pattern
-
-### Repository Pattern
-
-```typescript
-interface Repository<T, ID = string> {
-  findById(id: ID): Promise<T | null>;
-  findMany(options: FindOptions<T>): Promise<T[]>;
-  count(filter?: Partial<T>): Promise<number>;
-  create(data: CreateInput<T>): Promise<T>;
-  update(id: ID, data: UpdateInput<T>): Promise<T>;
-  delete(id: ID): Promise<void>;
-}
-
-interface FindOptions<T> {
-  filter?: Partial<T>;
-  orderBy?: keyof T;
-  orderDir?: 'asc' | 'desc';
-  limit?: number;
-  offset?: number;
-}
-
-type CreateInput<T> = Omit<T, 'id' | 'createdAt' | 'updatedAt'>;
-type UpdateInput<T> = Partial<Omit<T, 'id' | 'createdAt' | 'updatedAt'>>;
-
-// Implementation
-class UserRepository implements Repository<User> {
-  constructor(private db: Database) {}
-
-  async findById(id: string): Promise<User | null> {
-    return this.db.query.users.findFirst({
-      where: eq(users.id, id),
-    });
-  }
-
-  async findMany(options: FindOptions<User>): Promise<User[]> {
-    const { filter, orderBy, orderDir = 'asc', limit, offset } = options;
-
-    return this.db.query.users.findMany({
-      where: filter ? this.buildWhere(filter) : undefined,
-      orderBy: orderBy ? (orderDir === 'asc' ? asc : desc)(users[orderBy]) : undefined,
-      limit,
-      offset,
-    });
-  }
-
-  // ... other methods
-}
-```
-
-### Service with Business Logic
-
-```typescript
-class UserService {
-  constructor(
-    private userRepo: Repository<User>,
-    private cache: Cache,
-    private eventBus: EventBus
-  ) {}
-
-  async getUser(id: string): Promise<User> {
-    // Check cache first
-    const cached = await this.cache.get<User>(`user:${id}`);
-    if (cached) return cached;
-
-    // Fetch from database
-    const user = await this.userRepo.findById(id);
-    if (!user) throw new NotFoundError('User', id);
-
-    // Cache for future requests
-    await this.cache.set(`user:${id}`, user, { ttl: 3600 });
-
-    return user;
-  }
-
-  async createUser(input: CreateUserInput): Promise<User> {
-    // Validate
-    const existing = await this.userRepo.findMany({
-      filter: { email: input.email },
-      limit: 1,
-    });
-    if (existing.length > 0) {
-      throw new ValidationError('Email already exists', { email: 'Already in use' });
-    }
-
-    // Hash password
-    const hashedPassword = await hashPassword(input.password);
-
-    // Create user
-    const user = await this.userRepo.create({
-      ...input,
-      password: hashedPassword,
-    });
-
-    // Emit event for side effects
-    await this.eventBus.emit('user.created', { userId: user.id });
-
-    return user;
-  }
-
-  async updateUser(id: string, input: UpdateUserInput): Promise<User> {
-    const user = await this.userRepo.update(id, input);
-
-    // Invalidate cache
-    await this.cache.delete(`user:${id}`);
-
-    return user;
-  }
-}
-```
-
-## Authentication Patterns
-
-### JWT with Refresh Tokens
-
-```typescript
-interface TokenPair {
-  accessToken: string;   // Short-lived: 15 minutes
-  refreshToken: string;  // Long-lived: 7 days
-}
-
-interface TokenPayload {
-  sub: string;           // User ID
-  email: string;
-  roles: string[];
-  type: 'access' | 'refresh';
-}
-
-class AuthService {
-  constructor(
-    private userRepo: Repository<User>,
-    private tokenRepo: Repository<RefreshToken>,
-    private jwtSecret: string
-  ) {}
-
-  async login(email: string, password: string): Promise<TokenPair> {
-    const user = await this.userRepo.findMany({
-      filter: { email },
-      limit: 1,
-    });
-
-    if (!user[0] || !await verifyPassword(password, user[0].password)) {
-      throw new UnauthorizedError('Invalid credentials');
-    }
-
-    return this.generateTokenPair(user[0]);
-  }
-
-  async refresh(refreshToken: string): Promise<TokenPair> {
-    // Verify token
-    const payload = this.verifyToken(refreshToken);
-    if (payload.type !== 'refresh') {
-      throw new UnauthorizedError('Invalid token type');
-    }
-
-    // Check if token is revoked
-    const stored = await this.tokenRepo.findById(refreshToken);
-    if (!stored || stored.revoked) {
-      throw new UnauthorizedError('Token revoked');
-    }
-
-    // Get user and generate new tokens
-    const user = await this.userRepo.findById(payload.sub);
-    if (!user) throw new UnauthorizedError('User not found');
-
-    // Revoke old refresh token
-    await this.tokenRepo.update(refreshToken, { revoked: true });
-
-    return this.generateTokenPair(user);
-  }
-
-  private generateTokenPair(user: User): TokenPair {
-    const accessToken = jwt.sign(
-      { sub: user.id, email: user.email, roles: user.roles, type: 'access' },
-      this.jwtSecret,
-      { expiresIn: '15m' }
-    );
-
-    const refreshToken = jwt.sign(
-      { sub: user.id, type: 'refresh' },
-      this.jwtSecret,
-      { expiresIn: '7d' }
-    );
-
-    return { accessToken, refreshToken };
-  }
-
-  private verifyToken(token: string): TokenPayload {
-    try {
-      return jwt.verify(token, this.jwtSecret) as TokenPayload;
-    } catch {
-      throw new UnauthorizedError('Invalid or expired token');
-    }
-  }
-}
-```
-
-### Middleware Pattern
-
-```typescript
-type Middleware = (req: Request, next: () => Promise<Response>) => Promise<Response>;
-
-// Auth middleware
-function authMiddleware(requiredRoles?: string[]): Middleware {
-  return async (req, next) => {
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-
-    if (!token) {
-      return Response.json(
-        error('UNAUTHORIZED', 'No token provided'),
-        { status: 401 }
-      );
-    }
-
-    try {
-      const payload = verifyToken(token);
-
-      if (requiredRoles?.length && !requiredRoles.some(r => payload.roles.includes(r))) {
-        return Response.json(
-          error('FORBIDDEN', 'Insufficient permissions'),
-          { status: 403 }
-        );
-      }
-
-      // Attach user to request context
-      (req as any).user = payload;
-
-      return next();
-    } catch {
-      return Response.json(
-        error('UNAUTHORIZED', 'Invalid or expired token'),
-        { status: 401 }
-      );
-    }
-  };
-}
-
-// Rate limiting middleware
-function rateLimitMiddleware(limit: number, windowMs: number): Middleware {
-  const requests = new Map<string, { count: number; resetAt: number }>();
-
-  return async (req, next) => {
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
-    const now = Date.now();
-
-    const record = requests.get(ip);
-
-    if (!record || record.resetAt < now) {
-      requests.set(ip, { count: 1, resetAt: now + windowMs });
-      return next();
-    }
-
-    if (record.count >= limit) {
-      return Response.json(
-        error('RATE_LIMITED', 'Too many requests'),
-        { status: 429 }
-      );
-    }
-
-    record.count++;
-    return next();
-  };
-}
-```
-
-## Database Patterns
-
-### Query Optimization
-
-```typescript
-// Avoid N+1 queries with eager loading
-async function getUsersWithOrders(): Promise<UserWithOrders[]> {
-  // BAD: N+1 queries
-  const users = await db.query.users.findMany();
-  for (const user of users) {
-    user.orders = await db.query.orders.findMany({
-      where: eq(orders.userId, user.id),
-    });
-  }
-
-  // GOOD: Single query with join
-  return db.query.users.findMany({
-    with: {
-      orders: true,
-    },
-  });
-}
-
-// Pagination with cursor
-async function paginateUsers(cursor?: string, limit = 20): Promise<{
-  users: User[];
-  nextCursor: string | null;
-}> {
-  const users = await db.query.users.findMany({
-    where: cursor ? gt(users.id, cursor) : undefined,
-    orderBy: asc(users.id),
-    limit: limit + 1, // Fetch one extra to check for next page
-  });
-
-  const hasMore = users.length > limit;
-  const data = hasMore ? users.slice(0, -1) : users;
-
-  return {
-    users: data,
-    nextCursor: hasMore ? data[data.length - 1].id : null,
-  };
-}
-```
-
-### Transaction Pattern
-
-```typescript
-async function transferFunds(
-  fromId: string,
-  toId: string,
-  amount: number
-): Promise<void> {
-  await db.transaction(async (tx) => {
-    // Lock rows for update
-    const from = await tx.query.accounts.findFirst({
-      where: eq(accounts.id, fromId),
-      for: 'update',
-    });
-
-    if (!from || from.balance < amount) {
-      throw new ValidationError('Insufficient funds', {});
-    }
-
-    // Debit source account
-    await tx.update(accounts)
-      .set({ balance: from.balance - amount })
-      .where(eq(accounts.id, fromId));
-
-    // Credit destination account
-    await tx.update(accounts)
-      .set({ balance: sql`${accounts.balance} + ${amount}` })
-      .where(eq(accounts.id, toId));
-
-    // Log transaction
-    await tx.insert(transactions).values({
-      fromId,
-      toId,
-      amount,
-      type: 'transfer',
-    });
-  });
-}
-```
-
-## Caching Patterns
-
-### Cache-Aside Pattern
-
-```typescript
-class CachedUserService {
-  constructor(
-    private userRepo: Repository<User>,
-    private cache: Cache
-  ) {}
-
-  async getUser(id: string): Promise<User | null> {
-    const cacheKey = `user:${id}`;
-
-    // Try cache first
-    const cached = await this.cache.get<User>(cacheKey);
-    if (cached) return cached;
-
-    // Fetch from database
-    const user = await this.userRepo.findById(id);
-
-    // Cache the result (including null to prevent cache stampede)
-    if (user) {
-      await this.cache.set(cacheKey, user, { ttl: 3600 });
-    } else {
-      await this.cache.set(cacheKey, null, { ttl: 60 }); // Short TTL for negative cache
-    }
-
-    return user;
-  }
-
-  async updateUser(id: string, data: UpdateUserInput): Promise<User> {
-    const user = await this.userRepo.update(id, data);
-
-    // Invalidate cache
-    await this.cache.delete(`user:${id}`);
-
-    return user;
-  }
-}
-```
-
-### Request Deduplication
-
-```typescript
-class RequestDeduplicator {
-  private pending = new Map<string, Promise<unknown>>();
-
-  async dedupe<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
-    // Return existing request if in flight
-    const existing = this.pending.get(key);
-    if (existing) return existing as Promise<T>;
-
-    // Start new request
-    const promise = fetcher().finally(() => {
-      this.pending.delete(key);
-    });
-
-    this.pending.set(key, promise);
-    return promise;
-  }
-}
-
-// Usage
-const deduplicator = new RequestDeduplicator();
-
-async function getUser(id: string): Promise<User> {
-  return deduplicator.dedupe(`user:${id}`, () => userRepo.findById(id));
-}
-```
-
-## Best Practices Checklist
-
-- [ ] Use consistent API response envelope
-- [ ] Implement proper error hierarchy and handling
-- [ ] Separate concerns: routes → services → repositories
-- [ ] Use transactions for multi-step operations
-- [ ] Implement caching with proper invalidation
-- [ ] Avoid N+1 queries with eager loading
-- [ ] Use cursor-based pagination for large datasets
-- [ ] Implement rate limiting and request deduplication
-- [ ] Validate inputs at API boundaries
-- [ ] Log with structured data and request IDs
+- Returning 200 with an error body.
+- Catching an error, logging it, and continuing as if it succeeded.
+- Authorization done only in the client or gateway.
+- Unbounded queries, loops over network calls, or in-memory pagination of full tables.
+- Shared mutable module state for per-request data.

@@ -1,7 +1,7 @@
 {
   "name": "fix",
-  "version": "1.0.1",
-  "description": "Fix issues, tests, and CI failures with intelligent problem detection",
+  "version": "1.1.0",
+  "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -11,7 +11,7 @@
   "commands": "./commands/",
   "interface": {
     "displayName": "Fix",
-    "shortDescription": "Fix issues, tests, and CI failures with intelligent problem detection",
+    "shortDescription": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
     "developerName": "duyet",
     "category": "Productivity",
     "capabilities": [

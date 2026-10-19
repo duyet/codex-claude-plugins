@@ -7,6 +7,9 @@ description: Build, run, and debug iOS apps on Simulator with XcodeBuildMCP. Use
 
 ## Overview
 
+Requires the XcodeBuildMCP server (install: https://github.com/getsentry/XcodeBuildMCP, then add it to your MCP config). Without it, use the `xcrun simctl` fallback below.
+
+
 Use XcodeBuildMCP to build and run the current project scheme on a booted iOS simulator, interact with the UI, and capture logs. Prefer the MCP tools for simulator control, logs, and view inspection.
 
 ## Core Workflow
@@ -51,6 +54,15 @@ Use these when asked to inspect or interact with the running app.
 - Start logs: `mcp__XcodeBuildMCP__start_sim_log_cap` with the app bundle id.
 - Stop logs: `mcp__XcodeBuildMCP__stop_sim_log_cap` and summarize important lines.
 - For console output, set `captureConsole: true` and relaunch if required.
+
+## Fallback without XcodeBuildMCP
+
+- List and boot: `xcrun simctl list devices booted`, `xcrun simctl boot <udid>`.
+- Build: `xcodebuild -scheme <scheme> -destination 'platform=iOS Simulator,id=<udid>' -derivedDataPath build build`.
+- Install and launch: `xcrun simctl install <udid> build/Build/Products/Debug-iphonesimulator/<App>.app`, then `xcrun simctl launch --console <udid> <bundle-id>`.
+- Screenshot: `xcrun simctl io <udid> screenshot out.png`.
+- Logs: `xcrun simctl spawn <udid> log stream --predicate 'subsystem == "<bundle-id>"'`.
+- UI tapping and typing need XcodeBuildMCP or a UI test.
 
 ## Troubleshooting
 

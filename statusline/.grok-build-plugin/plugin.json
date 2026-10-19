@@ -1,6 +1,6 @@
 {
   "name": "statusline",
-  "version": "1.9.0",
+  "version": "2.0.0",
   "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
   "author": {
     "name": "duyet",
@@ -17,8 +17,7 @@
     "category": "UI",
     "capabilities": [
       "Skill",
-      "Command",
-      "Hook"
+      "Command"
     ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"

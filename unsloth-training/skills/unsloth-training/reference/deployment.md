@@ -54,7 +54,7 @@ docker run -d \
 
 - `/workspace/work/` - Your mounted work directory
 - `/workspace/unsloth-notebooks/` - Pre-built training examples
-- `/home/unsloth/` - User home directory
+- the `unsloth` user home directory
 
 ---
 

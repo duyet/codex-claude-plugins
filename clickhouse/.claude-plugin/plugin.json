@@ -1,7 +1,7 @@
 {
   "name": "clickhouse",
-  "version": "1.4.1",
-  "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs",
+  "version": "2.0.0",
+  "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"

@@ -8,7 +8,7 @@ description: Build on-device generative AI with Apple's Foundation Models framew
 ## Overview
 
 Foundation Models is Apple's generative-AI framework for intelligent app features. You
-drive a language model through a `LanguageModelSession` — generating text, structuring
+drive a language model through a `LanguageModelSession`, generating text, structuring
 output into Swift types with guided generation (`@Generable`, `GenerationSchema`), and
 letting the model call your own `Tool`s during generation. The default backend is the
 **system language model** (`SystemLanguageModel`), which runs on Apple Intelligence
@@ -16,7 +16,7 @@ letting the model call your own `Tool`s during generation. The default backend i
 **Private Cloud Compute** (`PrivateCloudComputeLanguageModel`, server-side) or a
 **custom language model provider**, so session code is portable across backends.
 
-Before any feature, gate on availability — the model can be unavailable for several
+Before any feature, gate on availability, the model can be unavailable for several
 reasons:
 
 ```swift
@@ -147,12 +147,12 @@ let r = try await session.respond(to: "Find three sourdough bread recipes")
 
 ## Choosing a Backend
 
-- `SystemLanguageModel.default` — on-device, Apple Intelligence. Private and
+- `SystemLanguageModel.default`: on-device, Apple Intelligence. Private and
   offline-capable; the default for most features.
-- `PrivateCloudComputeLanguageModel` — same session API, runs server-side on Apple's
+- `PrivateCloudComputeLanguageModel`: same session API, runs server-side on Apple's
   cloud. Requires the `com.apple.developer.private-cloud-compute` entitlement. Use when
   you need a larger cloud model; reuse your existing session code.
-- Custom language model provider — bring your own model behind the same session API.
+- Custom language model provider: bring your own model behind the same session API.
 
 Attach images with `Attachment` / `ImageAttachmentContent` for multimodal prompting and
 image analysis.
@@ -171,14 +171,14 @@ image analysis.
 
 ## Related skills
 
-- `apple-intelligence` — the participation layer (Siri, Spotlight, Writing Tools, Image
+- `apple-intelligence`: the participation layer (Siri, Spotlight, Writing Tools, Image
   Playground) that surrounds on-device generation.
-- `core-ai` — running your own model files (`.aimodel`) at the tensor level, for
+- `core-ai`: running your own model files (`.aimodel`) at the tensor level, for
   features that are not language-model shaped.
 
 ## Resources
 
-- Apple — Foundation Models: <https://developer.apple.com/documentation/foundationmodels>
+- Apple: Foundation Models: <https://developer.apple.com/documentation/foundationmodels>
 - Generating content and performing tasks with Foundation Models
 - Generating Swift data structures with guided generation
 - Expanding generation with tool calling

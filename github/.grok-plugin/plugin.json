@@ -1,7 +1,7 @@
 {
   "name": "github",
-  "version": "1.4.2",
-  "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
+  "version": "1.5.0",
+  "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"

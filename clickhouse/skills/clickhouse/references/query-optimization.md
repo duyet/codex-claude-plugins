@@ -31,12 +31,12 @@ EXPLAIN ESTIMATE SELECT * FROM events WHERE user_id = 123;
 ### Rule: Smaller Table on RIGHT
 
 ```sql
--- ✅ Good: Smaller table on RIGHT
+-- GOOD: Good: Smaller table on RIGHT
 SELECT *
 FROM large_table lt
 RIGHT JOIN small_table st ON lt.id = st.id;
 
--- ❌ Bad: Large table on RIGHT
+-- BAD: Bad: Large table on RIGHT
 SELECT *
 FROM small_table st
 LEFT JOIN large_table lt ON lt.id = st.id;
@@ -167,23 +167,23 @@ EXPLAIN SELECT * FROM events WHERE email = 'user@example.com';
 ## Common Query Pitfalls
 
 ```sql
--- ❌ SELECT * reads all columns (expensive in columnar store)
+-- BAD: SELECT * reads all columns (expensive in columnar store)
 SELECT * FROM events;
 
--- ✅ Select only needed columns
+-- GOOD: Select only needed columns
 SELECT user_id, timestamp, event_type FROM events;
 
--- ❌ Suboptimal WHERE (function on column)
+-- BAD: Suboptimal WHERE (function on column)
 SELECT * FROM events WHERE toDate(timestamp) = today();
 
--- ✅ Use date functions on literal
+-- GOOD: Use date functions on literal
 SELECT * FROM events
 WHERE timestamp >= today() AND timestamp < tomorrow();
 
--- ❌ String comparison for dates
+-- BAD: String comparison for dates
 SELECT * FROM events WHERE toString(timestamp) LIKE '2024-01-01%';
 
--- ✅ Use date range
+-- GOOD: Use date range
 SELECT * FROM events
 WHERE timestamp >= toDateTime('2024-01-01 00:00:00')
   AND timestamp < toDateTime('2024-01-02 00:00:00');
@@ -245,5 +245,4 @@ SET use_uncompressed_cache = 0;
 ## See Also
 
 - `../SKILL.md` - Main skill entry point
-- `sql-reference.md` - Complete SQL dialect
-- `table-design.md` - ORDER BY and indexing strategies
+- `schema-design.md` - ORDER BY and indexing strategies

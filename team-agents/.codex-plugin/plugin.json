@@ -1,7 +1,7 @@
 {
   "name": "team-agents",
-  "version": "1.9.1",
-  "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
+  "version": "1.10.0",
+  "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -12,7 +12,7 @@
   "agents": "./agents/",
   "interface": {
     "displayName": "Team Agents",
-    "shortDescription": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
+    "shortDescription": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
     "developerName": "duyet",
     "category": "Agents",
     "capabilities": [

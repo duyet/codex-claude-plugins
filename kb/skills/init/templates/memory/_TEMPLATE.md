@@ -1,7 +1,7 @@
 ---
 name: type-short-kebab-slug
 title: Human-readable title
-description: One line — front-load keywords; this is what agents see in the index
+description: One line with the keywords first. Agents judge relevance from this in the index.
 type: user
 category: profile
 tags: [type, topic-one, topic-two]
@@ -13,12 +13,9 @@ updated: 2026-01-01
 timestamp: 2026-01-01T00:00:00Z
 ---
 
-The fact(s), compact. One entity/topic per file, ≤~25 lines. Prefer lists/tables
-over prose. Cite non-obvious claims with a [[link]] or URL.
+One fact, about 25 lines at most. Prefer lists and tables. Cite non-obvious claims with a [[link]] or URL.
 
-For `feedback`/`project` notes, add:
+For `feedback` and `project` notes, add:
 
-**Why:** the reason this matters.
-**How to apply:** the concrete action an agent should take.
-
-Link related notes inline with [[their-slug]] so nothing is orphaned.
+**Why:** the reason it matters.
+**How to apply:** the action an agent should take.

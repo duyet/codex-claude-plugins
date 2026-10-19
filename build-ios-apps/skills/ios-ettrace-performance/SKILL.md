@@ -25,7 +25,7 @@ Use a writable run folder for each profiling session:
 
 ```bash
 if [ -z "${RUN_DIR:-}" ]; then
-  RUN_DIR="$(mktemp -d "${TMPDIR:-/tmp}/codex-ios-ettrace.XXXXXX")"
+  RUN_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ios-ettrace.XXXXXX")"
 fi
 mkdir -p "$RUN_DIR"
 ```
@@ -100,21 +100,14 @@ Do not draw conclusions from an unsymbolicated flamegraph. Before every capture,
 Collect dSYMs after the final build that produced the installed app:
 
 ```bash
-SKILL_DIR="<absolute path to this loaded skill folder>"
 APP="<path-to-built-simulator-App.app>"
 DSYMS="$RUN_DIR/dsyms"
-
-"$SKILL_DIR/scripts/collect_ios_dsyms.sh" \
-  --app "$APP" \
-  --out-dir "$DSYMS" \
-  --search-root "$(dirname "$APP")" \
-  --search-root "$PWD" \
-  --extra-dsym "$RUN_DIR/ETTrace-iphonesimulator.xcarchive/dSYMs/ETTrace.framework.dSYM"
+mkdir -p "$DSYMS"
+find "$(dirname "$APP")" "$PWD" -name '*.dSYM' -type d -prune -exec cp -R {} "$DSYMS"/ \; 2>/dev/null
+cp -R "$RUN_DIR/ETTrace-iphonesimulator.xcarchive/dSYMs/ETTrace.framework.dSYM" "$DSYMS"/ 2>/dev/null || true
 ```
 
-Add `--require-framework <FrameworkName>` for app-owned dynamic frameworks that must symbolicate; use `--require-all-frameworks` only when every embedded framework is app-owned or expected to have symbols. If the helper reports a missing required app or framework dSYM, rebuild the exact simulator app with dSYM generation before tracing, or add the build output directory that
-contains those dSYMs
-as another `--search-root`.
+For app-owned dynamic frameworks that must symbolicate, confirm each has a dSYM in `$DSYMS`. If one is missing, rebuild the exact simulator app with dSYM generation before tracing, or copy the dSYMs from the build output directory.
 
 Verify important UUIDs before tracing when the report looks suspicious:
 
@@ -151,7 +144,7 @@ ettrace --simulator --verbose --dsyms "$DSYMS"
 
 Start from a stable screen, start ETTrace, perform exactly one focused flow, wait until visible work is complete, then stop the runner. For wider attribution, add `--multi-thread`; otherwise start with the main thread.
 
-In Codex, run `ettrace` with a TTY and answer prompts with `write_stdin`. Without a TTY, the runner can exit without a useful trace.
+Run `ettrace` in an interactive terminal (TTY) and answer its prompts there. Without a TTY, the runner can exit without a useful trace.
 
 ## Preserve Outputs
 
@@ -169,7 +162,7 @@ find "$RUN_DIR" -maxdepth 1 -name 'output_*.json' -newer "$CAPTURE_MARKER" -prin
   cp "$json" "$preserved"
   {
     echo "## ${preserved##*/}"
-    python3 "$SKILL_DIR/scripts/analyze_flamegraph_json.py" "$preserved"
+    wc -c "$preserved"
   } >> "$PRESERVED_DIR/summary.txt"
 done
 if [ ! -s "$PRESERVED_DIR/summary.txt" ]; then
@@ -178,11 +171,11 @@ if [ ! -s "$PRESERVED_DIR/summary.txt" ]; then
 fi
 ```
 
-Analyze only processed `output_*.json` files in `RUN_DIR`. Ignore `output.json` and raw `emerge-output/output.json` files unless debugging ETTrace itself. If the analyzer rejects the JSON shape, capture again with the Homebrew ETTrace runner and matching app-side `ETTrace.xcframework` tag instead of trying to interpret the rejected file.
+Analyze only processed `output_*.json` files in `RUN_DIR`. Ignore `output.json` and raw `emerge-output/output.json` files unless debugging ETTrace itself. If the JSON shape is unexpected, capture again with the Homebrew ETTrace runner and matching app-side `ETTrace.xcframework` tag instead of trying to interpret the rejected file.
 
 ## Read The Profile
 
-Start from `run-*/summary.txt`, then inspect processed JSON directly if needed.
+Read each preserved `output_*.json` directly (for example with `jq` or a short Python script) and rank stacks by sample weight.
 
 Report:
 

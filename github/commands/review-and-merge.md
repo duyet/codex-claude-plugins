@@ -68,7 +68,7 @@ Spawn an agent per PR:
 - Read the affected files
 - Fix ALL issues raised
 - Run build verification (`bun run build` or project-specific)
-- Commit with semantic format + co-authorship
+- Commit with semantic format
 - Push changes
 
 #### Category B: Investigate Build Failures
@@ -112,10 +112,10 @@ gh pr merge <number> --squash --admin \
 ```
 
 Known failures to ignore:
-- `Workers Builds` — always fails on non-main branches
-- `e2e-test` — cancelled/flaky
-- `unit-tests` — known Jest hanging issue
-- `claude-review` — config issues
+- `Workers Builds` - always fails on non-main branches
+- `e2e-test` - cancelled/flaky
+- `unit-tests` - known Jest hanging issue
+- `claude-review` - config issues
 
 ### Phase 3: Post-Fix Verification
 
@@ -168,12 +168,9 @@ When multiple PRs modify the same files:
 - Limit to 3-4 concurrent agents to avoid OOM on builds
 - Each agent: checkout → fix → build → commit → push
 
-### Commit Convention
+### Commit convention
 
-All fix commits must include:
-```
-Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>
-```
+Use semantic commit messages for fix commits.
 
 ### Safety
 

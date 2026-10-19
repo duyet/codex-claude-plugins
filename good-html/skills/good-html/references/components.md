@@ -1,4 +1,4 @@
-# Anthropic HTML Component Library
+# Component library
 
 Use these components to build high-density, interactive artifacts. All components are self-contained and require only the base CSS variables defined in `boilerplate.html`.
 

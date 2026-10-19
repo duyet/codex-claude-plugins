@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Wire the kb reflex into global agent config so EVERY session (Claude Code,
 # Codex, opencode) reads the brain on start. Adds a small MARKED block to each
-# tool's global instruction file — idempotent (re-run safe) and fully removable
+# tool's global instruction file - idempotent (re-run safe) and fully removable
 # (`wire.sh off` strips exactly the block, leaving the rest of the file intact).
 #   wire.sh on | off    (default: on)
 set -euo pipefail
@@ -21,10 +21,10 @@ targets=("$HOME_BASE/.claude/CLAUDE.md" "$HOME_BASE/.claude/AGENTS.md")
 [ -d "$HOME_BASE/.config/opencode" ] && targets+=("$HOME_BASE/.config/opencode/AGENTS.md")
 
 BLOCK="<!-- kb:start (managed by kb wire; remove with: kb wire off) -->
-# Knowledge Base — shared brain ($REF)
-\`$REF\` is this machine's CANONICAL, cross-agent memory. When asked to remember / save / note / capture / recall anything durable, use IT — NOT any local or built-in agent memory store.
+# Knowledge Base - shared brain ($REF)
+\`$REF\` is this machine's CANONICAL, cross-agent memory. When asked to remember / save / note / capture / recall anything durable, use IT - NOT any local or built-in agent memory store.
 On session start, read \`$REF/MEMORY.md\` (the index) and open the relevant notes; fetch a note's \`sources:\` for deeper detail.
-To capture a quick note, append a line \`- HH:MM — <note>\` to TODAY's inbox file \`$REF/raw/inbox/<YYYY-MM-DD>.md\` (exact path; create it if missing), or run \`$REF/bin/kb capture \"<note>\"\`.
+To capture a quick note, append a line \`- HH:MM - <note>\` to TODAY's inbox file \`$REF/raw/inbox/<YYYY-MM-DD>.md\` (exact path; create it if missing), or run \`$REF/bin/kb capture \"<note>\"\`.
 Write durable notes under \`$REF/memory/\` (template: \`$REF/memory/_TEMPLATE.md\`).
 After ANY write (capture or note): read the file back to confirm it, then run \`$REF/bin/kb sync\` to share it, if this kb has a git remote.
 Full protocol: \`$REF/AGENTS.md\`. Consolidate via \`$REF/DREAM.md\`. If this kb is public, never store secrets, hostnames, IPs, machine names, locations, or anything not already public (see AGENTS.md §3).

@@ -1,105 +1,34 @@
 ---
 name: init
-description: Scaffold a new shared-brain knowledge base folder (default ~/kb) — a plain-markdown, OKF v0.1-conformant memory store that any coding agent can read/write across sessions. Use when the user asks to set up, init, or bootstrap a kb / shared brain / persistent agent memory folder, or wants an OKF bundle with a graph viewer ready out of the box.
+description: Scaffold a new shared-brain knowledge base folder (default ~/kb), a plain-markdown OKF v0.1 memory store any coding agent can read and write. Use when the user asks to set up or bootstrap a kb, shared brain, or persistent agent memory folder.
 ---
 
-# init — scaffold a shared-brain kb folder
+# init
 
-## What this creates
+Creates a self-contained folder with no database and no server.
 
-A self-contained directory — plain markdown, no database, no server — that is:
+- Protocol files: `AGENTS.md` (read and write rules), `CLAUDE.md` (pointer), `DREAM.md` (consolidation pass), `MEMORY.md` (index).
+- `memory/`, an OKF v0.1 bundle with starter groups.
+- `raw/inbox/` for quick captures and `raw/` for immutable sources.
+- A vendored CLI in `bin/kb` and `scripts/`, so the folder works without this plugin. It includes the graph viewer renderer, `lint.sh`, `sync.sh`, and `wire.sh`.
 
-- **A memory protocol.** `AGENTS.md` (the full read/write/dream rules), `CLAUDE.md`
-  (thin pointer for Claude Code), `DREAM.md` (the consolidation pass), `MEMORY.md`
-  (the index every agent reads first).
-- **An OKF v0.1 bundle.** `memory/` is the bundle root; every note is one `.md`
-  file with a `type` in frontmatter. Conforms to
-  [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)
-  — see the companion **okf** skill/plugin for deeper bundle authoring and
-  validation.
-- **A capture inbox.** `raw/inbox/` for low-ceremony daily notes; `raw/` for
-  immutable source docs.
-- **Its own CLI and tooling**, vendored into `scripts/`/`bin/` so the folder
-  keeps working even if this Claude plugin is later removed: `bin/kb`
-  (capture/lint/sync/gen/viz/wire), `scripts/render_okf_viewer.py` (regenerates
-  `memory/**/index.md` + a self-contained `viz.html` graph viewer), `scripts/
-lint.sh`, `scripts/sync.sh`, `scripts/wire.sh`.
+The scaffold ships no memory content, git remote, or branding.
 
-This is the generic, brand-neutral form of a personal "shared brain" pattern —
-it ships with no memory content, no assumed git remote, and no personal
-branding. Everything it writes is a template for the user to fill in.
-
-## When to use
-
-- "set up a kb / shared brain / persistent memory folder for me"
-- "init ~/kb" or "bootstrap my knowledge base"
-- The user wants cross-session, cross-agent memory but has none yet.
-
-If a kb already exists at the target (has `AGENTS.md` or `memory/`), this skill
-is still safe to run — see Idempotency below — but check first whether the user
-actually wants `dream` (consolidate existing notes) instead of `init`.
+If a kb already exists at the target, check whether the user wants the `dream` skill instead.
 
 ## Steps
 
-1. **Resolve the target path.** Default `$HOME/kb`. Use `$KB_DIR` if set, or a
-   path the user gave explicitly. Confirm the path with the user if ambiguous.
-2. **Scaffold.** Run the bundled script with an absolute path (it does not
-   expand `~`):
+1. Resolve the target: a path the user gave, else `$KB_DIR`, else `$HOME/kb`. Confirm if ambiguous.
+2. Run `scripts/scaffold.sh <absolute-target>` from this skill's directory. It does not expand `~`. It creates only files that do not exist, makes scripts executable, and ends by rendering `memory/index.md` and `viz.html`.
+3. Report how many files were created and how many were skipped.
+4. Offer these follow-ups separately and run none without a yes.
+   - Add `export PATH="<target>/bin:$PATH"` to the shell rc.
+   - `git init`, plus `git remote add origin <url>` if the user has one.
+   - `<target>/scripts/wire.sh on`. It edits global agent config files outside the folder (`~/.claude/CLAUDE.md`, plus `~/.codex/AGENTS.md` and `~/.config/opencode/AGENTS.md` when present) so every future session reads the kb. `wire.sh off` reverses it. Explain this before asking.
+5. Do not invent personal facts to seed `memory/`. Leave it empty or ask what to record.
 
-   ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/skills/init/scripts/scaffold.sh" "$HOME/kb"
-   ```
+## Afterwards
 
-   It is idempotent — creates missing files, chmods scripts executable, seeds
-   starter `memory/{user,feedback,reference,projects,topics}/` groups, and
-   **never overwrites a file that already exists** in the target. It ends by
-   running `render_okf_viewer.py` once so `memory/index.md` and `viz.html`
-   exist immediately.
-
-3. **Report what happened**: how many files were created vs. skipped
-   (pre-existing), and the target path.
-4. **Offer, but do not run automatically, three follow-ups** — each changes
-   something outside the new folder or is otherwise consequential, so ask
-   first:
-   - **PATH.** Suggest adding `export PATH="<target>/bin:$PATH"` to the user's
-     shell rc. Don't edit their `.zshrc`/`.bashrc` yourself unless they ask.
-   - **Version control.** Offer `git init` (and `git remote add origin <url>`
-     if they have one). Skip silently if they don't want git.
-   - **Wiring.** `<target>/scripts/wire.sh on` adds a small marked block to
-     `~/.claude/CLAUDE.md` (and `~/.codex/AGENTS.md` / `~/.config/opencode/
-AGENTS.md` if those tools are present) so every future session
-     auto-reads the kb. This edits files **outside** the scaffolded folder and
-     affects every future session — explain what it does and get explicit
-     confirmation before running it. `wire.sh off` cleanly reverses it.
-5. **If the user wants example notes**, don't invent personal facts — either
-   leave `memory/` empty for them to fill in via `kb capture`, or ask what to
-   record.
-
-## After scaffolding
-
-- Point to `memory/_TEMPLATE.md` for the note format and `AGENTS.md` for the
-  full protocol — both are self-documenting inside the new folder.
-- For ongoing maintenance (merge duplicates, prune stale notes, rebuild the
-  index), use this plugin's **dream** skill against the new kb.
-- For richer OKF authoring/validation beyond what `bin/kb gen` covers (custom
-  concept types, `validate_okf.py` conformance checks), use the **okf** plugin.
-- `kb viz` (or `bin/kb viz` before `PATH` is set) opens the graph viewer any
-  time after notes are added.
-
-## Idempotency & safety
-
-- `scaffold.sh` only ever creates files that don't already exist — re-running
-  it against a partially-set-up or already-populated kb is safe and adds
-  nothing to files it finds present.
-- It never touches anything outside `<target>` — no global config, no shell
-  rc, no git remote. Those are the explicit, confirm-first follow-ups above.
-- It writes no personal data — the scaffolded files are generic templates.
-
-## Checklist
-
-- [ ] Resolved target path (arg, `$KB_DIR`, or confirmed default `~/kb`).
-- [ ] Ran `scaffold.sh` with an absolute path; reported created vs. skipped files.
-- [ ] `memory/index.md` and `viz.html` exist (scaffold.sh generates them).
-- [ ] Offered PATH / git init / wire as separate, confirm-first steps — did not
-      edit anything outside the target folder without asking.
-- [ ] Did not invent personal facts to seed `memory/` with.
+- The note format is `memory/_TEMPLATE.md` and the full protocol is `AGENTS.md`.
+- Use the `dream` skill to consolidate notes and the `okf` plugin for custom concept types and conformance checks.
+- `kb viz` opens the graph viewer.

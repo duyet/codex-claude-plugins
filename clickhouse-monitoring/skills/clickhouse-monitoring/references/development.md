@@ -153,7 +153,7 @@ const { data, error, isLoading } = useTableData({
 
 ## Adding a New Route
 
-### Step 1: Create Page Component
+### Step 1. Create Page Component
 
 Create `app/your-route/page.tsx`:
 
@@ -188,7 +188,7 @@ export default function YourRoutePage() {
 }
 ```
 
-### Step 2: Add Menu Item
+### Step 2. Add Menu Item
 
 Edit `menu.ts`:
 
@@ -203,7 +203,7 @@ Edit `menu.ts`:
 }
 ```
 
-### Step 3: Create Query Config (if needed)
+### Step 3. Create Query Config (if needed)
 
 Add to `lib/query-config/`:
 
@@ -218,268 +218,6 @@ export const yourConfig: QueryConfig = {
     table: ColumnFormat.Text,
   },
 }
-```
-
-## Adding a New Chart
-
-### Step 1: Define Chart Query
-
-Add to `lib/api/charts/your-domain-charts.ts`:
-
-```typescript
-export const yourChart: ChartQueryBuilder = (params) => {
-  const lastHours = params.lastHours || 24
-
-  return {
-    sql: `
-      SELECT
-        toStartOfInterval(event_time, INTERVAL 1 hour) AS ts,
-        COUNT() AS value
-      FROM system.query_log
-      WHERE event_time > now() - INTERVAL ${lastHours} HOUR
-      GROUP BY ts
-      ORDER BY ts
-    `,
-    columns: ['ts', 'value'],
-  }
-}
-
-export const yourCharts = {
-  'your-chart-name': yourChart,
-}
-```
-
-### Step 2: Register Chart
-
-Add to `lib/api/chart-registry.ts`:
-
-```typescript
-import { yourCharts } from './charts/your-domain-charts'
-
-export const chartRegistry = {
-  // ...
-  ...yourCharts,
-}
-```
-
-### Step 3: Create Chart Component
-
-Create `components/charts/your-chart.tsx`:
-
-```typescript
-'use client'
-import { useChartData } from '@/lib/swr/use-chart-data'
-import { ChartSkeleton } from '@/components/skeletons'
-import { ChartError } from '@/components/error-alert'
-import { AreaChart } from '@/components/charts/area-chart'
-
-export function YourChart({ hostId, interval, lastHours }: YourChartProps) {
-  const { data, error, isLoading } = useChartData({
-    name: 'your-chart-name',
-    hostId,
-    interval,
-    lastHours,
-  })
-
-  if (isLoading) return <ChartSkeleton />
-  if (error) return <ChartError error={error} />
-  if (!data || data.length === 0) return <div>No data</div>
-
-  return <AreaChart data={data} xKey="ts" yKey="value" />
-}
-```
-
-## Multi-Host Configuration
-
-### Environment Variables
-
-Configure in `.env.local`:
-
-```bash
-# Comma-separated lists (same length)
-CLICKHOUSE_HOST=prod.example.com,staging.example.com
-CLICKHOUSE_USER=admin,readonly
-CLICKHOUSE_PASSWORD=secret123,readonly456
-CLICKHOUSE_NAME="Production,Staging"
-```
-
-### Accessing Host ID
-
-```typescript
-import { useHostId } from '@/lib/swr'
-
-function YourComponent() {
-  const hostId = useHostId() // Extracts from ?host= query param
-
-  // URL: /overview?host=1 → hostId = 1 (Staging)
-  // URL: /overview?host=0 → hostId = 0 (Production)
-}
-```
-
-### ClickHouse Client with Host ID
-
-```typescript
-import { createClient } from '@clickhouse/client-web'
-import { getClickHouseConfig } from '@/lib/clickhouse'
-
-const hostId = 0
-const client = createClient(getClickHouseConfig(hostId))
-```
-
-## Code Conventions
-
-### Git Commit Format
-
-Follow semantic commit format with consistent scope:
-
-```
-feat(scope): description
-fix(scope): description
-chore(deps): description
-refactor(ui): description
-docs(api): description
-test(unit): description
-```
-
-**Always include co-authorship:**
-```
-Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>
-```
-
-**Examples:**
-```
-feat(queries): add thread analysis chart
-fix(ui): correct chart loading state
-chore(deps): upgrade React to 19
-docs(api): document streaming endpoint
-```
-
-### Component Patterns
-
-**Hooks at deepest consumer:**
-```typescript
-// Bad: Prop drilling hostId
-function Nav({ hostId }: { hostId: number }) {
-  return <MenuItem hostId={hostId} />
-}
-
-// Good: Hook at deepest consumer
-function Nav() {
-  return <MenuItem />
-}
-
-function MenuItem() {
-  const hostId = useHostId() // Call where needed
-  return <a href={`/overview?host=${hostId}`}>Overview</a>
-}
-```
-
-**Client Components:**
-- Always add `'use client'` directive
-- Use Suspense for loading states
-- Handle errors gracefully
-
-**Server Components:**
-- Don't use `'use client'` (default in Next.js)
-- Keep mostly static (no data fetching)
-- For this project: Most pages are client components
-
-### shadcn/ui Components
-
-**DO NOT modify** `components/ui/` files directly. These are installed via CLI and should remain in original state.
-
-**If you need custom styling:**
-```typescript
-// Good: Custom classes at usage site
-<Card className="hover:shadow-lg transition-all">
-  <CardContent>...</CardContent>
-</Card>
-
-// Bad: Modifying components/ui/card.tsx
-```
-
-**For reusable custom variants:**
-```typescript
-// Create wrapper in components/ (not components/ui/)
-// components/info-badge.tsx
-import { Badge } from '@/components/ui/badge'
-import { cn } from '@/lib/utils'
-
-export function InfoBadge({ className, ...props }) {
-  return (
-    <Badge
-      className={cn(
-        'border-transparent bg-blue-100 text-blue-800',
-        className
-      )}
-      {...props}
-    )
-  )
-}
-```
-
-## Testing
-
-### Unit Tests with Jest
-
-```bash
-bun run test           # Run all tests with coverage
-bun run jest           # Run Jest (excludes query-config tests)
-bun run test-queries-config  # Test query configs only
-```
-
-### Component Tests with Cypress
-
-```bash
-bun run component           # Open Cypress component tests
-bun run component:headless  # Run headless
-```
-
-### E2E Tests
-
-```bash
-bun run e2e           # Open Cypress e2e
-bun run e2e:headless  # Run headless
-```
-
-### Build Verification
-
-After changes, always run:
-```bash
-bun run build
-```
-
-This includes TypeScript type checking via `tsc`.
-
-## Deployment
-
-### Local Development
-
-```bash
-bun install    # Install dependencies
-bun run dev    # Start dev server with turbopack
-```
-
-### Production Build
-
-```bash
-bun run build  # Build standalone output
-bun run start  # Start production server
-```
-
-### Docker Deployment
-
-```bash
-docker build -t clickhouse-monitor .
-docker run -p 3000:3000 --env-file .env.local clickhouse-monitor
-```
-
-### Cloudflare Workers Deployment
-
-```bash
-bun run cf:deploy    # Build and deploy
-bun run cf:build     # Build only
-bun run cf:config    # Set secrets from .env.local
 ```
 
 ## Troubleshooting Development
@@ -499,15 +237,9 @@ bun run cf:config    # Set secrets from .env.local
 **Charts show "No data available":**
 - Verify ClickHouse table exists and has data
 - Check query is valid for ClickHouse version
-- See `docs/clickhouse-schemas/` for table requirements
 
 **Multi-host not working:**
 - Verify all environment arrays have same length
 - Check `CLICKHOUSE_HOST`, `CLICKHOUSE_USER`, `CLICKHOUSE_PASSWORD`
 - Use comma-separated values
 
-## See Also
-
-- [API Endpoints Reference](api-endpoints.md) - Complete API documentation
-- [ClickHouse Compatibility](clickhouse-compat.md) - Version-aware queries
-- [Project Repository](https://github.com/duyet/clickhouse-monitor)

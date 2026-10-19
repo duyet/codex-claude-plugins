@@ -1,196 +1,81 @@
 ---
 name: dream
-description: Consolidate a markdown knowledge base — merge near-duplicates, flag contradictions, prune stale notes, ingest inbox, refresh from sources, split, and rebuild the index. Use when a KB is noisy or stale, on a schedule, or to forget notes. Diff-for-approval; supports --auto.
+description: Consolidate a markdown knowledge base by merging near-duplicates, flagging contradictions, pruning stale notes, ingesting the inbox, refreshing from sources, and rebuilding the index. Use when a KB is noisy or stale, on a schedule, or to forget notes.
 ---
 
-# dream — KB memory consolidation
+# dream
 
-## Overview
+Maintenance pass for a markdown KB. Propose every change as a diff and apply nothing until the user approves, unless run with `--auto`.
 
-Dream is the maintenance pass that keeps a markdown knowledge base compact and
-retrievable — the agent equivalent of sleep consolidating the day's memories. Run it when
-the KB feels noisy (duplicates, contradictions, sprawl, stale facts), on a schedule, or
-to forget specific notes. Everything is proposed as a diff first; nothing changes until
-you approve (or you run `--auto`).
-
-Dream is KB-agnostic and generic. It never assumes a fixed location.
+If the KB ships its own `DREAM.md` or `AGENTS.md`, read it first and follow its note format, tag vocabulary, and sync steps.
 
 ## Invocation
 
-- `dream [<path>]` — consolidate the KB at `<path>`. If omitted, use `$KB_DIR`; if that
-  is unset, ask for the path. Examples: `dream ./docs/kb`, `dream $KB_DIR`.
-- `dream --auto [<path>]` — non-interactive: apply merges and prunes silently, skip
-  contradictions (they need human judgment), guarded by a lock file.
-- `dream forget "<query>" [<path>]` — find notes matching a query and propose deletion
-  (same diff-for-approval flow as consolidation).
+- `dream [<path>]` consolidates the KB at `<path>`, else `$KB_DIR`, else ask.
+- `dream --auto [<path>]` runs without prompts. It applies merges and prunes, skips contradictions, and takes a lock.
+- `dream forget "<query>" [<path>]` lists notes matching the query and proposes deleting them through the same diff flow. Pinned notes are deleted only with per-note confirmation.
 
-A note is any `*.md` file with YAML frontmatter. Map missing fields gracefully:
+A note is a `*.md` file with YAML frontmatter: `name` (equals the filename stem), `description`, `type`, `tags`, `created`, `updated`, and optional `sources`, `pinned`, `confidence` (0 to 1). Treat a missing `type` as `unknown`, missing dates as file mtime, missing `pinned` as false.
 
-```yaml
----
-name: type-short-slug # equals the filename stem
-description: one line, keyword-front-loaded
-type: tech # user | feedback | project | reference | tech | ...
-tags: [topic, topic]
-sources: ["https://example.com/llms.txt"]
-created: 2026-06-01
-updated: 2026-06-13
-pinned: false # optional — pinned notes are never pruned or merged
-confidence: 0.8 # optional — 0..1; low + generic => prune candidate
----
-```
+## The pass
 
-- No `type` => `unknown`. No `created`/`updated` => use file mtime. No `confidence` =>
-  neutral. No `pinned` => false.
+Hold everything in memory until the apply step.
 
-## The pass (run strictly in order)
+1. Resolve the KB. Expect `memory/` notes, a `MEMORY.md` index, `raw/inbox/` captures, `raw/` source docs, and a state file. Adapt if the layout differs.
+2. Ingest the inbox. Promote durable, general facts from `raw/inbox/*` into notes, then delete the inbox files. Keep `raw/` source docs and record them as processed in state.
+3. Merge near-duplicates. Two notes qualify when they share a `type`, overlap on more than about 60% of significant nouns, and neither is pinned. Write one note that keeps the clearest, most recent wording. Lose words, not facts.
+4. Flag contradictions. When two notes assert opposing facts, propose the more recent, higher-confidence one as the winner and show both.
+5. Split notes that hold several facts into one note per fact, named `<type>-<slug>.md`.
+6. Validate frontmatter. Fix the `<type>-` filename prefix if the type changed. No nested `metadata:` blocks.
+7. Refresh notes whose `sources:` URL is older than about 30 days or whose facts look outdated. Prefer `llms.txt`, bump `updated:`, and skip silently when offline.
+8. Compact each note to its essential facts, about 25 lines at most.
+9. Propose prunes for notes that are wrong, obsolete, out of scope, past their type's retention, or below 0.3 confidence with nothing project-specific. Never prune `pinned: true`. Refresh before deleting for age alone.
+10. Fix `[[slug]]` links, remove links to deleted notes, give every note at least one link, and fold tag sprawl into the existing vocabulary.
+11. Rebuild `MEMORY.md` from the surviving notes, grouped by `type`, one line each: `[Title](<file>) - hook`.
+12. Remove any secrets, hosts, or confidential facts that slipped in. Set `last_dream` in state to today.
 
-Work in memory until the apply step; modify nothing early.
+Retention in days by type, overridable by a `retention:` map in state: `feedback` 180, `tech` 365, `unknown` 90, `user`, `project`, and `reference` kept forever.
 
-1. **Resolve the KB.** Confirm `<path>` holds `memory/` (notes) and ideally `MEMORY.md`
-   (index), `raw/inbox/` (captures), `raw/` (source docs), and a state file. If the
-   layout differs, operate on whatever `*.md` files exist and adapt.
-2. **Load.** Read the index, every note, `raw/inbox/*`, source docs, and state.
-3. **Ingest inbox.** Promote durable, general facts from `raw/inbox/*` into `memory/`
-   (create or merge notes). Delete inbox files once distilled (they are ephemeral). Keep
-   `raw/` source docs (immutable ground truth); record processed ones in state.
-4. **Dedupe and merge (near-duplicates).** Group notes by `type`. Two notes are
-   near-duplicates when: same `type`; significant-noun overlap above ~60% (a proxy for
-   cosine similarity > 0.9); neither is `pinned`. Draft a merged note that is more
-   complete and specific than either, keeping the clearest, most recent phrasing.
-   Lossless of meaning, not of words.
-5. **Contradictions.** Two notes assert opposing facts on the same topic (for example
-   "deploy to ECS" vs "deploy to Vercel"). Proposed winner: more recent with higher
-   confidence. Present both for A/B/skip (interactive); skip in `--auto`.
-6. **Split.** If a note holds multiple distinct facts, split into atomic notes (one fact
-   per file), renamed to `<type>-<slug>.md`.
-7. **Validate frontmatter.** Every note has `name` (equals filename stem), `description`,
-   `type`, `tags`, `created`, `updated`. Fix the `<type>-` filename prefix if the type
-   changed. No nested `metadata:` blocks.
-8. **Refresh from sources.** For notes with a `sources:` URL whose `updated:` is stale
-   (older than ~30 days) or whose facts look outdated, fetch the source (prefer
-   `llms.txt`), update the note, bump `updated:`. Skip silently when offline.
-9. **Compact.** Trim each note to essential facts; drop filler. Aim for ~25 lines or
-   fewer.
-10. **Prune candidates.** A note is a prune candidate when any holds:
-    - its `type` has a retention policy and it is older than the policy's days (compare
-      `created`/`updated` to today);
-    - `confidence` is below 0.3 AND it has no project-unique info (no paths,
-      identifiers, or domain nouns);
-    - it is wrong, obsolete, or out of scope.
-      Never prune `pinned: true`. Prefer refreshing (step 8) over deleting merely because
-      a note is old.
-11. **Relink and retag.** Fix `[[slug]]` references; ensure no orphans (each note links
-    at least one other); merge tag sprawl into the controlled vocabulary; drop links to
-    deleted notes.
-12. **Rebuild index.** Regenerate `MEMORY.md` from surviving notes, grouped by `type`,
-    one line each: `[Title](file) — hook`.
-13. **Verify scope.** Confirm no secrets, hosts, or confidential facts slipped in;
-    remove any that did.
-14. **Stamp.** Set `state.last_dream` to today.
+## Diff report
 
-## Retention policies (load in step 1)
-
-Default per-type retention, in days (`null` means keep forever). Override via a
-`retention:` map in the KB's state or config file.
-
-- `feedback`: 180
-- `project`: null
-- `reference`: null
-- `tech`: 365
-- `user`: null
-- `unknown`: 90
-
-## Diff report (interactive)
-
-Print exactly this before any change. Omit any section that has zero items.
+Print this before any change and omit empty sections.
 
 ```text
-## dream — consolidation report
+## dream report
 
 Merges (<N>):
-  [note:<file1>] + [note:<file2>] -> "<merged summary, ~80 chars>"
+  <file1> + <file2> -> "<merged summary>"
 
 Conflicts (<N>):
-  [note:<fileA>] vs [note:<fileB>] — "<topic>" [A/B/skip]
+  <fileA> vs <fileB> on "<topic>" [A/B/skip]
 
 Prune (<N>):
-  [note:<file>] — <type>, <age>d old
+  <file> (<type>, <age>d old)
 
-Inbox ingested (<N>), refreshed (<N>), split (<N>), relinked (<N>).
+Inbox ingested <N>, refreshed <N>, split <N>, relinked <N>.
 
-Proposed: <N> merges, <N> prunes, <N> conflicts. Apply? [Y/n]
+Apply? [Y/n]
 ```
 
-If there are zero proposals, print `Dream complete. No duplicate, contradictory, or stale
-notes found.` and stop.
+With no proposals, print `Dream complete. Nothing to change.` and stop. On `n`, print `Cancelled. No changes made.`
 
-## Resolve and apply (interactive)
+## Apply order
 
-- For each conflict, collect `A`, `B`, or `skip` (empty input = skip).
-- Final confirm: `Apply? [Y/n]`. `n` or `no` prints `Cancelled. No changes made.` and
-  stops.
-- On confirm, apply in this order:
-  1. **Merges** — write the merged note (`<type>-<slug>.md`; `type` and `updated` = today;
-     `confidence` = the higher of the two originals; a `source: dream` marker), delete
-     both originals, and rewrite inbound links to point at the merged slug.
-  2. **Contradictions** — delete the loser of each resolved A/B pair; skipped pairs stay
-     untouched.
-  3. **Prunes** — delete the note and its index line.
-  4. **Split, refresh, compact, relink, index rebuild** — apply the file writes.
-  5. **Stamp** state, and run the KB's sync step only if one exists and only after the
-     user confirms — never auto-push.
+1. Merges. Write the merged note with `updated` set to today, the higher `confidence`, and `source: dream`. Delete both originals and rewrite inbound links.
+2. Contradictions. Delete the loser of each resolved pair and leave skipped pairs alone.
+3. Prunes. Delete the note and its index line.
+4. Splits, refreshes, compaction, relinking, and the index rebuild.
+5. Stamp state. Run the KB's sync step only if one exists and the user confirms. Never push automatically.
 
-## Auto mode (`--auto`)
+## Auto mode
 
-- **Concurrency guard.** Before working, check `${TMPDIR:-/tmp}/dream_auto.lock`. If it
-  exists and is less than 10 minutes old, print
-  `[dream --auto] another run in progress — skipping.` and stop. Otherwise write the lock
-  (current timestamp); delete it on every exit path.
-- Run load and analyze (steps 1–3). Apply merges and prunes silently (no diff, no
-  prompt). Skip contradictions (human judgment). Apply split, refresh, compact, relink,
-  index rebuild, and stamp.
-- Print: `[dream --auto] kb=<path>  merged=<N>  pruned=<N>  conflicts_skipped=<N>`.
-- If contradictions were skipped, leave a single reminder note so the human runs
-  interactive `dream` to resolve them. First search for an existing `dream-auto` reminder
-  (by `source: dream-auto`); skip storing if one already exists.
+- Check `${TMPDIR:-/tmp}/dream_auto.lock`. If it is under 10 minutes old, print `[dream --auto] another run in progress, skipping.` and stop. Otherwise write the lock and delete it on every exit path.
+- Skip the diff and prompts. Skip contradictions.
+- Print `[dream --auto] kb=<path> merged=<N> pruned=<N> conflicts_skipped=<N>`.
+- If conflicts were skipped, leave one reminder note marked `source: dream-auto` so a human runs interactive `dream`. Do not add a second if one exists.
 
-## forget
+## Rules
 
-`dream forget "<query>" [<path>]` searches notes by keyword and semantic match, lists
-them, and proposes deletion as a diff:
-
-```text
-[note:<file>] — "<title>" [Y/n]
-```
-
-Apply only approved deletions (and their index lines). Pinned notes are listed but not
-deleted unless explicitly confirmed per note.
-
-## Principles
-
-- **Lossless of meaning** — compaction removes words and redundancy, never facts.
-- **Atomic** — one fact per file after the pass.
-- **Retrieval-first** — every `description` lets an agent judge relevance from the index
-  alone; every note is reachable via tags and `[[links]]`.
-- **Conservative deletes** — prune only what is wrong, redundant, or out of scope; refresh
-  rather than delete just because old.
-- **Idempotent** — running twice in a row changes nothing the second time.
-- **No surprises** — diff before write; never auto-push or auto-sync without approval.
-
-## Checklist
-
-- [ ] Resolved KB path from the argument or `$KB_DIR`; never assumed a fixed location.
-- [ ] Held everything in memory; no writes before the diff.
-- [ ] Inbox ingested and deleted; source docs kept.
-- [ ] Near-duplicates merged (same type, >60% noun overlap, not pinned).
-- [ ] Contradictions resolved (A/B) or skipped (`--auto`).
-- [ ] Stale notes refreshed from sources before pruning; pinned notes untouched.
-- [ ] Index rebuilt; no orphans; no broken `[[links]]`.
-- [ ] Scope verified (no secrets, hosts, or confidential facts).
-- [ ] State stamped; lock removed (`--auto`).
-
-## Resources
-
-- If the KB ships its own `DREAM.md` or `AGENTS.md`, read it first and align with its note
-  format, controlled vocabulary, and sync steps.
+- The pass must be idempotent. A second run changes nothing.
+- Every `description` must let an agent judge relevance from the index alone.
+- Never assume a fixed KB location.

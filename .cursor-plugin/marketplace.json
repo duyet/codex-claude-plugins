@@ -10,22 +10,22 @@
     {
       "name": "team-agents",
       "source": "team-agents",
-      "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution"
+      "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work."
     },
     {
       "name": "commit",
       "source": "commit",
-      "description": "Create a Git commit with semantic commit message format and PR workflow with templates"
+      "description": "Semantic commits, with optional push or a PR from templates."
     },
     {
       "name": "frontend-design",
       "source": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics"
+      "description": "Distinctive, production-grade frontend design that avoids generic AI aesthetics."
     },
     {
       "name": "interview",
       "source": "interview",
-      "description": "Conduct in-depth requirements interviews using Socratic questioning"
+      "description": "Interview the user to clarify requirements, then write a spec."
     },
     {
       "name": "statusline",
@@ -40,42 +40,42 @@
     {
       "name": "github",
       "source": "github",
-      "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection"
+      "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label."
     },
     {
       "name": "fix",
       "source": "fix",
-      "description": "Fix issues, tests, and CI failures with intelligent problem detection"
+      "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR."
     },
     {
       "name": "clickhouse",
       "source": "clickhouse",
-      "description": "Comprehensive ClickHouse knowledge base from Altinity KB + official docs"
+      "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries."
     },
     {
       "name": "prompt-engineering",
       "source": "prompt-engineering",
-      "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs"
+      "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok."
     },
     {
       "name": "clickhouse-monitoring",
       "source": "clickhouse-monitoring",
-      "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters"
+      "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries."
     },
     {
       "name": "unsloth-training",
       "source": "unsloth-training",
-      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF."
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT: rewards, datasets, FP8, vision, MLX, export, mobile."
     },
     {
       "name": "good-html",
       "source": "good-html",
-      "description": "Generate or review high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns."
+      "description": "Dense, interactive, self-contained HTML artifacts and reviews."
     },
     {
       "name": "anyrouter",
       "source": "anyrouter",
-      "description": "Wire AnyRouter into coding agents. Universal OpenAI-compatible LLM gateway for 150+ models, migration recipes from Anthropic/OpenAI/OpenRouter, and a remote MCP server for keys and credits."
+      "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server."
     },
     {
       "name": "sag-notify",
@@ -90,12 +90,12 @@
     {
       "name": "build-ios-apps",
       "source": "build-ios-apps",
-      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI."
+      "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI."
     },
     {
       "name": "agent-loop",
       "source": "agent-loop",
-      "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously."
+      "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle."
     },
     {
       "name": "kb",
@@ -110,7 +110,7 @@
     {
       "name": "command-code",
       "source": "command-code",
-      "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent — fan out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel."
+      "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees."
     }
   ]
 }

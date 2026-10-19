@@ -1,7 +1,7 @@
 {
   "name": "agent-loop",
-  "version": "0.4.0",
-  "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+  "version": "0.5.0",
+  "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -11,7 +11,7 @@
   "commands": "./commands/",
   "interface": {
     "displayName": "Agent Loop",
-    "shortDescription": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+    "shortDescription": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
     "developerName": "duyet",
     "category": "Automation",
     "capabilities": [

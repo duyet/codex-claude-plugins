@@ -1,4 +1,5 @@
 ---
+name: review-bots
 description: >-
   Knowledge base for parsing AI code review bot comments on GitHub PRs.
   Covers CodeRabbit, Sourcery, and Gemini - bot identification, comment formats,
@@ -80,15 +81,15 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
 ```
 
 **Parsing suggestions from body:**
-- Look for ` ```suggestion ` blocks — these are direct replacements
-- Look for ` ```diff ` blocks — these show before/after
+- Look for ` ```suggestion ` blocks - these are direct replacements
+- Look for ` ```diff ` blocks - these show before/after
 - Text-only comments describe the issue; use code understanding to fix
 
 ### Resolving Comments
 
 ```bash
 # After fixing, minimize/resolve the review thread
-# (GitHub API doesn't support resolving — push a fix commit and the bot updates)
+# (GitHub API doesn't support resolving - push a fix commit and the bot updates)
 ```
 
 CodeRabbit automatically re-reviews after new commits and updates its summary.
@@ -137,11 +138,11 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
 - Severity is in the label: `(bug)`, `(refactoring)`, `(style)`, `(performance)`
 
 ### Priority Order
-1. `bug` — fix immediately
-2. `security` — fix immediately
-3. `performance` — fix if straightforward
-4. `refactoring` — apply if it improves readability
-5. `style` — apply if consistent with project conventions
+1. `bug` - fix immediately
+2. `security` - fix immediately
+3. `performance` - fix if straightforward
+4. `refactoring` - apply if it improves readability
+5. `style` - apply if consistent with project conventions
 
 ## Gemini Code Assist (`gemini-code-assist[bot]`)
 
@@ -187,10 +188,10 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
 - Categories: security, performance, correctness, style, documentation
 
 ### Priority Order
-1. `critical` — fix immediately
-2. `high` — fix immediately
-3. `medium` — fix if clear
-4. `low` — apply if simple
+1. `critical` - fix immediately
+2. `high` - fix immediately
+3. `medium` - fix if clear
+4. `low` - apply if simple
 
 ## Unified Parsing Strategy
 
@@ -212,7 +213,7 @@ REVIEW_COMMENTS=$(gh api "repos/$OWNER/$REPO/pulls/$PR_NUMBER/comments" \
     created: .created_at
   }]")
 
-# Top-level comments (summaries — less actionable)
+# Top-level comments (summaries - less actionable)
 SUMMARY_COMMENTS=$(gh api "repos/$OWNER/$REPO/issues/$PR_NUMBER/comments" \
   --jq "[.[] | select(.user.login | test(\"coderabbit|sourcery|gemini\")) | {
     bot: .user.login,

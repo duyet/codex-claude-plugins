@@ -20,8 +20,8 @@ Choose a track based on your goal:
 
 - Choose the scene model first: `WindowGroup`, `Window`, `Settings`, `MenuBarExtra`, or `DocumentGroup`.
 - If the app combines a normal main window and a `MenuBarExtra`, use `WindowGroup(..., id:)` for the primary window when it should appear at launch. Treat `Window(...)` as a better fit for auxiliary/on-demand singleton windows; in menu-bar-heavy apps, a `Window(...)` scene may not present the main window automatically at launch.
-- Before creating the scaffold, check whether the workspace is already inside a git repo with `git rev-parse --is-inside-work-tree`. If not, run `git init` at the project root so Codex app git-backed features are available from the start. Do not initialize a nested repo inside an existing parent checkout.
-- For a new app scaffold, also create one project-local `script/build_and_run.sh` and `.codex/environments/environment.toml` so the Codex app Run button works immediately. Use the exact bootstrap contract from `build-run-debug` and its `references/run-button-bootstrap.md` file rather than inventing a second variant here.
+- Before creating the scaffold, check whether the workspace is already inside a git repo with `git rev-parse --is-inside-work-tree`. If not, run `git init` at the project root. Do not initialize a nested repo inside an existing parent checkout.
+- For a new app scaffold, also create one project-local `script/build_and_run.sh`. Use the bootstrap contract in `../build-run-debug/references/run-button-bootstrap.md` rather than inventing a second variant.
 - Decide which state is app-wide, scene-scoped, or window-scoped before writing views.
 - Sketch file and module boundaries before writing the full UI. For any non-trivial app, create the folder structure first and split files by responsibility from the start.
 - Use a single Swift file only for tiny throwaway examples or snippets: roughly under 50 lines, one screen, no persistence, no networking/process client, and no reusable models. Anything beyond that should be multi-file immediately.
@@ -53,7 +53,7 @@ Before writing the full UI:
 2. Choose state ownership: app-wide, scene-scoped, window-scoped, or view-local.
 3. Sketch file and module boundaries.
 4. Create the folder structure before filling in the UI.
-5. Keep `script/build_and_run.sh` and `.codex/environments/environment.toml` separate from app source.
+5. Keep `script/build_and_run.sh` separate from app source.
 
 ## General Rules To Follow
 

@@ -7,7 +7,7 @@ set -euo pipefail
 
 REPO="${KB_DIR:-$HOME/kb}"
 cd "$REPO"
-# `timestamp` (ISO 8601) is required by our lint — stricter than the OKF spec
+# `timestamp` (ISO 8601) is required by our lint - stricter than the OKF spec
 # (which only mandates `type`), matching Google's reference validator, which
 # rejects a concept missing type/title/description/timestamp.
 REQUIRED=(name description type tags created updated timestamp)
@@ -24,7 +24,7 @@ while IFS= read -r f; do
 done < <(find memory -type f -name '*.md' | sort)
 
 if [[ ${#notes[@]} -eq 0 ]]; then
-	echo "✓ 0 notes yet — nothing to lint"
+	echo "✓ 0 notes yet - nothing to lint"
 	exit 0
 fi
 
@@ -50,7 +50,7 @@ for f in "${notes[@]}"; do
 	}
 
 	grep -qE '^metadata:' <<<"$fm" && {
-		echo "✗ $f: nested 'metadata:' block — use top-level fields"
+		echo "✗ $f: nested 'metadata:' block - use top-level fields"
 		fail=1
 	}
 
@@ -65,10 +65,10 @@ done
 # Broken-link check across all notes.
 while read -r target; do
 	[[ -z "$target" ]] && continue
-	[[ "$slugs" == *" $target "* ]] || echo "✗ broken link: [[$target]] has no note (stub — create it or fix)"
+	[[ "$slugs" == *" $target "* ]] || echo "✗ broken link: [[$target]] has no note (stub - create it or fix)"
 done < <(grep -rho '\[\[[^]]*\]\]' "${notes[@]}" 2>/dev/null | sed 's/\[\[//;s/\]\]//' | sort -u)
 
-# Security leak check — only meaningful if this repo is public (AGENTS.md §3).
+# Security leak check - only meaningful if this repo is public (AGENTS.md §3).
 while IFS= read -r line; do
 	[[ -z "$line" ]] && continue
 	echo "✗ possible secret/host leak: $line"

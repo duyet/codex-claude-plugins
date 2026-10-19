@@ -10,19 +10,19 @@ description: Apple Intelligence participation layer. Wire an app's actions and c
 Apple Intelligence is the personal intelligence system behind built-in capabilities
 across Apple platforms. It runs on-device on Apple silicon and in Private Cloud
 Compute. Your app participates by teaching the system about its **actions** and
-**content** so system features — Siri, Spotlight, Shortcuts, Writing Tools, Image
-Playground, Visual Intelligence, Genmoji, and summaries — can use them.
+**content** so system features, Siri, Spotlight, Shortcuts, Writing Tools, Image
+Playground, Visual Intelligence, Genmoji, and summaries, can use them.
 
 The participation contract is the **App Intents** framework: an `AppIntent` wraps one
 of your app's actions; an `AppEntity` represents the data those actions operate on.
 Apple Intelligence uses donated intents/entities, your Spotlight index, and declared
-schemas to find and act on your content — even when described vaguely.
+schemas to find and act on your content, even when described vaguely.
 
 Two sibling skills handle the custom-model side and are out of scope here:
 
-- **`foundation-models`** — the Foundation Models framework for custom generative
+- **`foundation-models`**: the Foundation Models framework for custom generative
   features (prompting, guided generation, tool calling, Private Cloud Compute).
-- **`core-ai`** — running your own deep-learning model files (`.aimodel`) on-device.
+- **`core-ai`**: running your own deep-learning model files (`.aimodel`) on-device.
 
 This skill covers only the built-in intelligence surfaces an app adopts.
 
@@ -57,20 +57,20 @@ case .unavailable(let other):
 The single biggest lever. Make the system aware of your actions and data via the App
 Intents framework:
 
-- **App intents** — a custom type encapsulating one action. Ship in your app or an app
+- **App intents**: a custom type encapsulating one action. Ship in your app or an app
   extension so the action runs even when the app isn't open. Each intent performs an
   action in `perform()`, returns a result/error, declares parameters, and provides a
   localized title Siri and Shortcuts can display.
-- **App entities** — lightweight versions of your data objects. Define them only for
+- **App entities**: lightweight versions of your data objects. Define them only for
   the subset of data people see and might reference with Siri ("this photo", "this
   album"). Real data objects stay the source of truth.
-- **App enums** — enumerate fixed choices (e.g. repeat options) so the system can
+- **App enums**: enumerate fixed choices (e.g. repeat options) so the system can
   resolve parameters.
-- **Donations** — when someone performs an action in your UI, donate the matching
+- **Donations**: when someone performs an action in your UI, donate the matching
   intent/entity. Donations give Apple Intelligence behavioral cues to predict and
   disambiguate. Donate only direct UI interactions, not actions Siri or Shortcuts
   initiated.
-- **Schemas (domains)** — the predefined intent/entity shapes for common actions (mail,
+- **Schemas (domains)**: the predefined intent/entity shapes for common actions (mail,
   messaging, files, etc.). Prefer building from a schema over a custom intent; schemas
   are the contract Apple Intelligence uses to match everyday phrases.
 
@@ -106,7 +106,7 @@ struct OrderAlbum: AppIntent {
 An `AppShortcut` bundles an `AppIntent` with a title, image, preconfigured parameters,
 and spoken phrases so it appears polished in Shortcuts and other system experiences.
 The compiler generates system metadata, so shortcuts are available the moment someone
-installs your app — no registration needed. Define them in a type adopting the
+installs your app, no registration needed. Define them in a type adopting the
 `AppShortcutProvider` protocol, alongside the intents they use. Surface them in-app
 with tip views.
 
@@ -115,16 +115,16 @@ with tip views.
 Beyond a basic App Intents adoption, make content discoverable by Apple Intelligence
 specifically:
 
-- **Index entities into Spotlight** — Apple Intelligence uses Spotlight's semantic
+- **Index entities into Spotlight**: Apple Intelligence uses Spotlight's semantic
   search to find your content even when described vaguely. This is what makes "the
   email from Mei about the Q3 plan" work.
-- **Choose transferable types** — conform entities/values to transferable types so the
+- **Choose transferable types**: conform entities/values to transferable types so the
   system can move content across apps for cross-app Siri tasks.
-- **Adopt schemas** — the contract the system uses to identify, query, and understand
+- **Adopt schemas**: the contract the system uses to identify, query, and understand
   actions and content, and to match them to conversational phrases.
-- **Associate entities with views / user activities** — gives Apple Intelligence
+- **Associate entities with views / user activities**, gives Apple Intelligence
   onscreen context so someone can refer to what's visible ("this photo").
-- **Donate actions and content** — behavioral cues for prediction and disambiguation.
+- **Donate actions and content**: behavioral cues for prediction and disambiguation.
 
 ## Spotlight / semantic indexing
 
@@ -155,10 +155,10 @@ description, an optional source image, and a style. Present a system sheet (Swif
 view controller (UIKit/AppKit); the system manages all interaction and delivers the
 resulting image. Key API surface:
 
-- `ImagePlaygroundViewController` — the standard system interface (UIKit/AppKit).
-- `ImagePlaygroundConcept` — text elements specifying content to include.
-- `ImagePlaygroundStyle` / `ImagePlaygroundOptions` — style and generation options.
-- `ImageCreator` — generate images programmatically without the UI.
+- `ImagePlaygroundViewController`: the standard system interface (UIKit/AppKit).
+- `ImagePlaygroundConcept`: text elements specifying content to include.
+- `ImagePlaygroundStyle` / `ImagePlaygroundOptions`, style and generation options.
+- `ImageCreator`: generate images programmatically without the UI.
 - SwiftUI sheet modifier:
 
 ```swift
@@ -174,7 +174,7 @@ imagePlaygroundSheet(
 ## Visual Intelligence
 
 For object/scene scanning via Camera Control, adopt Visual Intelligence. The framework
-detects content and exchanges information with your app using App Intents — so your App
+detects content and exchanges information with your app using App Intents, so your App
 Intents participation is also what makes you a destination for Visual Intelligence
 results.
 
@@ -205,16 +205,16 @@ results.
 
 ## Resources
 
-- Apple Intelligence overview — <https://developer.apple.com/documentation/technologyoverviews/apple-intelligence>
-- Built-in intelligence (on-device vision/speech/NLP) — <https://developer.apple.com/documentation/technologyoverviews/built-in-intelligence>
-- Generative models overview — <https://developer.apple.com/documentation/technologyoverviews/generative-models>
-- Apple Intelligence and Siri AI — <https://developer.apple.com/documentation/appintents/apple-intelligence-and-siri-ai>
-- Spotlight integration — <https://developer.apple.com/documentation/appintents/spotlight>
-- Donations and discovery — <https://developer.apple.com/documentation/appintents/donations-and-discovery>
-- Getting started with App Intents — <https://developer.apple.com/documentation/appintents/getting-started-with-the-app-intents-framework>
-- App entities — <https://developer.apple.com/documentation/appintents/app-entities>
-- App Shortcuts — <https://developer.apple.com/documentation/appintents/app-shortcuts>
-- AppIntent protocol — <https://developer.apple.com/documentation/appintents/appintent>
-- Image Playground — <https://developer.apple.com/documentation/imageplayground>
-- Foundation Models quick start (eligibility code) — <https://developer.apple.com/documentation/foundationmodels/generating-content-and-performing-tasks-with-foundation-models>
+- Apple Intelligence overview: <https://developer.apple.com/documentation/technologyoverviews/apple-intelligence>
+- Built-in intelligence (on-device vision/speech/NLP), <https://developer.apple.com/documentation/technologyoverviews/built-in-intelligence>
+- Generative models overview: <https://developer.apple.com/documentation/technologyoverviews/generative-models>
+- Apple Intelligence and Siri AI: <https://developer.apple.com/documentation/appintents/apple-intelligence-and-siri-ai>
+- Spotlight integration: <https://developer.apple.com/documentation/appintents/spotlight>
+- Donations and discovery: <https://developer.apple.com/documentation/appintents/donations-and-discovery>
+- Getting started with App Intents: <https://developer.apple.com/documentation/appintents/getting-started-with-the-app-intents-framework>
+- App entities: <https://developer.apple.com/documentation/appintents/app-entities>
+- App Shortcuts: <https://developer.apple.com/documentation/appintents/app-shortcuts>
+- AppIntent protocol: <https://developer.apple.com/documentation/appintents/appintent>
+- Image Playground: <https://developer.apple.com/documentation/imageplayground>
+- Foundation Models quick start (eligibility code), <https://developer.apple.com/documentation/foundationmodels/generating-content-and-performing-tasks-with-foundation-models>
 - Sibling skills: `foundation-models`, `core-ai`, `ios-app-intents`

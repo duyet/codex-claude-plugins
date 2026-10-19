@@ -1,6 +1,6 @@
 {
   "name": "build-macos-apps",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
   "author": {
     "name": "duyet",
@@ -10,7 +10,6 @@
   "logo": "./assets/logo.svg",
   "skills": "./skills/",
   "commands": "./commands/",
-  "agents": "./agents/",
   "interface": {
     "displayName": "Build macOS Apps",
     "shortDescription": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
@@ -18,8 +17,7 @@
     "category": "Development",
     "capabilities": [
       "Skill",
-      "Command",
-      "Agent"
+      "Command"
     ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"

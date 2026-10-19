@@ -41,9 +41,9 @@
 
 ## Minimum Dataset Size
 
-- **100 rows** — minimum for reasonable results
-- **1,000+ rows** — recommended for good quality
-- Quality > quantity — clean, consistent data matters more
+- **100 rows** - minimum for reasonable results
+- **1,000+ rows** - recommended for good quality
+- Quality > quantity - clean, consistent data matters more
 
 ## Applying Chat Templates
 
@@ -105,8 +105,8 @@ dataset = to_sharegpt(
 )
 ```
 
-- `{column}` — required column reference
-- `[[text {column}]]` — optional (skipped if value missing)
+- `{column}` - required column reference
+- `[[text {column}]]` - optional (skipped if value missing)
 
 ## Extending to Multi-Turn
 

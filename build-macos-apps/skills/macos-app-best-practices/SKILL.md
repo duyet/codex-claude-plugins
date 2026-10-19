@@ -174,9 +174,9 @@ adds the Mac entitlement to the Mac build only and adds a "My Mac" destination.
 
 Choose the UI idiom in Xcode after enabling Mac Catalyst:
 
-- **Scale Interface to Match iPad** — iPad idiom. Fastest; UI scaled to the Mac with
+- **Scale Interface to Match iPad**: iPad idiom. Fastest; UI scaled to the Mac with
   iPad-like metrics. The default.
-- **Optimize Interface for Mac** — Mac idiom. Controls look and behave like AppKit;
+- **Optimize Interface for Mac**: Mac idiom. Controls look and behave like AppKit;
   points equal AppKit points. May require re-laying out hard-coded sizes and constraints.
   Detect via `traitCollection.userInterfaceIdiom == .mac`.
 
@@ -235,10 +235,10 @@ let style = UIAlertController.Style.actionSheet
 
 ## When To Use Other Skills
 
-- `swiftui-patterns` — concrete scene/window/toolbar/settings/split-view implementations.
-- `window-management` — window chrome, placement, restoration, borderless windows.
-- `appkit-interop` — reaching AppKit (NSWindow, panels, responder chain) from SwiftUI.
-- `signing-entitlements` / `packaging-notarization` — ship the app once it builds.
+- `swiftui-patterns`: concrete scene/window/toolbar/settings/split-view implementations.
+- `window-management`: window chrome, placement, restoration, borderless windows.
+- `appkit-interop`: reaching AppKit (NSWindow, panels, responder chain) from SwiftUI.
+- `signing-entitlements` / `packaging-notarization`, ship the app once it builds.
 
 ## Resources
 

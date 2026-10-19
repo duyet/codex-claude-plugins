@@ -91,43 +91,6 @@ export const mergesConfig: QueryConfig = {
 - 2 = TTLDeleteMerge
 - 3 = TTLRecompressMerge
 
-## Schema Documentation
-
-### Available Schemas
-
-The project includes ClickHouse schema documentation per version:
-
-```
-docs/clickhouse-schemas/
-├── v23.8.md
-├── v24.1.md
-├── v24.3.md
-├── v24.5.md
-├── v24.6.md
-├── v24.7.md
-├── v24.8.md
-├── v24.9.md
-├── v24.10.md
-├── v24.11.md
-├── v24.12.md
-└── tables/
-    ├── query_log.md
-    ├── part_log.md
-    ├── processes.md
-    └── ...
-```
-
-### Table Documentation
-
-Each table has a markdown file documenting:
-- Table purpose and requirements
-- Column availability by version
-- Query examples
-
-**Example: `tables/query_log.md`**
-```markdown
-# system.query_log
-
 ## Purpose
 Logs all queries executed on the server.
 
@@ -336,9 +299,9 @@ This version is cached and used to select appropriate queries from `VersionedSql
 
 ## Best Practices
 
-### 1. Always Check Schema Docs
+### 1. Check the schema first
 
-Before writing queries, check `docs/clickhouse-schemas/tables/{table}.md` for:
+Before writing queries, check the ClickHouse docs for the target system table:
 - Column availability by version
 - Type changes
 - Query requirements
@@ -430,4 +393,3 @@ sql: [
 
 - [API Endpoints Reference](api-endpoints.md) - Using queries in API
 - [Development Guide](development.md) - Adding query configs
-- [Schema Documentation](../docs/clickhouse-schemas/) - Complete column reference
