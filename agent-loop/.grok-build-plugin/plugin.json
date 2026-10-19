@@ -1,39 +1,25 @@
 {
   "name": "agent-loop",
   "version": "0.4.0",
-  "description": "Continuous agent loop for overnight/day repository maintenance. Auto-detects and resumes from saved state. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work to threads, land autonomously.",
+  "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
   "author": {
-    "name": "duyetbot"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
   "license": "MIT",
+  "logo": "./assets/logo.svg",
   "skills": "./skills/",
+  "commands": "./commands/",
   "interface": {
     "displayName": "Agent Loop",
-    "shortDescription": "Continuous overnight/day repo maintenance with autonomous agent loops. Triage, autoreview, browser automation, and parallel agent work.",
-    "developerName": "duyetbot",
+    "shortDescription": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+    "developerName": "duyet",
     "category": "Automation",
-    "capabilities": ["Skill", "Command"],
+    "capabilities": [
+      "Skill",
+      "Command"
+    ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
-  },
-  "logo": "assets/logo.svg",
-  "grok-build": {
-    "skills": [
-      "agent-loop-orchestrator",
-      "agent-loop-triage",
-      "agent-loop-autoreview",
-      "agent-loop-browser"
-    ],
-    "commands": [
-      "agent-loop:start",
-      "agent-loop:stop",
-      "agent-loop:status",
-      "agent-loop:inspect",
-      "agent-loop:reset",
-      "agent-loop:restore",
-      "agent-loop:triage",
-      "agent-loop:autoreview",
-      "agent-loop:resume"
-    ]
   }
 }

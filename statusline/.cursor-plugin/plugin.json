@@ -1,0 +1,16 @@
+{
+  "name": "statusline",
+  "version": "1.9.0",
+  "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Statusline",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/statusline",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "UI",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

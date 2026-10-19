@@ -1,0 +1,16 @@
+{
+  "name": "agent-loop",
+  "version": "0.4.0",
+  "description": "Continuous agent loop for overnight/day repository maintenance. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work, land autonomously.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Agent Loop",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/agent-loop",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Automation",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

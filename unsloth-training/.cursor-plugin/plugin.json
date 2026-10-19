@@ -1,0 +1,15 @@
+{
+  "name": "unsloth-training",
+  "version": "1.0.2",
+  "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Dataset prep, synthetic data, environment flags, MLX (Apple Silicon), FP8, vision, mobile export, GGUF.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Unsloth Training",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/unsloth-training",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "ML",
+  "skills": "./skills/"
+}

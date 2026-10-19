@@ -6,8 +6,7 @@
     "name": "duyet",
     "url": "https://github.com/duyet"
   },
-  "homepage": "https://github.com/duyet/codex-claude-plugins",
-  "repository": "https://github.com/duyet/codex-claude-plugins",
   "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/build-ios-apps",
   "logo": "./assets/logo.svg"
 }

@@ -1,13 +1,16 @@
 {
   "name": "interview",
   "version": "1.0.1",
-  "description": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
+  "description": "Conduct in-depth requirements interviews using Socratic questioning",
   "author": {
     "name": "duyet",
-    "email": "me@duyet.net"
+    "url": "https://github.com/duyet"
   },
-  "logo": "assets/logo.svg",
-  "keywords": ["interview", "grok", "grok-build", "grok-bot"],
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
+  "keywords": [
+    "interview"
+  ],
   "skills": "./skills/",
   "commands": "./commands/"
 }

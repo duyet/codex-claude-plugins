@@ -1,0 +1,16 @@
+{
+  "name": "github",
+  "version": "1.4.2",
+  "description": "GitHub operations using gh CLI - PRs, issues, workflows, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "GitHub",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/github",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Git",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

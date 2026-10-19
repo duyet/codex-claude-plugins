@@ -1,18 +1,24 @@
 {
   "name": "statusline",
   "version": "1.9.0",
-  "description": "Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts, icon themes, and template presets.",
+  "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
   "skills": "./skills/",
   "commands": "./commands/",
   "interface": {
     "displayName": "Statusline",
-    "shortDescription": "Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts, icon themes, and template presets.",
+    "shortDescription": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
     "developerName": "duyet",
     "category": "UI",
-    "capabilities": ["Skill", "Command"],
+    "capabilities": [
+      "Skill",
+      "Command",
+      "Hook"
+    ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

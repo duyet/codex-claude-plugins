@@ -1,0 +1,17 @@
+{
+  "name": "team-agents",
+  "version": "1.9.1",
+  "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Team Agents",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/team-agents",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Agents",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": "./agents/"
+}

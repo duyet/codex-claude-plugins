@@ -1,0 +1,17 @@
+{
+  "name": "command-code",
+  "version": "1.0.0",
+  "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent — fan out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Command Code",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/command-code",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Development",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": "./agents/"
+}

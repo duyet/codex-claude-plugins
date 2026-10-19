@@ -1,21 +1,25 @@
 {
   "name": "interview",
   "version": "1.0.1",
-  "description": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
+  "description": "Conduct in-depth requirements interviews using Socratic questioning",
   "author": {
     "name": "duyet",
-    "email": "me@duyet.net"
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
   "skills": "./skills/",
   "commands": "./commands/",
   "interface": {
     "displayName": "Interview",
-    "shortDescription": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
+    "shortDescription": "Conduct in-depth requirements interviews using Socratic questioning",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": ["Skill", "Command"],
+    "capabilities": [
+      "Skill",
+      "Command"
+    ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
-  },
-  "logo": "assets/logo.svg"
+  }
 }

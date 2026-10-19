@@ -1,19 +1,25 @@
 {
   "name": "fix",
   "version": "1.0.1",
-  "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
+  "description": "Fix issues, tests, and CI failures with intelligent problem detection",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
   "skills": "./skills/",
+  "commands": "./commands/",
   "interface": {
     "displayName": "Fix",
-    "shortDescription": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
+    "shortDescription": "Fix issues, tests, and CI failures with intelligent problem detection",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": ["Skill", "Command"],
+    "capabilities": [
+      "Skill",
+      "Command"
+    ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
-  },
-  "logo": "assets/logo.svg"
+  }
 }

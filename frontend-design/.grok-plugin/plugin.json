@@ -1,12 +1,15 @@
 {
   "name": "frontend-design",
   "version": "1.4.0",
-  "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.",
+  "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics",
   "author": {
     "name": "duyet",
-    "email": "me@duyet.net"
+    "url": "https://github.com/duyet"
   },
-  "logo": "assets/logo.svg",
-  "keywords": ["frontend-design", "grok", "grok-build", "grok-bot"],
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
+  "keywords": [
+    "frontend-design"
+  ],
   "skills": "./skills/"
 }

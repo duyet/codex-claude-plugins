@@ -1,10 +1,12 @@
 {
   "name": "interview",
   "version": "1.0.1",
-  "description": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
+  "description": "Conduct in-depth requirements interviews using Socratic questioning",
   "author": {
     "name": "duyet",
-    "email": "me@duyet.net"
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/interview",
   "logo": "./assets/logo.svg"
 }

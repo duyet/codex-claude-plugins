@@ -1,17 +1,21 @@
 {
   "name": "prompt-engineering",
   "version": "1.1.1",
-  "description": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
+  "description": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
   "author": {
-    "name": "duyetbot"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Prompt Engineering",
-    "shortDescription": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
-    "developerName": "duyetbot",
+    "shortDescription": "Prompt engineering techniques for Grok, Claude, and Gemini LLMs",
+    "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": ["Skill"],
+    "capabilities": [
+      "Skill"
+    ],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

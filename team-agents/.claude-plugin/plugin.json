@@ -1,9 +1,12 @@
 {
   "name": "team-agents",
-  "description": "Leader and Senior Engineer agents for coordinated parallel task execution. Leader breaks down complex tasks and delegates to multiple senior engineers working in parallel.",
   "version": "1.9.1",
+  "description": "Leader, Senior Engineer, and Junior Engineer agents for coordinated parallel task execution",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/team-agents",
   "logo": "./assets/logo.svg"
 }
