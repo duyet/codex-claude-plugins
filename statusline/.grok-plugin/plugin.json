@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "statusline"
-  ],
+  "keywords": ["statusline"],
   "skills": "./skills/",
   "commands": "./commands/"
 }

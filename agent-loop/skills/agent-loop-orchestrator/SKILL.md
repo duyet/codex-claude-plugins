@@ -29,13 +29,13 @@ Stop early if the state file has `shutdown_requested: true`. Let running workers
 
 Read from command flags first, then environment variables, then defaults.
 
-| Variable | Default | Meaning |
-|----------|---------|---------|
-| `AGENT_LOOP_INTERVAL` | 300 | Seconds between cycles, passed to the scheduler |
-| `AGENT_LOOP_MAX_CONCURRENCY` | 3 | Max parallel workers |
-| `AGENT_LOOP_SCOPE` | current | Triage scope: `current`, `all`, or `org` |
-| `AGENT_LOOP_REPOS` | git remote | Comma-separated repos for `all` scope |
-| `AGENT_LOOP_STATE_FILE` | .agent-loop/state.json | State file path |
+| Variable                     | Default                | Meaning                                         |
+| ---------------------------- | ---------------------- | ----------------------------------------------- |
+| `AGENT_LOOP_INTERVAL`        | 300                    | Seconds between cycles, passed to the scheduler |
+| `AGENT_LOOP_MAX_CONCURRENCY` | 3                      | Max parallel workers                            |
+| `AGENT_LOOP_SCOPE`           | current                | Triage scope: `current`, `all`, or `org`        |
+| `AGENT_LOOP_REPOS`           | git remote             | Comma-separated repos for `all` scope           |
+| `AGENT_LOOP_STATE_FILE`      | .agent-loop/state.json | State file path                                 |
 
 ## State file
 
@@ -54,8 +54,8 @@ This is the single definition of the state file. All agent-loop commands read an
   "prs_merged": 15,
   "active_threads": [3, 4],
   "thread_history": [
-    {"id": 1, "item": "GH-123", "result": "merged", "pr": "#456"},
-    {"id": 2, "item": "GH-124", "result": "failed", "reason": "test flake"}
+    { "id": 1, "item": "GH-123", "result": "merged", "pr": "#456" },
+    { "id": 2, "item": "GH-124", "result": "failed", "reason": "test flake" }
   ],
   "last_error": null
 }

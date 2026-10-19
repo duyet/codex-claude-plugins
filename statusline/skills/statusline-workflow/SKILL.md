@@ -16,7 +16,12 @@ Resolve the plugin directory from this skill's location (`${CLAUDE_PLUGIN_ROOT}`
 3. Point `statusLine` at `~/.claude/statusline/statusline.py`. The plugin's SessionStart hook copies the renderer there on every session, so the path survives plugin updates. On first setup, copy it there yourself.
 
    ```json
-   {"statusLine": {"type": "command", "command": "python3 ~/.claude/statusline/statusline.py"}}
+   {
+     "statusLine": {
+       "type": "command",
+       "command": "python3 ~/.claude/statusline/statusline.py"
+     }
+   }
    ```
 
 4. Preview by piping sample JSON to the renderer.
@@ -31,24 +36,24 @@ To disable, remove the `statusLine` key from `~/.claude/settings.json`.
 
 ## Config fields
 
-| Field | Values | Default |
-| --- | --- | --- |
-| `line_format` | `"1"`, `"2"`, `"3"` | `"3"` |
-| `separator` | `arrow`, `pipe`, `dot`, `slash` | `arrow` |
-| `context_style` | `progress_bar`, `tokens`, `compact` | `progress_bar` |
-| `icon_style` | `emoji`, `unicode`, `minimal` | `emoji` |
-| `cache_ttl` | `"5m"`, `"1h"` | `"5m"` |
-| `show_context`, `show_rate_limits`, `show_git_branch`, `show_tools`, `show_agents`, `show_cache`, `show_session`, `show_reasoning`, `show_cost` | boolean | `true` |
+| Field                                                                                                                                           | Values                              | Default        |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | -------------- |
+| `line_format`                                                                                                                                   | `"1"`, `"2"`, `"3"`                 | `"3"`          |
+| `separator`                                                                                                                                     | `arrow`, `pipe`, `dot`, `slash`     | `arrow`        |
+| `context_style`                                                                                                                                 | `progress_bar`, `tokens`, `compact` | `progress_bar` |
+| `icon_style`                                                                                                                                    | `emoji`, `unicode`, `minimal`       | `emoji`        |
+| `cache_ttl`                                                                                                                                     | `"5m"`, `"1h"`                      | `"5m"`         |
+| `show_context`, `show_rate_limits`, `show_git_branch`, `show_tools`, `show_agents`, `show_cache`, `show_session`, `show_reasoning`, `show_cost` | boolean                             | `true`         |
 
 Cache stats show for Claude models only, because other providers report proxy values that are not real cache metrics. Empty sections are hidden. Rate limits read `n/a` when the provider sends none.
 
 ## Presets
 
-| Preset | Lines | Icons | Focus |
-| --- | --- | --- | --- |
-| detailed | 3 | emoji | Everything (default) |
-| balanced | 2 | unicode | Key metrics |
-| minimal | 1 | none | Essentials |
-| monitor | 2 | emoji | Rate limits and cache, no tools |
-| developer | 2 | unicode | Tools, agents, git |
-| performance | 3 | emoji | Cache and context |
+| Preset      | Lines | Icons   | Focus                           |
+| ----------- | ----- | ------- | ------------------------------- |
+| detailed    | 3     | emoji   | Everything (default)            |
+| balanced    | 2     | unicode | Key metrics                     |
+| minimal     | 1     | none    | Essentials                      |
+| monitor     | 2     | emoji   | Rate limits and cache, no tools |
+| developer   | 2     | unicode | Tools, agents, git              |
+| performance | 3     | emoji   | Cache and context               |

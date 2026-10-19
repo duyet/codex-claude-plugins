@@ -103,12 +103,12 @@ Optional, support progressive disclosure. Sections group concepts. No frontmatte
 ```markdown
 # Section Heading
 
-- [Title](<relative-url>) - description from the linked concept
-- [Subdirectory](<subdir/>) - group description
+- [Title](relative-url) - description from the linked concept
+- [Subdirectory](subdir/) - group description
 
 # Another Section
 
-- [Title](<url>) - description
+- [Title](url) - description
 ```
 
 Producers may generate them automatically; consumers may synthesize dynamically.

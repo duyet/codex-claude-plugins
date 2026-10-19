@@ -37,8 +37,8 @@ timestamp: 2026-01-01T00:00:00Z
 
 # Schema
 
-| Column | Type | Description |
-| --- | --- | --- |
+| Column      | Type   | Description                             |
+| ----------- | ------ | --------------------------------------- |
 | customer_id | STRING | FK to [customers](/tables/customers.md) |
 ```
 

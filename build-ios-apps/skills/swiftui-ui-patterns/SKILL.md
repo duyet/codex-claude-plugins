@@ -69,5 +69,5 @@ For macOS windowing, menus, and settings patterns, use the `swiftui-patterns` sk
 3. Sketch the view hierarchy, routing model, and presentation points; extract repeated parts into subviews. **Build and verify no compiler errors before proceeding.**
 4. Implement async loading with `.task` or `.task(id:)`, plus explicit loading and error states when needed.
 5. Add previews for the primary and secondary states, then add accessibility labels or identifiers when the UI is interactive.
-6. Validate with a build: confirm no compiler errors, check that previews render without crashing, ensure state changes propagate correctly, and sanity-check that list identity and observation scope will not cause avoidable re-renders. For common SwiftUI compilation errors, missing `@State` annotations, ambiguous `ViewBuilder` closures, or mismatched generic types, resolve them before updating callsites. **If the build fails:** read the error message carefully, fix the identified issue, then rebuild before proceeding to the next step. If a preview crashes, isolate the offending subview, confirm its state initialisation is valid, and re-run the preview before continuing.
-
+6. Build to validate. Fix compiler errors (missing `@State`, ambiguous `ViewBuilder` closures, mismatched generics) before updating call sites. Confirm previews render, state changes propagate, and list identity will not cause extra re-renders.
+   If the build fails, fix the reported error and rebuild before the next step. If a preview crashes, isolate the subview and check its state initialization.

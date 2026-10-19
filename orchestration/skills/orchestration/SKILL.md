@@ -21,7 +21,8 @@ Ask the user before spawning only when scope is ambiguous in a way the code cann
 
 ## Fan out
 
-Spawn every lane in the current wave in one message, as background subagents, so they run concurrently. Pick the cheapest model and agent type that can do the lane well: a fast model for search and mechanical edits, a stronger one for design and subtle bugs. If the team-agents plugin is installed, its `leader`, `senior-engineer`, and `junior-engineer` agents fit these roles. Any general-purpose subagent works without it.
+Spawn every lane in the current wave in one message, as background subagents, so they run concurrently. Pick the cheapest model and agent type that can do the lane well: a fast model for search and mechanical edits, a stronger one for design and subtle bugs.
+If the team-agents plugin is installed, its `leader`, `senior-engineer`, and `junior-engineer` agents fit these roles. Any general-purpose subagent works without it.
 
 Start every worker prompt with this preamble:
 

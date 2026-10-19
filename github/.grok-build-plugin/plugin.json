@@ -15,10 +15,7 @@
     "shortDescription": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
     "developerName": "duyet",
     "category": "Git",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

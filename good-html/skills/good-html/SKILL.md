@@ -18,11 +18,13 @@ Produce one `.html` file that works as a small app or document, not Markdown and
 ## Workflow
 
 New artifact:
+
 1. Pick the page type: comparison of options, PR review, code explainer, implementation plan, status or incident report, triage board, concept explainer, slide deck, or SVG diagram.
 2. Start from [assets/boilerplate.html](assets/boilerplate.html). Page-type examples: [assets/pr-review.html](assets/pr-review.html), [assets/implementation-plan.html](assets/implementation-plan.html), [assets/research-explainer.html](assets/research-explainer.html).
 3. Copy tabs, diffs, and timelines from [references/components.md](references/components.md).
 
 Reviewing existing HTML, fix in this order:
+
 1. Remove every external `<link>` and `<script src>`; inline what is needed.
 2. Swap web fonts for system stacks and recolor to the palette.
 3. Replace a single long column with a grid, and add sticky context for long scrolls.

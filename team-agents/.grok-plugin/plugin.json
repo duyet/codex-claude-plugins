@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "team-agents"
-  ],
+  "keywords": ["team-agents"],
   "skills": "./skills/",
   "commands": "./commands/",
   "agents": "./agents/"

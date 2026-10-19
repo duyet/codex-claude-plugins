@@ -7,8 +7,7 @@ description: Build, run, and debug iOS apps on Simulator with XcodeBuildMCP. Use
 
 ## Overview
 
-Requires the XcodeBuildMCP server (install: https://github.com/getsentry/XcodeBuildMCP, then add it to your MCP config). Without it, use the `xcrun simctl` fallback below.
-
+Requires the XcodeBuildMCP server (install: <https://github.com/getsentry/XcodeBuildMCP>, then add it to your MCP config). Without it, use the `xcrun simctl` fallback below.
 
 Use XcodeBuildMCP to build and run the current project scheme on a booted iOS simulator, interact with the UI, and capture logs. Prefer the MCP tools for simulator control, logs, and view inspection.
 

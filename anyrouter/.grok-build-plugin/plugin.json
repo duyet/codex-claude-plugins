@@ -17,12 +17,7 @@
     "shortDescription": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server.",
     "developerName": "duyet",
     "category": "AI",
-    "capabilities": [
-      "Skill",
-      "Command",
-      "Agent",
-      "MCP"
-    ],
+    "capabilities": ["Skill", "Command", "Agent", "MCP"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

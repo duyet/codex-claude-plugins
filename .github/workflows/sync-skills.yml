@@ -17,6 +17,7 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    environment: skills-sync
     permissions:
       contents: read
     steps:
@@ -36,6 +37,7 @@ jobs:
           path: target
           token: ${{ secrets.SKILLS_SYNC_TOKEN }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Flatten plugin skills into target layout
         id: flatten
@@ -98,6 +100,7 @@ jobs:
           MSG="chore: sync skills from codex-claude-plugins@${SHORT}"
           git config user.name "duyetbot"
           git config user.email "duyetbot@users.noreply.github.com"
+          gh auth setup-git
           git checkout -b "$BRANCH"
           git commit -m "$MSG"
           git push -u origin "$BRANCH" --force-with-lease

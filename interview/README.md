@@ -13,7 +13,7 @@ Clarify ambiguous requirements before coding. Claude asks batched, option-based 
 
 ## Usage
 
-```
+```text
 /interview "add a commenting system to the blog"
 /interview ./docs/feature-spec.md
 ```

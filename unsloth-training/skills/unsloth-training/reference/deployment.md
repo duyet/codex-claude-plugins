@@ -26,12 +26,12 @@ Access Jupyter Lab at `http://localhost:8888`
 
 ### Environment Variables
 
-| Variable | Purpose | Default |
-|----------|---------|---------|
-| `JUPYTER_PASSWORD` | Lab access | `unsloth` |
-| `JUPYTER_PORT` | Internal port | `8888` |
-| `SSH_KEY` | Public key auth | None |
-| `USER_PASSWORD` | Sudo password | `unsloth` |
+| Variable           | Purpose         | Default   |
+| ------------------ | --------------- | --------- |
+| `JUPYTER_PASSWORD` | Lab access      | `unsloth` |
+| `JUPYTER_PORT`     | Internal port   | `8888`    |
+| `SSH_KEY`          | Public key auth | None      |
+| `USER_PASSWORD`    | Sudo password   | `unsloth` |
 
 ### Advanced Configuration
 
@@ -105,15 +105,15 @@ vllm serve unsloth/Llama-3.1-8B-Instruct \
 
 ### All Important Arguments
 
-| Argument | Description | Default |
-|----------|-------------|---------|
-| `--port` | API port | 8000 |
-| `--api-key` | Auth password | None |
-| `--seed` | Random seed | 0 |
-| `--enforce-eager` | Disable compilation | False |
-| `--disable-log-stats` | Suppress logs | False |
-| `--tokenizer` | Custom tokenizer | Model default |
-| `--hf-token` | HF authentication | None |
+| Argument              | Description         | Default       |
+| --------------------- | ------------------- | ------------- |
+| `--port`              | API port            | 8000          |
+| `--api-key`           | Auth password       | None          |
+| `--seed`              | Random seed         | 0             |
+| `--enforce-eager`     | Disable compilation | False         |
+| `--disable-log-stats` | Suppress logs       | False         |
+| `--tokenizer`         | Custom tokenizer    | Model default |
+| `--hf-token`          | HF authentication   | None          |
 
 ---
 
@@ -250,9 +250,9 @@ response = client.chat.completions.create(
 ### Performance Comparison
 
 | Server | gpt-oss-20b Output Tokens/s | First Token Latency |
-|--------|----------------------------|---------------------|
-| SGLang | ~2,562 | 0.40-0.42s |
-| vLLM | ~2,400 | 0.45-0.50s |
+| ------ | --------------------------- | ------------------- |
+| SGLang | ~2,562                      | 0.40-0.42s          |
+| vLLM   | ~2,400                      | 0.45-0.50s          |
 
 ### Troubleshooting
 

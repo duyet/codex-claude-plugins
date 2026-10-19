@@ -14,9 +14,7 @@
     "shortDescription": "Distinctive, production-grade frontend design that avoids generic AI aesthetics.",
     "developerName": "duyet",
     "category": "Design",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

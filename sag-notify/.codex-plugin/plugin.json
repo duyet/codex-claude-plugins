@@ -14,10 +14,7 @@
     "shortDescription": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language.",
     "developerName": "duyet",
     "category": "UI",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

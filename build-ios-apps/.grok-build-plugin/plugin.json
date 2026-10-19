@@ -14,9 +14,7 @@
     "shortDescription": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
     "developerName": "duyet",
     "category": "Development",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

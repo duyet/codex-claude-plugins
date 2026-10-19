@@ -14,9 +14,7 @@
     "shortDescription": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
     "developerName": "duyet",
     "category": "Database",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

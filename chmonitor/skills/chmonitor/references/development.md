@@ -9,6 +9,7 @@ Patterns and conventions for contributing to the ClickHouse Monitor dashboard.
 **Critical**: This is a **fully static site** with no server-side rendering. All pages use client-side data fetching via SWR.
 
 **Implications:**
+
 - No `use server()` directives
 - No `redirect()` from next/navigation - use `useRouter` + `useEffect`
 - All data fetching happens client-side
@@ -17,18 +18,21 @@ Patterns and conventions for contributing to the ClickHouse Monitor dashboard.
 ### Routing Pattern
 
 **Old (Don't Use):**
-```
+
+```text
 app/[host]/overview/page.tsx  → Dynamic route
 URL: /0/overview
 ```
 
 **New (Use This):**
-```
+
+```text
 app/overview/page.tsx  → Static route
 URL: /overview?host=0
 ```
 
 **Benefits:**
+
 - Faster initial page load (static shell pre-rendered)
 - Better CDN caching
 - Simpler deployment
@@ -36,7 +40,7 @@ URL: /overview?host=0
 
 ### Project Structure
 
-```
+```text
 app/
 ├── api/v1/              # API routes for data fetching
 │   ├── data/            # Generic query endpoint
@@ -128,27 +132,28 @@ export function YourChart({ hostId, interval = 300000 }: YourChartProps) {
 
 ```typescript
 const { data, error, isLoading } = useChartData({
-  name: 'chart-name',     // From chart registry
-  hostId: 0,              // Required
-  interval: 300000,       // Refresh interval (ms)
-  lastHours: 24,          // For historical charts
-  params: {               // Optional chart params
-    database: 'default',
+  name: "chart-name", // From chart registry
+  hostId: 0, // Required
+  interval: 300000, // Refresh interval (ms)
+  lastHours: 24, // For historical charts
+  params: {
+    // Optional chart params
+    database: "default",
   },
-})
+});
 ```
 
 ### useTableData Hook
 
 ```typescript
 const { data, error, isLoading } = useTableData({
-  queryConfigName: 'running-queries',
+  queryConfigName: "running-queries",
   hostId: 0,
   searchParams: {
-    pageSize: '50',
-    page: '1',
+    pageSize: "50",
+    page: "1",
   },
-})
+});
 ```
 
 ## Adding a New Route
@@ -209,15 +214,15 @@ Add to `lib/query-config/`:
 
 ```typescript
 export const yourConfig: QueryConfig = {
-  name: 'your-query',
-  description: 'Query description',
-  sql: 'SELECT database, table FROM system.parts',
-  columns: ['database', 'table'],
+  name: "your-query",
+  description: "Query description",
+  sql: "SELECT database, table FROM system.parts",
+  columns: ["database", "table"],
   columnFormats: {
     database: ColumnFormat.Badge,
     table: ColumnFormat.Text,
   },
-}
+};
 ```
 
 ## Troubleshooting Development
@@ -225,21 +230,24 @@ export const yourConfig: QueryConfig = {
 ### Common Issues
 
 **Build fails with TypeScript errors:**
+
 - Check `bun run build` output
 - Fix type errors in indicated files
 - Ensure imports are correct
 
 **SWR not refetching:**
+
 - Check `interval` is set correctly
 - Verify API endpoint returns data
 - Check network tab for failed requests
 
 **Charts show "No data available":**
+
 - Verify ClickHouse table exists and has data
 - Check query is valid for ClickHouse version
 
 **Multi-host not working:**
+
 - Verify all environment arrays have same length
 - Check `CLICKHOUSE_HOST`, `CLICKHOUSE_USER`, `CLICKHOUSE_PASSWORD`
 - Use comma-separated values
-

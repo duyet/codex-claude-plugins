@@ -9,7 +9,7 @@ Drive a pull request until CI is green, no review comments are unresolved, and t
 
 ## Usage
 
-```
+```text
 /github:babysit-pr [--pr <number>] [--auto-merge] [--max-iterations <n>] [--ci-timeout <minutes>] [--dry-run]
 ```
 

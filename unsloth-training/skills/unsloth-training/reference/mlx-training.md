@@ -60,15 +60,15 @@ trainer.train()
 
 ## Supported Training Methods
 
-| Method | Class | Use Case |
-|--------|-------|----------|
-| **SFT** | `SFTTrainer` | Instruction fine-tuning |
-| **DPO** | `DPOTrainer` | Preference learning |
-| **ORPO** | `ORPOTrainer` | Combined SFT + preference |
-| **GRPO** | `GRPOTrainer` | Multi-generation reasoning (DeepSeek R1 style) |
-| **KTO** | `KTOTrainer` | Kahneman-Tversky optimization |
-| **SimPO** | `SimPOTrainer` | Simple preference optimization |
-| **VLM** | `VLMSFTTrainer` | Vision-language (beta) |
+| Method    | Class           | Use Case                                       |
+| --------- | --------------- | ---------------------------------------------- |
+| **SFT**   | `SFTTrainer`    | Instruction fine-tuning                        |
+| **DPO**   | `DPOTrainer`    | Preference learning                            |
+| **ORPO**  | `ORPOTrainer`   | Combined SFT + preference                      |
+| **GRPO**  | `GRPOTrainer`   | Multi-generation reasoning (DeepSeek R1 style) |
+| **KTO**   | `KTOTrainer`    | Kahneman-Tversky optimization                  |
+| **SimPO** | `SimPOTrainer`  | Simple preference optimization                 |
+| **VLM**   | `VLMSFTTrainer` | Vision-language (beta)                         |
 
 ## Chat Templates
 
@@ -101,21 +101,23 @@ model.save_pretrained_gguf("model", tokenizer)
 ```
 
 ### GGUF Limitation
+
 Direct GGUF export from 4-bit quantized base models is not supported.
 Workarounds:
+
 1. Train quantized, export from non-quantized base
 2. Dequantize during export, re-quantize with llama.cpp
 3. Use `save_pretrained_merged()` for MLX-native inference
 
 ## Unsloth vs MLX-Tune
 
-| Aspect | Unsloth | MLX-Tune |
-|--------|---------|----------|
-| Platform | NVIDIA GPUs (Linux/Windows) | Apple Silicon (macOS) |
-| Backend | Triton kernels | MLX framework |
-| Memory | VRAM (8-80GB) | Unified memory (16-512GB) |
-| API | Original | 100% compatible |
-| Use case | Production training | Local dev & prototyping |
+| Aspect   | Unsloth                     | MLX-Tune                  |
+| -------- | --------------------------- | ------------------------- |
+| Platform | NVIDIA GPUs (Linux/Windows) | Apple Silicon (macOS)     |
+| Backend  | Triton kernels              | MLX framework             |
+| Memory   | VRAM (8-80GB)               | Unified memory (16-512GB) |
+| API      | Original                    | 100% compatible           |
+| Use case | Production training         | Local dev & prototyping   |
 
 ## Code Portability
 
@@ -134,13 +136,13 @@ from unsloth import FastLanguageModel
 ## Memory Guidelines
 
 | Model Size | Min Unified RAM | Quantization |
-|-----------|----------------|--------------|
-| 1B | 16GB | 4-bit |
-| 3B | 16GB | 4-bit |
-| 7B | 32GB | 4-bit |
-| 14B | 64GB | 4-bit |
-| 32B | 96GB | 4-bit |
-| 70B | 192GB+ | 4-bit |
+| ---------- | --------------- | ------------ |
+| 1B         | 16GB            | 4-bit        |
+| 3B         | 16GB            | 4-bit        |
+| 7B         | 32GB            | 4-bit        |
+| 14B        | 64GB            | 4-bit        |
+| 32B        | 96GB            | 4-bit        |
+| 70B        | 192GB+          | 4-bit        |
 
 Apple Silicon unified memory allows training much larger models than equivalent NVIDIA VRAM
 since system RAM and GPU memory are shared.

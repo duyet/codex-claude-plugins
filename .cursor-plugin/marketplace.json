@@ -58,8 +58,8 @@
       "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok."
     },
     {
-      "name": "clickhouse-monitoring",
-      "source": "clickhouse-monitoring",
+      "name": "chmonitor",
+      "source": "chmonitor",
       "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries."
     },
     {

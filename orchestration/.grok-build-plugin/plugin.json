@@ -14,9 +14,7 @@
     "shortDescription": "Orchestrator skill for managing parallel agent workstreams",
     "developerName": "duyet",
     "category": "Agents",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

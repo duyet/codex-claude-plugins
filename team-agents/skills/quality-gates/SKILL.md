@@ -19,13 +19,13 @@ Run in this order and stop at the first failure.
 
 Add these when the change warrants them.
 
-| Change touches | Extra gate |
-|----------------|-----------|
-| Public API, schema, config format | Check callers and docs, note breaking changes |
-| Migrations | Apply on a scratch database and roll forward |
-| Hot path or query | Measure before and after, report the numbers |
-| UI | Run the app and exercise the changed flow, including empty and error states |
-| Deploy config, auth, payments | Second reviewer, and a rollback plan in the PR |
+| Change touches                    | Extra gate                                                                  |
+| --------------------------------- | --------------------------------------------------------------------------- |
+| Public API, schema, config format | Check callers and docs, note breaking changes                               |
+| Migrations                        | Apply on a scratch database and roll forward                                |
+| Hot path or query                 | Measure before and after, report the numbers                                |
+| UI                                | Run the app and exercise the changed flow, including empty and error states |
+| Deploy config, auth, payments     | Second reviewer, and a rollback plan in the PR                              |
 
 ## Reporting rules
 

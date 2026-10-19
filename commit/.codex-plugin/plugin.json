@@ -14,10 +14,7 @@
     "shortDescription": "Semantic commits, with optional push or a PR from templates.",
     "developerName": "duyet",
     "category": "Git",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

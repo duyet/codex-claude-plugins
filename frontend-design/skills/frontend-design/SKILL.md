@@ -14,6 +14,7 @@ State the purpose, the audience, and one aesthetic (for example editorial, bruta
 ## Stack defaults
 
 Use what the project already has. Otherwise prefer:
+
 - Components: shadcn/ui, then Radix UI primitives, then Headless UI. Read the current shadcn docs or its MCP server instead of recalling the API.
 - Styling: Tailwind with CSS variables for design tokens.
 - Charts: Recharts for standard charts, D3 only for custom ones.

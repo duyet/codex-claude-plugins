@@ -12,13 +12,14 @@ ClickHouse system tables change between versions. Columns are added, removed, or
 
 ```typescript
 sql: [
-  { since: '23.8', sql: 'SELECT col1 FROM system.table' },
-  { since: '24.1', sql: 'SELECT col1, col2 FROM system.table' },
-  { since: '24.3', sql: 'SELECT col1, col2, col3 FROM system.table' },
-]
+  { since: "23.8", sql: "SELECT col1 FROM system.table" },
+  { since: "24.1", sql: "SELECT col1, col2 FROM system.table" },
+  { since: "24.3", sql: "SELECT col1, col2, col3 FROM system.table" },
+];
 ```
 
 **Rules:**
+
 - Queries are ordered **chronologically** (oldest → newest)
 - System selects the **highest `since` version ≤ current version**
 - For CH v24.5 → selects `24.3` query (highest ≤ 24.5)
@@ -30,10 +31,10 @@ In ClickHouse 24.3, `system.query_log` added a new column `disk_usage`.
 
 ```typescript
 export const queryConfig: QueryConfig = {
-  name: 'query-with-disk',
+  name: "query-with-disk",
   sql: [
     {
-      since: '23.8',
+      since: "23.8",
       sql: `
         SELECT
           query_id,
@@ -41,10 +42,10 @@ export const queryConfig: QueryConfig = {
           query
         FROM system.query_log
       `,
-      columns: ['query_id', 'user', 'query'],
+      columns: ["query_id", "user", "query"],
     },
     {
-      since: '24.3',
+      since: "24.3",
       sql: `
         SELECT
           query_id,
@@ -53,11 +54,11 @@ export const queryConfig: QueryConfig = {
           disk_usage
         FROM system.query_log
       `,
-      columns: ['query_id', 'user', 'query', 'disk_usage'],
+      columns: ["query_id", "user", "query", "disk_usage"],
     },
   ],
-  columns: ['query_id', 'user', 'query', 'disk_usage'],
-}
+  columns: ["query_id", "user", "query", "disk_usage"],
+};
 ```
 
 ### Example: Type Changes
@@ -67,18 +68,19 @@ Some columns changed from `Int8` to `Enum` between versions.
 ```typescript
 // system.part_log.event_type changed from Int8 to Enum in v24.3
 export const mergesConfig: QueryConfig = {
-  name: 'merges',
+  name: "merges",
   sql: `
     SELECT *
     FROM merge('system', '^part_log')
     WHERE toInt8(event_type) = 2  -- MergeParts (works for both Int8 and Enum)
       AND toInt8(merge_reason) = 1  -- RegularMerge
   `,
-  columns: ['event_time', 'event_type', 'merge_reason', 'database', 'table'],
-}
+  columns: ["event_time", "event_type", "merge_reason", "database", "table"],
+};
 ```
 
 **Known event_type values:**
+
 - 1 = NewPart
 - 2 = MergeParts
 - 3 = DownloadPart
@@ -87,14 +89,17 @@ export const mergesConfig: QueryConfig = {
 - 6 = MovePart
 
 **Known merge_reason values:**
+
 - 1 = RegularMerge
 - 2 = TTLDeleteMerge
 - 3 = TTLRecompressMerge
 
 ## Purpose
+
 Logs all queries executed on the server.
 
 ## Requirements
+
 Must be enabled in ClickHouse config:
 
 ```xml
@@ -107,14 +112,15 @@ Must be enabled in ClickHouse config:
 
 ## Columns
 
-| Column | Since | Type | Description |
-|--------|-------|------|-------------|
-| event_date | all | Date | Event date |
-| event_time | all | DateTime | Event time |
-| query_id | all | String | Query ID |
-| query | all | String | Query text |
-| disk_usage | 24.3 | UInt64 | Disk usage |
-```
+| Column     | Since | Type     | Description |
+| ---------- | ----- | -------- | ----------- |
+| event_date | all   | Date     | Event date  |
+| event_time | all   | DateTime | Event time  |
+| query_id   | all   | String   | Query ID    |
+| query      | all   | String   | Query text  |
+| disk_usage | 24.3  | UInt64   | Disk usage  |
+
+````text
 
 ### Regenerating Schema Docs
 
@@ -122,7 +128,7 @@ To regenerate schema documentation after adding a new version:
 
 ```bash
 bun run scripts/build-ch-schema-docs.ts
-```
+````
 
 ## Optional Tables
 
@@ -130,28 +136,28 @@ Some tables may not exist depending on ClickHouse configuration:
 
 ### Optional Tables List
 
-| Table | When Available |
-|-------|----------------|
-| `system.backup_log` | Only when backup is configured |
-| `system.error_log` | Requires error logging configuration |
-| `system.zookeeper` | Only with ZooKeeper/Keeper enabled |
+| Table                      | When Available                         |
+| -------------------------- | -------------------------------------- |
+| `system.backup_log`        | Only when backup is configured         |
+| `system.error_log`         | Requires error logging configuration   |
+| `system.zookeeper`         | Only with ZooKeeper/Keeper enabled     |
 | `system.monitoring_events` | Custom table created by monitoring app |
 
 ### Marking Queries as Optional
 
 ```typescript
 export const backupsConfig: QueryConfig = {
-  name: 'backups',
-  optional: true,  // Don't error if table doesn't exist
-  tableCheck: 'system.backup_log',  // Explicit table to check
-  sql: 'SELECT * FROM system.backup_log',
-  columns: ['name', 'status', 'start_time'],
+  name: "backups",
+  optional: true, // Don't error if table doesn't exist
+  tableCheck: "system.backup_log", // Explicit table to check
+  sql: "SELECT * FROM system.backup_log",
+  columns: ["name", "status", "start_time"],
   suggestion: `
     Enable backup logging to see backup history.
 
     See: https://clickhouse.com/docs/en/operations/backup
   `,
-}
+};
 ```
 
 ### Automatic Table Detection
@@ -159,6 +165,7 @@ export const backupsConfig: QueryConfig = {
 If `tableCheck` is not provided, the system automatically extracts table names from the SQL query.
 
 **Handles:**
+
 - Direct table access: `SELECT * FROM system.tables`
 - JOINs: `FROM system.tables AS t JOIN system.columns AS c`
 - Subqueries: `WHERE database IN (SELECT database FROM system.databases)`
@@ -207,7 +214,7 @@ columns: [
 
 ### Naming Convention
 
-```
+```text
 {column}          → Base value (number)
 readable_{column} → Human-readable format
 pct_{column}      → Percentage for progress bar
@@ -216,6 +223,7 @@ pct_{column}      → Percentage for progress bar
 ### Examples
 
 **Disk usage:**
+
 ```sql
 disk_size,
 formatReadableSize(disk_size) AS readable_disk_size,
@@ -223,6 +231,7 @@ round(disk_size * 100.0 / max(disk_size) OVER (), 2) AS pct_disk_size
 ```
 
 **Memory usage:**
+
 ```sql
 memory_usage,
 formatReadableSize(memory_usage) AS readable_memory_usage,
@@ -230,6 +239,7 @@ round(memory_usage * 100.0 / max(memory_usage) OVER (), 2) AS pct_memory_usage
 ```
 
 **Elapsed time:**
+
 ```sql
 elapsed,
 formatReadableTimeDelta(elapsed) AS readable_elapsed,
@@ -255,10 +265,11 @@ sql: `
   SELECT *
   FROM merge('system', '^part_log')
   WHERE toInt8(event_type) = 2
-`
+`;
 ```
 
 **This aggregates data from:**
+
 - `system.part_log` (local)
 - `system.part_log_1`, `system.part_log_2`, etc. (replicated)
 
@@ -272,14 +283,14 @@ sql: `
   SELECT event_type
   FROM merge('system', '^part_log')
   WHERE event_type = 2  -- Fails if event_type is Enum on some shards
-`
+`;
 
 // Good: Use toInt8() for compatibility
 sql: `
   SELECT event_type
   FROM merge('system', '^part_log')
   WHERE toInt8(event_type) = 2  -- Works for both Int8 and Enum
-`
+`;
 ```
 
 ## Version Detection
@@ -289,9 +300,9 @@ The dashboard automatically detects ClickHouse version on first connection:
 ```typescript
 // From lib/clickhouse.ts
 const version = await client.query({
-  query: 'SELECT version() AS v',
-  format: 'JSONEachRow',
-})
+  query: "SELECT version() AS v",
+  format: "JSONEachRow",
+});
 // Returns: "24.3.1.1"
 ```
 
@@ -302,6 +313,7 @@ This version is cached and used to select appropriate queries from `VersionedSql
 ### 1. Check the schema first
 
 Before writing queries, check the ClickHouse docs for the target system table:
+
 - Column availability by version
 - Type changes
 - Query requirements
@@ -309,6 +321,7 @@ Before writing queries, check the ClickHouse docs for the target system table:
 ### 2. Use toInt8() for Enums
 
 When filtering on columns that might be Enum or Int8:
+
 ```sql
 WHERE toInt8(event_type) = 2
 ```
@@ -316,6 +329,7 @@ WHERE toInt8(event_type) = 2
 ### 3. Provide Helpful Suggestions
 
 For optional tables, include setup instructions:
+
 ```typescript
 suggestion: `
   Enable query logging:
@@ -324,12 +338,13 @@ suggestion: `
   SET log_queries_min_type = 'QueryFinish';
 
   See: https://clickhouse.com/docs/en/operations/query-log
-`
+`;
 ```
 
 ### 4. Test Against Multiple Versions
 
 Test queries against:
+
 - Oldest supported version (23.8)
 - Latest stable version
 - Development version
@@ -337,6 +352,7 @@ Test queries against:
 ### 5. Document Breaking Changes
 
 When adding a new `VersionedSql`, document what changed:
+
 ```typescript
 {
   since: '24.3',
@@ -351,9 +367,9 @@ When adding a new `VersionedSql`, document what changed:
 
 ```typescript
 sql: [
-  { since: '23.8', sql: 'SELECT col1 FROM t' },
-  { since: '24.3', sql: 'SELECT col1, col2 FROM t' },  // col2 added
-]
+  { since: "23.8", sql: "SELECT col1 FROM t" },
+  { since: "24.3", sql: "SELECT col1, col2 FROM t" }, // col2 added
+];
 ```
 
 ### Column Type Changed
@@ -362,16 +378,16 @@ sql: [
 sql: `
   SELECT toInt8(event_type) AS type  -- Works for Int8 and Enum
   FROM system.part_log
-`
+`;
 ```
 
 ### Table Renamed/Moved
 
 ```typescript
 sql: [
-  { since: '23.8', sql: 'SELECT * FROM system.old_table' },
-  { since: '24.1', sql: 'SELECT * FROM system.new_table' },
-]
+  { since: "23.8", sql: "SELECT * FROM system.old_table" },
+  { since: "24.1", sql: "SELECT * FROM system.new_table" },
+];
 ```
 
 ### Query Pattern Changed
@@ -379,14 +395,14 @@ sql: [
 ```typescript
 sql: [
   {
-    since: '23.8',
+    since: "23.8",
     sql: 'SELECT count() FROM system.metrics WHERE name = "Query"',
   },
   {
-    since: '24.3',
+    since: "24.3",
     sql: 'SELECT sum(value) FROM system.metrics WHERE name LIKE "%Query%"',
   },
-]
+];
 ```
 
 ## See Also

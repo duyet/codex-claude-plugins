@@ -8,8 +8,6 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "orchestration"
-  ],
+  "keywords": ["orchestration"],
   "skills": "./skills/"
 }

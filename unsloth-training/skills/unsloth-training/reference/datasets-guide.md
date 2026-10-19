@@ -2,14 +2,15 @@
 
 ## Dataset Formats
 
-| Format | Use Case | Structure |
-|--------|----------|-----------|
-| **Raw Corpus** | Continued pretraining | Plain text |
-| **Instruct (Alpaca)** | Single-turn tasks | instruction/input/output |
-| **Conversation (ShareGPT)** | Multi-turn chat | conversations array |
-| **ChatML** | OpenAI-style chat | messages array |
+| Format                      | Use Case              | Structure                |
+| --------------------------- | --------------------- | ------------------------ |
+| **Raw Corpus**              | Continued pretraining | Plain text               |
+| **Instruct (Alpaca)**       | Single-turn tasks     | instruction/input/output |
+| **Conversation (ShareGPT)** | Multi-turn chat       | conversations array      |
+| **ChatML**                  | OpenAI-style chat     | messages array           |
 
 ### Alpaca Format
+
 ```json
 {
   "instruction": "Task description",
@@ -19,22 +20,24 @@
 ```
 
 ### ShareGPT Format
+
 ```json
 {
   "conversations": [
-    {"from": "human", "value": "Can you help me?"},
-    {"from": "gpt", "value": "Of course!"}
+    { "from": "human", "value": "Can you help me?" },
+    { "from": "gpt", "value": "Of course!" }
   ]
 }
 ```
 
 ### ChatML Format (recommended for Qwen/most models)
+
 ```json
 {
   "messages": [
-    {"role": "system", "content": "You are helpful."},
-    {"role": "user", "content": "What is 1+1?"},
-    {"role": "assistant", "content": "It's 2!"}
+    { "role": "system", "content": "You are helpful." },
+    { "role": "user", "content": "What is 1+1?" },
+    { "role": "assistant", "content": "It's 2!" }
   ]
 }
 ```
@@ -124,6 +127,7 @@ dataset = to_sharegpt(
 ### Using LLM APIs
 
 Prompt strategies:
+
 - **Extend existing**: "Using this dataset example, follow the structure and generate similar conversations."
 - **From scratch**: "Create 10 examples of [domain] classified as [categories]."
 - **Reformat**: "Structure my dataset in QA ChatML format. Then generate 5 synthetic examples."
@@ -159,8 +163,10 @@ messages = [
 ## Reasoning Datasets
 
 For models with reasoning (DeepSeek-R1):
+
 - Include chain-of-thought in answers
 
 For models without reasoning:
+
 - Use standard SFT datasets
 - Apply GRPO with reward functions for reasoning development

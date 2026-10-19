@@ -81,6 +81,7 @@ Classify each item into one of:
 The agent can fix and land it without a maintainer.
 
 Qualifies when:
+
 - Bugfix with clear repro, known root cause, and verification path
 - Performance improvement that doesn't increase complexity
 - Documentation fix
@@ -89,6 +90,7 @@ Qualifies when:
 - Narrow test/internal fix
 
 Does NOT qualify when:
+
 - New feature or product/vision choice
 - Broad behavior change
 - Security-sensitive change without strong proof
@@ -128,7 +130,8 @@ gh api users/<login> --jq '{login, created_at, public_repos}'
 ```
 
 Output format:
-```
+
+```text
 Trust: @login; acct 2023-04-03; repo 2 PRs/1 issue; activity: low/medium/high
 ```
 

@@ -15,11 +15,7 @@
     "shortDescription": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
     "developerName": "duyet",
     "category": "Agents",
-    "capabilities": [
-      "Skill",
-      "Command",
-      "Agent"
-    ],
+    "capabilities": ["Skill", "Command", "Agent"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

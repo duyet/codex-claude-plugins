@@ -14,10 +14,7 @@
     "shortDescription": "Interview the user to clarify requirements, then write a spec.",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

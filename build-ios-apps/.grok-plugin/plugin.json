@@ -8,8 +8,6 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "build-ios-apps"
-  ],
+  "keywords": ["build-ios-apps"],
   "skills": "./skills/"
 }

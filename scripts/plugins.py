@@ -24,6 +24,8 @@ COMPONENTS = {
     "agents": ("agents", "Agent"),
 }
 FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+FENCE = re.compile(r"^```.*?^```", re.S | re.M)
+SCALAR_ARRAY = re.compile(r"\[\n\s*((?:\"[^\"\n]*\",?\n\s*)+)\]")
 LINK = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
 
 
@@ -155,18 +157,35 @@ def marketplaces(registry):
 def readme(registry):
     text = (ROOT / "README.md").read_text()
     start, end = "<!-- plugins:start -->", "<!-- plugins:end -->"
-    rows = ["| Plugin | Category | Description |", "| --- | --- | --- |"]
-    rows += [f"| [{p['name']}](./{p['name']}/) | {p['category']} | {p['description']} |" for p in registry["plugins"]]
+    cells = [("Plugin", "Category", "Description")]
+    cells += [(f"[{p['name']}](./{p['name']}/)", p["category"], p["description"]) for p in registry["plugins"]]
+    widths = [max(len(row[i]) for row in cells) for i in range(3)]
+    pad = lambda row: "| " + " | ".join(c.ljust(w) for c, w in zip(row, widths)) + " |"
+    rows = [pad(cells[0]), "| " + " | ".join("-" * w for w in widths) + " |"] + [pad(r) for r in cells[1:]]
     head, _, rest = text.partition(start)
     _, _, tail = rest.partition(end)
-    return f"{head}{start}\n" + "\n".join(rows) + f"\n{end}{tail}"
+    return f"{head}{start}\n\n" + "\n".join(rows) + f"\n\n{end}{tail}"
+
+
+def to_json(data):
+    """json.dumps matching Prettier, which inlines string arrays that fit in 80 columns."""
+
+    def inline(match):
+        line_start = text.rfind("\n", 0, match.start()) + 1
+        items = ", ".join(item.strip().rstrip(",") for item in match.group(1).strip().splitlines())
+        flat = f"[{items}]"
+        tail = text[match.end():].split("\n", 1)[0]
+        return flat if match.start() - line_start + len(flat) + len(tail) <= 80 else match.group(0)
+
+    text = json.dumps(data, indent=2, ensure_ascii=False)
+    return SCALAR_ARRAY.sub(inline, text) + "\n"
 
 
 def generated(registry):
     out = marketplaces(registry)
     for entry in registry["plugins"]:
         out.update(plugin_manifests(entry, registry["author"]))
-    files = {path: json.dumps(data, indent=2, ensure_ascii=False) + "\n" for path, data in out.items()}
+    files = {path: to_json(data) for path, data in out.items()}
     files["README.md"] = readme(registry)
     return files
 
@@ -210,7 +229,7 @@ def lint_plugin(plugin_dir):
                 errors.append(f"{skill_md.relative_to(ROOT)}: missing description")
     for doc in plugin_dir.rglob("*.md"):
         text = doc.read_text()
-        for ref in LINK.findall(text):
+        for ref in LINK.findall(FENCE.sub("", text)):
             if re.match(r"[a-z]+:", ref) or ref.startswith(("/", "<", "$", "~")):
                 continue
             target = (doc.parent / ref).resolve()

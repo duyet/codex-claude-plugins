@@ -1,12 +1,13 @@
 {
-  "name": "clickhouse-monitoring",
-  "version": "1.2.0",
+  "name": "chmonitor",
+  "version": "2.0.0",
   "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
   },
   "license": "MIT",
-  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/clickhouse-monitoring",
-  "logo": "./assets/logo.svg"
+  "logo": "./assets/logo.svg",
+  "keywords": ["chmonitor"],
+  "skills": "./skills/"
 }

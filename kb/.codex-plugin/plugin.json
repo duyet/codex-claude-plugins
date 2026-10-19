@@ -14,10 +14,7 @@
     "shortDescription": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

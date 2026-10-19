@@ -36,18 +36,18 @@ All fields are top level and nothing is nested, so Obsidian shows them as Proper
 
 ```markdown
 ---
-name: <type>-<slug>            # equals the filename stem, the [[link]] target
-title: <human-readable title>  # optional
+name: <type>-<slug> # equals the filename stem, the [[link]] target
+title: <human-readable title> # optional
 description: <one line, keywords first>
 type: user | feedback | project | reference | tech
-category: <finer grouping>     # optional
-tags: [tag-one, tag-two]       # lowercase-kebab
-aliases: [alt-name]            # optional
-related: ["[[other-slug]]"]    # optional explicit edges
-sources: ["https://.../llms.txt"]  # optional
+category: <finer grouping> # optional
+tags: [tag-one, tag-two] # lowercase-kebab
+aliases: [alt-name] # optional
+related: ["[[other-slug]]"] # optional explicit edges
+sources: ["https://.../llms.txt"] # optional
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-timestamp: 2026-01-01T00:00:00Z    # ISO 8601
+timestamp: 2026-01-01T00:00:00Z # ISO 8601
 ---
 
 The fact. For feedback and project notes add **Why:** and **How to apply:** lines.
@@ -55,13 +55,13 @@ The fact. For feedback and project notes add **Why:** and **How to apply:** line
 
 Required: `name`, `description`, `type`, `tags`, `created`, `updated`, `timestamp`. The lint requires `timestamp`, which OKF itself does not.
 
-| type | holds |
-| --- | --- |
-| `user` | who the user is: profile, stack, preferences |
-| `feedback` | how agents should work: style, corrections, confirmed wins |
-| `project` | durable context about ongoing work |
-| `reference` | pointers to external resources |
-| `tech` | reusable technical knowledge and patterns |
+| type        | holds                                                      |
+| ----------- | ---------------------------------------------------------- |
+| `user`      | who the user is: profile, stack, preferences               |
+| `feedback`  | how agents should work: style, corrections, confirmed wins |
+| `project`   | durable context about ongoing work                         |
+| `reference` | pointers to external resources                             |
+| `tech`      | reusable technical knowledge and patterns                  |
 
 ### Live sources
 

@@ -36,7 +36,7 @@ Never put real credentials in examples. Use environment variables, a secret mana
 
 ## Table engine choice
 
-```
+```text
 Small dimension table (under 1M rows)? Memory or MergeTree
 Otherwise MergeTree family
 ├── Deduplicate by key        ReplacingMergeTree(version)
@@ -48,13 +48,13 @@ Otherwise MergeTree family
 
 ## Common symptoms
 
-| Symptom | First step |
-|---------|-----------|
-| Too many parts | Fix insert batching (`insert-batch-size`). Do not run `OPTIMIZE ... FINAL` as a routine fix (`insert-optimize-avoid-final`). |
-| Slow query | `EXPLAIN indexes = 1` to check whether the key prefix is used |
-| Stuck mutation | Check `system.mutations`, then see `insert-mutation-avoid-update` |
-| Replication lag | Check `system.replication_queue` and Keeper health |
-| Out of memory | Reduce data read first, then tune `max_memory_usage` |
+| Symptom         | First step                                                                                                                   |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Too many parts  | Fix insert batching (`insert-batch-size`). Do not run `OPTIMIZE ... FINAL` as a routine fix (`insert-optimize-avoid-final`). |
+| Slow query      | `EXPLAIN indexes = 1` to check whether the key prefix is used                                                                |
+| Stuck mutation  | Check `system.mutations`, then see `insert-mutation-avoid-update`                                                            |
+| Replication lag | Check `system.replication_queue` and Keeper health                                                                           |
+| Out of memory   | Reduce data read first, then tune `max_memory_usage`                                                                         |
 
 ## References
 

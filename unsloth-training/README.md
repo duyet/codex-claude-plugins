@@ -4,7 +4,7 @@ Fine-tune LLMs with [Unsloth](https://unsloth.ai/) using GRPO (reinforcement lea
 
 ## Install
 
-```
+```text
 /plugin install unsloth-training@duyet-claude-plugins
 ```
 

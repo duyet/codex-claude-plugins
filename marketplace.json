@@ -79,10 +79,10 @@
       "category": "Productivity"
     },
     {
-      "name": "clickhouse-monitoring",
-      "displayName": "Clickhouse Monitoring",
+      "name": "chmonitor",
+      "displayName": "chmonitor",
       "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
-      "version": "1.2.0",
+      "version": "2.0.0",
       "category": "Monitoring"
     },
     {

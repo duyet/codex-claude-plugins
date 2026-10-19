@@ -20,14 +20,14 @@ Useful pages: `getting-started/quickstart`, `getting-started/authentication`, `g
 
 ## Contract
 
-| Setting | Value |
-| --- | --- |
-| Base URL | `https://anyrouter.dev/api/v1` |
-| Anthropic-native base | `https://anyrouter.dev/api` (for `/messages`) |
-| API key env var | `ANYROUTER_API_KEY` (keys start with `sk-ar-`) |
-| Model id | `provider/model` |
-| Endpoints | `/chat/completions` (OpenAI-compatible), `/messages` (Anthropic-native), `/responses` |
-| MCP | `https://anyrouter.dev/api/v1/mcp`, registered by this plugin |
+| Setting               | Value                                                                                 |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| Base URL              | `https://anyrouter.dev/api/v1`                                                        |
+| Anthropic-native base | `https://anyrouter.dev/api` (for `/messages`)                                         |
+| API key env var       | `ANYROUTER_API_KEY` (keys start with `sk-ar-`)                                        |
+| Model id              | `provider/model`                                                                      |
+| Endpoints             | `/chat/completions` (OpenAI-compatible), `/messages` (Anthropic-native), `/responses` |
+| MCP                   | `https://anyrouter.dev/api/v1/mcp`, registered by this plugin                         |
 
 For current model ids, call the MCP `list_models` tool or read the models catalog at `https://anyrouter.dev/models`. Never invent an id.
 
@@ -36,12 +36,12 @@ For current model ids, call the MCP `list_models` tool or read the models catalo
 If the project already has an LLM client, change its base URL, key, and model id instead of adding a client. Read the key from `ANYROUTER_API_KEY`, never inline it, and read the model from `ANYROUTER_MODEL`.
 
 ```typescript
-import OpenAI from "openai"
+import OpenAI from "openai";
 
 export const llm = new OpenAI({
   baseURL: "https://anyrouter.dev/api/v1",
   apiKey: process.env.ANYROUTER_API_KEY,
-})
+});
 ```
 
 ```python
@@ -68,7 +68,8 @@ Swap the base URL and key and keep the request shape. For the full procedure, ru
 
 ## Routing and attribution
 
-Steer routing with a `provider` object in the request body (`only`, `order`, `sort`, `allow_fallbacks`, `max_price`, `preferred_max_latency`, `preferred_min_throughput`). Pin one upstream with the `X-AnyRouter-Provider` header. Send `X-AnyRouter-Title`, `X-AnyRouter-Source`, and `X-AnyRouter-Version` so dashboard analytics work. Keep `allow_fallbacks: true` unless an eval needs a fixed upstream. Schemas are in `guides/provider-routing` and `features/app-attribution`.
+Steer routing with a `provider` object in the request body (`only`, `order`, `sort`, `allow_fallbacks`, `max_price`, `preferred_max_latency`, `preferred_min_throughput`). Pin one upstream with the `X-AnyRouter-Provider` header.
+Send `X-AnyRouter-Title`, `X-AnyRouter-Source`, and `X-AnyRouter-Version` so dashboard analytics work. Keep `allow_fallbacks: true` unless an eval needs a fixed upstream. Schemas are in `guides/provider-routing` and `features/app-attribution`.
 
 ## MCP server
 

@@ -35,16 +35,16 @@ Stay silent on trivial or chatty turns. The trailing sentence is one clear claus
 
 `~/.config/sag-notify/config.json` overrides `config.default.json`. Change it with `jq` through a temp file, then validate with `jq .`.
 
-| Key | Meaning |
-| --- | --- |
-| `enabled` | Master switch |
-| `events.notification`, `events.summary` | Toggle the needs-you and done lines |
-| `voice_id`, `model_id` | ElevenLabs voice and model |
-| `self_name` | Name in the greeting |
-| `language` | Language of the spoken line |
-| `key_file` | File to read `ELEVENLABS_API_KEY` from when the variable is unset |
-| `error_log` | Where sag stderr goes |
-| `max_chars` | Length cap for the trailing sentence |
+| Key                                     | Meaning                                                           |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| `enabled`                               | Master switch                                                     |
+| `events.notification`, `events.summary` | Toggle the needs-you and done lines                               |
+| `voice_id`, `model_id`                  | ElevenLabs voice and model                                        |
+| `self_name`                             | Name in the greeting                                              |
+| `language`                              | Language of the spoken line                                       |
+| `key_file`                              | File to read `ELEVENLABS_API_KEY` from when the variable is unset |
+| `error_log`                             | Where sag stderr goes                                             |
+| `max_chars`                             | Length cap for the trailing sentence                              |
 
 ## Voice tiers and 402
 

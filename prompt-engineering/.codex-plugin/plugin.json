@@ -13,9 +13,7 @@
     "shortDescription": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok.",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

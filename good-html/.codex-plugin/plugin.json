@@ -13,9 +13,7 @@
     "shortDescription": "Dense, interactive, self-contained HTML artifacts and reviews.",
     "developerName": "duyet",
     "category": "Design",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

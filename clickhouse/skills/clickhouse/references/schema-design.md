@@ -60,6 +60,7 @@ PRIMARY KEY (user_id, event_timestamp)
 ```
 
 **When to use different PRIMARY KEY:**
+
 - Want to optimize for queries that filter on subset of ORDER BY
 - Reduce primary key size (faster index scans)
 - Note: PRIMARY KEY must be prefix of ORDER BY
@@ -113,14 +114,15 @@ PARTITION BY (tenant_id, toYYYYMM(timestamp));
 
 ### Partitioning Guidelines
 
-| Data Volume | Recommended Partitioning |
-|-------------|---------------------------|
-| < 1GB/day | No partitioning or monthly |
-| 1-10GB/day | Monthly partitions |
-| 10-100GB/day | Daily partitions |
-| > 100GB/day | Daily + sharding |
+| Data Volume  | Recommended Partitioning   |
+| ------------ | -------------------------- |
+| < 1GB/day    | No partitioning or monthly |
+| 1-10GB/day   | Monthly partitions         |
+| 10-100GB/day | Daily partitions           |
+| > 100GB/day  | Daily + sharding           |
 
 **Key principles:**
+
 - Aim for 100-1000 parts total across all partitions
 - Monthly partitions: Good for 10GB+ per day
 - Daily partitions: Good for 1GB+ per day
@@ -215,6 +217,7 @@ GROUP BY user_id;
 ```
 
 **Use cases for sampling:**
+
 - Exploratory analytics (fast approximate results)
 - Testing queries on large datasets
 - Dashboard previews (refresh faster)
@@ -246,6 +249,7 @@ CODEC(LZ4)
 ```
 
 **Codec guidelines:**
+
 - Use ZSTD for most data (good balance)
 - Use NONE for already-compressed data (images, encrypted data)
 - Use Delta for monotonically increasing values (timestamps, IDs)
@@ -277,12 +281,14 @@ INDEX idx_msg message TYPE tokenbf_v1(512, 3, 0) GRANULARITY 1;
 ```
 
 **Index types:**
+
 - `minmax`: Min/max values per granule
 - `set`: Set of values (good for IN queries)
 - `bloom_filter`: Probabilistic exact match
 - `tokenbf_v1`: Token-based bloom filter for text search
 
 **Granularity:**
+
 - Lower = more precise index, larger index size
 - Higher = less precise index, smaller index size
 - Default: 1 (most precise)
@@ -304,7 +310,6 @@ SETTINGS
     merge_max_block_size = 1048544,   -- Block size for merges
     storage_policy = 'default';       -- Storage policy
 ```
-
 
 ## Schema Organization
 
@@ -393,6 +398,7 @@ DROP TABLE events_v2;
 ### Schema Version Control
 
 **Best practices:**
+
 - Store all DDL in version control (Git)
 - Use migration tools: `clickhouse-migrate`, `golang-migrate`
 - Document table relationships and dependencies
@@ -438,4 +444,3 @@ MAX read_bytes = 100000000000
 MAX execution_time = 60
 TO user_name;
 ```
-

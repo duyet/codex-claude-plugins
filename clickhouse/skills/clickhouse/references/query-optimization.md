@@ -21,6 +21,7 @@ EXPLAIN ESTIMATE SELECT * FROM events WHERE user_id = 123;
 ```
 
 **Key indicators:**
+
 - `"Filter"` → Not using index (full scan)
 - `"Index"` → Using index marks
 - `"Projection"` → Pre-computed data
@@ -123,6 +124,7 @@ ALTER TABLE events DROP PROJECTION pr_user_daily;
 ```
 
 **When projections are used:**
+
 - Query GROUP BY matches projection GROUP BY
 - Query SELECT matches projection SELECT
 - Automatic (no query changes needed)
@@ -153,12 +155,14 @@ INDEX idx_msg message TYPE tokenbf_v1(512, 3, 0) GRANULARITY 1;
 ```
 
 **Skip index types:**
+
 - `minmax`: Min/max values per granule
 - `set`: Set of values (good for IN queries)
 - `bloom_filter`: Probabilistic exact match
 - `tokenbf_v1`: Token-based bloom filter for text search
 
 **Check if index used:**
+
 ```sql
 EXPLAIN SELECT * FROM events WHERE email = 'user@example.com';
 -- Look for "Index" or "Filter with index" in output

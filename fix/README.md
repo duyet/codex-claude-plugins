@@ -4,7 +4,7 @@ Find and fix failing tests, lint, type errors, and CI, then commit and push or o
 
 ## Install
 
-```
+```text
 /plugin install fix@duyet-claude-plugins
 ```
 

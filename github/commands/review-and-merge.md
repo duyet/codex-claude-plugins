@@ -7,7 +7,7 @@ description: Triage every open PR, fix review-bot comments, CI, and conflicts in
 
 ## Usage
 
-```
+```text
 /github:review-and-merge [--pr <n,n>] [--skip <n,n>] [--no-merge] [--dry-run]
 ```
 

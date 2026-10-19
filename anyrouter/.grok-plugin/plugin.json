@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "anyrouter"
-  ],
+  "keywords": ["anyrouter"],
   "skills": "./skills/",
   "commands": "./commands/",
   "agents": "./agents/",

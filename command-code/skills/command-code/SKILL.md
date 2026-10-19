@@ -39,6 +39,7 @@ Dispatch when the user asks for it, or when there is independent work (several i
    - "Print a summary of files changed and deviations at the end."
 
    For a GitHub issue, tell it to run `gh issue view <N>`, and still restate seams and constraints.
+
 4. **Launch in the background**, one log per worker.
 
    ```bash

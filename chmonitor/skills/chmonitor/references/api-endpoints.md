@@ -5,6 +5,7 @@ Complete reference for the ClickHouse Monitor API layer. All endpoints are prefi
 ## Overview
 
 The API provides:
+
 - **Chart data** - Time-series metrics for visualizations
 - **Table data** - Paginated query results with filtering
 - **Explorer** - Database schema and metadata
@@ -30,22 +31,22 @@ All endpoints return a consistent `ApiResponse<T>` structure:
 
 ```typescript
 interface ApiResponse<T> {
-  success: boolean
-  data?: T
+  success: boolean;
+  data?: T;
   metadata: {
-    queryId: string        // Unique execution identifier
-    duration: number       // Duration in milliseconds
-    rows: number           // Rows returned
-    host: string           // Host that executed
-    clickhouseVersion?: string
-    cachedAt?: number      // Timestamp if cached
-    status?: DataStatus    // 'ok' | 'empty' | 'table_not_found' | etc.
-    statusMessage?: string
-    api?: string           // Full endpoint URL
-    sql?: string           // Executed SQL
-    params?: Record<string, unknown>
-  }
-  error?: ApiError
+    queryId: string; // Unique execution identifier
+    duration: number; // Duration in milliseconds
+    rows: number; // Rows returned
+    host: string; // Host that executed
+    clickhouseVersion?: string;
+    cachedAt?: number; // Timestamp if cached
+    status?: DataStatus; // 'ok' | 'empty' | 'table_not_found' | etc.
+    statusMessage?: string;
+    api?: string; // Full endpoint URL
+    sql?: string; // Executed SQL
+    params?: Record<string, unknown>;
+  };
+  error?: ApiError;
 }
 ```
 
@@ -56,6 +57,7 @@ interface ApiResponse<T> {
 Fetch time-series data for a specific chart.
 
 **Parameters:**
+
 - `name` (path) - Chart name from registry
 - `hostId` (query) - Host index (required)
 - `interval` (query) - Time aggregation: `1m`, `1h`, `1d`, etc.
@@ -63,11 +65,13 @@ Fetch time-series data for a specific chart.
 - `params` (query) - Chart-specific parameters (JSON-encoded)
 
 **Example:**
+
 ```bash
 curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastHours=24"
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -88,6 +92,7 @@ curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastH
 ### Available Chart Names
 
 **Query Monitoring:**
+
 - `query-count` - Total query count over time
 - `query-count-by-type` - Queries grouped by type (Select, Insert, etc.)
 - `query-duration-p95` - 95th percentile query duration
@@ -99,6 +104,7 @@ curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastH
 - `expensive-query-count` - Count of expensive queries
 
 **Merge Operations:**
+
 - `merge-count` - Merge operations over time
 - `merge-by-reason` - Merges by reason (Regular, TTL, etc.)
 - `merge-count-by-part-type` - Merges by part type
@@ -108,6 +114,7 @@ curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastH
 - `merge-by-table` - Merge count by table
 
 **System Metrics:**
+
 - `cpu-usage` - CPU utilization percentage
 - `memory-usage` - Memory consumption
 - `disk-usage` - Disk space by database
@@ -116,11 +123,13 @@ curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastH
 - `connections-interserver` - Inter-server connection count
 
 **Replication:**
+
 - `replication-lag-max` - Maximum replication lag
 - `replication-queue-length` - Pending replication tasks
 - `replica-has-delay` - Replicas with delays
 
 **ZooKeeper/Keeper:**
+
 - `zookeeper-watch-count` - Active watches
 - `zookeeper-outstanding-requests` - Outstanding requests
 
@@ -131,6 +140,7 @@ curl "http://localhost:3000/api/v1/charts/query-count?hostId=0&interval=1h&lastH
 Fetch paginated table data for a query config.
 
 **Parameters:**
+
 - `name` (path) - Query config name
 - `hostId` (query) - Host index (required)
 - `pageSize` (query) - Rows per page (default: 50)
@@ -138,11 +148,13 @@ Fetch paginated table data for a query config.
 - Additional parameters are passed as query params and substituted into SQL
 
 **Example:**
+
 ```bash
 curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&page=1"
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -169,6 +181,7 @@ curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&p
 ### Available Table Names
 
 **Query Monitoring:**
+
 - `running-queries` - Currently executing queries
 - `history-queries` - Query execution history
 - `failed-queries` - Failed query log
@@ -180,6 +193,7 @@ curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&p
 - `parallelization` - Parallel execution effectiveness
 
 **Table Management:**
+
 - `tables-overview` - Table storage statistics
 - `replicas` - Replicated table status
 - `replication-queue` - Pending replication tasks
@@ -192,11 +206,13 @@ curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&p
 - `dictionaries` - External dictionary status
 
 **Merges:**
+
 - `merges` - Active merge operations
 - `merge-performance` - Historical merge stats
 - `mutations` - Mutation status
 
 **System:**
+
 - `settings` - Server configuration
 - `mergetree-settings` - MergeTree engine settings
 - `disks` - Storage disk configuration
@@ -205,15 +221,18 @@ curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&p
 - `clusters` - Cluster information
 
 **Security:**
+
 - `sessions` - User session history
 - `login-attempts` - Authentication events
 
 **Operations:**
+
 - `backups` - Backup history
 - `errors` - Detailed error log
 - `page-views` - Dashboard analytics
 
 **Explorer:**
+
 - `explorer-databases` - Database list
 - `explorer-tables` - Table list by database
 - `explorer-columns` - Column metadata
@@ -230,6 +249,7 @@ curl "http://localhost:3000/api/v1/tables/running-queries?hostId=0&pageSize=20&p
 List all databases.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -243,6 +263,7 @@ List all databases.
 List tables in a database.
 
 **Parameters:**
+
 - `database` (query) - Database name
 
 ### GET /api/v1/explorer/columns
@@ -250,6 +271,7 @@ List tables in a database.
 Get column metadata for a table.
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 
@@ -258,6 +280,7 @@ Get column metadata for a table.
 Get CREATE TABLE statement.
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 
@@ -266,11 +289,13 @@ Get CREATE TABLE statement.
 Get table dependencies (views, dictionaries, etc.).
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 - `type` (query) - Dependency type: `all`, `upstream`, `downstream`, `table`
 
 **Example:**
+
 ```bash
 curl "http://localhost:3000/api/v1/explorer/dependencies?database=default&table=my_table&type=all&hostId=0"
 ```
@@ -280,6 +305,7 @@ curl "http://localhost:3000/api/v1/explorer/dependencies?database=default&table=
 Get projection definitions for a table.
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 
@@ -288,6 +314,7 @@ Get projection definitions for a table.
 Get skip index definitions for a table.
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 
@@ -296,6 +323,7 @@ Get skip index definitions for a table.
 Preview table data.
 
 **Parameters:**
+
 - `database` (query) - Database name
 - `table` (query) - Table name
 - `limit` (query) - Max rows (default: 100)
@@ -307,6 +335,7 @@ Preview table data.
 List configured hosts.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -331,9 +360,11 @@ List configured hosts.
 Get connection status for a host.
 
 **Parameters:**
+
 - `hostId` (query) - Host index
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -353,6 +384,7 @@ Get connection status for a host.
 Execute bulk actions on selected rows.
 
 **Request:**
+
 ```json
 {
   "action": "kill-query",
@@ -362,6 +394,7 @@ Execute bulk actions on selected rows.
 ```
 
 **Available Actions:**
+
 - `kill-query` - Terminate running queries
 - `explain-query` - Get query execution plan
 - `open-in-explorer` - Navigate to table in explorer
@@ -371,11 +404,12 @@ Execute bulk actions on selected rows.
 Get query execution plan.
 
 **Request:**
+
 ```json
 {
   "query": "SELECT * FROM system.tables LIMIT 10",
   "hostId": 0,
-  "type": "AST"  // or "PLAN", "PIPELINE"
+  "type": "AST" // or "PLAN", "PIPELINE"
 }
 ```
 
@@ -384,6 +418,7 @@ Get query execution plan.
 Get count badge for menu items.
 
 **Available Keys:**
+
 - `running-queries` - Active query count
 - `tables-overview` - Table count
 - `merges` - Active merge count
@@ -396,11 +431,11 @@ Get count badge for menu items.
 
 ```typescript
 enum ApiErrorType {
-  TableNotFound = 'table_not_found',
-  ValidationError = 'validation_error',
-  QueryError = 'query_error',
-  NetworkError = 'network_error',
-  PermissionError = 'permission_error'
+  TableNotFound = "table_not_found",
+  ValidationError = "validation_error",
+  QueryError = "query_error",
+  NetworkError = "network_error",
+  PermissionError = "permission_error",
 }
 ```
 
@@ -435,6 +470,7 @@ enum ApiErrorType {
 ## Caching
 
 The API uses SWR (stale-while-revalidate) caching on the client:
+
 - Charts refresh every 5 minutes by default
 - Manual refresh available via UI
 - Stale data displayed with indicator during revalidation

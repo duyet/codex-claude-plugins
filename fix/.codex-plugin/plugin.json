@@ -14,10 +14,7 @@
     "shortDescription": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
     "developerName": "duyet",
     "category": "Productivity",
-    "capabilities": [
-      "Skill",
-      "Command"
-    ],
+    "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

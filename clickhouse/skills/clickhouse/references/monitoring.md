@@ -456,7 +456,7 @@ scrape_configs:
 
 ### Key Metrics
 
-```
+```text
 # Query metrics
 clickhouse_queries_total
 clickhouse_query_duration_seconds
@@ -497,6 +497,7 @@ clickhouse_table_size_bytes{table="events"}
 4. **Table Sizes**
    - Top 10 tables by size
    - Growth rate
+
 ## See also
 
 - `debugging.md` for troubleshooting
@@ -701,6 +702,7 @@ ORDER BY day DESC, sum(bytes) DESC;
 ---
 
 **Tips**:
+
 - Use `formatReadableSize()` for human-readable byte sizes
 - Use `formatReadableQuantity()` for human-readable row counts
 - Filter `WHERE active = 1` to see only active parts

@@ -15,11 +15,7 @@
     "shortDescription": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
     "developerName": "duyet",
     "category": "UI",
-    "capabilities": [
-      "Skill",
-      "Command",
-      "Hook"
-    ],
+    "capabilities": ["Skill", "Command", "Hook"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

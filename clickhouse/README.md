@@ -4,7 +4,7 @@ ClickHouse review guidance for schemas, queries, and inserts, built around 28 at
 
 ## Install
 
-```
+```text
 /plugin install clickhouse@duyet-claude-plugins
 ```
 

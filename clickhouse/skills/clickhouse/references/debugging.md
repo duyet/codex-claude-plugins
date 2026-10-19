@@ -60,6 +60,7 @@ EXPLAIN ESTIMATE SELECT * FROM events WHERE user_id = 123;
 ```
 
 **Key indicators:**
+
 - `"Filter"` → Not using index (full scan)
 - `"Index"` → Using index marks
 - `"Projection"` → Pre-computed data
@@ -134,12 +135,12 @@ ORDER BY parts DESC;
 
 ### Common Merge Issues
 
-| Issue | Symptom | Solution |
-|-------|---------|----------|
-| Too many parts | Slow queries, high memory | `OPTIMIZE TABLE table FINAL` |
-| Slow merges | High CPU, disk usage | Reduce insert frequency, increase `max_bytes_to_merge_at_max_space_usage` |
-| Merge bottleneck | Queries slow | Check `background_pool` settings |
-| Parts not merging | Parts count increasing | Check `max_bytes_to_merge_at_once` |
+| Issue             | Symptom                   | Solution                                                                  |
+| ----------------- | ------------------------- | ------------------------------------------------------------------------- |
+| Too many parts    | Slow queries, high memory | `OPTIMIZE TABLE table FINAL`                                              |
+| Slow merges       | High CPU, disk usage      | Reduce insert frequency, increase `max_bytes_to_merge_at_max_space_usage` |
+| Merge bottleneck  | Queries slow              | Check `background_pool` settings                                          |
+| Parts not merging | Parts count increasing    | Check `max_bytes_to_merge_at_once`                                        |
 
 ## Mutation Debugging
 
@@ -179,11 +180,11 @@ ORDER BY parts_to_do DESC;
 
 ### Common Mutation Issues
 
-| Issue | Symptom | Solution |
-|-------|---------|----------|
-| Mutation stuck | `is_done = 0` for long time | Check `system.merges`, use `OPTIMIZE FINAL` |
-| Slow mutation | Low `parts_to_do_names` progress | Reduce concurrent mutations, increase `background_pool` |
-| Mutation failed | `is_fail = 1` | Check `exception_text`, fix issue, retry |
+| Issue           | Symptom                          | Solution                                                |
+| --------------- | -------------------------------- | ------------------------------------------------------- |
+| Mutation stuck  | `is_done = 0` for long time      | Check `system.merges`, use `OPTIMIZE FINAL`             |
+| Slow mutation   | Low `parts_to_do_names` progress | Reduce concurrent mutations, increase `background_pool` |
+| Mutation failed | `is_fail = 1`                    | Check `exception_text`, fix issue, retry                |
 
 ## Replication Debugging
 
@@ -226,12 +227,12 @@ LIMIT 10;
 
 ### Common Replication Issues
 
-| Issue | Symptom | Solution |
-|-------|---------|----------|
-| Replication lag | `absolute_delay > 5` | Check network, ZooKeeper, disk I/O |
-| ZK connection lost | `is_readonly = 1` | Check ZooKeeper, increase `session_timeout` |
-| Queue growing | `queue_size` increasing | Check merge performance, reduce insert rate |
-| ZK expired | Cluster down | Check ZK connection, restart ClickHouse |
+| Issue              | Symptom                 | Solution                                    |
+| ------------------ | ----------------------- | ------------------------------------------- |
+| Replication lag    | `absolute_delay > 5`    | Check network, ZooKeeper, disk I/O          |
+| ZK connection lost | `is_readonly = 1`       | Check ZooKeeper, increase `session_timeout` |
+| Queue growing      | `queue_size` increasing | Check merge performance, reduce insert rate |
+| ZK expired         | Cluster down            | Check ZK connection, restart ClickHouse     |
 
 ## Data Issues
 
@@ -281,11 +282,13 @@ LIMIT 10;
 ### Issue: Too Many Parts
 
 **Symptoms:**
+
 - Slow queries
 - High memory usage
 - Large merge queue
 
 **Solutions:**
+
 ```sql
 -- Force merge
 OPTIMIZE TABLE table FINAL;
@@ -303,10 +306,12 @@ GROUP BY partition;
 ### Issue: Mutation Stuck
 
 **Symptoms:**
+
 - `ALTER UPDATE/DELETE` not completing
 - `is_done = 0` in `system.mutations`
 
 **Solutions:**
+
 ```sql
 -- Check mutation progress
 SELECT * FROM system.mutations WHERE is_done = 0;
@@ -321,10 +326,12 @@ OPTIMIZE TABLE table FINAL;
 ### Issue: OOM on Queries
 
 **Symptoms:**
+
 - Query killed with memory limit
 - `"Memory limit exceeded"` error
 
 **Solutions:**
+
 ```sql
 -- Increase memory limit
 SET max_memory_usage = 10000000000;
@@ -347,10 +354,12 @@ LIMIT 10;
 ### Issue: Replication Lag
 
 **Symptoms:**
+
 - Data not replicating
 - High `absolute_delay` in `system.replicas`
 
 **Solutions:**
+
 ```sql
 -- Check replication queue
 SELECT * FROM system.replication_queue;

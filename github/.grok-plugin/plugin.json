@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "github"
-  ],
+  "keywords": ["github"],
   "skills": "./skills/",
   "commands": "./commands/"
 }

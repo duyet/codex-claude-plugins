@@ -167,10 +167,10 @@
       }
     },
     {
-      "name": "clickhouse-monitoring",
+      "name": "chmonitor",
       "source": {
         "source": "local",
-        "path": "./clickhouse-monitoring"
+        "path": "./chmonitor"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -178,8 +178,8 @@
       },
       "category": "Monitoring",
       "interface": {
-        "logo": "./clickhouse-monitoring/assets/logo.svg",
-        "composerIcon": "./clickhouse-monitoring/assets/logo.svg"
+        "logo": "./chmonitor/assets/logo.svg",
+        "composerIcon": "./chmonitor/assets/logo.svg"
       }
     },
     {

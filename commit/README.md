@@ -4,7 +4,7 @@ Semantic commits, optionally pushed or opened as a PR.
 
 ## Install
 
-```
+```text
 /plugin install commit@duyet-claude-plugins
 ```
 

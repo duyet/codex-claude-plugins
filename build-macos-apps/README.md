@@ -4,7 +4,6 @@ Skills and commands for building, running, testing, signing, and shipping macOS 
 
 ## What ships
 
-
 - `build-run-debug`
 - `test-triage`
 - `signing-entitlements`

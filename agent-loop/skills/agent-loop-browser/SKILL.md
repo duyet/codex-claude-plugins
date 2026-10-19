@@ -17,9 +17,9 @@ Use whatever browser tool the harness provides: a Chrome DevTools MCP server, a 
 
 ## Failure handling
 
-| Case | Action |
-|------|--------|
-| Page 404 | Report the broken URL |
-| Element missing | Retry once after the page settles, then skip |
-| Login required and no logged-in session | Skip and report |
-| Screenshot fails | Report the page text instead |
+| Case                                    | Action                                       |
+| --------------------------------------- | -------------------------------------------- |
+| Page 404                                | Report the broken URL                        |
+| Element missing                         | Retry once after the page settles, then skip |
+| Login required and no logged-in session | Skip and report                              |
+| Screenshot fails                        | Report the page text instead                 |

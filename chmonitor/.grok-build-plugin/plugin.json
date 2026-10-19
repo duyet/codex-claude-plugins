@@ -1,6 +1,6 @@
 {
-  "name": "clickhouse-monitoring",
-  "version": "1.2.0",
+  "name": "chmonitor",
+  "version": "2.0.0",
   "description": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
   "author": {
     "name": "duyet",
@@ -10,13 +10,11 @@
   "logo": "./assets/logo.svg",
   "skills": "./skills/",
   "interface": {
-    "displayName": "Clickhouse Monitoring",
+    "displayName": "chmonitor",
     "shortDescription": "Work on the ClickHouse Monitor dashboard: charts, pages, query configs, its API, and version-aware system queries.",
     "developerName": "duyet",
     "category": "Monitoring",
-    "capabilities": [
-      "Skill"
-    ],
+    "capabilities": ["Skill"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }

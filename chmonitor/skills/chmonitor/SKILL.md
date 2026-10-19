@@ -1,5 +1,5 @@
 ---
-name: clickhouse-monitoring
+name: chmonitor
 description: "Use when working on the ClickHouse Monitor dashboard: adding charts, pages, or query configs, calling its API, or handling ClickHouse version differences in system table queries."
 ---
 
@@ -12,6 +12,7 @@ Real-time monitoring and observability dashboard for ClickHouse clusters. Static
 ### Dashboard Access
 
 Navigate using query parameter routing (`?host=N` for multi-host setups):
+
 - `/overview?host=0` - System overview (Connections, Queries, Merges, Replication, System)
 - `/running-queries?host=0` - Active queries with progress tracking
 - `/explorer?host=0` - Interactive database schema browser
@@ -46,12 +47,14 @@ GET /api/v1/charts/{chartName}?hostId={hostId}&interval={interval}&lastHours={ho
 ```
 
 **Parameters:**
+
 - `chartName` - Name from chart registry (see references for full list)
 - `hostId` - Host index (0-based)
 - `interval` - Time bucket: `1m`, `5m`, `1h`, `1d`
 - `lastHours` - Historical range (default: 24)
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -93,6 +96,7 @@ GET /api/v1/explorer/columns?hostId={hostId}&database={db}&table={t}
 Fully static site with client-side data fetching. No SSR, no middleware.
 
 **Routing Pattern:**
+
 ```typescript
 // Static route with query parameter
 app/overview/page.tsx  to  /overview?host=0
@@ -102,6 +106,7 @@ app/overview/page.tsx  to  /overview?host=0
 ```
 
 **Page Component Template:**
+
 ```typescript
 'use client'
 
@@ -145,6 +150,7 @@ export function YourChart({ hostId }: { hostId: number }) {
 ### Adding Charts
 
 1. **Define query** in `lib/api/charts/{domain}-charts.ts`:
+
 ```typescript
 export const yourChart: ChartQueryBuilder = (params) => ({
   sql: `
@@ -154,25 +160,27 @@ export const yourChart: ChartQueryBuilder = (params) => ({
     WHERE event_time > now() - INTERVAL {lastHours:UInt64} HOUR
     GROUP BY ts ORDER BY ts
   `,
-  columns: ['ts', 'value'],
-})
+  columns: ["ts", "value"],
+});
 ```
 
 2. **Register** in `lib/api/chart-registry.ts`:
+
 ```typescript
 export const chartRegistry = {
   // ...
-  'your-chart-name': yourChart,
-}
+  "your-chart-name": yourChart,
+};
 ```
 
 3. **Create component** in `components/charts/`:
+
 ```typescript
-'use client'
-import { useChartData } from '@/lib/swr/use-chart-data'
+"use client";
+import { useChartData } from "@/lib/swr/use-chart-data";
 
 export function YourChart({ hostId }: { hostId: number }) {
-  const { data } = useChartData({ name: 'your-chart-name', hostId })
+  const { data } = useChartData({ name: "your-chart-name", hostId });
   // Render using Recharts or Tremor
 }
 ```
@@ -183,8 +191,8 @@ Add table views via `QueryConfig` in `lib/query-config/queries/`:
 
 ```typescript
 export const yourConfig: QueryConfig = {
-  name: 'your-query',
-  description: 'Query description',
+  name: "your-query",
+  description: "Query description",
   sql: `
     SELECT database, table,
            formatReadableQuantity(sum(rows)) AS total_rows
@@ -193,19 +201,23 @@ export const yourConfig: QueryConfig = {
     GROUP BY database, table
     ORDER BY total_rows DESC
   `,
-  columns: ['database', 'table', 'total_rows'],
+  columns: ["database", "table", "total_rows"],
   columnFormats: {
     database: ColumnFormat.Badge,
-    total_rows: [ColumnFormat.BackgroundBar, {
-      base: 'rows',
-      readable: 'total_rows',
-      pct: 'pct_rows'
-    }],
+    total_rows: [
+      ColumnFormat.BackgroundBar,
+      {
+        base: "rows",
+        readable: "total_rows",
+        pct: "pct_rows",
+      },
+    ],
   },
-}
+};
 ```
 
 **BackgroundBar format** requires 3 SQL columns:
+
 ```sql
 rows,                              -- base value
 formatReadableQuantity(rows) AS total_rows,  -- display
@@ -220,13 +232,13 @@ ClickHouse system tables change between versions. Use `VersionedSql[]`:
 
 ```typescript
 export const yourConfig: QueryConfig = {
-  name: 'your-query',
+  name: "your-query",
   sql: [
-    { since: '23.8', sql: 'SELECT col1 FROM system.table' },
-    { since: '24.3', sql: 'SELECT col1, col2 FROM system.table' },
+    { since: "23.8", sql: "SELECT col1 FROM system.table" },
+    { since: "24.3", sql: "SELECT col1, col2 FROM system.table" },
   ],
-  columns: ['col1', 'col2'],
-}
+  columns: ["col1", "col2"],
+};
 ```
 
 The system selects the appropriate query based on detected ClickHouse version.
@@ -237,12 +249,12 @@ Some tables don't exist depending on configuration. Mark as `optional`:
 
 ```typescript
 export const backupsConfig: QueryConfig = {
-  name: 'backups',
-  optional: true,  // Graceful handling if table missing
-  tableCheck: 'system.backup_log',
-  sql: 'SELECT * FROM system.backup_log',
+  name: "backups",
+  optional: true, // Graceful handling if table missing
+  tableCheck: "system.backup_log",
+  sql: "SELECT * FROM system.backup_log",
   // ...
-}
+};
 ```
 
 **Optional tables**: `backup_log`, `error_log`, `zookeeper`, `monitoring_events`.
@@ -250,14 +262,17 @@ export const backupsConfig: QueryConfig = {
 ## Common Issues
 
 **Empty charts?**
+
 - Verify required log tables enabled: `query_log`, `metric_log`, `part_log`
 - Check ClickHouse configuration for log settings
 
 **API returns `table_not_found`?**
+
 - Optional table missing - verify ClickHouse configuration
 - Version mismatch: check the query's `since` versions in `references/clickhouse-compat.md`
 
 **Multi-host not working?**
+
 - Verify all three env arrays have same length
 - Use comma-separated values: `host1,host2` (not spaces)
 - Check each host's credentials individually
@@ -269,4 +284,4 @@ export const backupsConfig: QueryConfig = {
 - [API Endpoints](references/api-endpoints.md) - Detailed API documentation with examples
 - [Development Guide](references/development.md) - Architecture patterns, conventions, contribution workflow
 - [ClickHouse Compatibility](references/clickhouse-compat.md) - Version-aware queries, schema docs, optional tables
-- [Project Repository](https://github.com/duyet/clickhouse-monitor)
+- [Project Repository](https://github.com/chmonitor/chmonitor)

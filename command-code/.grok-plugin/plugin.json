@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "command-code"
-  ],
+  "keywords": ["command-code"],
   "skills": "./skills/",
   "commands": "./commands/",
   "agents": "./agents/"

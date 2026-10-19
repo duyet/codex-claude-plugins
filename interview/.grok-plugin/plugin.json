@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "interview"
-  ],
+  "keywords": ["interview"],
   "skills": "./skills/",
   "commands": "./commands/"
 }

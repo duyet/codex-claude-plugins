@@ -4,7 +4,7 @@ AppKit provides the objects to build a macOS app's user interface and to manage
 interaction between the app, the person, and macOS: windows, panels, buttons, text
 fields, event handling, drawing, printing, animation, documents, drag and drop,
 menus, accessibility, and localization. It interops with SwiftUI in both directions
-,  AppKit views and view controllers embed into SwiftUI via representables, and
+, AppKit views and view controllers embed into SwiftUI via representables, and
 SwiftUI views can be hosted inside AppKit.
 
 ## When to reach for AppKit
@@ -41,7 +41,7 @@ the Apple Developer docs before relying on them.
 - `NSTextSelectionManager` (plus `.Delegate`, `.Mode`), unified text selection.
 - `NSMenuItem.ImageVisibility`: control menu-item icon visibility.
 - `NSSegmentedControl.Role`: per-segment roles.
-- `NSStatusItemExpandedInterfaceDelegate` / `NSStatusItemExpandedInterfaceSession` , 
+- `NSStatusItemExpandedInterfaceDelegate` / `NSStatusItemExpandedInterfaceSession` ,
   expanded status items.
 - `NSTextViewportRenderingSurface` / `NSTextViewportRenderingSurfaceKey`, text
   viewport rendering hooks.

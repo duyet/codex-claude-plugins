@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "logo": "./assets/logo.svg",
-  "keywords": [
-    "build-macos-apps"
-  ],
+  "keywords": ["build-macos-apps"],
   "skills": "./skills/",
   "commands": "./commands/"
 }

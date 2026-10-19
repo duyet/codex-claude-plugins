@@ -15,11 +15,7 @@
     "shortDescription": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
     "developerName": "duyet",
     "category": "Development",
-    "capabilities": [
-      "Skill",
-      "Command",
-      "Agent"
-    ],
+    "capabilities": ["Skill", "Command", "Agent"],
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   }
