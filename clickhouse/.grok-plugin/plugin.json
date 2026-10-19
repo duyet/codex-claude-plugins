@@ -1,11 +1,13 @@
 {
   "name": "clickhouse",
-  "version": "1.4.1",
-  "description": "ClickHouse expertise with 28 atomic review rules + 15 deep reference files. Rules synced with official ClickHouse/agent-skills repository. Schema design, query optimization, insert strategy, cluster management, backups, monitoring, and security best practices.",
+  "version": "2.0.0",
+  "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
   "author": {
-    "name": "duyetbot"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
-  "logo": "assets/logo.svg",
-  "keywords": ["clickhouse", "grok", "grok-build", "grok-bot"],
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
+  "keywords": ["clickhouse"],
   "skills": "./skills/"
 }

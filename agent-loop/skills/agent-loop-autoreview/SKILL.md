@@ -1,149 +1,20 @@
 ---
 name: agent-loop-autoreview
-description: >-
-  Autonomous code review and fix skill for the agent-loop plugin. Reviews PRs,
-  applies fixes from AI review bots (CodeRabbit, Sourcery, Gemini), validates
-  changes, and lands them. Designed for unattended overnight operation.
+description: Review a PR unattended, apply verified fixes from AI review bots (CodeRabbit, Sourcery, Gemini), validate, and merge when safe. Use for agent-loop workers or /agent-loop:autoreview.
 ---
 
-# Agent Loop Autoreview
+# Agent loop autoreview
 
-Autonomously review and fix pull requests. This skill:
+Stop and report if the PR is a draft or has a skip label (`wip`, `do-not-merge`, `blocked`, `hold`).
 
-1. Identifies PRs needing review (new, updated, or with review comments)
-2. Reads review bot suggestions from CodeRabbit/Sourcery/Gemini
-3. Applies verified fixes
-4. Runs validation (lint, test, build)
-5. Commits and pushes fixes, or merges when green
+Use the `review-bots` skill of the github plugin to read bot comments, or fetch them with `gh api`. CodeRabbit's "Prompt for AI Agents" block is the most precise source.
 
-## PR Discovery
+- Verify each comment against the code. Bots file non-issues. Skip those with a one-line reason.
+- Apply the smallest fix. No drive-by refactors.
+- Run the project's own lint, typecheck, and nearby tests. Revert a fix that fails validation and record it as skipped.
+- Skip and escalate anything touching auth, secrets, `.env`, or Dockerfiles, and any fix outside the files the comment named.
+- Commit as `fix(pr): apply review bot suggestions` and push.
 
-Find PRs that need attention:
+Merge only when asked (`--merge` or loop dispatch) and all hold: required checks pass (rerun a failure once to rule out a flake), no human requested changes, no conflicts, and the author is not a first-time contributor touching security-sensitive paths. Never use `--admin`. Never merge release-please PRs.
 
-```bash
-# PRs with review comments from bots
-gh pr list --state open --json number,title,author,updatedAt --limit 20
-
-# Check for unresolved review threads (bot-originated)
-gh api repos/{owner}/{repo}/pulls/{pr}/reviews \
-  --jq '.[] | select(.state == "CHANGES_REQUESTED") | {user: .user.login, body: .body}'
-```
-
-## Fetch Review Comments
-
-### CodeRabbit Comments
-
-```bash
-# All review threads
-gh api repos/{owner}/{repo}/pulls/{pr}/reviews \
-  --jq '.[] | select(.user.login | test("coderabbit")) | {id, body, state}'
-```
-
-### Inline Comments
-
-```bash
-gh api repos/{owner}/{repo}/pulls/{pr}/comments \
-  --jq '.[] | select(.user.login | test("coderabbit|sourcery|gemini-code-assist")) | {path, line, body, id}'
-```
-
-## Apply Fixes
-
-### Extraction
-
-From each review comment, extract:
-- **File path** and **line number**
-- **Issue description** and **severity** (critical, high, medium, low)
-- **Suggested fix** or **agent prompt** (from `🤖 Prompt for AI Agents` section)
-- **Type** (bug, security, performance, style, docs)
-
-### Fix Application Workflow
-
-```
-1. Read file at specified path+line
-2. Understand the issue context
-3. Apply fix (minimal change, no refactoring)
-4. Validate:
-   - Edit tool → file changed
-   - LSP diagnostics clean
-   - Run project linter: npm run lint / ruff / etc
-   - Run relevant tests
-5. If validation fails → log error, skip, report
-```
-
-### Validation Commands
-
-```bash
-# TypeScript/JS
-npx tsc --noEmit 2>&1 | head -50
-npm run lint 2>&1 | head -50
-npm run test -- --run 2>&1 | tail -50
-
-# Python
-ruff check . 2>&1 | head -30
-pytest -x --timeout=60 2>&1 | tail -50
-
-# General
-git diff --stat
-```
-
-## Commit and Push
-
-After applying all fixes for a PR:
-
-```bash
-git add -A
-git commit -m "fix(pr): apply review bot suggestions
-
-- Applied N fixes from CodeRabbit/Sourcery/Gemini
-
-Co-Authored-By: duyetbot <duyetbot@users.noreply.github.com>"
-git push
-```
-
-## Merge When Ready
-
-Check merge readiness:
-
-```bash
-gh pr view <n> --json mergeStateStatus,reviewDecision,statusCheckRollup
-```
-
-Conditions for auto-merge:
-1. All required status checks passing
-2. No unresolved review threads requesting changes
-3. No merge conflicts
-
-```bash
-# Merge
-gh pr merge <n> --squash --delete-branch
-```
-
-## Safety Gating
-
-**Never auto-merge when:**
-- PR is a draft
-- PR has `WIP`, `do-not-merge`, `blocked`, or `hold` label
-- PR has unresolved human review requesting changes
-- CI has failing required checks (flake retry 1x first)
-- PR changes security-sensitive paths (`Dockerfile`, `.env`, secrets, auth)
-- PR is from an untrusted first-time contributor (check trust)
-
-**Log every decision:**
-```
-Autoreview: PR #123
-  Bot comments: 3 (CodeRabbit: 2, Sourcery: 1)
-  Fixes applied: 2
-  Skipped: 1 (suggestion only, not actionable)
-  Validation: lint ✅, test ✅, build ✅
-  Result: merged as abc1234
-```
-
-## Failure Handling
-
-| Scenario | Action |
-|----------|--------|
-| Fix fails validation | Revert, log error, skip |
-| CI flake | Retry once after 60s |
-| Merge conflict | Report as blocked |
-| Unknown file changed by fix | Skip, flag for review |
-| Critical security issue | Skip, escalate in report |
+Report per PR: comments found, fixes applied, fixes skipped with reasons, validation results, and an outcome of `merged`, `pr_updated`, `blocked`, or `needs_human`.

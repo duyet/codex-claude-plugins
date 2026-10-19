@@ -1,0 +1,18 @@
+{
+  "name": "anyrouter",
+  "version": "1.1.0",
+  "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "AnyRouter",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/anyrouter",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "AI",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": "./agents/",
+  "mcpServers": "./.mcp.json"
+}

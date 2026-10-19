@@ -1,0 +1,17 @@
+{
+  "name": "command-code",
+  "version": "1.1.0",
+  "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Command Code",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/command-code",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Development",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": "./agents/"
+}

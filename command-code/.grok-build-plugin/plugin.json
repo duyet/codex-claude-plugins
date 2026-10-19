@@ -1,24 +1,23 @@
 {
   "name": "command-code",
-  "version": "1.0.0",
-  "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent. Skill + /command-code:dispatch command + cmd-dispatcher agent for fanning out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel.",
+  "version": "1.1.0",
+  "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
   "skills": "./skills/",
   "commands": "./commands/",
   "agents": "./agents/",
   "interface": {
     "displayName": "Command Code",
-    "shortDescription": "Drive & orchestrate the Command Code CLI (`cmd`) as a headless sub-agent.",
+    "shortDescription": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
     "developerName": "duyet",
-    "category": "Developer Tools",
+    "category": "Development",
     "capabilities": ["Skill", "Command", "Agent"],
-    "links": {
-      "homepage": "https://github.com/duyet/claude-plugins"
-    },
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
-  },
-  "logo": "assets/logo.svg"
+  }
 }

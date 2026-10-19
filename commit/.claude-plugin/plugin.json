@@ -1,9 +1,12 @@
 {
   "name": "commit",
-  "description": "Create a Git commit with semantic commit message format and PR workflow with templates",
-  "version": "1.3.2",
+  "version": "1.4.0",
+  "description": "Semantic commits, with optional push or a PR from templates.",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/commit",
   "logo": "./assets/logo.svg"
 }

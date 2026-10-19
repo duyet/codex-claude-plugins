@@ -1,7 +1,7 @@
 {
   "name": "duyet-claude-plugins",
   "interface": {
-    "displayName": "Duyet Claude, Codex, and Grok Plugins",
+    "displayName": "Duyet Claude, Codex, Cursor, and Grok Plugins",
     "logo": "./assets/logo.svg",
     "composerIcon": "./assets/logo.svg"
   },
@@ -103,38 +103,6 @@
       }
     },
     {
-      "name": "duyetbot",
-      "source": {
-        "source": "local",
-        "path": "./duyetbot"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity",
-      "interface": {
-        "logo": "./duyetbot/assets/logo.svg",
-        "composerIcon": "./duyetbot/assets/logo.svg"
-      }
-    },
-    {
-      "name": "docs-generator",
-      "source": {
-        "source": "local",
-        "path": "./docs-generator"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Docs",
-      "interface": {
-        "logo": "./docs-generator/assets/logo.svg",
-        "composerIcon": "./docs-generator/assets/logo.svg"
-      }
-    },
-    {
       "name": "github",
       "source": {
         "source": "local",
@@ -164,22 +132,6 @@
       "interface": {
         "logo": "./fix/assets/logo.svg",
         "composerIcon": "./fix/assets/logo.svg"
-      }
-    },
-    {
-      "name": "simplify",
-      "source": {
-        "source": "local",
-        "path": "./simplify"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity",
-      "interface": {
-        "logo": "./simplify/assets/logo.svg",
-        "composerIcon": "./simplify/assets/logo.svg"
       }
     },
     {
@@ -215,10 +167,10 @@
       }
     },
     {
-      "name": "clickhouse-monitoring",
+      "name": "chmonitor",
       "source": {
         "source": "local",
-        "path": "./clickhouse-monitoring"
+        "path": "./chmonitor"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -226,8 +178,8 @@
       },
       "category": "Monitoring",
       "interface": {
-        "logo": "./clickhouse-monitoring/assets/logo.svg",
-        "composerIcon": "./clickhouse-monitoring/assets/logo.svg"
+        "logo": "./chmonitor/assets/logo.svg",
+        "composerIcon": "./chmonitor/assets/logo.svg"
       }
     },
     {
@@ -263,22 +215,6 @@
       }
     },
     {
-      "name": "sag-notify",
-      "source": {
-        "source": "local",
-        "path": "./sag-notify"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "UI",
-      "interface": {
-        "logo": "./sag-notify/assets/logo.svg",
-        "composerIcon": "./sag-notify/assets/logo.svg"
-      }
-    },
-    {
       "name": "anyrouter",
       "source": {
         "source": "local",
@@ -292,6 +228,22 @@
       "interface": {
         "logo": "./anyrouter/assets/logo.svg",
         "composerIcon": "./anyrouter/assets/logo.svg"
+      }
+    },
+    {
+      "name": "sag-notify",
+      "source": {
+        "source": "local",
+        "path": "./sag-notify"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "UI",
+      "interface": {
+        "logo": "./sag-notify/assets/logo.svg",
+        "composerIcon": "./sag-notify/assets/logo.svg"
       }
     },
     {

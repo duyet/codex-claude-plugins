@@ -1,9 +1,12 @@
 {
   "name": "fix",
-  "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
-  "version": "1.0.1",
+  "version": "1.1.0",
+  "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/fix",
   "logo": "./assets/logo.svg"
 }

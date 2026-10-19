@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# kb — capture/ingest/consolidate this shared-brain knowledge base.
+# kb - capture/ingest/consolidate this shared-brain knowledge base.
 # KB location is configurable: $KB_DIR if set, else auto-detected from this
 # script's own location (resolves symlinks), so it works wherever kb lives.
 set -euo pipefail
@@ -30,8 +30,8 @@ capture | c)
 	}
 	f="$(inbox)"
 	mkdir -p "$(dirname "$f")"
-	[[ -f "$f" ]] || printf '# Inbox — %s\n\n' "$(date +%F)" >"$f"
-	printf -- '- %s — %s\n' "$(date +%H:%M)" "$text" >>"$f"
+	[[ -f "$f" ]] || printf '# Inbox - %s\n\n' "$(date +%F)" >"$f"
+	printf -- '- %s - %s\n' "$(date +%H:%M)" "$text" >>"$f"
 	echo "captured → ${f#"$KB_DIR"/}  (run 'kb sync' to push)"
 	;;
 ingest | i)
@@ -87,7 +87,7 @@ autosync)
 	;;
 help | -h | --help)
 	cat <<EOF
-kb — shared-brain CLI   (KB_DIR=$KB_DIR)
+kb - shared-brain CLI   (KB_DIR=$KB_DIR)
 
   kb capture "<note>"   append a timestamped line to today's raw/inbox
   kb ingest <file>      copy a source doc into raw/ for later ingestion

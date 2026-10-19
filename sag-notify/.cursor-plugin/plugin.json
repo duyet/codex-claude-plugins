@@ -1,0 +1,16 @@
+{
+  "name": "sag-notify",
+  "version": "2.2.0",
+  "description": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "sag-notify",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/sag-notify",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "UI",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

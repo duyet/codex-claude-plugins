@@ -1,16 +1,18 @@
 {
   "name": "github",
-  "version": "1.4.2",
-  "description": "GitHub operations using gh CLI - PRs, workflows, issues, repositories, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
+  "version": "1.5.0",
+  "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
   "author": {
-    "name": "duyetbot"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
   "license": "MIT",
   "skills": "./skills/",
+  "commands": "./commands/",
   "interface": {
     "displayName": "GitHub",
-    "shortDescription": "GitHub operations using gh CLI - PRs, workflows, issues, repositories, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
-    "developerName": "duyetbot",
+    "shortDescription": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
+    "developerName": "duyet",
     "category": "Git",
     "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",

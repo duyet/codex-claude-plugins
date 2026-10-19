@@ -1,35 +1,18 @@
 {
   "name": "agent-loop",
-  "version": "0.4.0",
-  "description": "Continuous agent loop for overnight/day repository maintenance. Auto-detects and resumes from saved state. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work to threads, land autonomously.",
+  "version": "0.5.0",
+  "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
   "author": {
-    "name": "duyetbot"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
   "license": "MIT",
   "skills": "./skills/",
-  "codex": {
-    "skills": [
-      "agent-loop-orchestrator",
-      "agent-loop-triage",
-      "agent-loop-autoreview",
-      "agent-loop-browser"
-    ],
-    "commands": [
-      "agent-loop:start",
-      "agent-loop:stop",
-      "agent-loop:status",
-      "agent-loop:inspect",
-      "agent-loop:reset",
-      "agent-loop:restore",
-      "agent-loop:triage",
-      "agent-loop:autoreview",
-      "agent-loop:resume"
-    ]
-  },
+  "commands": "./commands/",
   "interface": {
     "displayName": "Agent Loop",
-    "shortDescription": "Continuous overnight/day repo maintenance with autonomous agent loops. Triage, autoreview, browser automation, and parallel agent work.",
-    "developerName": "duyetbot",
+    "shortDescription": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
+    "developerName": "duyet",
     "category": "Automation",
     "capabilities": ["Skill", "Command"],
     "logo": "./assets/logo.svg",

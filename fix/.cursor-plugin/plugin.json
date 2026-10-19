@@ -1,0 +1,16 @@
+{
+  "name": "fix",
+  "version": "1.1.0",
+  "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Fix",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/fix",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Productivity",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

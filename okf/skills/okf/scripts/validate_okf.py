@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate an OKF v0.1 bundle. Stdlib only — no PyYAML required.
+"""Validate an OKF v0.1 bundle. Stdlib only - no PyYAML required.
 
 Usage: python3 validate_okf.py <bundle_dir>
 
@@ -24,7 +24,7 @@ def split_frontmatter(text):
 
 
 def frontmatter_keys(fm):
-    """Crude top-level key scan — enough for conformance checks."""
+    """Crude top-level key scan - enough for conformance checks."""
     keys = {}
     for line in fm.splitlines():
         m = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", line)

@@ -1,0 +1,16 @@
+{
+  "name": "github",
+  "version": "1.5.0",
+  "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "GitHub",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/github",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Git",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

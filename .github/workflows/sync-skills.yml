@@ -6,33 +6,18 @@ name: Sync skills to duyet/skills
   push:
     branches: [master]
     paths:
-      - "clickhouse/**"
-      - "clickhouse-monitoring/**"
-      - "frontend-design/**"
-      - "orchestration/**"
-      - "prompt-engineering/**"
-      - "unsloth-training/**"
-      - "duyetbot/**"
-      - "github/**"
-      - "good-html/**"
-      - "anyrouter/**"
-      - "marketplace.json"
+      - "*/skills/**"
       - ".github/workflows/sync-skills.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# Plugins whose skills/ subdirs (or root SKILL.md, for good-html) flatten
-# into duyet/skills. Edit this list to add or remove synced plugins.
-env:
-  SOURCE_PLUGINS: >-
-    clickhouse clickhouse-monitoring frontend-design orchestration
-    prompt-engineering unsloth-training duyetbot github good-html anyrouter
-
+# Every plugin skills/<name>/SKILL.md dir flattens into duyet/skills.
 jobs:
   sync:
     runs-on: ubuntu-latest
+    environment: skills-sync
     permissions:
       contents: read
     steps:
@@ -52,6 +37,7 @@ jobs:
           path: target
           token: ${{ secrets.SKILLS_SYNC_TOKEN }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Flatten plugin skills into target layout
         id: flatten
@@ -62,17 +48,10 @@ jobs:
           # Collect target skill dirs we are about to replace, so we
           # can prune them cleanly before copying fresh content.
           declare -a TARGET_SKILLS=()
-          for plugin in $SOURCE_PLUGINS; do
-            if [ -f "$plugin/SKILL.md" ]; then
-              # Root-level SKILL.md (e.g. good-html). Use plugin name.
-              TARGET_SKILLS+=("$plugin")
-            elif [ -d "$plugin/skills" ]; then
-              while IFS= read -r -d '' dir; do
-                TARGET_SKILLS+=("$(basename "$dir")")
-              done < <(find "$plugin/skills" -mindepth 2 -maxdepth 2 \
-                -name SKILL.md -printf '%h\0')
-            fi
-          done
+          while IFS= read -r -d '' dir; do
+            TARGET_SKILLS+=("$(basename "$dir")")
+          done < <(find . -mindepth 4 -maxdepth 4 -path './*/skills/*/SKILL.md' \
+            -not -path './.*' -printf '%h\0')
 
           echo "Refreshing: ${TARGET_SKILLS[*]}"
 
@@ -82,23 +61,10 @@ jobs:
           done
 
           # Copy each skill dir flat into the target.
-          for plugin in $SOURCE_PLUGINS; do
-            if [ -f "$plugin/SKILL.md" ]; then
-              mkdir -p "../target/$plugin"
-              cp "$plugin/SKILL.md" "../target/$plugin/SKILL.md"
-              for extra in assets references reference rules; do
-                if [ -d "$plugin/$extra" ]; then
-                  cp -r "$plugin/$extra" "../target/$plugin/$extra"
-                fi
-              done
-            elif [ -d "$plugin/skills" ]; then
-              while IFS= read -r -d '' dir; do
-                name="$(basename "$dir")"
-                cp -r "$dir" "../target/$name"
-              done < <(find "$plugin/skills" -mindepth 2 -maxdepth 2 \
-                -name SKILL.md -printf '%h\0')
-            fi
-          done
+          while IFS= read -r -d '' dir; do
+            cp -r "$dir" "../target/$(basename "$dir")"
+          done < <(find . -mindepth 4 -maxdepth 4 -path './*/skills/*/SKILL.md' \
+            -not -path './.*' -printf '%h\0')
 
           sha="$(git rev-parse HEAD)"
           {
@@ -133,7 +99,8 @@ jobs:
           BRANCH="sync/codex-${SHORT}"
           MSG="chore: sync skills from codex-claude-plugins@${SHORT}"
           git config user.name "duyetbot"
-          git config user.email "bot@duyet.net"
+          git config user.email "duyetbot@users.noreply.github.com"
+          gh auth setup-git
           git checkout -b "$BRANCH"
           git commit -m "$MSG"
           git push -u origin "$BRANCH" --force-with-lease

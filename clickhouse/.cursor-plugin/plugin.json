@@ -1,0 +1,15 @@
+{
+  "name": "clickhouse",
+  "version": "2.0.0",
+  "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Clickhouse",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/clickhouse",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Database",
+  "skills": "./skills/"
+}

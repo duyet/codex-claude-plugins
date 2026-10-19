@@ -3,7 +3,7 @@
 # Idempotent: never overwrites a file that already exists in <target>, so it's
 # safe to re-run against a kb that's already partially set up. Does NOT run
 # git init, does NOT touch any file outside <target> (wiring is a separate,
-# explicit step — see scripts/wire.sh in the scaffolded folder).
+# explicit step - see scripts/wire.sh in the scaffolded folder).
 set -euo pipefail
 
 TEMPLATES="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../templates" && pwd)"
@@ -38,7 +38,7 @@ put "scripts/render_okf_viewer.py" "scripts/render_okf_viewer.py"
 put "bin/kb" "bin/kb"
 chmod +x "$TARGET"/scripts/*.sh "$TARGET/bin/kb" 2>/dev/null || true
 
-# Starter memory groups + inbox — empty dirs need a placeholder to survive git.
+# Starter memory groups + inbox - empty dirs need a placeholder to survive git.
 for d in memory/user memory/feedback memory/reference memory/projects memory/topics raw/inbox; do
 	mkdir -p "$TARGET/$d"
 	[[ -e "$TARGET/$d/.gitkeep" ]] || {
@@ -57,10 +57,10 @@ if [[ ! -e "$TARGET/MEMORY.md" ]]; then
 	cat >"$TARGET/MEMORY.md" <<'EOF'
 # Memory Index
 
-Master table of contents. One line per note — read this first, then open only
+Master table of contents. One line per note - read this first, then open only
 the notes relevant to your task. See `AGENTS.md` for the protocol.
 
-(No notes yet — this index is rebuilt by hand or by a `DREAM.md` pass as notes
+(No notes yet - this index is rebuilt by hand or by a `DREAM.md` pass as notes
 are added under `memory/`.)
 EOF
 	created+=("MEMORY.md")
@@ -77,4 +77,4 @@ echo
 echo "next steps:"
 echo "  export PATH=\"$TARGET/bin:\$PATH\"   # add to your shell rc"
 echo "  cd $TARGET && git init                # optional: version control"
-echo "  $TARGET/scripts/wire.sh on             # optional: wire the reflex into agents' global config (ask the user first — it edits files outside this folder)"
+echo "  $TARGET/scripts/wire.sh on             # optional: wire the reflex into agents' global config (ask the user first - it edits files outside this folder)"

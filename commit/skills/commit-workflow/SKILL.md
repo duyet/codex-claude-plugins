@@ -1,23 +1,16 @@
 ---
 name: commit-workflow
-description: Use when the user asks to create a semantic commit, commit and push, or create a pull request from local changes.
+description: Use when creating a semantic commit, committing and pushing, or opening a pull request from local changes. The commit commands delegate here.
 ---
 
-# Commit Workflow
+# Commit workflow
 
-Use this skill to turn local repository changes into a clean semantic commit, and optionally push or open a pull request.
+- Match the repo's recent commit style. Message format is `type(scope): description`, imperative.
+- Split unrelated changes into separate commits. Stage only files that belong to the change.
+- Push only when asked. Never rewrite history. Use `--force-with-lease` only on a requested forced update to a non-shared branch.
 
-## Workflow
+Pull requests:
 
-1. Inspect the current branch, git status, unstaged/staged diff, and recent commits.
-2. Decide whether the change should be one commit or split into multiple focused commits.
-3. Stage only the files that belong to the requested change.
-4. Use semantic commit format: `type(scope): description`.
-5. When creating a pull request, create a feature branch first if the current branch is the default branch.
-6. Use the repo's existing pull request templates when present.
-
-## Safety
-
-- Do not include unrelated dirty work in the commit.
-- Do not rewrite history unless the user explicitly asks.
-- Prefer `--force-with-lease` over force push when a forced update is explicitly required.
+- On the default branch, branch first as `<type>/<short-kebab-description>`.
+- Title matches the commit message. Use the repo's own PR template if it has one, else `.pr-templates/` in this plugin by commit type: `fix` uses `bugfix.md`, `feat` uses `feature.md`, anything else `default.md`. Fill the placeholders.
+- Print the PR URL when done.

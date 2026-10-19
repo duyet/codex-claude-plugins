@@ -1,13 +1,12 @@
 {
   "name": "kb",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
   "author": {
     "name": "duyet",
     "url": "https://github.com/duyet"
   },
-  "homepage": "https://github.com/duyet/codex-claude-plugins",
-  "repository": "https://github.com/duyet/codex-claude-plugins",
   "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/kb",
   "logo": "./assets/logo.svg"
 }

@@ -1,0 +1,17 @@
+{
+  "name": "team-agents",
+  "version": "1.10.0",
+  "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Team Agents",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/team-agents",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Agents",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": "./agents/"
+}

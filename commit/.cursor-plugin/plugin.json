@@ -1,0 +1,16 @@
+{
+  "name": "commit",
+  "version": "1.4.0",
+  "description": "Semantic commits, with optional push or a PR from templates.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Commit",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/commit",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Git",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

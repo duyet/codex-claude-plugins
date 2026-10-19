@@ -26,17 +26,15 @@ For Antigravity CLI, install/symlink a plugin locally for development:
 
 ## Plugin Metadata
 
-Codex plugin metadata is maintained beside Claude metadata in each plugin:
+`marketplace.json` is the only hand-edited manifest. Each entry holds `name`, `displayName`, `description`, `version`, `category`. `python3 scripts/plugins.py sync` generates the rest, and `bash scripts/validate-plugins.sh` fails on drift:
 
-- Claude manifest: `.claude-plugin/plugin.json`
-- Codex manifest: `.codex-plugin/plugin.json`
-- Grok Bot / Grok Build manifest: `.grok-plugin/plugin.json`
-- Grok Build interface manifest: `.grok-build-plugin/plugin.json`
-- Antigravity manifest: `.antigravity-plugin/plugin.json`
-- Claude marketplace: `marketplace.json` and `.claude-plugin/marketplace.json`
-- Codex marketplace: `.agents/plugins/marketplace.json`
-- Grok marketplace: `.grok-plugin/marketplace.json`
-- Plugin logo: `assets/logo.svg` (referenced from every harness manifest)
+- Claude: `<plugin>/.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`
+- Codex: `<plugin>/.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`
+- Cursor: `<plugin>/.cursor-plugin/plugin.json`, `.cursor-plugin/marketplace.json`
+- Grok Bot / Grok Build: `<plugin>/.grok-plugin/plugin.json`, `<plugin>/.grok-build-plugin/plugin.json`, `.grok-plugin/marketplace.json`
+- Antigravity: `<plugin>/.antigravity-plugin/plugin.json`, only where that directory exists
+- README plugin table between the `plugins:start` and `plugins:end` markers
+- Plugin logo: `<plugin>/assets/logo.svg`
 
 ## Versioning
 
@@ -55,30 +53,23 @@ Follow semantic versioning (semver) for all plugins:
 - Updating documentation only → **Patch**
 - Bug fixes → **Patch**
 
-Always update `plugin.json` version when making changes.
+Bump the version in `marketplace.json`, then run `python3 scripts/plugins.py sync`. Removing or renaming a skill or command users invoke is a major bump.
 
 ## Plugin Structure
 
 ```text
 plugin-name/
-├── .claude-plugin/
-│   └── plugin.json          # Manifest (name, version, description, logo)
-├── .codex-plugin/
-│   └── plugin.json          # Codex manifest and interface metadata
-├── .grok-plugin/
-│   └── plugin.json          # Grok Bot / Grok Build manifest
-├── .grok-build-plugin/
-│   └── plugin.json          # Grok Build interface metadata
-├── assets/
-│   └── logo.svg             # Rendered by every listed harness
-├── agents/                  # Sub-agent definitions
-├── commands/                # Slash commands
-├── skills/                  # Reusable knowledge/procedures
-├── hooks/                   # Hook configurations
-└── README.md                # Documentation
+├── .claude-plugin/ .codex-plugin/ .cursor-plugin/ .grok-plugin/ .grok-build-plugin/   # generated
+├── assets/logo.svg
+├── skills/<name>/SKILL.md   # name frontmatter must equal <name>
+├── commands/*.md            # description frontmatter required
+├── agents/*.md              # description frontmatter required
+├── hooks/hooks.json
+├── .mcp.json
+└── README.md                # short, with the /plugin install line
 ```
 
-When changing plugin metadata, keep Claude, Codex, and Grok manifests in sync and run `bash scripts/validate-plugins.sh`.
+Links inside a plugin must stay inside it. A plugin installs alone, so never link `../other-plugin/`.
 
 ## No Personal / Environment-Specific Information
 

@@ -1,9 +1,12 @@
 {
   "name": "statusline",
-  "version": "1.9.0",
-  "description": "Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts, icon themes, and template presets.",
+  "version": "2.0.0",
+  "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/statusline",
   "logo": "./assets/logo.svg"
 }

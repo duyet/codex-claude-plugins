@@ -1,12 +1,14 @@
 {
   "name": "team-agents",
-  "version": "1.9.1",
-  "description": "Leader and Senior Engineer agents for coordinated parallel task execution. Leader breaks down complex tasks and delegates to multiple senior engineers working in parallel.",
+  "version": "1.10.0",
+  "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
-  "logo": "assets/logo.svg",
-  "keywords": ["team-agents", "grok", "grok-build", "grok-bot"],
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
+  "keywords": ["team-agents"],
   "skills": "./skills/",
   "commands": "./commands/",
   "agents": "./agents/"

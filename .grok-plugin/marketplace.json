@@ -1,6 +1,6 @@
 {
   "name": "duyet-claude-plugins",
-  "description": "Production-quality plugins for Grok Build and Grok Bot — the same pack as Claude Code and Codex.",
+  "description": "Plugins for Claude Code, Codex, Cursor, Grok Build, and Grok Bot: agent workflows, git automation, and developer tools.",
   "owner": {
     "name": "duyet",
     "url": "https://github.com/duyet"
@@ -8,8 +8,8 @@
   "plugins": [
     {
       "name": "team-agents",
-      "description": "Leader and Senior Engineer agents for coordinated parallel task execution. Leader breaks down complex tasks and delegates to multiple senior engineers working in parallel.",
-      "category": "agents",
+      "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work.",
+      "category": "Agents",
       "source": {
         "type": "local",
         "path": "./team-agents"
@@ -17,15 +17,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["team-agents"],
       "logo": "assets/logo.svg",
-      "version": "1.9.1",
+      "version": "1.10.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "commit",
-      "description": "Create a Git commit with semantic commit message format and PR workflow with templates",
-      "category": "git",
+      "description": "Semantic commits, with optional push or a PR from templates.",
+      "category": "Git",
       "source": {
         "type": "local",
         "path": "./commit"
@@ -33,15 +34,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["commit"],
       "logo": "assets/logo.svg",
-      "version": "1.3.2",
+      "version": "1.4.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.",
-      "category": "design",
+      "description": "Distinctive, production-grade frontend design that avoids generic AI aesthetics.",
+      "category": "Design",
       "source": {
         "type": "local",
         "path": "./frontend-design"
@@ -49,16 +51,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["frontend-design"],
       "logo": "assets/logo.svg",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": {
         "name": "duyet",
-        "email": "me@duyet.net"
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "interview",
-      "description": "Conduct in-depth requirements interviews using Socratic questioning to clarify implementation details before coding",
-      "category": "productivity",
+      "description": "Interview the user to clarify requirements, then write a spec.",
+      "category": "Productivity",
       "source": {
         "type": "local",
         "path": "./interview"
@@ -66,16 +68,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["interview"],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
-        "email": "me@duyet.net"
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "statusline",
-      "description": "Configurable multi-line status bar with context health, cache hit rate, session duration, API rate limits (Anthropic 5h/7d + z.ai GLM), git branch, and active tools. Supports 1/2/3 line layouts, icon themes, and template presets.",
-      "category": "ui",
+      "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools",
+      "category": "UI",
       "source": {
         "type": "local",
         "path": "./statusline"
@@ -83,15 +85,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["statusline"],
       "logo": "assets/logo.svg",
-      "version": "1.9.0",
+      "version": "2.0.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "orchestration",
-      "description": "Orchestrator skill for managing parallel agent workstreams. Transform complex requests into coordinated multi-agent execution with elegant result synthesis.",
-      "category": "agents",
+      "description": "Orchestrator skill for managing parallel agent workstreams",
+      "category": "Agents",
       "source": {
         "type": "local",
         "path": "./orchestration"
@@ -99,47 +102,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["orchestration"],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
-        "name": "duyet"
-      }
-    },
-    {
-      "name": "duyetbot",
-      "description": "Pragmatic software development companion with engineering discipline and transparent execution.",
-      "category": "productivity",
-      "source": {
-        "type": "local",
-        "path": "./duyetbot"
-      },
-      "homepage": "https://github.com/duyet/codex-claude-plugins",
-      "keywords": ["duyetbot"],
-      "logo": "assets/logo.svg",
-      "version": "1.8.1",
-      "author": {
-        "name": "duyet"
-      }
-    },
-    {
-      "name": "docs-generator",
-      "description": "Automatically generate and maintain plugin documentation (README.md, CLAUDE.md)",
-      "category": "docs",
-      "source": {
-        "type": "local",
-        "path": "./docs-generator"
-      },
-      "homepage": "https://github.com/duyet/codex-claude-plugins",
-      "keywords": ["docs-generator"],
-      "logo": "assets/logo.svg",
-      "version": "1.0.1",
-      "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "github",
-      "description": "GitHub operations using gh CLI - PRs, workflows, issues, repositories, batch operations, PR babysitting with AI review bot integration, and smart branch detection",
-      "category": "git",
+      "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label.",
+      "category": "Git",
       "source": {
         "type": "local",
         "path": "./github"
@@ -147,15 +119,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["github"],
       "logo": "assets/logo.svg",
-      "version": "1.4.2",
+      "version": "1.5.0",
       "author": {
-        "name": "duyetbot"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "fix",
-      "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
-      "category": "productivity",
+      "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
+      "category": "Productivity",
       "source": {
         "type": "local",
         "path": "./fix"
@@ -163,31 +136,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["fix"],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
-        "name": "duyet"
-      }
-    },
-    {
-      "name": "simplify",
-      "description": "Review changed code for reuse, quality, and efficiency, then simplify issues found",
-      "category": "productivity",
-      "source": {
-        "type": "local",
-        "path": "./simplify"
-      },
-      "homepage": "https://github.com/duyet/codex-claude-plugins",
-      "keywords": ["simplify"],
-      "logo": "assets/logo.svg",
-      "version": "1.0.1",
-      "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "clickhouse",
-      "description": "ClickHouse expertise with 28 atomic review rules + 15 deep reference files. Rules synced with official ClickHouse/agent-skills repository. Schema design, query optimization, insert strategy, cluster management, backups, monitoring, and security best practices.",
-      "category": "database",
+      "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries.",
+      "category": "Database",
       "source": {
         "type": "local",
         "path": "./clickhouse"
@@ -195,15 +153,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["clickhouse"],
       "logo": "assets/logo.svg",
-      "version": "1.4.1",
+      "version": "2.0.0",
       "author": {
-        "name": "duyetbot"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "prompt-engineering",
-      "description": "Prompt engineering skills for Grok, Claude, and Gemini LLMs with model-specific guidance and universal techniques",
-      "category": "productivity",
+      "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok.",
+      "category": "Productivity",
       "source": {
         "type": "local",
         "path": "./prompt-engineering"
@@ -211,31 +170,33 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["prompt-engineering"],
       "logo": "assets/logo.svg",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "author": {
-        "name": "duyetbot"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
-      "name": "clickhouse-monitoring",
-      "description": "Agent Skill for the ClickHouse Monitor dashboard - a real-time monitoring and observability tool for ClickHouse clusters. Covers 45 dashboard pages, query performance analysis, table management, and API integration.",
-      "category": "monitoring",
+      "name": "chmonitor",
+      "description": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase.",
+      "category": "Monitoring",
       "source": {
         "type": "local",
-        "path": "./clickhouse-monitoring"
+        "path": "./chmonitor"
       },
       "homepage": "https://github.com/duyet/codex-claude-plugins",
-      "keywords": ["clickhouse-monitoring"],
+      "keywords": ["chmonitor"],
       "logo": "assets/logo.svg",
-      "version": "1.1.1",
+      "version": "2.0.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "unsloth-training",
-      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT. Includes dataset preparation, synthetic data generation, environment flags, MLX (Apple Silicon), FP8, vision models, mobile export, GGUF.",
-      "category": "ml",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT: rewards, datasets, FP8, vision, MLX, export, mobile.",
+      "category": "ML",
       "source": {
         "type": "local",
         "path": "./unsloth-training"
@@ -243,15 +204,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["unsloth-training"],
       "logo": "assets/logo.svg",
-      "version": "1.0.2",
+      "version": "1.1.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "good-html",
-      "description": "Generate high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns. Optimized for engineering tasks, PR reviews, and research reports.",
-      "category": "design",
+      "description": "Dense, interactive, self-contained HTML artifacts and reviews.",
+      "category": "Design",
       "source": {
         "type": "local",
         "path": "./good-html"
@@ -259,23 +221,24 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["good-html"],
       "logo": "assets/logo.svg",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
-        "name": "Gemini CLI"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "anyrouter",
-      "description": "Wire AnyRouter into Claude Code, Codex, Cursor, and other coding agents. Universal OpenAI-compatible router for 150+ models, with migration recipes from Anthropic, OpenAI, and OpenRouter, plus a remote MCP server for key and credit management.",
-      "category": "ai",
+      "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server.",
+      "category": "AI",
       "source": {
         "type": "local",
         "path": "./anyrouter"
       },
-      "homepage": "https://anyrouter.dev",
+      "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["anyrouter"],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -283,8 +246,8 @@
     },
     {
       "name": "sag-notify",
-      "description": "Spoken voice notifications via sag (ElevenLabs TTS). Skill-driven: Claude calls sag directly to speak a short alert just before it asks you something, and a one-line summary when work finishes — naming the project. Configurable voice and language.",
-      "category": "ui",
+      "description": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language.",
+      "category": "UI",
       "source": {
         "type": "local",
         "path": "./sag-notify"
@@ -292,15 +255,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["sag-notify"],
       "logo": "assets/logo.svg",
-      "version": "2.1.2",
+      "version": "2.2.0",
       "author": {
-        "name": "duyet"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "build-macos-apps",
       "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows.",
-      "category": "development",
+      "category": "Development",
       "source": {
         "type": "local",
         "path": "./build-macos-apps"
@@ -308,7 +272,7 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["build-macos-apps"],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -316,8 +280,8 @@
     },
     {
       "name": "build-ios-apps",
-      "description": "Build, profile, debug, and refine iOS apps with SwiftUI and Xcode workflows — App Intents, Simulator debugging, performance profiling, memory leak detection, and on-device AI with Apple Intelligence, Foundation Models, and Core AI.",
-      "category": "development",
+      "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
+      "category": "Development",
       "source": {
         "type": "local",
         "path": "./build-ios-apps"
@@ -325,7 +289,7 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["build-ios-apps"],
       "logo": "assets/logo.svg",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -333,8 +297,8 @@
     },
     {
       "name": "agent-loop",
-      "description": "Continuous agent loop for overnight/day repository maintenance. Auto-detects and resumes from saved state. Orchestrates triage, autoreview, browser automation, and parallel agent work across threads. Wake every 5 min, direct work to threads, land autonomously.",
-      "category": "automation",
+      "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
+      "category": "Automation",
       "source": {
         "type": "local",
         "path": "./agent-loop"
@@ -342,15 +306,16 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["agent-loop"],
       "logo": "assets/logo.svg",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
-        "name": "duyetbot"
+        "name": "duyet",
+        "url": "https://github.com/duyet"
       }
     },
     {
       "name": "kb",
       "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB.",
-      "category": "productivity",
+      "category": "Productivity",
       "source": {
         "type": "local",
         "path": "./kb"
@@ -358,7 +323,7 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["kb"],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -367,7 +332,7 @@
     {
       "name": "okf",
       "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, render, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter.",
-      "category": "productivity",
+      "category": "Productivity",
       "source": {
         "type": "local",
         "path": "./okf"
@@ -375,7 +340,7 @@
       "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["okf"],
       "logo": "assets/logo.svg",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"
@@ -383,16 +348,16 @@
     },
     {
       "name": "command-code",
-      "description": "Drive the Command Code CLI (`cmd`) and orchestrate it as a headless sub-agent. Skill + /command-code:dispatch command + cmd-dispatcher agent for fanning out `cmd -p --yolo --max-turns 100000` workers across isolated git worktrees to implement issues and tasks in parallel.",
-      "category": "development",
+      "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees.",
+      "category": "Development",
       "source": {
         "type": "local",
         "path": "./command-code"
       },
-      "homepage": "https://github.com/duyet/claude-plugins",
+      "homepage": "https://github.com/duyet/codex-claude-plugins",
       "keywords": ["command-code"],
       "logo": "assets/logo.svg",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "duyet",
         "url": "https://github.com/duyet"

@@ -1,9 +1,12 @@
 {
   "name": "good-html",
-  "version": "1.0.0",
-  "description": "Generate high-density, interactive, self-contained HTML artifacts based on Thariq Shihipar's patterns. Optimized for engineering tasks, PR reviews, and research reports.",
+  "version": "1.1.0",
+  "description": "Dense, interactive, self-contained HTML artifacts and reviews.",
   "author": {
-    "name": "Gemini CLI"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/good-html",
   "logo": "./assets/logo.svg"
 }

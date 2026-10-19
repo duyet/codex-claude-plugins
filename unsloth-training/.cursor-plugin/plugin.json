@@ -1,0 +1,15 @@
+{
+  "name": "unsloth-training",
+  "version": "1.1.0",
+  "description": "Fine-tune LLMs with Unsloth using GRPO or SFT: rewards, datasets, FP8, vision, MLX, export, mobile.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Unsloth Training",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/unsloth-training",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "ML",
+  "skills": "./skills/"
+}

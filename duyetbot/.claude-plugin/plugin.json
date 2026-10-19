@@ -1,9 +1,0 @@
-{
-  "name": "duyetbot",
-  "description": "Pragmatic software development companion with engineering discipline and transparent execution.",
-  "version": "1.8.1",
-  "author": {
-    "name": "duyet"
-  },
-  "logo": "./assets/logo.svg"
-}

@@ -1,0 +1,15 @@
+{
+  "name": "build-ios-apps",
+  "version": "1.1.0",
+  "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Build iOS Apps",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/build-ios-apps",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Development",
+  "skills": "./skills/"
+}

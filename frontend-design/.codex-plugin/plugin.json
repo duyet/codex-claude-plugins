@@ -1,15 +1,16 @@
 {
   "name": "frontend-design",
-  "version": "1.4.0",
-  "description": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.",
+  "version": "1.5.0",
+  "description": "Distinctive, production-grade frontend design that avoids generic AI aesthetics.",
   "author": {
     "name": "duyet",
-    "email": "me@duyet.net"
+    "url": "https://github.com/duyet"
   },
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Frontend Design",
-    "shortDescription": "Create distinctive, production-grade frontend interfaces avoiding AI slop aesthetics. Emphasizes shadcn/ui, Recharts, and bold design choices.",
+    "shortDescription": "Distinctive, production-grade frontend design that avoids generic AI aesthetics.",
     "developerName": "duyet",
     "category": "Design",
     "capabilities": ["Skill"],

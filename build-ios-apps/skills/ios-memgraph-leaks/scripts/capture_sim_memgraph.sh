@@ -13,7 +13,7 @@ Optional:
   --out-dir DIR               Output directory for the memgraph and leaks output
 
 Example:
-  capture_sim_memgraph.sh --udid "$SIM" --bundle-id com.example.app --out-dir /tmp/codex-ios-memgraph
+  capture_sim_memgraph.sh --udid "$SIM" --bundle-id com.example.app --out-dir /tmp/ios-memgraph
 USAGE
 }
 
@@ -73,7 +73,7 @@ if [[ -z "$bundle_id" ]]; then
 fi
 
 if [[ -z "$out_dir" ]]; then
-	out_dir="$(mktemp -d "${TMPDIR:-/tmp}/codex-ios-memgraph.XXXXXX")"
+	out_dir="$(mktemp -d "${TMPDIR:-/tmp}/ios-memgraph.XXXXXX")"
 fi
 
 matching_processes="$(

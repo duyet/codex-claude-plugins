@@ -1,0 +1,16 @@
+{
+  "name": "agent-loop",
+  "version": "0.5.0",
+  "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Agent Loop",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/agent-loop",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Automation",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

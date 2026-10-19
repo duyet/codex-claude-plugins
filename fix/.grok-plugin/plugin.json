@@ -1,12 +1,14 @@
 {
   "name": "fix",
-  "version": "1.0.1",
-  "description": "Fix issues, tests, and CI failures with intelligent problem detection and resolution",
+  "version": "1.1.0",
+  "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR.",
   "author": {
-    "name": "duyet"
+    "name": "duyet",
+    "url": "https://github.com/duyet"
   },
-  "logo": "assets/logo.svg",
-  "keywords": ["fix", "grok", "grok-build", "grok-bot"],
+  "license": "MIT",
+  "logo": "./assets/logo.svg",
+  "keywords": ["fix"],
   "skills": "./skills/",
   "commands": "./commands/"
 }

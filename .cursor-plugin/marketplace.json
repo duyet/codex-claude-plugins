@@ -1,0 +1,116 @@
+{
+  "name": "duyet-claude-plugins",
+  "owner": {
+    "name": "duyet"
+  },
+  "metadata": {
+    "description": "Plugins for Claude Code, Codex, Cursor, Grok Build, and Grok Bot: agent workflows, git automation, and developer tools."
+  },
+  "plugins": [
+    {
+      "name": "team-agents",
+      "source": "team-agents",
+      "description": "Leader, senior, and junior engineer agents plus React, TypeScript, backend, and quality skills for parallel work."
+    },
+    {
+      "name": "commit",
+      "source": "commit",
+      "description": "Semantic commits, with optional push or a PR from templates."
+    },
+    {
+      "name": "frontend-design",
+      "source": "frontend-design",
+      "description": "Distinctive, production-grade frontend design that avoids generic AI aesthetics."
+    },
+    {
+      "name": "interview",
+      "source": "interview",
+      "description": "Interview the user to clarify requirements, then write a spec."
+    },
+    {
+      "name": "statusline",
+      "source": "statusline",
+      "description": "Configurable status bar showing context usage, API rate limits, git branch, and active tools"
+    },
+    {
+      "name": "orchestration",
+      "source": "orchestration",
+      "description": "Orchestrator skill for managing parallel agent workstreams"
+    },
+    {
+      "name": "github",
+      "source": "github",
+      "description": "Drive PRs to merge-ready with gh: fix CI and review-bot feedback, plus bulk merge, close, and label."
+    },
+    {
+      "name": "fix",
+      "source": "fix",
+      "description": "Fix failing tests, lint, and CI, then commit and push or open or update a PR."
+    },
+    {
+      "name": "clickhouse",
+      "source": "clickhouse",
+      "description": "ClickHouse review rules for schemas, queries, and inserts, with references for debugging and monitoring queries."
+    },
+    {
+      "name": "prompt-engineering",
+      "source": "prompt-engineering",
+      "description": "Prompting guidance and per-model deltas for Claude, Gemini, and Grok."
+    },
+    {
+      "name": "chmonitor",
+      "source": "chmonitor",
+      "description": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase."
+    },
+    {
+      "name": "unsloth-training",
+      "source": "unsloth-training",
+      "description": "Fine-tune LLMs with Unsloth using GRPO or SFT: rewards, datasets, FP8, vision, MLX, export, mobile."
+    },
+    {
+      "name": "good-html",
+      "source": "good-html",
+      "description": "Dense, interactive, self-contained HTML artifacts and reviews."
+    },
+    {
+      "name": "anyrouter",
+      "source": "anyrouter",
+      "description": "Wire AnyRouter, an OpenAI-compatible LLM gateway, into projects and agents, with migration help and an MCP server."
+    },
+    {
+      "name": "sag-notify",
+      "source": "sag-notify",
+      "description": "Spoken voice notifications via sag (ElevenLabs TTS): skill-driven, Claude calls sag directly to speak a short alert just before it asks you something and a one-line summary when work finishes, naming the project. Configurable voice and language."
+    },
+    {
+      "name": "build-macos-apps",
+      "source": "build-macos-apps",
+      "description": "Build, debug, instrument, and implement macOS apps with SwiftUI and AppKit guidance, codesigning, packaging, and telemetry workflows."
+    },
+    {
+      "name": "build-ios-apps",
+      "source": "build-ios-apps",
+      "description": "Build, debug, and profile iOS apps with SwiftUI, Simulator, App Intents, and on-device AI."
+    },
+    {
+      "name": "agent-loop",
+      "source": "agent-loop",
+      "description": "Unattended repo maintenance that triages issues and PRs, dispatches fixes to parallel subagents, and reports results each scheduled cycle."
+    },
+    {
+      "name": "kb",
+      "source": "kb",
+      "description": "Knowledge base maintenance skills. Initialize a shared-brain kb, then consolidate, dedupe, prune, refresh, and forget notes in a markdown KB."
+    },
+    {
+      "name": "okf",
+      "source": "okf",
+      "description": "Open Knowledge Format (OKF) tooling. Author, initialize, validate, render, and refactor knowledge into vendor-neutral OKF v0.1 bundles: markdown files with YAML frontmatter."
+    },
+    {
+      "name": "command-code",
+      "source": "command-code",
+      "description": "Dispatch the Command Code CLI (`cmd`) as headless sub-agents across isolated git worktrees."
+    }
+  ]
+}

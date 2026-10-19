@@ -1,0 +1,16 @@
+{
+  "name": "interview",
+  "version": "1.1.0",
+  "description": "Interview the user to clarify requirements, then write a spec.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "Interview",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/interview",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Productivity",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "chmonitor",
+  "version": "2.0.0",
+  "description": "Read-only ClickHouse monitoring and advice through the chmonitor MCP server, with pointers to its docs and codebase.",
+  "author": {
+    "name": "duyet"
+  },
+  "license": "MIT",
+  "displayName": "chmonitor",
+  "homepage": "https://github.com/duyet/codex-claude-plugins/tree/master/chmonitor",
+  "repository": "https://github.com/duyet/codex-claude-plugins",
+  "logo": "./assets/logo.svg",
+  "category": "Monitoring",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

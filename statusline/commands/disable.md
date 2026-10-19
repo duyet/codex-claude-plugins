@@ -1,34 +1,7 @@
 ---
-description: Disable statusline session monitoring while keeping the plugin installed
+description: Turn the statusline off by removing its statusLine setting.
 ---
 
 # /statusline:disable
 
-Disable real-time session monitoring and status updates.
-
-## Usage
-
-```
-/statusline:disable
-```
-
-## What It Does
-
-Stops background session monitoring while keeping the plugin active. This prevents periodic status updates from appearing in your session.
-
-- Stops real-time monitoring
-- Plugin remains installed and available
-- Status info can still be viewed on-demand with `/statusline:status`
-- Monitoring can be re-enabled anytime with `/statusline:config`
-
-## Notes
-
-- Disabling only pauses automatic updates, not the plugin itself
-- You can still manually check session status with `/statusline:status`
-- Plugin data and history are preserved when disabled
-- No changes to your workflow or active tasks
-
-## Related Commands
-
-- `/statusline:config` — Resume real-time monitoring
-- `/statusline:status` — View metrics without continuous monitoring
+Remove the `statusLine` key from `~/.claude/settings.json` and leave `~/.claude/statusline.config.json` in place so `/statusline:setup` can restore it. Tell the user what was removed.
